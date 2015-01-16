@@ -1,2 +1,14 @@
+# Python
+# ======
 *.pyc
+
+# Temporary Files
+# ===============
 *~
+
+# LaTeX Files
+# ===========
+*.out
+*.aux
+*.log
+*.synctex.gz
