@@ -12,3 +12,6 @@
 *.aux
 *.log
 *.synctex.gz
+
+# IDEA files
+*.idea
