@@ -4,6 +4,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk, panagiotis.almpouras12@imp
 import math
 import matplotlib.pylab as mpl
 import numpy as np
+from copy import deepcopy
 
 """
 Constants
@@ -23,6 +24,7 @@ PATTEN_MS = 50
 REPETITION_RATIO = 0.25
 PLOT_TIME_START = 0
 PLOT_TIME_END = 2000
+NOISE_FACTOR = 0.1
 
 
 def generate_random_matrix(rows, cols, seed):
@@ -79,25 +81,33 @@ def generate_pattern(neurons, bg_len, pattern_len, seed):
     :return: Pseudo-random-generated observation matrix.
     """
 
+    # Create dictionary for return value.
+    rvalue = {}
+
     # Generate a noise matrix as a background.
     noise = generate_random_matrix(neurons, bg_len, seed)
 
     # Modify seed and generate a pattern matrix.
     pattern_seed = seed * SEED_MODIFIER
     pattern = generate_random_matrix(neurons, pattern_len, pattern_seed)
+    rvalue['pattern'] = pattern
 
     # Calculate number of times that pattern will be repeated.
     reps = math.floor((bg_len * REPETITION_RATIO) / pattern_len)
+    rvalue['reps'] = reps
 
     # Get pseudo-random start positions for the pattern.
     start_positions = get_start_positions(pattern_len, bg_len, reps)
+    rvalue['start_positions'] = start_positions
 
     # Insert the pattern at start positions.
     for left in start_positions:
         right = left + pattern_len
         noise[:, left: right] = pattern
 
-    return noise
+    rvalue['spike_trains'] = noise
+
+    return rvalue
 
 
 def plot_pattern(pattern, start=PLOT_TIME_START, end=PLOT_TIME_END):
@@ -122,9 +132,85 @@ def plot_pattern(pattern, start=PLOT_TIME_START, end=PLOT_TIME_END):
     mpl.show()
 
 
-# Print sample pattern to the console.
-p = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
-print p
+def add_noise_to_pattern(pattern, probability):
+    """ Adds noise to a given pattern.
 
-# Plot default subset of sample pattern.
-plot_pattern(p)
+    :param pattern: Matrix representation of pattern.
+    :param probability: Probability of a given neuron to not fire when it should.
+    :return: Matrix representation of pattern with noise.
+    """
+
+    # Reshape copy of pattern to one-dimensional array.
+    num_rows = pattern.shape[0]
+    num_cols = pattern.shape[1]
+    num_elem = num_rows * num_cols
+    copy = pattern.copy()
+    flat = np.reshape(copy, num_elem)
+
+    # Get indices with spikes.
+    indices = np.where(flat == 1)[0]
+
+    # Remove indices randomly with given probability.
+    removed_indices = indices[np.random.rand(*indices.shape) < probability]
+    flat[removed_indices] = 0
+
+    # Reshape pattern into matrix and return.
+    noisy_pattern = np.reshape(flat, (num_rows, num_cols))
+    return noisy_pattern
+
+
+def add_noise(obj, probability):
+    """ Adds noise to given spike trains.
+
+    :param obj: Object with the spike trains and metadata.
+    :param probability: Probability of a given neuron to not fire when it should.
+    :return: Matrix representation of spike trains with noise.
+    """
+
+    # Extract information from object.
+    noisy_spike_trains = obj['spike_trains']
+    pattern = obj['pattern']
+    pattern_len = pattern.shape[1]
+    start_positions = obj['start_positions']
+
+    # Add version of noisy pattern to each start point.
+    for left in start_positions:
+        noisy_pattern = add_noise_to_pattern(pattern, probability)
+        right = left + pattern_len
+        noisy_spike_trains[:, left: right] = noisy_pattern
+
+    return noisy_spike_trains
+
+
+def plot_patterns(pattern1, pattern2, start=PLOT_TIME_START, end=PLOT_TIME_END):
+    """ Plots a given time span of two given patterns.
+
+    :param pattern1: Left pattern to plot.
+    :param pattern1: Right pattern to plot.
+    :param start: Start time in ms.
+    :param end: End time in ms.
+    :return:
+    """
+
+    # Get subset of patterns.
+    sp1 = pattern1[:, start:end]
+    sp2 = pattern2[:, start:end]
+
+    # Create plots, label axes and show.
+    mpl.subplot(1, 2, 1)
+    mpl.imshow(sp1, interpolation='nearest', cmap=mpl.cm.Greys)
+    mpl.title('Spike Trains')
+    mpl.ylabel('# Afferent')
+    mpl.xlabel('Time (ms)')
+    mpl.subplot(1, 2, 2)
+    mpl.imshow(sp2, interpolation='nearest', cmap=mpl.cm.Greys)
+    mpl.title('Spike Trains with Noise')
+    mpl.show()
+
+
+# Plot sample spike trains pattern with and without noise.
+o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
+p1 = o['spike_trains']
+copy = deepcopy(o)
+p2 = add_noise(copy, NOISE_FACTOR)
+plot_patterns(p1, p2)
