@@ -2,6 +2,7 @@ __author__ = 'Juan Carlos Farah, Panagiotis Almpouras'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk, panagiotis.almpouras12@imperial.ac.uk'
 
 import math
+import matplotlib.pylab as mpl
 import numpy as np
 
 """
@@ -20,6 +21,8 @@ NUM_NEURONS = 2000
 TOTAL_MS = 150000
 PATTEN_MS = 50
 REPETITION_RATIO = 0.25
+PLOT_TIME_START = 0
+PLOT_TIME_END = 2000
 
 
 def generate_random_matrix(rows, cols, seed):
@@ -96,5 +99,32 @@ def generate_pattern(neurons, bg_len, pattern_len, seed):
 
     return noise
 
-# Sample print the matrix to the console.
-print generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
+
+def plot_pattern(pattern, start=PLOT_TIME_START, end=PLOT_TIME_END):
+    """ Plots a given time span of a given pattern.
+
+    :param pattern: Pattern to plot.
+    :param start: Start time in ms.
+    :param end: End time in ms.
+    :return:
+    """
+
+    # Get subset of pattern.
+    sp = pattern[:, start:end]
+
+    # Create figure, label axes and show.
+    f = mpl.figure()
+    ax = f.add_subplot(1, 1, 1)
+    ax.set_aspect('equal')
+    mpl.imshow(sp, interpolation='nearest', cmap=mpl.cm.Greys)
+    mpl.ylabel('# Afferent')
+    mpl.xlabel('Time (ms)')
+    mpl.show()
+
+
+# Print sample pattern to the console.
+p = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
+print p
+
+# Plot default subset of sample pattern.
+plot_pattern(p)
