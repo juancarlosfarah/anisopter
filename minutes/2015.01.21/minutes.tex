@@ -24,6 +24,8 @@
 \item Erik Grabljevec (EG)
 \item Panagiotis Almpouras (PA)
 \item Ioannis Kasidakis (IK)
+\item Zafeirios Fountas (ZF)
+\item Pedro Martínez Mediano(PMM)
 \end{compactenum}
 
 \section*{Summary}
@@ -63,7 +65,7 @@ This meeting was mainly focused on discussing questions we had after reading all
 \subsection*{Takeaway Points}
 }
 \begin{compactenum}
-\item According to the current Zafeirios's neuron implementation, each neuron has shape similar to a polygon. Its dendrites are randomly formed in a biologically plausible way and the general morphology of the neuron is replicated by the paper \textit{Local and large ­range inhibition in feature detection. DM Bolzon, K Nordström and DC O'Carroll}.
+\item According to the current ZF's neuron implementation, each neuron has shape similar to a polygon. Its dendrites are randomly formed in a biologically plausible way and the general morphology of the neuron is replicated by the paper \textit{Local and large ­range inhibition in feature detection. DM Bolzon, K Nordström and DC O'Carroll}.
 \item The first part is to translate the input from an event camera/webcam to an input which can be used by the neuron implementation. The stages for this part are:
 	\begin{compactenum}
 	\item Split the video of the event camera/webcam to separate frames.
@@ -94,14 +96,24 @@ This meeting was mainly focused on discussing questions we had after reading all
 \subsection*{Takeaway Points}
 }
 \begin{compactenum}
-\item
+\item We can base our model on the two papers suggested by PMM (Masquelier et al.).
+\item Input for our model will be similar from Figure 1 from first paper (Masquelier et al. 2008).
+\item Will add noise to pattern to see how robust the model can be.
 \end{compactenum}
 
 {\addtolength{\leftskip}{3mm}
 \subsection*{Action Points}
 }
 \begin{compactenum}
-\item
+\item Re-read papers and Computational Neurodynamics lecture notes by Monday 26 January 2015.
+\item Replicate the code from first paper by Masquelier et al. thereafter.
+    \begin{compactenum}
+    \item Preliminary plots by 6 February 2015.
+ 	\item Final model by 13 February 2015.
+ 	\end{compactenum}
+\item Do not use Python's built-in random library, but NumPy's.
+\item Use a seed in order to be able to replicate data.
+\item Model STDP based on Professor Shanahan's code.
 \end{compactenum}
 
 \end{document}
