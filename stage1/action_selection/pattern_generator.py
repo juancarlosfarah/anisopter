@@ -9,7 +9,7 @@ from copy import deepcopy
 """
 Constants
 =========
-These constants are based on (Masquelier et al. 2008). Based on the
+These constants are based on Masquelier et al. (2008). Based on the
 this paper, each column in the pattern matrix represents 1ms with its
 corresponding vector denoting which neurons fired or not by a 1 or 0,
 respectively. Each row represents the firing pattern of a neuron over
