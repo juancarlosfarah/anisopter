@@ -66,7 +66,7 @@ def get_start_positions(pattern_len, bg_len, reps):
         # Only insert pos if it is a valid start position.
         if is_valid_start:
             start_positions.append(start_pos[0])
-            reps = reps - 1
+            reps -= 1
 
     return start_positions
 
