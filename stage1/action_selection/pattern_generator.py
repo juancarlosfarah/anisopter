@@ -209,8 +209,8 @@ def plot_patterns(pattern1, pattern2, start=PLOT_TIME_START, end=PLOT_TIME_END):
 
 
 # Plot sample spike trains pattern with and without noise.
-o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
-p1 = o['spike_trains']
-copy = deepcopy(o)
-p2 = add_noise(copy, NOISE_FACTOR)
-plot_patterns(p1, p2)
+# o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
+# p1 = o['spike_trains']
+# copy = deepcopy(o)
+# p2 = add_noise(copy, NOISE_FACTOR)
+# plot_patterns(p1, p2)
