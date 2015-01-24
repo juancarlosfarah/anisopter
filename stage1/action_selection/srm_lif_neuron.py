@@ -8,6 +8,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 import numpy as np
 import pylab
 import math
+import pattern_generator
 
 """
 Simulate a leaky integrate-and-fire (LIF) neuron following the
@@ -20,7 +21,7 @@ T_MIN = 0                   # Start time.
 TAU_M = 10.0                # Membrane time constant in ms.
 TAU_S = 2.5                 # Synapse time constant in ms.
 THETA = 500                 # Threshold in arbitrary units.
-K = 1                       # Multiplicative constant.
+K = 2.1                     # Multiplicative constant.
 K1 = 2                      # Constant for positive pulse.
 K2 = 4                      # Constant for negative spike after-potential.
 T_WINDOW = int(TAU_M * 7)   # Maximum time that a spike can affect EPSP.
@@ -109,8 +110,8 @@ def update_epsp_inputs(epsps, spikes, weights):
         epsps = np.hstack((epsps, weighted))
 
     width = epsps.shape[1]
-    if width > 10:
-        window_start = width - 10
+    if width > T_WINDOW:
+        window_start = width - T_WINDOW
         epsps = epsps[:, window_start:width]
 
     return epsps
@@ -144,6 +145,8 @@ def get_psp(time, last_spike):
     :return: Value of the effect.
     """
     delta = time - last_spike
+    if delta > T_WINDOW:
+        return 0
     hss = heavyside_step(delta)
     left_exp = math.exp(-delta / TAU_M)
     right_exp = math.exp(-delta / TAU_S)
@@ -161,48 +164,86 @@ def get_membrane_potential(epsps, epsilons, time, last_spike):
     """
     psp = get_psp(time, last_spike)
     epsp_sum = get_epsp_sum(epsps, epsilons)
-
     return psp + epsp_sum
 
 
-# Test Case
-# =========
-# Test Num Neurons
-num_neurons = 10
-test_length = 10
+def plot_eta():
+    """ Plots the values of the eta kernel for a given range.
 
-# Epsilons
+    :return: Void.
+    """
+    # Calculate PSPs for given range.
+    psps = []
+    time = np.arange(T_MIN, T_WINDOW, 1, dtype=np.int32)
+    last_spike = T_MIN
+    for ms in range(T_MIN, T_WINDOW):
+        psp = get_psp(ms, last_spike)
+        psps.append(psp)
+
+    # Plot value.
+    pylab.plot(time[T_MIN:T_WINDOW], psps[T_MIN:T_WINDOW])
+    pylab.xlabel('Time (ms)')
+    pylab.ylabel('Post-Synaptic Potential')
+    pylab.title('Eta Kernel')
+    pylab.show()
+
+
+def plot_epsilon():
+    """ Plots the values of the epsilon kernel.
+
+    :return: Void.
+    """
+    epsilons = get_epsilons()
+    pylab.plot(range(T_WINDOW, T_MIN, -1), epsilons)
+    pylab.xlabel('Time (ms)')
+    pylab.ylabel('Epsilon')
+    pylab.title('EPSP Epsilon Kernel')
+    pylab.show()
+
+
+# Run Sample Test without STDP
+# ============================
+# Set parameters.
+num_neurons = 200
+test_length = 500
+fixed_weight = 0.475
+obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
+spike_trains = obj['spike_trains']
+initial_weights = np.ndarray((num_neurons, 1))
+initial_weights.fill(fixed_weight)
 epsilons = get_epsilons()
 
-# Initial Weights
-init_weights = np.random.ranf((10, 1))
+# Purge afferent spike trains. This is necessary because sometimes the
+# afferents fire too often making this model without STDP fire constantly.
+purge_factor = 3
+for i in range(0, test_length, purge_factor):
+    for j in range(0, num_neurons):
+        spike_trains[j, i] = 0
 
-# Sample Spike Trains
-# m = np.random.random_integers(0, 1, (5, 5))
-# m = np.matrix('1 1 1 1 1; 0 0 0 0 0; 0 0 0 0 0; 0 0 0 0 0; 0 0 0 0 0')
-m = np.matrix('1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0;\
-               1 0 0 0 0 0 0 0 0 0')
-print m
+# Create container for results.
+ps = [T_MIN for i in range(test_length + 1)]
+time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
 
-# Print change in EPSP sum over test range.
-for test in range(0, test_length):
-    spikes = m[:, test]
+# Assume last spike is irrelevant.
+last_spike = 0 - T_WINDOW
+
+# Get membrane potential at each given point.
+for ms in range(0, test_length):
+    spikes = spike_trains[:, ms]
     spikes = np.reshape(spikes, (num_neurons, 1))
-    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, init_weights)
-    print get_epsp_sum(epsp_inputs, epsilons)
+    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, initial_weights)
+    p = get_membrane_potential(epsp_inputs, epsilons, ms, last_spike)
+    ps[ms] = p
 
-# Plot Epsilon Kernel
-# ===================
-# pylab.plot(range(T_WINDOW, T_MIN, -1), epsilons)
-# pylab.xlabel('Time (ms)')
-# pylab.ylabel('Epsilon')
-# pylab.title('EPSP Epsilon Kernel')
-# pylab.show()
+    # If threshold has been met and more than 1 ms has elapsed since
+    # the last post-synaptic spike, schedule a spike and flush EPSPs.
+    if p > THETA and ms - last_spike > 1:
+        last_spike = ms + 1
+        epsp_inputs = np.array([])
+
+# Plot membrane potential.
+pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
+pylab.xlabel('Time (ms)')
+pylab.ylabel('Membrane Potential')
+pylab.title('Spike Train without STDP')
+pylab.show()
