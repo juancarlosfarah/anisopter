@@ -60,23 +60,34 @@ def get_epsilons():
 
 
 # TODO: Finish.
-def update_weights(weights):
+def update_weights(spikes, weights, last_spike):
     """ Updates the weights according to STDP.
 
     :param weights: Current weight vector.
     :return: Updated weight vector.
     """
 
-    # Get new weights.
-    num_weights = weights.shape[1]
-    new_weights = np.ndarray(shape=(5, 1), dtype=float)
-    weights = np.hstack((weights, new_weights))
+    # If post-synaptic neuron has just fired, calculate
+    # LTP and adjust all weights within the time window.
+
+    # Otherwise calculate LTD for all neurons that have fired,
+    # if post-synaptic neuron has fired within the time window.
+
     return weights
 
 
 # TODO: Implement.
 def get_ltp():
     """ Calculate weight change according to LTP.
+
+    :return:
+    """
+    return 1
+
+
+# TODO: Implement.
+def get_ltd():
+    """ Calculate weight change according to LTD.
 
     :return:
     """
