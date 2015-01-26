@@ -20,7 +20,7 @@ SEED = 1
 SEED_MODIFIER = 25
 NUM_NEURONS = 2000
 TOTAL_MS = 150000
-PATTEN_MS = 50
+PATTERN_MS = 50
 REPETITION_RATIO = 0.25
 PLOT_TIME_START = 0
 PLOT_TIME_END = 2000
@@ -72,7 +72,7 @@ def get_start_positions(pattern_len, bg_len, reps):
 
 
 def generate_pattern(neurons, bg_len, pattern_len, seed):
-    """ Generate a observation matrix with an embedded repeating pattern.
+    """ Generate an observation matrix with an embedded repeating pattern.
 
     :param neurons: Number of neurons.
     :param bg_len: Length in ms of observation period.
@@ -209,7 +209,7 @@ def plot_patterns(pattern1, pattern2, start=PLOT_TIME_START, end=PLOT_TIME_END):
 
 
 # Plot sample spike trains pattern with and without noise.
-# o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTEN_MS, SEED)
+# o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTERN_MS, SEED)
 # p1 = o['spike_trains']
 # copy = deepcopy(o)
 # p2 = add_noise(copy, NOISE_FACTOR)
