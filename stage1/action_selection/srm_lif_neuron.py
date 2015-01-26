@@ -337,7 +337,7 @@ def plot_ltd():
 # ============================
 # Set parameters.
 num_neurons = 2000
-test_length = 1000
+test_length = 10000
 obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
 spike_trains = obj['spike_trains']
 weights = np.random.ranf((num_neurons, 1))
@@ -372,7 +372,7 @@ for ms in range(0, test_length):
 
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
-    if p > THETA and time_delta > 1:
+    if p > THETA and math.fabs(time_delta) > 1:
         last_spike = ms + 1
         epsp_inputs = np.array([])
 
