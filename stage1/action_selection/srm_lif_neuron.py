@@ -29,8 +29,8 @@ T_PLUS = 16.8               # LTP synaptic modification constant in ms.
 T_MINUS = 33.7              # LTP synaptic modification constant in ms.
 A_PLUS = 0.03125            # LTP learning rate.
 A_MINUS = 0.85 * A_PLUS     # LTD learning rate.
-LTP_WINDOW = -7 * T_PLUS    # LTP learning window.
-LTD_WINDOW = 7 * T_MIN      # LTD learning window.
+LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
+LTD_WINDOW = 7 * T_MINUS    # LTD learning window.
 
 # Set Seed
 np.random.seed(1)
@@ -76,22 +76,46 @@ def update_weights(spikes, weights, last_spike):
     return weights
 
 
-# TODO: Implement.
-def get_ltp():
+def get_ltp(delta):
     """ Calculate weight change according to LTP.
 
-    :return:
+    Note that the input delta to LTP has to be <= 0.
+    :param delta: Time difference between post-synaptic and afferent spike.
+    :return: Change in weight.
     """
-    return 1
+
+    # Input delta to LTP has to be <= 0.
+    if delta > 0:
+        print "ERROR! Time delta input to LTP function needs to be less than" \
+              "or equal to zero. Please double check your function calls."
+        exit(1)
+
+    # Only consider deltas within the learning window.
+    if delta > LTP_WINDOW:
+        return 0
+
+    return A_PLUS * math.exp(delta / T_PLUS)
 
 
-# TODO: Implement.
-def get_ltd():
+def get_ltd(delta):
     """ Calculate weight change according to LTD.
 
-    :return:
+    Note that the input delta to LTP has to be > 0.
+    :param delta: Time difference between post-synaptic and afferent spike.
+    :return: Change in weight.
     """
-    return 1
+
+    # Input delta to LTP has to be > 0.
+    if delta <= 0:
+        print "ERROR! Time delta input to LTD function needs to be greater" \
+              "than zero. Please double check your function calls."
+        exit(1)
+
+    # Only consider deltas within the learning window.
+    if delta > LTD_WINDOW:
+        return 0
+
+    return -1 * A_MINUS * math.exp(delta / T_MINUS)
 
 
 def heavyside_step(delta):
@@ -191,7 +215,7 @@ def plot_eta():
         psp = get_psp(ms, last_spike)
         psps.append(psp)
 
-    # Plot value.
+    # Plot values.
     pylab.plot(time[T_MIN:T_WINDOW], psps[T_MIN:T_WINDOW])
     pylab.xlabel('Time (ms)')
     pylab.ylabel('Post-Synaptic Potential')
@@ -209,6 +233,60 @@ def plot_epsilon():
     pylab.xlabel('Time (ms)')
     pylab.ylabel('Epsilon')
     pylab.title('EPSP Epsilon Kernel')
+    pylab.show()
+
+
+def plot_ltp():
+    """ Plots the values of LTP over the learning window.
+
+    :return: Void.
+    """
+    # Set plot parameters.
+    start = 0
+    end = int(LTP_WINDOW)
+
+    # Containers for y and x values, respectively.
+    ltps = []
+    time_delta = np.arange(start, end, 1, dtype=np.int32)
+
+    # Get value for LTP.
+    for ms in range(start, end, 1):
+        # Input to LTP has to be negative.
+        ms *= -1
+        ltp = get_ltp(ms)
+        ltps.append(ltp)
+
+    # Plot values.
+    pylab.plot(time_delta[start:end], ltps[start:end])
+    pylab.xlabel('Time Delta (ms)')
+    pylab.ylabel('Weight Change')
+    pylab.title('Weight Change from LTP')
+    pylab.show()
+
+
+def plot_ltd():
+    """ Plots the values of LTD over the learning window.
+
+    :return: Void.
+    """
+    # Set plot parameters.
+    start = 0
+    end = int(LTD_WINDOW)
+
+    # Containers for y and x values, respectively.
+    ltds = []
+    time_delta = np.arange(start, end, 1, dtype=np.int32)
+
+    # Get value for LTD.
+    for ms in range(start, end, 1):
+        ltd = get_ltd(ms)
+        ltds.append(ltd)
+
+    # Plot values.
+    pylab.plot(time_delta[start:end], ltds[start:end])
+    pylab.xlabel('Time Delta (ms)')
+    pylab.ylabel('Weight Change')
+    pylab.title('Weight Change from LTD')
     pylab.show()
 
 
