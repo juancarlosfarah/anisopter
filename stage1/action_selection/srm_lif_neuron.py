@@ -32,6 +32,8 @@ A_PLUS = 0.03125            # LTP learning rate.
 A_MINUS = 0.85 * A_PLUS     # LTD learning rate.
 LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
 LTD_WINDOW = 7 * T_MINUS    # LTD learning window.
+WEIGHT_MAX = 1              # Maximum weight value.
+WEIGHT_MIN = 0              # Minimum weight value.
 
 # Set Seed
 np.random.seed(1)
@@ -39,8 +41,6 @@ np.random.seed(1)
 # Sample Neuron
 # =============
 # TODO: Make this a class
-# Container for EPSP input contributions of each afferent.
-epsp_inputs = np.array([])
 
 
 def get_epsilons():
@@ -60,8 +60,7 @@ def get_epsilons():
     return epsilons
 
 
-# TODO: Finish.
-def update_weights(spikes, weights, time_delta):
+def update_weights(spike_trains, weights, time_delta):
     """ Updates the weights according to STDP.
 
     :param weights: Current weight vector.
@@ -69,23 +68,40 @@ def update_weights(spikes, weights, time_delta):
     :return: Updated weight vector.
     """
 
-    weight_delta = 0
+    # Get number of neurons.
+    num_neurons = spike_trains.shape[0]
 
     # If post-synaptic neuron has just fired, calculate time delta and
     # LTP for each afferent, then adjust all weights within the time window.
     if time_delta == 0:
-        weight_delta = 0
+        for i in range(0, num_neurons):
+            time_delta = get_time_delta(spike_trains[i, :])
+            weight_delta = get_ltp(time_delta)
+
+            # Add weight delta and clip so that it's not > WEIGHT_MAX.
+            weights[i] = min(WEIGHT_MAX, weights[i] + weight_delta)
 
     # Otherwise calculate LTD for all neurons that have fired,
     # if post-synaptic neuron has fired within the time window.
     elif time_delta > 0 and math.fabs(time_delta) < LTD_WINDOW:
+
+        # Only consider last ms in spike trains.
+        last_ms = spike_trains.shape[1] - 1
+        spikes = spike_trains[:, last_ms]
+        spikes = np.reshape(spikes, (num_neurons, 1))
+
+        # Get LTD change for pre-synaptic neurons that just spiked.
         weight_delta = get_ltd(time_delta) * spikes
 
-    return weights + 0 #weight_delta
+        # Add weight delta and clip weights so that they are not < WEIGHT_MIN.
+        weights += weight_delta
+        weights[weights < WEIGHT_MIN] = WEIGHT_MIN
+
+    return weights
 
 
 def get_time_delta(spike_train):
-    """ Given an afferent, its last spike time relative to now.
+    """ Given an afferent, return its last spike time relative to now.
 
     :param spike_train: Array of spike values for afferent.
     :return: Time delta of spike time.
@@ -94,12 +110,13 @@ def get_time_delta(spike_train):
     end = len(spike_train) - 1
     step = T_STEP * -1
 
+    # Find the nearest spike in the spike train.
     for ms in range(end, start - 1, step):
         if spike_train[ms] == 1:
             return ms - end
 
-    # Otherwise return a value outside the learning window
-    # which means this neuron will be ignored for STDP.
+    # If there are no spikes return a value outside the learning
+    # window which means this neuron will be ignored for STDP.
     return (LTP_WINDOW + 1) * -1
 
 
@@ -113,12 +130,12 @@ def get_ltp(time_delta):
 
     # Input delta to LTP has to be <= 0.
     if time_delta > 0:
-        print "ERROR! Time delta input to LTP function needs to be less than" \
+        print "ERROR! Time delta input to LTP function needs to be less than " \
               "or equal to zero. Please double check your function calls."
         exit(1)
 
     # Only consider deltas within the learning window.
-    if time_delta > LTP_WINDOW:
+    if math.fabs(time_delta) > LTP_WINDOW:
         return 0
 
     return A_PLUS * math.exp(time_delta / T_PLUS)
@@ -134,15 +151,15 @@ def get_ltd(time_delta):
 
     # Input delta to LTP has to be > 0.
     if time_delta <= 0:
-        print "ERROR! Time delta input to LTD function needs to be greater" \
+        print "ERROR! Time delta input to LTD function needs to be greater " \
               "than zero. Please double check your function calls."
         exit(1)
 
     # Only consider deltas within the learning window.
-    if time_delta > LTD_WINDOW:
+    if math.fabs(time_delta) > LTD_WINDOW:
         return 0
 
-    return -1 * A_MINUS * math.exp(time_delta / T_MINUS)
+    return -1 * A_MINUS * math.exp(-time_delta / T_MINUS)
 
 
 def heavyside_step(delta):
@@ -270,21 +287,20 @@ def plot_ltp():
     """
     # Set plot parameters.
     start = 0
-    end = int(LTP_WINDOW)
+    end = int(LTP_WINDOW) * -1
 
     # Containers for y and x values, respectively.
     ltps = []
-    time_delta = np.arange(start, end, 1, dtype=np.int32)
+    time_delta = np.arange(end, start, 1, dtype=np.int32)
 
     # Get value for LTP.
-    for ms in range(start, end, 1):
+    for ms in time_delta:
         # Input to LTP has to be negative.
-        ms *= -1
         ltp = get_ltp(ms)
         ltps.append(ltp)
 
     # Plot values.
-    pylab.plot(time_delta[start:end], ltps[start:end])
+    pylab.plot(time_delta, ltps)
     pylab.xlabel('Time Delta (ms)')
     pylab.ylabel('Weight Change')
     pylab.title('Weight Change from LTP')
@@ -297,7 +313,7 @@ def plot_ltd():
     :return: Void.
     """
     # Set plot parameters.
-    start = 0
+    start = 1
     end = int(LTD_WINDOW)
 
     # Containers for y and x values, respectively.
@@ -320,40 +336,39 @@ def plot_ltd():
 # Run Sample Test without STDP
 # ============================
 # Set parameters.
-num_neurons = 200
-test_length = 500
-fixed_weight = 0.475
+num_neurons = 2000
+test_length = 1000
 obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
 spike_trains = obj['spike_trains']
-initial_weights = np.ndarray((num_neurons, 1))
-initial_weights.fill(fixed_weight)
+weights = np.random.ranf((num_neurons, 1))
 epsilons = get_epsilons()
 
-# Purge afferent spike trains. This is necessary because sometimes the
-# afferents fire too often making this model without STDP fire constantly.
-purge_factor = 3
-for i in range(0, test_length, purge_factor):
-    for j in range(0, num_neurons):
-        spike_trains[j, i] = 0
+# Container for EPSP input contributions of each afferent.
+epsp_inputs = np.array([])
 
 # Create container for results.
 ps = [T_MIN for i in range(test_length + 1)]
 time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
 
-# Assume last spike is irrelevant.
-last_spike = 0 - T_WINDOW
+# Set last spike to an irrelevant value at first.
+last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
 
 # Get membrane potential at each given point.
 for ms in range(0, test_length):
     spikes = spike_trains[:, ms]
     spikes = np.reshape(spikes, (num_neurons, 1))
-    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, initial_weights)
+    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, weights)
     p = get_membrane_potential(epsp_inputs, epsilons, ms, last_spike)
     ps[ms] = p
 
+    # Get relevant spikes for weight updating in LTP.
+    ltp_window_start = max(0, ms - LTP_WINDOW)
+    ltp_window_end = ms + 1
+    spikes = spike_trains[:, ltp_window_start:ltp_window_end]
+
     # Update weights.
-    time_delta = ms - last_spike
-    initial_weights = update_weights(spikes, initial_weights, time_delta)
+    time_delta = ms - math.fabs(last_spike)
+    weights = update_weights(spikes, weights, time_delta)
 
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
@@ -365,5 +380,5 @@ for ms in range(0, test_length):
 pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
 pylab.xlabel('Time (ms)')
 pylab.ylabel('Membrane Potential')
-pylab.title('Spike Train without STDP')
+pylab.title('Spike Train with STDP')
 pylab.show()
