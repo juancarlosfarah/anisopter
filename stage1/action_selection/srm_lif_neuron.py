@@ -17,7 +17,8 @@ the parameters from Masquelier et al. (2008).
 """
 
 # Constants
-T_MIN = 0                   # Start time.
+T_MIN = 0                   # Start time in ms.
+T_STEP = 1                  # Time step in ms.
 TAU_M = 10.0                # Membrane time constant in ms.
 TAU_S = 2.5                 # Synapse time constant in ms.
 THETA = 500                 # Threshold in arbitrary units.
@@ -60,62 +61,88 @@ def get_epsilons():
 
 
 # TODO: Finish.
-def update_weights(spikes, weights, last_spike):
+def update_weights(spikes, weights, time_delta):
     """ Updates the weights according to STDP.
 
     :param weights: Current weight vector.
+    :param time_delta: Time difference between post-synaptic and afferent spike.
     :return: Updated weight vector.
     """
 
-    # If post-synaptic neuron has just fired, calculate
-    # LTP and adjust all weights within the time window.
+    weight_delta = 0
+
+    # If post-synaptic neuron has just fired, calculate time delta and
+    # LTP for each afferent, then adjust all weights within the time window.
+    if time_delta == 0:
+        weight_delta = 0
 
     # Otherwise calculate LTD for all neurons that have fired,
     # if post-synaptic neuron has fired within the time window.
+    elif time_delta > 0 and math.fabs(time_delta) < LTD_WINDOW:
+        weight_delta = get_ltd(time_delta) * spikes
 
-    return weights
+    return weights + 0 #weight_delta
 
 
-def get_ltp(delta):
+def get_time_delta(spike_train):
+    """ Given an afferent, its last spike time relative to now.
+
+    :param spike_train: Array of spike values for afferent.
+    :return: Time delta of spike time.
+    """
+    start = 0
+    end = len(spike_train) - 1
+    step = T_STEP * -1
+
+    for ms in range(end, start - 1, step):
+        if spike_train[ms] == 1:
+            return ms - end
+
+    # Otherwise return a value outside the learning window
+    # which means this neuron will be ignored for STDP.
+    return (LTP_WINDOW + 1) * -1
+
+
+def get_ltp(time_delta):
     """ Calculate weight change according to LTP.
 
     Note that the input delta to LTP has to be <= 0.
-    :param delta: Time difference between post-synaptic and afferent spike.
+    :param time_delta: Time difference between post-synaptic and afferent spike.
     :return: Change in weight.
     """
 
     # Input delta to LTP has to be <= 0.
-    if delta > 0:
+    if time_delta > 0:
         print "ERROR! Time delta input to LTP function needs to be less than" \
               "or equal to zero. Please double check your function calls."
         exit(1)
 
     # Only consider deltas within the learning window.
-    if delta > LTP_WINDOW:
+    if time_delta > LTP_WINDOW:
         return 0
 
-    return A_PLUS * math.exp(delta / T_PLUS)
+    return A_PLUS * math.exp(time_delta / T_PLUS)
 
 
-def get_ltd(delta):
+def get_ltd(time_delta):
     """ Calculate weight change according to LTD.
 
     Note that the input delta to LTP has to be > 0.
-    :param delta: Time difference between post-synaptic and afferent spike.
+    :param time_delta: Time difference between post-synaptic and afferent spike.
     :return: Change in weight.
     """
 
     # Input delta to LTP has to be > 0.
-    if delta <= 0:
+    if time_delta <= 0:
         print "ERROR! Time delta input to LTD function needs to be greater" \
               "than zero. Please double check your function calls."
         exit(1)
 
     # Only consider deltas within the learning window.
-    if delta > LTD_WINDOW:
+    if time_delta > LTD_WINDOW:
         return 0
 
-    return -1 * A_MINUS * math.exp(delta / T_MINUS)
+    return -1 * A_MINUS * math.exp(time_delta / T_MINUS)
 
 
 def heavyside_step(delta):
@@ -324,9 +351,13 @@ for ms in range(0, test_length):
     p = get_membrane_potential(epsp_inputs, epsilons, ms, last_spike)
     ps[ms] = p
 
+    # Update weights.
+    time_delta = ms - last_spike
+    initial_weights = update_weights(spikes, initial_weights, time_delta)
+
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
-    if p > THETA and ms - last_spike > 1:
+    if p > THETA and time_delta > 1:
         last_spike = ms + 1
         epsp_inputs = np.array([])
 
