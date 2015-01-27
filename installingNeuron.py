@@ -14,14 +14,14 @@ mv nrn-nn nrn
 cd iv
 ./configure --prefix=`pwd`
 make
-sudo make install
-
+make install
 
 cd ..
 cd nrn
 ./configure --prefix=`pwd` --with-iv=$HOME/neuron/iv --with-nrnpython=/usr/bin/python
 make
+
 sudo make install
 
 cd src/nrnpython
-sudo python setup.py install
+python setup.py install --user
