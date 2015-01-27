@@ -8,7 +8,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 import numpy as np
 import pylab
 import math
-import pattern_generator
+import poisson_pattern_generator
 
 """
 Simulate a leaky integrate-and-fire (LIF) neuron following the
@@ -338,8 +338,10 @@ def plot_ltd():
 # Set parameters.
 num_neurons = 2000
 test_length = 10000
-obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
-spike_trains = obj['spike_trains']
+# obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
+# spike_trains = obj['spike_trains']
+spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
+                                                          test_length)
 weights = np.random.ranf((num_neurons, 1))
 epsilons = get_epsilons()
 

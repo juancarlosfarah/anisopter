@@ -54,52 +54,59 @@ def get_start_positions(pattern_len, bg_len, reps):
 
     return start_positions
 
-# Set seed.
-np.random.seed(SEED)
 
-# STEP 1:
-# =======
-# Create the spike trains using Poisson distribution:
+def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
+    """ Create the spike trains using a Poisson distribution.
 
-# create a (NUM_NEURONS x TOTAL_MS) matrix that contains values
-# uniformly distributed between 0 and 1:
-vt = np.random.uniform(0, 1, (NUM_NEURONS, TOTAL_MS))
+    :param num_neurons: Number of neurons.
+    :param bg_len: Length in ms of observation period.
+    :param pattern_len: Length in ms of repeating pattern.
+    :param seed: Seed to use for random generation.
+    :return: Pseudo-random-generated observation matrix.
+    """
 
-spikes = deepcopy(vt)
+    # Set seed.
+    np.random.seed(seed)
 
-# when probability is lower afferent does not spike
-spikes[vt > F_PROB] = 0
+    # Create a num_neurons * bg_len matrix that contains
+    # values uniformly distributed between 0 and 1.
+    vt = np.random.uniform(0, 1, (num_neurons, bg_len))
 
-# when probability is lower afferent spikes
-spikes[vt < F_PROB] = 1
+    spikes = deepcopy(vt)
 
-# STEP 2:
-# =======
-# Identify a pattern of length = PATTERN_MS
-pat_start = np.random.randint(0, TOTAL_MS-PATTERN_MS)
-pattern = deepcopy(spikes[:, pat_start:pat_start+PATTERN_MS])
+    # When probability is lower afferent does not spike.
+    spikes[vt > F_PROB] = 0
 
-# Ensure that all afferents spike at least once in the pattern
-for i in range(0,NUM_NEURONS):
-    temp_sum=np.sum(pattern[i, :])
-    if temp_sum<1:
-        rand_col=np.random.randint(0, PATTERN_MS)
-        pattern[i, rand_col] = 1
+    # When probability is lower afferent spikes.
+    spikes[vt < F_PROB] = 1
 
-# Calculate number of times that pattern will be repeated.
-reps = math.floor((TOTAL_MS * REPETITION_RATIO) / PATTERN_MS)
+    # Identify a pattern of length = pattern_len.
+    pat_start = np.random.randint(0, bg_len - pattern_len)
+    pattern = deepcopy(spikes[:, pat_start: pat_start + pattern_len])
 
-# Get the start positions for the pattern to be inserted.
-start_positions = get_start_positions(PATTERN_MS, TOTAL_MS, reps)
+    # Ensure that all afferents spike at least once in the pattern.
+    for i in range(0, num_neurons):
+        temp_sum = np.sum(pattern[i, :])
+        if temp_sum < 1:
+            rand_col = np.random.randint(0, pattern_len)
+            pattern[i, rand_col] = 1
 
-# Insert the pattern at start positions.
-for left in start_positions:
-    right = left + PATTERN_MS
-    spikes[:, left: right] = pattern
+    # Calculate number of times that pattern will be repeated.
+    reps = math.floor((bg_len * REPETITION_RATIO) / pattern_len)
+
+    # Get the start positions for the pattern to be inserted.
+    start_positions = get_start_positions(pattern_len, bg_len, reps)
+
+    # Insert the pattern at start positions.
+    for left in start_positions:
+        right = left + pattern_len
+        spikes[:, left: right] = pattern
+
+    return spikes
 
 # Create plots, label axes and show.
-mpl.imshow(spikes[0:200,0:1000], interpolation='nearest', cmap=mpl.cm.Greys)
-mpl.title('Spike Trains')
-mpl.ylabel('# Afferent')
-mpl.xlabel('Time (ms)')
-mpl.show()
+# mpl.imshow(spikes[0:200,0:1000], interpolation='nearest', cmap=mpl.cm.Greys)
+# mpl.title('Spike Trains')
+# mpl.ylabel('# Afferent')
+# mpl.xlabel('Time (ms)')
+# mpl.show()
