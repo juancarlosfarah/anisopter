@@ -342,7 +342,10 @@ test_length = 10000
 # spike_trains = obj['spike_trains']
 spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
                                                           test_length)
-weights = np.random.ranf((num_neurons, 1))
+# weights = np.random.ranf((num_neurons, 1))
+weights = np.random.normal(0.475,0.14, (num_neurons, 1))
+weights[weights<0]=0
+weights[weights>1]=1
 epsilons = get_epsilons()
 
 # Container for EPSP input contributions of each afferent.
