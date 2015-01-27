@@ -346,6 +346,7 @@ spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
 weights = np.random.normal(0.475,0.14, (num_neurons, 1))
 weights[weights<0]=0
 weights[weights>1]=1
+
 epsilons = get_epsilons()
 
 # Container for EPSP input contributions of each afferent.
