@@ -8,6 +8,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 import numpy as np
 import pylab
 import math
+import pattern_generator
 import poisson_pattern_generator
 
 """
@@ -395,3 +396,50 @@ pylab.xlabel('Time (ms)')
 pylab.ylabel('Membrane Potential')
 pylab.title('Spike Train with STDP')
 pylab.show()
+
+
+def plot_lif_neuron():
+    """ Replicates the plot in Figure 3 of Masquelier et al. (2008).
+
+    :return: Void.
+    """
+    # Set parameters.
+    num_neurons = 1
+    test_length = 80
+    spike_trains = pattern_generator.single_train()
+    weights = np.empty(num_neurons)
+    weights.fill(1)
+
+    epsilons = calculate_epsilons()
+
+    # Container for EPSP input contributions of each afferent.
+    epsp_inputs = np.array([])
+
+    # Create container for results.
+    ps = [T_MIN for i in range(test_length + 1)]
+    time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
+
+    # Set last spike to an irrelevant value at first.
+    last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
+
+    # Get membrane potential at each given point.
+    for ms in range(0, test_length):
+        spikes = spike_trains[:, ms]
+        spikes = np.reshape(spikes, (num_neurons, 1))
+        epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, weights)
+        p = calculate_membrane_potential(epsp_inputs, epsilons, ms, last_spike)
+        ps[ms] = p
+
+        # If threshold has been met and more than 1 ms has elapsed since
+        # the last post-synaptic spike, schedule a spike and flush EPSPs.
+        time_delta = ms - math.fabs(last_spike)
+        if p > THETA and math.fabs(time_delta) > 1:
+            last_spike = ms + 1
+            epsp_inputs = np.array([])
+
+    # Plot membrane potential.
+    pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
+    pylab.xlabel('Time (ms)')
+    pylab.ylabel('Membrane Potential (Arbitrary Units)')
+    pylab.title('Sample LIF Neuron')
+    pylab.show()
