@@ -335,20 +335,33 @@ def plot_ltd():
     pylab.title('Weight Change from LTD')
     pylab.show()
 
-def plot_weights(weights_array):
-    """plots the distribution of the values of the weights
+
+def plot_weights(weights, rows=1, cols=1, current_frame=1, bins=20):
+    """ Plots the distribution of the values of the weights.
+
+    :param weights: Array of weights.
+    :param rows: Number of rows in the plot.
+    :param cols: Number of columns in the plot.
+    :param current_frame: Current frame for the plot.
+    :param bins: Size of bins when generating the histogram.
+    :return: Void.
     """
-    #create a histogram of the values
-    h = np.histogram(weights_array,bins=20)
+
+    # Create a histogram of the values.
+    h = np.histogram(weights, bins=bins)
     neurons = h[0]
     weight_bins = h[1]
-    #print(len(neurons))
-    #print(len(weight_bins))
-    #print neurons
-    #print weight_bins
-    #make the plot
-    pylab.plot(weight_bins[0:len(weight_bins)-1],neurons)
-    pylab.show()
+
+    # Make the plot.
+    p = pylab.subplot(rows, cols, current_frame)
+    p.axes.get_xaxis().set_visible(False)
+    p.axes.get_yaxis().set_visible(False)
+    pylab.plot(weight_bins[0: len(weight_bins) - 1], neurons)
+
+    # Only show if plot is complete.
+    if rows * cols == current_frame:
+        p.axes.get_xaxis().set_visible(True)
+        pylab.show()
 
 
 # Run Sample Test without STDP
@@ -361,7 +374,8 @@ test_length = 10000
 # spike_trains = obj['spike_trains']
 spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
                                                           test_length)
-# weights = np.random.ranf((num_neurons, 1))
+
+# Initialise weights.
 weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
 weights[weights < 0] = 0
 weights[weights > 1] = 1
@@ -377,6 +391,11 @@ time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
 
 # Set last spike to an irrelevant value at first.
 last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
+
+# Values for plotting weights.
+frame = 1
+frame_step = 1000
+rows = test_length / frame_step + 1
 
 # Get membrane potential at each given point.
 for ms in range(0, test_length):
@@ -395,7 +414,10 @@ for ms in range(0, test_length):
     time_delta = ms - math.fabs(last_spike)
     weights = update_weights(spikes, weights, time_delta)
 
-    # TODO: Get Weight Distribution Change Over Time
+    # Plot weight distribution at given intervals.
+    if ms % frame_step == 0:
+        plot_weights(weights, rows, current_frame=frame)
+        frame += 1
 
     # TODO: Track Weight of One Individual Afferent Over Time.
     # TODO: Plot With Pre and Post Synaptic Spikes
@@ -405,6 +427,9 @@ for ms in range(0, test_length):
     if p > THETA and math.fabs(time_delta) > 1:
         last_spike = ms + 1
         epsp_inputs = np.array([])
+
+# Plot final weight distribution.
+plot_weights(weights, rows, current_frame=frame)
 
 # Plot membrane potential.
 pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
