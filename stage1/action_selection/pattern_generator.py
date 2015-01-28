@@ -213,23 +213,23 @@ def single_train():
         Goal is to replicate Figure 3 from Masquieller et al. 2008
     """
     #create array of length 80 filled with zeros
-    single_spike_train = [0]*80
+    single_spike_train = [[0]]*80
 
     #create array of timesteps for which there will be a spike
     spike_times = [2, 24, 46, 47, 49, 61]
 
     #make the neuron fire at each time step
     for i in spike_times:
-        single_spike_train[i] = 1
+        single_spike_train[i] = [1]
 
-    return np.reshape(single_spike_train,(len(single_spike_train),1))
-
+    #return np.reshape(single_spike_train,(len(single_spike_train),1))
+    return single_spike_train
 
 
 if __name__ == '__main__':
 
     spike_train=single_train()
-    for i in spike_train:
+    for i in range(0,80):
         print spike_train[i]
 # Plot sample spike trains pattern with and without noise.
 # o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTERN_MS, SEED)
