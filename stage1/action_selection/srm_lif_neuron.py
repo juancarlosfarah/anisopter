@@ -463,7 +463,9 @@ color = '#E6E6E6'
 min_y = THETA * -0.5
 max_y = THETA * 2.25
 for i in pattern_start_positions:
-    plt.gca().add_patch(Rectangle((i, min_y), 50, max_y + math.fabs(min_y),
+    plt.gca().add_patch(Rectangle((i, min_y),
+                                  PATTERN_LEN,
+                                  max_y + math.fabs(min_y),
                                   facecolor=color,
                                   edgecolor=color))
 
