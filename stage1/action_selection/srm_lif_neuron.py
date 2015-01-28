@@ -461,7 +461,7 @@ pylab.show()
 # Prepare the pattern plot.
 color = '#E6E6E6'
 min_y = THETA * -0.5
-max_y = THETA * 2
+max_y = THETA * 2.25
 for i in pattern_start_positions:
     plt.gca().add_patch(Rectangle((i, min_y), 50, max_y + math.fabs(min_y),
                                   facecolor=color,
@@ -487,7 +487,6 @@ def plot_lif_neuron():
     spike_trains = pattern_generator.single_train()
     weights = np.empty(num_neurons)
     weights.fill(1)
-
     epsilons = calculate_epsilons()
 
     # Container for EPSP input contributions of each afferent.

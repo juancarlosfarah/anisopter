@@ -109,17 +109,16 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
         right = left + pattern_len
         spikes[:, left: right] = pattern
 
-    rvalue = {}
+    rvalue = dict()
     rvalue['spikes'] = spikes
     rvalue['pattern_start_positions'] = start_positions
 
     return rvalue
 
 # Create plots, label axes and show.
-
 if __name__ == '__main__':
-    spikes = generate_pattern(NUM_NEURONS, TOTAL_MS)
-
+    spikes_obj = generate_pattern(NUM_NEURONS, TOTAL_MS)
+    spikes = spikes_obj['spikes']
     mpl.imshow(spikes[0:2000, 0:2000],
                interpolation='nearest',
                cmap=mpl.cm.Greys)
