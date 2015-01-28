@@ -106,7 +106,7 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
 
 # Create plots, label axes and show.
 
-if __name__ is '__main__':
+if __name__ == '__main__':
     spikes = generate_pattern(NUM_NEURONS, TOTAL_MS)
     mpl.imshow(spikes[0:200, 0:1000],
                interpolation='nearest',
