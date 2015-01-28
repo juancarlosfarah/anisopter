@@ -222,7 +222,7 @@ def single_train():
     for i in spike_times:
         single_spike_train[i] = 1
 
-    return single_spike_train
+    return np.reshape(single_spike_train,(len(single_spike_train),1))
 
 
 
