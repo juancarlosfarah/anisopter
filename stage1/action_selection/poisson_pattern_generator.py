@@ -45,7 +45,7 @@ def get_start_positions(pattern_len, bg_len, reps):
         # Check that it is a valid start position given
         # the existing start positions in the list.
         for pos in start_positions:
-            if math.fabs(pos - start_pos) < pattern_len:
+            if math.fabs(pos - start_pos) < pattern_len * 1.5:
                 is_valid_start = False
 
         # Only insert pos if it is a valid start position.
@@ -102,6 +102,7 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
 
     # Get the start positions for the pattern to be inserted.
     start_positions = get_start_positions(pattern_len, bg_len, reps)
+    start_positions.sort()
 
     # Insert the pattern at start positions.
     for left in start_positions:
@@ -109,8 +110,8 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
         spikes[:, left: right] = pattern
 
     rvalue = {}
-    rvalue['spikes']=spikes
-    rvalue['pattern_start_positions']=start_positions
+    rvalue['spikes'] = spikes
+    rvalue['pattern_start_positions'] = start_positions
 
     return rvalue
 
@@ -118,7 +119,8 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
 
 if __name__ == '__main__':
     spikes = generate_pattern(NUM_NEURONS, TOTAL_MS)
-    mpl.imshow(spikes[0:200, 0:1000],
+
+    mpl.imshow(spikes[0:2000, 0:2000],
                interpolation='nearest',
                cmap=mpl.cm.Greys)
     mpl.title('Spike Trains')

@@ -30,7 +30,7 @@ K1 = 2                      # Constant for positive pulse.
 K2 = 4                      # Constant for negative spike after-potential.
 T_WINDOW = int(TAU_M * 7)   # Maximum time that a spike can affect EPSP.
 T_PLUS = 16.8               # LTP synaptic modification constant in ms.
-T_MINUS = 33.7              # LTP synaptic modification constant in ms.
+T_MINUS = 33.7              # LTD synaptic modification constant in ms.
 A_PLUS = 0.03125            # LTP learning rate.
 A_MINUS = 0.85 * A_PLUS     # LTD learning rate.
 LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
@@ -458,13 +458,18 @@ for i in range(0, neuron_sample_size):
     pylab.title('Synaptic Weight')
 pylab.show()
 
-# Prepare the pattern plot
+# Prepare the pattern plot.
+color = '#E6E6E6'
+min_y = THETA * -0.5
+max_y = THETA * 2
 for i in pattern_start_positions:
-    plt.gca().add_patch(Rectangle((i,-300),50,3*THETA,facecolor='#E6E6E6',edgecolor='#E6E6E6'))
+    plt.gca().add_patch(Rectangle((i, min_y), 50, max_y + math.fabs(min_y),
+                                  facecolor=color,
+                                  edgecolor=color))
+
 # Plot membrane potential.
 pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
-
-pylab.ylim(-300,2*THETA)
+pylab.ylim(min_y, max_y)
 pylab.xlabel('Time (ms)')
 pylab.ylabel('Membrane Potential')
 pylab.title('Spike Train with STDP')
