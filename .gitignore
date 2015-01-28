@@ -5,6 +5,7 @@
 # Temporary Files
 # ===============
 *~
+*.orig
 
 # LaTeX Files
 # ===========
