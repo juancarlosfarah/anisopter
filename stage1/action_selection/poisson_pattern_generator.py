@@ -68,6 +68,10 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     # Set seed.
     np.random.seed(seed)
 
+    # Ensure that pattern is always shorter than total lengths.
+    if pattern_len > bg_len:
+        pattern_len = bg_len - 1
+
     # Create a num_neurons * bg_len matrix that contains
     # values uniformly distributed between 0 and 1.
     vt = np.random.uniform(0, 1, (num_neurons, bg_len))

@@ -394,8 +394,18 @@ last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
 
 # Values for plotting weights.
 frame = 1
-frame_step = 1000
-rows = test_length / frame_step + 1
+frames = 10
+frame_step = test_length / frames
+rows = frames + 1
+
+# Containers for weights of random neurons over time.
+neuron_sample_size = 10
+neuron_numbers = []
+neuron_weights = []
+for i in range(0, neuron_sample_size):
+    neuron_numbers.append(np.random.randint(0, num_neurons))
+    container = [0] * test_length
+    neuron_weights.append(container)
 
 # Get membrane potential at each given point.
 for ms in range(0, test_length):
@@ -409,6 +419,10 @@ for ms in range(0, test_length):
     ltp_window_start = max(0, ms - LTP_WINDOW)
     ltp_window_end = ms + 1
     spikes = spike_trains[:, ltp_window_start:ltp_window_end]
+
+    # Record sample neurons' weight at this point.
+    for i in range(0, neuron_sample_size):
+        neuron_weights[i][ms] = weights[neuron_numbers[i]][0]
 
     # Update weights.
     time_delta = ms - math.fabs(last_spike)
@@ -430,6 +444,14 @@ for ms in range(0, test_length):
 
 # Plot final weight distribution.
 plot_weights(weights, rows, current_frame=frame)
+
+# Plot sample neurons' weight over time.
+for i in range(0, neuron_sample_size):
+    pylab.plot(time[T_MIN:test_length], neuron_weights[i][T_MIN:test_length])
+    pylab.xlabel('Time (ms)')
+    pylab.ylabel('Weight')
+    pylab.title('Synaptic Weight')
+pylab.show()
 
 # Plot membrane potential.
 pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
