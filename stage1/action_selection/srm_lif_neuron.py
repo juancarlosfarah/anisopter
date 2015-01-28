@@ -132,6 +132,7 @@ def get_ltp(time_delta):
     if time_delta > 0:
         print "ERROR! Time delta input to LTP function needs to be less than " \
               "or equal to zero. Please double check your function calls."
+        # Use raise value error.
         exit(1)
 
     # Only consider deltas within the learning window.
@@ -153,6 +154,7 @@ def get_ltd(time_delta):
     if time_delta <= 0:
         print "ERROR! Time delta input to LTD function needs to be greater " \
               "than zero. Please double check your function calls."
+        # Use raise value error.
         exit(1)
 
     # Only consider deltas within the learning window.
@@ -343,9 +345,9 @@ test_length = 10000
 spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
                                                           test_length)
 # weights = np.random.ranf((num_neurons, 1))
-weights = np.random.normal(0.475,0.14, (num_neurons, 1))
-weights[weights<0]=0
-weights[weights>1]=1
+weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
+weights[weights < 0] = 0
+weights[weights > 1] = 1
 
 epsilons = get_epsilons()
 
@@ -375,6 +377,11 @@ for ms in range(0, test_length):
     # Update weights.
     time_delta = ms - math.fabs(last_spike)
     weights = update_weights(spikes, weights, time_delta)
+
+    # TODO: Get Weight Distribution Change Over Time
+
+    # TODO: Track Weight of One Individual Afferent Over Time.
+    # TODO: Plot With Pre and Post Synaptic Spikes
 
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.

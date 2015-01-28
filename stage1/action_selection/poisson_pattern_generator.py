@@ -105,8 +105,13 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     return spikes
 
 # Create plots, label axes and show.
-# mpl.imshow(spikes[0:200,0:1000], interpolation='nearest', cmap=mpl.cm.Greys)
-# mpl.title('Spike Trains')
-# mpl.ylabel('# Afferent')
-# mpl.xlabel('Time (ms)')
-# mpl.show()
+
+if __name__ is '__main__':
+    spikes = generate_pattern(NUM_NEURONS, TOTAL_MS)
+    mpl.imshow(spikes[0:200, 0:1000],
+               interpolation='nearest',
+               cmap=mpl.cm.Greys)
+    mpl.title('Spike Trains')
+    mpl.ylabel('# Afferent')
+    mpl.xlabel('Time (ms)')
+    mpl.show()
