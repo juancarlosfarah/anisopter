@@ -222,15 +222,15 @@ def single_train():
     for i in spike_times:
         single_spike_train[i] = [1]
 
-    #return np.reshape(single_spike_train,(len(single_spike_train),1))
-    return single_spike_train
+    return np.reshape(single_spike_train,(1,len(single_spike_train)))
+    #return single_spike_train
 
 
 if __name__ == '__main__':
 
     spike_train=single_train()
-    for i in range(0,80):
-        print spike_train[i]
+    print spike_train
+
 # Plot sample spike trains pattern with and without noise.
 # o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTERN_MS, SEED)
 # p1 = o['spike_trains']
