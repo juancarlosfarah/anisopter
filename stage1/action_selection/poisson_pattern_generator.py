@@ -5,6 +5,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 
 import math
 import matplotlib.pylab as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
 
@@ -57,6 +58,7 @@ def get_start_positions(pattern_len, bg_len, reps):
 
 def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     """ Create the spike trains using a Poisson distribution.
+        Returns a dictionary with the spike trains and the time steps where the pattern begins
 
     :param num_neurons: Number of neurons.
     :param bg_len: Length in ms of observation period.
@@ -106,7 +108,11 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
         right = left + pattern_len
         spikes[:, left: right] = pattern
 
-    return spikes
+    rvalue = {}
+    rvalue['spikes']=spikes
+    rvalue['pattern_start_positions']=start_positions
+
+    return rvalue
 
 # Create plots, label axes and show.
 

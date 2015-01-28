@@ -7,6 +7,8 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 
 import numpy as np
 import pylab
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 import math
 import pattern_generator
 import poisson_pattern_generator
@@ -35,6 +37,7 @@ LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
 LTD_WINDOW = 7 * T_MINUS    # LTD learning window.
 WEIGHT_MAX = 1              # Maximum weight value.
 WEIGHT_MIN = 0              # Minimum weight value.
+PATTERN_LEN = 50            # Length of pattern
 
 # Set Seed
 np.random.seed(1)
@@ -372,8 +375,10 @@ test_length = 10000
 
 # obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
 # spike_trains = obj['spike_trains']
-spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
+dictionary = poisson_pattern_generator.generate_pattern(num_neurons,
                                                           test_length)
+spike_trains=dictionary['spikes']
+pattern_start_positions=dictionary['pattern_start_positions']
 
 # Initialise weights.
 weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
@@ -453,8 +458,13 @@ for i in range(0, neuron_sample_size):
     pylab.title('Synaptic Weight')
 pylab.show()
 
+# Prepare the pattern plot
+for i in pattern_start_positions:
+    plt.gca().add_patch(Rectangle((i,-300),50,3*THETA,facecolor='#E6E6E6',edgecolor='#E6E6E6'))
 # Plot membrane potential.
 pylab.plot(time[T_MIN:test_length], ps[T_MIN:test_length])
+
+pylab.ylim(-300,2*THETA)
 pylab.xlabel('Time (ms)')
 pylab.ylabel('Membrane Potential')
 pylab.title('Spike Train with STDP')
