@@ -334,12 +334,28 @@ def plot_ltd():
     pylab.title('Weight Change from LTD')
     pylab.show()
 
+def plot_weights(weights_array):
+    """plots the distribution of the values of the weights
+    """
+    #create a histogram of the values
+    h = np.histogram(weights_array,bins=20)
+    neurons = h[0]
+    weight_bins = h[1]
+    #print(len(neurons))
+    #print(len(weight_bins))
+    #print neurons
+    #print weight_bins
+    #make the plot
+    pylab.plot(weight_bins[0:len(weight_bins)-1],neurons)
+    pylab.show()
+
 
 # Run Sample Test without STDP
 # ============================
 # Set parameters.
 num_neurons = 2000
 test_length = 10000
+
 # obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
 # spike_trains = obj['spike_trains']
 spike_trains = poisson_pattern_generator.generate_pattern(num_neurons,
@@ -395,3 +411,4 @@ pylab.xlabel('Time (ms)')
 pylab.ylabel('Membrane Potential')
 pylab.title('Spike Train with STDP')
 pylab.show()
+
