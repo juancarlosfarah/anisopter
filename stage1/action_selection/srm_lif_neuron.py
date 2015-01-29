@@ -339,7 +339,7 @@ def plot_ltd():
     pylab.show()
 
 
-def plot_weights(weights, rows=1, cols=1, current_frame=1, bins=20):
+def plot_weights(weights, ms, rows=1, cols=1, current_frame=1, bin_size=1):
     """ Plots the distribution of the values of the weights.
 
     :param weights: Array of weights.
@@ -350,19 +350,23 @@ def plot_weights(weights, rows=1, cols=1, current_frame=1, bins=20):
     :return: Void.
     """
 
-    # Create a histogram of the values.
-    h = np.histogram(weights, bins=bins)
-    neurons = h[0]
-    weight_bins = h[1]
-
-    # Make the plot.
+    # Plot a histogram of the values.
     p = pylab.subplot(rows, cols, current_frame)
+
+    # Only add title to first plot.
+    if current_frame == 1:
+        pylab.title('Weight Distribution Over Time')
+
     p.axes.get_xaxis().set_visible(False)
-    p.axes.get_yaxis().set_visible(False)
-    pylab.plot(weight_bins[0: len(weight_bins) - 1], neurons)
+    p.axes.get_yaxis().set_ticks([])
+    label = str(ms / 1000) + 's'
+    bins = len(weights) / bin_size
+    pylab.ylabel(label)
+    p.hist(weights, bins=bins)
 
     # Only show if plot is complete.
     if rows * cols == current_frame:
+        pylab.xlabel("Weight Value")
         p.axes.get_xaxis().set_visible(True)
         pylab.show()
 
@@ -400,6 +404,7 @@ last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
 # Values for plotting weights.
 frame = 1
 frames = 10
+bin_size = 50
 frame_step = test_length / frames
 rows = frames + 1
 
@@ -435,7 +440,7 @@ for ms in range(0, test_length):
 
     # Plot weight distribution at given intervals.
     if ms % frame_step == 0:
-        plot_weights(weights, rows, current_frame=frame)
+        plot_weights(weights, ms, rows, current_frame=frame, bin_size=bin_size)
         frame += 1
 
     # TODO: Track Weight of One Individual Afferent Over Time.
@@ -448,7 +453,7 @@ for ms in range(0, test_length):
         epsp_inputs = np.array([])
 
 # Plot final weight distribution.
-plot_weights(weights, rows, current_frame=frame)
+plot_weights(weights, test_length, rows, current_frame=frame, bin_size=bin_size)
 
 # Plot sample neurons' weight over time.
 for i in range(0, neuron_sample_size):
