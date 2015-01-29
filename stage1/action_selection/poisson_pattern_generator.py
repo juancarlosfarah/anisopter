@@ -15,7 +15,7 @@ Constants
 =========
 """
 TIME_STEP = 0.001               # seconds
-SPIKES_PER_S = 50               # spikes per second, on average
+SPIKES_PER_S = 64               # spikes per second, on average
 F_PROB = SPIKES_PER_S*TIME_STEP # probability of a neuron firing in a timestep
 TOTAL_MS = 150000               # length of spike trains
 SEED = 1                        # seed for the random
@@ -86,14 +86,16 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     # When probability is lower afferent spikes.
     spikes[vt < F_PROB] = 1
 
-    # Identify a pattern of length = pattern_len.
-    pat_start = np.random.randint(0, bg_len - pattern_len)
-    pattern = deepcopy(spikes[:, pat_start: pat_start + pattern_len])
+    # Identify a pattern of given length.
+    start = np.random.randint(0, bg_len - pattern_len)
+
+    # Make only half of the neurons display the pattern.
+    pattern = deepcopy(spikes[NUM_NEURONS / 2:, start: start + pattern_len])
 
     # Ensure that all afferents spike at least once in the pattern.
-    for i in range(0, num_neurons):
-        temp_sum = np.sum(pattern[i, :])
-        if temp_sum < 1:
+    for i in range(0, pattern.shape[0]):
+        spike_sum = np.sum(pattern[i, :])
+        if spike_sum < 1:
             rand_col = np.random.randint(0, pattern_len)
             pattern[i, rand_col] = 1
 
@@ -107,7 +109,7 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     # Insert the pattern at start positions.
     for left in start_positions:
         right = left + pattern_len
-        spikes[:, left: right] = pattern
+        spikes[NUM_NEURONS / 2:, left: right] = pattern
 
     rvalue = dict()
     rvalue['spikes'] = spikes
