@@ -33,8 +33,10 @@ while(True):
     """
     # LMC filter
 
+    downsize = downsize.astype(float)
+
     downsize *= G(t)
-    
+
     if t < 0.1:
         print "G(t)"
         print downsize
@@ -49,6 +51,8 @@ while(True):
     if t < 0.1:
         print "pyr"
         print pyr
+
+    pyr = np.tanh(pyr)
 
     cv2.imshow('frame', pyr)
 
