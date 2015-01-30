@@ -5,6 +5,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
 
 import math
 import matplotlib.pylab as mpl
+import matplotlib.pyplot as plt
 import numpy as np
 from copy import deepcopy
 
@@ -14,7 +15,7 @@ Constants
 =========
 """
 TIME_STEP = 0.001               # seconds
-SPIKES_PER_S = 50               # spikes per second, on average
+SPIKES_PER_S = 64               # spikes per second, on average
 F_PROB = SPIKES_PER_S*TIME_STEP # probability of a neuron firing in a timestep
 TOTAL_MS = 150000               # length of spike trains
 SEED = 1                        # seed for the random
@@ -44,7 +45,7 @@ def get_start_positions(pattern_len, bg_len, reps):
         # Check that it is a valid start position given
         # the existing start positions in the list.
         for pos in start_positions:
-            if math.fabs(pos - start_pos) < pattern_len:
+            if math.fabs(pos - start_pos) < pattern_len * 1.5:
                 is_valid_start = False
 
         # Only insert pos if it is a valid start position.
@@ -57,6 +58,7 @@ def get_start_positions(pattern_len, bg_len, reps):
 
 def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     """ Create the spike trains using a Poisson distribution.
+        Returns a dictionary with the spike trains and the time steps where the pattern begins
 
     :param num_neurons: Number of neurons.
     :param bg_len: Length in ms of observation period.
@@ -67,6 +69,10 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
 
     # Set seed.
     np.random.seed(seed)
+
+    # Ensure that pattern is always shorter than total lengths.
+    if pattern_len > bg_len:
+        pattern_len = bg_len - 1
 
     # Create a num_neurons * bg_len matrix that contains
     # values uniformly distributed between 0 and 1.
@@ -80,14 +86,16 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
     # When probability is lower afferent spikes.
     spikes[vt < F_PROB] = 1
 
-    # Identify a pattern of length = pattern_len.
-    pat_start = np.random.randint(0, bg_len - pattern_len)
-    pattern = deepcopy(spikes[:, pat_start: pat_start + pattern_len])
+    # Identify a pattern of given length.
+    start = np.random.randint(0, bg_len - pattern_len)
+
+    # Make only half of the neurons display the pattern.
+    pattern = deepcopy(spikes[NUM_NEURONS / 2:, start: start + pattern_len])
 
     # Ensure that all afferents spike at least once in the pattern.
-    for i in range(0, num_neurons):
-        temp_sum = np.sum(pattern[i, :])
-        if temp_sum < 1:
+    for i in range(0, pattern.shape[0]):
+        spike_sum = np.sum(pattern[i, :])
+        if spike_sum < 1:
             rand_col = np.random.randint(0, pattern_len)
             pattern[i, rand_col] = 1
 
@@ -96,17 +104,27 @@ def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
 
     # Get the start positions for the pattern to be inserted.
     start_positions = get_start_positions(pattern_len, bg_len, reps)
+    start_positions.sort()
 
     # Insert the pattern at start positions.
     for left in start_positions:
         right = left + pattern_len
-        spikes[:, left: right] = pattern
+        spikes[NUM_NEURONS / 2:, left: right] = pattern
 
-    return spikes
+    rvalue = dict()
+    rvalue['spikes'] = spikes
+    rvalue['pattern_start_positions'] = start_positions
+
+    return rvalue
 
 # Create plots, label axes and show.
-# mpl.imshow(spikes[0:200,0:1000], interpolation='nearest', cmap=mpl.cm.Greys)
-# mpl.title('Spike Trains')
-# mpl.ylabel('# Afferent')
-# mpl.xlabel('Time (ms)')
-# mpl.show()
+if __name__ == '__main__':
+    spikes_obj = generate_pattern(NUM_NEURONS, TOTAL_MS)
+    spikes = spikes_obj['spikes']
+    mpl.imshow(spikes[0:2000, 0:2000],
+               interpolation='nearest',
+               cmap=mpl.cm.Greys)
+    mpl.title('Spike Trains')
+    mpl.ylabel('# Afferent')
+    mpl.xlabel('Time (ms)')
+    mpl.show()

@@ -82,7 +82,7 @@ def generate_pattern(neurons, bg_len, pattern_len, seed):
     """
 
     # Create dictionary for return value.
-    rvalue = {}
+    rvalue = dict()
 
     # Generate a noise matrix as a background.
     noise = generate_random_matrix(neurons, bg_len, seed)
@@ -208,9 +208,28 @@ def plot_patterns(pattern1, pattern2, start=PLOT_TIME_START, end=PLOT_TIME_END):
     mpl.show()
 
 
+def single_train():
+    """ Creates a spike train of 6 spikes over 80ms.
+        Goal is to replicate Figure 3 from Masquelier et al. (2008).
+    :return: Single spike train.
+    """
+    # Create array of length 80 filled with zeros.
+    single_spike_train = [[0]] * 80
+
+    # Create array of time steps for which there will be a spike.
+    spike_times = [2, 24, 46, 47, 49, 61]
+
+    # Make the neuron fire at each time step.
+    for i in spike_times:
+        single_spike_train[i] = [1]
+
+    return np.reshape(single_spike_train, (1, len(single_spike_train)))
+
+
 # Plot sample spike trains pattern with and without noise.
-# o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTERN_MS, SEED)
-# p1 = o['spike_trains']
-# copy = deepcopy(o)
-# p2 = add_noise(copy, NOISE_FACTOR)
-# plot_patterns(p1, p2)
+if __name__ == '__main__':
+    o = generate_pattern(NUM_NEURONS, TOTAL_MS, PATTERN_MS, SEED)
+    p1 = o['spike_trains']
+    copy = deepcopy(o)
+    p2 = add_noise(copy, NOISE_FACTOR)
+    plot_patterns(p1, p2)
