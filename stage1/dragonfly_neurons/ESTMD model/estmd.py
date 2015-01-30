@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import math
 
+
+# Function for applying LMC spatiotemporal filters
 def G(t):
     return 1.06 * math.exp(math.pow((-math.log(t / 0.505, 10)),2) / 0.0776) - 0.3356 * math.exp(math.pow((- math.log(t / 0.875)), 2) / 0.238)
 
@@ -33,14 +35,17 @@ while(True):
     """
     # LMC filter
 
-    downsize = downsize.astype(float)
+    # Convert to float
+    downsize = downsize.astype(float) / 256.0
 
+    # LMC transfer function
     downsize *= G(t)
 
     if t < 0.1:
         print "G(t)"
         print downsize
 
+    # Center surround antagonism kernel applied
     CSscale = -1.0 / 9.0
 
     CSKernel = CSscale * np.ones((3,3))
@@ -48,11 +53,13 @@ while(True):
 
     pyr = cv2.filter2D(downsize, -1, CSKernel) 
     
+    
+    # Apply hyperbolic tan function before imshow
+    pyr = np.tanh(pyr)
+
     if t < 0.1:
         print "pyr"
         print pyr
-
-    pyr = np.tanh(pyr)
 
     cv2.imshow('frame', pyr)
 
