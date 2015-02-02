@@ -7,6 +7,7 @@
 #              let me know.
 ################################################################################
 
+import os
 import pyglet
 from random import *
 
@@ -38,9 +39,12 @@ class ParallelAnimation(pyglet.window.Window):
 # This class is extension of Class pyglet.window.Window. It animates
 # N flies flying in parallel. It is very hard coded.
 class RandomAnimation(pyglet.window.Window):
-    def __init__(self, N):
+    def __init__(self, N, directory, frames):
         super(RandomAnimation, self).__init__()
         self.N = N
+        self.x = 0
+        self.frames = frames
+        self.directory = directory
         self.pos = [[randint(0, self.width), randint(0, self.height)] for
                     i in range(self.N)]
         self.image = [pyglet.resource.image(ImagePath) for i in range(N)]
@@ -57,6 +61,12 @@ class RandomAnimation(pyglet.window.Window):
         self.clear()
         for i in range(self.N):
             self.image[i].blit(self.pos[i][0], self.pos[i][1])
+        image_name = self.directory + "/scr" + str(self.x) + ".png"
+        pyglet.image.get_buffer_manager().get_color_buffer().save(image_name)
+        self.x += 1
+        if self.x > self.frames:
+            pyglet.app.exit()
+
 
 # Class FlyAnimation
 # ==================
@@ -67,19 +77,28 @@ class FlyAnimation():
     def __init__(self):
         pass
 
-    def run_parallel(self, n):
-        window = ParallelAnimation(n)
-        pyglet.clock.schedule_interval(window.update_frames, 1/10.0)
+    def make_directory(self, directory):
+        self.directory = directory
+        if not os.path.exists(directory):
+            print "Making dir!"
+            os.makedirs(directory)
+
+    def run_parallel(self, n, directory="test", fps=10, frames=10):
+        self.make_directory(directory)
+        window = ParallelAnimation(n, directory, frames)
+        pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
 
-    def run_random(self, n):
-        window = RandomAnimation(n)
-        pyglet.clock.schedule_interval(window.update_frames, 1/10.0)
+    def run_random(self, n, directory="test", fps=10, frames=10):
+        self.make_directory(directory)
+        window = RandomAnimation(n, directory, frames)
+        pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
 
 
 # Test for running N random flies
 # ===============================
-N = 5
+N = 3
+FPS = 10
 test = FlyAnimation()
-test.run_parallel(N)
+test.run_random(N)
