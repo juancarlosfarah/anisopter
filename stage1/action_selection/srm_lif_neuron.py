@@ -37,7 +37,7 @@ LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
 LTD_WINDOW = 7 * T_MINUS    # LTD learning window.
 WEIGHT_MAX = 1              # Maximum weight value.
 WEIGHT_MIN = 0              # Minimum weight value.
-PATTERN_LEN = 50            # Length of pattern
+PATTERN_LEN = 50            # Length of pattern.
 
 # Set Seed
 np.random.seed(1)
@@ -451,12 +451,11 @@ def plot_stdp():
 num_neurons = 2000
 test_length = 10000
 
-# obj = pattern_generator.generate_pattern(num_neurons, test_length, 50, 1)
-# spike_trains = obj['spike_trains']
-dictionary = poisson_pattern_generator.generate_pattern(num_neurons,
-                                                        test_length)
-spike_trains=dictionary['spikes']
-pattern_start_positions=dictionary['pattern_start_positions']
+sample = poisson_pattern_generator.generate_sample(num_neurons,
+                                                   test_length,
+                                                   PATTERN_LEN)
+spike_trains = sample['spike_trains']
+pattern_start_positions = sample['pattern_start_positions']
 
 # Initialise weights.
 weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
