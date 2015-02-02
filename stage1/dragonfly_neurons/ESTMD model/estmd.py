@@ -4,6 +4,8 @@ from scipy import signal
 import math
 from copy import deepcopy
 
+
+# Function for applying LMC spatiotemporal filters
 def G(t):
     return 1.06 * math.exp(math.pow((-math.log(t / 0.505, 10)),2) / 0.0776) - 0.3356 * math.exp(math.pow((- math.log(t / 0.875)), 2) / 0.238)
 
@@ -43,6 +45,7 @@ while(True):
     """
     # LMC filter
 
+<<<<<<< HEAD
 #    if 0.005 < t < 0.055:
 #        print "Before: "
 #        print downsize
@@ -56,13 +59,37 @@ while(True):
 #    if 0.005 < t < 0.055:
 #        print "After: "
 #        print downsize
+=======
+    # Convert to float
+    downsize = downsize.astype(float) / 256.0
 
+    # LMC transfer function
+    downsize *= G(t)
+
+    if t < 0.1:
+        print "G(t)"
+        print downsize
+>>>>>>> 2a0bdc6bf76f973e9ea114e5e8c9998b34016136
+
+    # Center surround antagonism kernel applied
     CSscale = -1.0 / 9.0
 
     CSKernel = CSscale * np.ones((3,3))
     CSKernel[1][1] = 8.0 / 9.0
 
+<<<<<<< HEAD
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
+=======
+    pyr = cv2.filter2D(downsize, -1, CSKernel) 
+    
+    
+    # Apply hyperbolic tan function before imshow
+    pyr = np.tanh(pyr)
+
+    if t < 0.1:
+        print "pyr"
+        print pyr
+>>>>>>> 2a0bdc6bf76f973e9ea114e5e8c9998b34016136
 
 
     # RTC filter

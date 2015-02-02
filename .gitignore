@@ -15,4 +15,9 @@
 *.synctex.gz
 
 # IDEA files
+# ==========
 *.idea
+
+# Virtual Environment
+# ===================
+venv
