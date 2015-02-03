@@ -40,7 +40,7 @@ WEIGHT_MIN = 0              # Minimum weight value.
 PATTERN_LEN = 50            # Length of pattern.
 
 # Set Seed
-np.random.seed(1)
+# np.random.seed(1)
 
 # Sample Neuron
 # =============
@@ -449,16 +449,17 @@ def plot_stdp():
 # ============================
 # Set parameters.
 num_neurons = 2000
-test_length = 10000
+test_length = 15000
+pattern_len = 50
 
 sample = poisson_pattern_generator.generate_sample(num_neurons,
                                                    test_length,
-                                                   PATTERN_LEN)
+                                                   pattern_len)
 spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
 
 # Initialise weights.
-weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
+weights = np.random.normal(0.5, 0.14, (num_neurons, 1))
 weights[weights < WEIGHT_MIN] = WEIGHT_MIN
 weights[weights > WEIGHT_MAX] = WEIGHT_MAX
 
@@ -522,7 +523,7 @@ for ms in range(0, test_length - 1):
 
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
-    if p > THETA and math.fabs(time_delta) > 1:
+    if p >= THETA and math.fabs(time_delta) > 1:
         last_spike = ms + 1
         epsp_inputs = np.array([])
 

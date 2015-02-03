@@ -23,7 +23,7 @@ SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
 REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
-INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
+INVOLVEMENT_RATIO = 1.0         # Ratio of afferents involved in the pattern.
 NOISE = 10.0                    # Noise in Hz.
 
 R_MIN = 0.0                     # Minimum firing rate in Hz.
@@ -78,7 +78,7 @@ def generate_spike_train(duration, period):
     return spike_train
 
 
-def generate_spike_trains(num_neurons, sample_duration, pattern_duration):
+def generate_spike_trains(num_neurons, sample_duration):
     """
 
     :param num_neurons:
@@ -90,7 +90,7 @@ def generate_spike_trains(num_neurons, sample_duration, pattern_duration):
     spike_trains = np.zeros((num_neurons, sample_duration))
 
     for i in range(0, num_neurons):
-        spike_train = generate_spike_train(sample_duration, pattern_duration)
+        spike_train = generate_spike_train(sample_duration, 50)
         spike_trains[i, :] = spike_train
 
         # Track progress
@@ -111,14 +111,14 @@ def generate_pattern(spike_trains, duration=PATTERN_MS,
     :return:
     """
 
-    # Number of neurons is half of total neurons.
+    # Number of neurons involved in the pattern.
     num_neurons = spike_trains.shape[0] * involvement_ratio
 
     # Identify a pattern of given length.
     start = np.random.randint(0, spike_trains.shape[1] - duration)
     end = start + duration
 
-    # Make only half of the neurons display the pattern.
+    # Display the pattern.
     pattern = deepcopy(spike_trains[:num_neurons, start: end])
 
     return pattern
@@ -160,9 +160,7 @@ def generate_sample(num_neurons,
     """
 
     # Generate background spike trains.
-    spike_trains = generate_spike_trains(num_neurons,
-                                         sample_duration,
-                                         pattern_duration)
+    spike_trains = generate_spike_trains(num_neurons, sample_duration)
 
     # TODO: Make into warning.
     print sum(sum(spike_trains)) / (num_neurons * sample_duration) / DT
@@ -215,17 +213,17 @@ def get_start_positions(pattern_len, bg_len, reps):
     # Insert positions into start_positions
     while reps > 0:
         is_valid_start = True
-        start_pos = np.random.randint(0, upper_limit, 1)
+        start_pos = np.random.randint(0, upper_limit)
 
         # Check that it is a valid start position given
         # the existing start positions in the list.
         for pos in start_positions:
-            if math.fabs(pos - start_pos) < pattern_len * 1.5:
+            if math.fabs(pos - start_pos) < pattern_len * 2.5:
                 is_valid_start = False
 
         # Only insert pos if it is a valid start position.
         if is_valid_start:
-            start_positions.append(start_pos[0])
+            start_positions.append(start_pos)
             reps -= 1
 
     return start_positions
