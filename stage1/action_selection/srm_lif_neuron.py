@@ -455,7 +455,7 @@ sample = poisson_pattern_generator.generate_sample(num_neurons,
                                                    test_length,
                                                    PATTERN_LEN)
 spike_trains = sample['spike_trains']
-pattern_start_positions = sample['pattern_start_positions']
+start_positions = sample['start_positions']
 
 # Initialise weights.
 weights = np.random.normal(0.475, 0.14, (num_neurons, 1))
@@ -541,7 +541,7 @@ pylab.show()
 color = '#E6E6E6'
 min_y = THETA * -0.5
 max_y = THETA * 2.25
-for i in pattern_start_positions:
+for i in start_positions:
     plt.gca().add_patch(Rectangle((i, min_y),
                                   PATTERN_LEN,
                                   max_y + math.fabs(min_y),

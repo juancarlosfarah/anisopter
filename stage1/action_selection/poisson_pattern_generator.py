@@ -22,7 +22,7 @@ TOTAL_MS = 150000               # Length of sample.
 SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
-REPETITION_RATIO = 0.10         # Ratio of pattern in the overall sample.
+REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
 INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
 NOISE = 10.0                    # Noise in Hz.
 
@@ -194,7 +194,7 @@ def generate_sample(num_neurons,
     # Package everything nicely.
     rvalue = dict()
     rvalue['spike_trains'] = spike_trains
-    rvalue['pattern_start_positions'] = starts
+    rvalue['start_positions'] = starts
 
     return rvalue
 
@@ -288,19 +288,73 @@ def get_start_positions(pattern_len, bg_len, reps):
 #
 #     rvalue = dict()
 #     rvalue['spikes'] = spikes
-#     rvalue['pattern_start_positions'] = start_positions
+#     rvalue['start_positions'] = start_positions
 #
 #     return rvalue
 
 
-# Create plots, label axes and show.
+def load_sample(filename):
+    """
+
+    :param filename:
+    :return:
+    """
+    f = open(filename)
+
+    spike_trains = np.array([])
+    start_positions = map(int, (f.readline()).split())
+    lines = f.read().split('\n')
+
+    for line in lines:
+        if line != [] and line != ['\n'] and line != '':
+            if spike_trains.size == 0:
+                spike_trains = map(int, line.split())
+                spike_trains = np.reshape(spike_trains, (1, len(spike_trains)))
+            else:
+                spike_trains = np.vstack((spike_trains, map(int, line.split())))
+
+    f.close()
+
+    # Package everything nicely.
+    rvalue = dict()
+    rvalue['spike_trains'] = spike_trains
+    rvalue['start_positions'] = start_positions
+
+    return rvalue
+
+
+def save_sample(filename, sample):
+    """
+
+    :param filename:
+    :param sample:
+    :return:
+    """
+    start_positions = sample['start_positions']
+    spike_trains = sample['spike_trains']
+    f = open(filename, 'w')
+    for start in range(len(start_positions)):
+        f.write('%d ' % start_positions[start])
+    f.write('\n')
+
+    for row in range(spike_trains.shape[0]):
+        for col in range(spike_trains.shape[1]):
+            f.write('%0.1d ' % spike_trains[row, col])
+        f.write('\n')
+    f.write('\n\n')
+    f.close()
+
+
 if __name__ == '__main__':
     sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
-    spike_trains = sample['spike_trains']
-    mpl.imshow(spike_trains[0:2000, 0:2000],
-               interpolation='nearest',
-               cmap=mpl.cm.Greys)
-    mpl.title('Spike Trains')
-    mpl.ylabel('# Afferent')
-    mpl.xlabel('Time (ms)')
-    mpl.show()
+    filename = "samples/{}_{}.txt".format(NUM_NEURONS, TOTAL_MS)
+    save_sample(filename, sample)
+
+    # spike_trains = sample['spike_trains']
+    # mpl.imshow(spike_trains[0:2000, 0:2000],
+    #            interpolation='nearest',
+    #            cmap=mpl.cm.Greys)
+    # mpl.title('Spike Trains')
+    # mpl.ylabel('# Afferent')
+    # mpl.xlabel('Time (ms)')
+    # mpl.show()
