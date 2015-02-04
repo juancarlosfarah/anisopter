@@ -8,6 +8,7 @@
 *.orig
 \#*
 .\#*
+
 # LaTeX Files
 # ===========
 *.out
@@ -16,5 +17,9 @@
 *.synctex.gz
 
 # IDEA files
+# ==========
 *.idea
 
+# Virtual Environment
+# ===================
+venv
