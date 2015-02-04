@@ -3,6 +3,7 @@
 
 \usepackage[nodayofweek]{datetime}
 \usepackage{cite}
+\usepackage{graphicx}
 \longdate
 
 \usepackage{fancyhdr}
@@ -34,30 +35,42 @@ The high­ level idea of the project is to employ the principle used by the CSTM
 
 
 \section{Specification}
-	\subsection{Goals}	
+	\subsection{Goal-Oriented Capture}
+	We brainstormed using Goal-Oriented capture in order to determine the requirements for our project. Below is a chart that portrays this process.	
+		
+	\begin{center}
+	\includegraphics[scale = 0.5]{goalorient}	
+	\end{center}
+
+	\subsection{Minimum Requirements (Stage 1)}
 	
-In order to build an embodied agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, three main objectives need to be completed:
+	The goal-oriented capture enabled us to establish some minimum requirements for the completion of the project. In order to build an agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, three main objectives need to be completed:
 \begin{enumerate}
-	\item We need to connect the visual input of the agent (in the form 	of either a camera input or a constructed animation) to the CSTMD1 neurons. This will involve:
+	\item (1A) We need to connect the visual input of the agent (in the form 	of either a camera input or a constructed animation) to the modelled CSTMD1 neurons. This will involve:
 	\begin{enumerate}
-		\item Building an approximate model of the visual processing that occurs between the retina and the actual CSTMD1 neurons of a real dragonfly.
+		\item Building a model of the visual processing that occurs between the retina and the actual CSTMD1 neurons of a real dragonfly.
 		\item Deciding how many CSTMD1 neurons we will use and how exactly to connect them to the output of our visual pre-processing.
-		\item Once connected, test the system for various inputs from simple animations to see if we can recreate the selectivity between two targets observed in actual CSTMD1 neurons (Wiederman and O'Carroll 2013)
+		\item Once connected, test the system for various inputs from simple animations to see if we can recreate the selectivity between two targets observed in actual CSTMD1 neurons. ~\cite{w13}
 	\end{enumerate}
-	\item We need to build an action-selection mechanism. TODO
-	\item We need to connect the visual system to the action-selection mechanism
+	\item (1B) We need to build a layer of pattern recognition neurons that can decode the output of the CSTMD1 neuron.
+	\item (1C) We need to integrate the visual processing and the pattern recognition system and add a simple action selection mechanism. For the minimum requirement, we will need two neurons that take input from the pattern recognition system that fire when the dragonfly chooses to go left or right respectively to catch a target.
 \end{enumerate} 
  
-Visual processing (1)
-Having done extensive research into the visual processing of the dragonfly, we are most likely going to base our model on one implemented in Discrete Implementation of Biologically Inspired Image Processing for Target Detection (Halupka, et al. 2011). In this paper, they attempt to convert a biologically accurate but computationally intensive model of insect vision into an approximate series of transformations that can be run in real time. The stages of the model are summarised in the figure below from the thesis of one of the co-authors of the above paper, Steven Wiederman:
-
- (S. Wiederman 2009)
+ 	\subsection{Expected implementation (Stage 2)}
+ 	
+ 	Beyond the minimum requirements, we expect to enhance the action selection mechanism in order to give a more complex reaction to targets in the visual field . This will involve:
+ \begin{enumerate}
+ 	\item Creating virtual 3D environment for dragonfly agent.
+ 	\item Enhancing the action selection mechanism to have at least 12 output neurons, giving the dragonfly 12 degrees of motion (6 for rotation and 6 for translation).
+ 	\item Employing reinforcement learning in the action selection mechanism to train the agent to move more effectively towards the target.
+ \end{enumerate}
  
-The stages above will be programmed in Python using built-in libraries and also with the help of OpenCV.
-The next step will be to decide how to connect this eSTMD (elementary Small Target Motion detector) output to a layer of CSTMD1 neurons. The CSTMD1 neurons are programmed using a package for Python called NEURON (http://www.neuron.yale.edu/neuron/) and so an understanding of the functionalities of this package will be necessary to effectively connect the neurons.
-The final part of this stage will be to run experiments by inputting animations of several targets in the agent’s visual field and observing whether the resulting output appears to be a combination of the output of each target being passed into the visual field separately, or whether it more closely resembles a selection of one of the targets. This will be done by regressing the plots of spike rate over time of the experiment run on individual targets and simultaneous targets.
-
-
+ 	\subsection{Possible extensions (Stage3)}
+ 	
+ 	Beyond the expected implementation, there are numerous ways we have thought of to extend the project:
+ \begin{enumerate}
+ 	\item Embody the agent in a quadcopter drone (owned by the Neurodynamics lab).
+ \end{enumerate}
 
 \section{Another section}
 
@@ -80,25 +93,62 @@ and 5 pages, while Report Two should be between 2 and 4 pages
 Please use this template as a starting point.
 
 
-\section{And maybe one more}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\section{Work Allocation}
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\subsection{Organisation}
+
+
+Juan Carlos Farah was selected to become Group Leader, due his experiece in organisation and software development.
+
+He took responsibility for project coordination and code integration.
+
+
+Our project is split in two stages. Stage one and two. We are allocating team members on rolling basis, however in
+
+stage one our team is split in two sub-groups. One sub-group is working on action selection, while other is working
+
+on dragonfly neurons. We assigned members according to estimation of how long each part will take.
+
+
+The table below shows how we have allocated work so far:
+
+
+\begin{table}[ht]
+
+\centering % used for centering table
+
+\begin{tabular}{l c c c c c} % centered columns (4 columns)
+
+%inserts double horizontal lines
+
+& Leader & Stage 1A & Stage 1B & Stage 2 & Stage 3\\ [0.5ex] % inserts table
+
+%heading
+
+\hline % inserts single horizontal line
+
+Juan Carlos Farah & x & & x & x & x \\ % inserting body of the table
+
+Erik Grabljevec & & x & & x & x \\
+
+Christos Kaplanis & & x & & x & x \\
+
+Panagiotis Almpouras & & & x & x & x \\
+
+Ioannis Kasidakis & & x & & x & x \\ [1ex] % [1ex] adds vertical space
+
+\end{tabular}
+
+\label{table:nonlin} % is used to refer this table in the text
+
+\end{table}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{And maybe another one}
