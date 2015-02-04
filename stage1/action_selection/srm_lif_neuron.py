@@ -195,10 +195,22 @@ def update_epsp_inputs(epsps, spikes, weights):
     :param weights: Vector of current synaptic weights.
     :return:
     """
+
+    # Number of neurons.
+    num_neurons = epsps.shape[0]
+
+    # Flush EPSP for neurons that fired.
+    for i in range(0, num_neurons):
+        if spikes[i] == 1:
+            epsps[i, :] = 0
+
     weighted = np.multiply(spikes, weights)
     epsps = np.hstack((epsps, weighted))
 
+    # Length of new EPSP window.
     width = epsps.shape[1]
+
+    # Clamp neuron to learning window.
     if width > T_WINDOW:
         window_start = width - T_WINDOW
         epsps = epsps[:, window_start:width]
@@ -452,7 +464,7 @@ def plot_stdp():
 # Run Sample Test without STDP
 # ============================
 # Set parameters.
-num_neurons = 1000
+num_neurons = 2000
 test_length = 50000
 pattern_len = 50
 
