@@ -15,8 +15,8 @@
 
 \title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Report One ---}}
 \author{Juan Carlos Farah, Panos Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
-       \{jcf214, pa512, ik311, eg???, ck2714\}@doc.ic.ac.uk\\ \\
-       \small{Supervisor: Professor Murray Shanahan}\\
+       \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
+       \small{Co-supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Martinez-Mediano}\\
        \small{Course: CO530/533, Imperial College London}
 }
 
@@ -25,32 +25,38 @@
 
 \section{Introduction}
 
-Motion detection in computer vision has been significantly influenced by the mechanisms of biological insect vision. Dragonflies, in particular, are notoriously effective at prey capture, making the neural processes that underlie In this project, we will attempt to reproduce the target selection mechanism used in a dragonfly by modeling it and implementing it in a biomimetic agent. 
-The centrifugal small ­target motion detector neuron 1 (CSTMD1) is a higher ­order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism ~\cite{w13}. At Professor Shanahan’s lab, they have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi­compartmental Hodgkin and Huxley model. Along with Klaus Stiefel (Neuromorphic Engineering Workshop, 2013 Telluride, USA), they found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.
+Methods in computer vision have been significantly influenced by the mechanisms of biological insect vision. Our goal in this project is to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent. Dragonflies are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate. 
 
-The high­ level idea of the project is to employ the principle used by the CSTMD1 neuron in a biomimetic agent that behaves like a dragonfly showing attention-­like target selection when performing a simple foraging task.
+The centrifugal small ­target motion detector neuron 1 (CSTMD1) is a higher ­order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism \cite{w13}. At Professor Shanahan's lab, they have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi­compartmental Hodgkin and Huxley model. Along with Klaus Stiefel \cite{ne13}, they found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.
+
+The high­ level idea of the project is to employ the principle used by the CSTMD1 neuron in a biomimetic agent that behaves like a dragonfly, showing attention-­like target selection when performing a simple foraging task.
 
 
 
-\section{Another section}
+\section{Specification}
+	\subsection{Goals}	
+	
+In order to build an embodied agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, three main objectives need to be completed:
+\begin{enumerate}
+	\item We need to connect the visual input of the agent (in the form 	of either a camera input or a constructed animation) to the CSTMD1 neurons. This will involve:
+	\begin{enumerate}
+		\item Building an approximate model of the visual processing that occurs between the retina and the actual CSTMD1 neurons of a real dragonfly.
+		\item Deciding how many CSTMD1 neurons we will use and how exactly to connect them to the output of our visual pre-processing.
+		\item Once connected, test the system for various inputs from simple animations to see if we can recreate the selectivity between two targets observed in actual CSTMD1 neurons (Wiederman and O'Carroll 2013)
+	\end{enumerate}
+	\item We need to build an action-selection mechanism. TODO
+	\item We need to connect the visual system to the action-selection mechanism
+\end{enumerate} 
+ 
+Visual processing (1)
+Having done extensive research into the visual processing of the dragonfly, we are most likely going to base our model on one implemented in Discrete Implementation of Biologically Inspired Image Processing for Target Detection (Halupka, et al. 2011). In this paper, they attempt to convert a biologically accurate but computationally intensive model of insect vision into an approximate series of transformations that can be run in real time. The stages of the model are summarised in the figure below from the thesis of one of the co-authors of the above paper, Steven Wiederman:
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+ (S. Wiederman 2009)
+ 
+The stages above will be programmed in Python using built-in libraries and also with the help of OpenCV.
+The next step will be to decide how to connect this eSTMD (elementary Small Target Motion detector) output to a layer of CSTMD1 neurons. The CSTMD1 neurons are programmed using a package for Python called NEURON (http://www.neuron.yale.edu/neuron/) and so an understanding of the functionalities of this package will be necessary to effectively connect the neurons.
+The final part of this stage will be to run experiments by inputting animations of several targets in the agent’s visual field and observing whether the resulting output appears to be a combination of the output of each target being passed into the visual field separately, or whether it more closely resembles a selection of one of the targets. This will be done by regressing the plots of spike rate over time of the experiment run on individual targets and simultaneous targets.
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
-
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
 
 
 \section{Another section}
@@ -136,7 +142,7 @@ and 5 pages, while Report Two should be between 2 and 4 pages
 11-point font size, with 2cm margins all around, and spaced normally.
 Please use this template as a starting point.
 
-\bibliography{report1bib}{}
+\bibliography{report1}{}
 \bibliographystyle{plain}
 
 
