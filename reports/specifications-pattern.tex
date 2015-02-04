@@ -1,0 +1,73 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+\begin{document}
+
+\section{Specifications}
+Tasks are given a priority ranging from one (highest) to three (lowest).
+
+\subsection{Stage 1A: Visual Pre-processing}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Do something minor. & 3 & 1 \\
+	Do something normal. & 2 & 1 \\
+	Do something major. & 1 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 1B: Pattern Recognition}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Consolidate Spike-Response Model neuron as a Python class. & 2 & 1 \\
+	Consolidate pattern and noise sample generators as a Python class. & 2 & 1 \\
+	Design and implement unit tests for neuron. & 2 & 1 \\
+	Design and implement unit tests for generators. & 2 & 1 \\
+	Add the ability to save and load samples for testing. & 3 & 1 \\
+	Make single pattern recognition neuron into an module. & 1 & 1 \\
+	Extend single pattern recognition neuron to model competing patterns. & 1 & 1 \\
+	Analyse impact of varying noise on pattern recognition neurons. & 2 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 1C: Integration}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Define the points of integration between both modules. & 1 & 2 \\
+	Design unit tests for connecting neurons. & 1 & 2 \\    
+	Connect visual pre-processing neurons to pattern recognition neurons. & 1 & 2 \\    
+	Implement unit tests for sample visual input. & 2 & 2 \\
+	Implement unit tests for sample visual input. & 2 & 2 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 2: Action-Selection Mechanism}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Define actions to be taken by the biomimetic agent. & 1 & 3 \\
+	Create tests to measure success of action taken given input. & 2 & 3 \\ 
+	Design basic environment for simulated agent. & 1 & 3 \\
+	Implement basic environment for simulated agent. & 1 & 4 \\
+	Implement unit tests to ensure integrity with rest of the system. & 2 & 4 \\
+	Extend simulated environment to approach behaviour in nature. & 3 & 4 \\
+	Run extended tests with various inputs and refine mechanism. & 2 & 5 \\
+	Analyse how results compare to the literature. & 2 & 5 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 3: Embodiment of Agent for Real-World Interaction}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Prepare software in agent for prototyping. & 1 & 6 \\
+	Set wireless real-time connection between GPU and agent. & 1 & 6 \\
+	Define measure of success for agent's interaction with its environment. & 1 & 6 \\
+	Write unit tests for sample simulations in agent's operating system. & 1 & 6 \\
+	Test agent in predefined real-world environment. & 1 & 7 \\
+	Analyse effect of different targets on success of agent. & 1 & 7 \\
+    \end{tabular}
+\end{center}
+
+\end{document}
