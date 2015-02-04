@@ -23,7 +23,7 @@ SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
 REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
-INVOLVEMENT_RATIO = 1.0         # Ratio of afferents involved in the pattern.
+INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
 NOISE = 10.0                    # Noise in Hz.
 
 R_MIN = 0.0                     # Minimum firing rate in Hz.
@@ -55,15 +55,17 @@ def generate_spike_train(duration, period):
         p = r * DT
 
         # Ensure that all afferent spikes at least once every given period.
-        spike_sum = np.sum(spike_train[max(i - period, 0): i + 1])
+        if i >= period:
+            spike_sum = np.sum(spike_train[i - period: i])
+        else:
+            spike_sum = 1
+
         if spike_sum < 1:
             spike_train[i] = 1
 
         # Fire if p is > random number between 0 and 1.
         elif p > np.random.uniform(0, 1):
             spike_train[i] = 1
-        else:
-            spike_train[i] = 0
 
         # Calculate change in r, apply and clip.
         dr = s * DT
@@ -178,9 +180,10 @@ def generate_sample(num_neurons,
     starts.sort()
 
     # Insert the pattern at start positions.
+    num_neurons_in_pattern = num_neurons * involvement_ratio
     for left in starts:
         right = left + pattern_duration
-        spike_trains[:num_neurons * involvement_ratio, left: right] = pattern
+        spike_trains[:num_neurons_in_pattern, left: right] = pattern
 
     # Add noise to all spike trains.
     for i in range(num_neurons):
@@ -218,7 +221,7 @@ def get_start_positions(pattern_len, bg_len, reps):
         # Check that it is a valid start position given
         # the existing start positions in the list.
         for pos in start_positions:
-            if math.fabs(pos - start_pos) < pattern_len * 2.5:
+            if math.fabs(pos - start_pos) < pattern_len * 2:
                 is_valid_start = False
 
         # Only insert pos if it is a valid start position.

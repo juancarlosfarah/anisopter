@@ -12,6 +12,7 @@ from matplotlib.patches import Rectangle
 import math
 import pattern_generator
 import poisson_pattern_generator
+from copy import deepcopy
 
 """
 Simulate a leaky integrate-and-fire (LIF) neuron following the
@@ -41,6 +42,9 @@ PATTERN_LEN = 50            # Length of pattern.
 
 # Set Seed
 # np.random.seed(1)
+
+# TODO: Integrate this global variable.
+non_weighted_neurons = np.ones((1000, 1), dtype=int)
 
 # Sample Neuron
 # =============
@@ -95,11 +99,15 @@ def update_weights(spike_trains, weights, time_delta):
         spikes = np.reshape(spikes, (num_neurons, 1))
 
         # Get LTD change for pre-synaptic neurons that just spiked.
-        weight_delta = calculate_ltd(time_delta) * spikes
+        global non_weighted_neurons
+        neurons_to_weigh = np.multiply(spikes, non_weighted_neurons)
+        weight_delta = calculate_ltd(time_delta) * neurons_to_weigh
 
         # Add weight delta and clip weights so that they are not < WEIGHT_MIN.
         weights += weight_delta
         weights[weights < WEIGHT_MIN] = WEIGHT_MIN
+        non_weighted_neurons = np.multiply(non_weighted_neurons,
+                                           np.logical_not(spikes))
 
     return weights
 
@@ -112,10 +120,9 @@ def calculate_time_delta(spike_train):
     """
     start = 0
     end = len(spike_train) - 1
-    step = T_STEP * -1
 
     # Find the nearest spike in the spike train.
-    for ms in range(end, start - 1, step):
+    for ms in range(end, start - 1, -T_STEP):
         if spike_train[ms] == 1:
             return ms - end
 
@@ -165,7 +172,7 @@ def calculate_ltd(time_delta):
     if math.fabs(time_delta) > LTD_WINDOW:
         return 0
 
-    return -1 * A_MINUS * math.exp(-time_delta / T_MINUS)
+    return -A_MINUS * math.exp(-time_delta / T_MINUS)
 
 
 def calculate_heavyside_step(delta):
@@ -189,10 +196,7 @@ def update_epsp_inputs(epsps, spikes, weights):
     :return:
     """
     weighted = np.multiply(spikes, weights)
-    if epsps.size == 0:
-        epsps = weighted
-    else:
-        epsps = np.hstack((epsps, weighted))
+    epsps = np.hstack((epsps, weighted))
 
     width = epsps.shape[1]
     if width > T_WINDOW:
@@ -229,7 +233,7 @@ def calculate_psp(time, last_spike, theta=THETA):
     :param last_spike: Time of last spike of post-synaptic neuron.
     :return: Value of the effect.
     """
-    delta = time - last_spike
+    delta = math.fabs(time - last_spike)
     if delta > T_WINDOW:
         return 0
     hss = calculate_heavyside_step(delta)
@@ -448,8 +452,8 @@ def plot_stdp():
 # Run Sample Test without STDP
 # ============================
 # Set parameters.
-num_neurons = 2000
-test_length = 15000
+num_neurons = 1000
+test_length = 50000
 pattern_len = 50
 
 sample = poisson_pattern_generator.generate_sample(num_neurons,
@@ -459,14 +463,14 @@ spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
 
 # Initialise weights.
-weights = np.random.normal(0.5, 0.14, (num_neurons, 1))
+weights = np.random.normal(0.475, 0.1, (num_neurons, 1))
 weights[weights < WEIGHT_MIN] = WEIGHT_MIN
 weights[weights > WEIGHT_MAX] = WEIGHT_MAX
 
 epsilons = calculate_epsilons()
 
 # Container for EPSP input contributions of each afferent.
-epsp_inputs = np.array([])
+epsp_inputs = np.zeros((num_neurons, 1))
 
 # Create container for results.
 ps = [T_MIN for i in range(test_length + 1)]
@@ -495,9 +499,9 @@ for i in range(0, neuron_sample_size):
 for ms in range(0, test_length - 1):
     spikes = spike_trains[:, ms]
     spikes = np.reshape(spikes, (num_neurons, 1))
-    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, weights)
     p = calculate_membrane_potential(epsp_inputs, epsilons,
                                      ms, last_spike, THETA)
+    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, weights)
 
     # Here we're posting the potential to the next ms.
     # TODO: Confirm with Pedro if this makes sense.
@@ -506,7 +510,7 @@ for ms in range(0, test_length - 1):
     # Get relevant spikes for weight updating in LTP.
     ltp_window_start = max(0, ms - LTP_WINDOW)
     ltp_window_end = ms + 1
-    spikes = spike_trains[:, ltp_window_start:ltp_window_end]
+    spikes = deepcopy(spike_trains[:, ltp_window_start:ltp_window_end])
 
     # Record sample neurons' weight at this point.
     for i in range(0, neuron_sample_size):
@@ -525,7 +529,8 @@ for ms in range(0, test_length - 1):
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
     if p >= THETA and math.fabs(time_delta) > 1:
         last_spike = ms + 1
-        epsp_inputs = np.array([])
+        epsp_inputs = np.zeros((num_neurons, 1))
+        non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
 
 # Plot final weight distribution.
 plot_weights(weights, test_length, rows, current_frame=frame, bin_size=bin_size)
