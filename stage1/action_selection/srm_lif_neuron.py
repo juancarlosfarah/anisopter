@@ -495,7 +495,7 @@ last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
 
 # Values for plotting weights.
 frame = 1
-frames = 10
+frames = 5
 bin_size = 50
 frame_step = test_length / frames
 rows = frames + 1
