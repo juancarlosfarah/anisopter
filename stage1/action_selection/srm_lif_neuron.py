@@ -472,7 +472,7 @@ pattern_len = 50
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
 #                                                    test_length,
 #                                                    pattern_len)
-sample = poisson_pattern_generator.load_sample("samples/2000_1000.txt")
+sample = poisson_pattern_generator.load_sample("samples/2000_5000.txt.npz")
 spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
 
