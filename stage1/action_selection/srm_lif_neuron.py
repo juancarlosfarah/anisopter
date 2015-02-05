@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import math
 import pattern_generator
+import sys
 import poisson_pattern_generator
 from copy import deepcopy
 
@@ -546,6 +547,11 @@ for ms in range(0, test_length - 1):
         if math.fabs(time_delta == 0):
             epsp_inputs = np.zeros((num_neurons, 1))
             non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
+
+    # Progress bar.
+    progress = (ms / float(test_length - 1)) * 100
+    sys.stdout.write("Processing spikes: %d%% \r" % progress)
+    sys.stdout.flush()
 
 # Plot final weight distribution.
 plot_weights(weights, test_length, rows, current_frame=frame, bin_size=bin_size)
