@@ -18,7 +18,7 @@ Constants
 DT = 0.001                      # Time step in seconds.
 SPIKES_PER_S = 64               # spikes per second, on average
 F_PROB = SPIKES_PER_S * DT      # probability of a neuron firing in a timestep
-TOTAL_MS = 150000               # Length of sample.
+TOTAL_MS = 5000               # Length of sample.
 SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
@@ -293,13 +293,9 @@ def get_start_positions(pattern_len, bg_len, reps):
 #
 #     return rvalue
 
-
+"""
 def load_sample(filename):
-    """
-
-    :param filename:
-    :return:
-    """
+    #TODO: erase this function 
     f = open(filename)
 
     spike_trains = np.array([])
@@ -322,15 +318,23 @@ def load_sample(filename):
     rvalue['start_positions'] = start_positions
 
     return rvalue
+"""
 
-
-def save_sample(filename, sample):
+def load_sample(filename):
     """
 
     :param filename:
-    :param sample:
     :return:
     """
+
+    rvalue = np.load(filename)
+
+    return rvalue
+
+"""
+def save_sample(filename, sample):
+    #TODO: Erase this function    
+    #Old version
     start_positions = sample['start_positions']
     spike_trains = sample['spike_trains']
     f = open(filename, 'w')
@@ -344,6 +348,17 @@ def save_sample(filename, sample):
         f.write('\n')
     f.write('\n\n')
     f.close()
+"""
+
+def save_sample(filename, sample):
+    """
+    :param filename:
+    :param sample:
+    :return:
+    """
+    start_positions = sample['start_positions']
+    spike_trains = sample['spike_trains']
+    np.savez(filename,start_positions=start_positions,spike_trains=spike_trains)
 
 
 if __name__ == '__main__':
