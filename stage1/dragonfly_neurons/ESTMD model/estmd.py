@@ -36,21 +36,13 @@ while(True):
     frame_history.append(downsize)
     if len(frame_history) < LMC_rec_depth:
         continue
-    
-    # LMC filter
-    #    if 0.005 < t < 0.055:
-    #        print "Before: "
-    #        print downsize
+
 
     b = [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]
     a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
     n = LMC_rec_depth
 
     downsize = signal.lfilter(b, a, frame_history[-n:])[-1]
-
-    #    if 0.005 < t < 0.055:
-    #        print "After: "
-    #        print downsize
 
     # Convert to float
     downsize = downsize.astype(float) #/ 256.0
@@ -103,11 +95,18 @@ while(True):
     v_neg = cv2.filter2D(v_neg, -1, H_filter) 
     
     # TO DO: figure out if you turn negative to 0 or to absolute value.
-    v_pos[v_pos < 0] = -v_pos[v_pos < 0]
-    v_neg[v_neg < 0] = -v_neg[v_neg < 0]
+    v_pos[v_pos < 0] = 0
+    v_neg[v_neg < 0] = 0
+
+    #b1 = [1.0, 1.0]
+    #a1 = [51.0, -49.0]
+    #v_neg = signal.lfilter(b1, a1, [v_neg_prev, v_neg])[-1]
 
     downsize = v_neg * v_pos
-    
+    downsize = np.tanh(downsize + 1)
+    if 0.005 < t < 0.015:
+        print downsize
+
     # Show image.
     cv2.imshow('frame', downsize)
 
