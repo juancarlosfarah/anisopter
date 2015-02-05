@@ -466,13 +466,13 @@ def plot_stdp():
 # ============================
 # Set parameters.
 num_neurons = 2000
-test_length = 150000
+test_length = 1000
 pattern_len = 50
 
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
 #                                                    test_length,
 #                                                    pattern_len)
-sample = poisson_pattern_generator.load_sample("samples/2000_150000.txt")
+sample = poisson_pattern_generator.load_sample("samples/2000_1000.txt")
 spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
 
@@ -541,12 +541,10 @@ for ms in range(0, test_length - 1):
 
     # If threshold has been met and more than 1 ms has elapsed since
     # the last post-synaptic spike, schedule a spike and flush EPSPs.
-    if p >= THETA:
-        if math.fabs(time_delta) > 1:
-            last_spike = ms + 1
-        if math.fabs(time_delta == 0):
-            epsp_inputs = np.zeros((num_neurons, 1))
-            non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
+    if p >= THETA and math.fabs(time_delta) > 1:
+        last_spike = ms + 1
+        epsp_inputs = np.zeros((num_neurons, 1))
+        non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
 
     # Progress bar.
     progress = (ms / float(test_length - 1)) * 100
