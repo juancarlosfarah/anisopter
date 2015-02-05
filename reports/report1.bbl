@@ -2,11 +2,17 @@
 
 \bibitem{ne13}
 Zafeirios Fountas.
-\newblock Neuromorphic engineering workshop, 2013.
+\newblock {Neuromorphic Engineering Workshop}, 2013.
+
+\bibitem{hal11}
+K.J. Halupka, S.D. Wiederman, B.S. Cazzolato, and D.C. O'Carroll.
+\newblock { Discrete implementation of biologically inspired image processing
+  for target detection }.
+\newblock 2011.
 
 \bibitem{w13}
 Steven Wiederman and David O'Carroll.
-\newblock Selective attention in an insect visual neuron.
+\newblock {Selective Attention in an Insect Visual Neuron}.
 \newblock {\em Current Biology}, 2013.
 
 \end{thebibliography}

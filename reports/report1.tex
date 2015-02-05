@@ -17,7 +17,7 @@
 \title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Report One ---}}
 \author{Juan Carlos Farah, Panos Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
        \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
-       \small{Co-supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Martinez-Mediano}\\
+       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Martinez-Mediano}\\
        \small{Course: CO530/533, Imperial College London}
 }
 
@@ -26,21 +26,22 @@
 
 \section{Introduction}
 
-Methods in computer vision have been significantly influenced by the mechanisms of biological insect vision. Our goal in this project is to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent. Dragonflies are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate. 
+Our goal in this project is to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent. Dragonflies are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate. 
 
 The centrifugal small ­target motion detector neuron 1 (CSTMD1) is a higher ­order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism \cite{w13}. At Professor Shanahan's lab, they have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi­compartmental Hodgkin and Huxley model. Along with Klaus Stiefel \cite{ne13}, they found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.
 
 The high­ level idea of the project is to employ the principle used by the CSTMD1 neuron in a biomimetic agent that behaves like a dragonfly, showing attention-­like target selection when performing a simple foraging task.
 
-
-
 \section{Specification}
-	\subsection{Goal-Oriented Capture}
-	We brainstormed using Goal-Oriented capture in order to determine the requirements for our project. Below is a chart that portrays this process.	
+We brainstormed using Goal-Oriented capture in order to determine the requirements for our project. Below is a chart that portrays this process.	
 		
+	
+	\begin{figure}
 	\begin{center}
-	\includegraphics[scale = 0.5]{goalorient}	
+	\includegraphics[scale = 0.5]{goalorient}
 	\end{center}
+	\end{figure}	
+	
 
 	\subsection{Minimum Requirements (Stage 1)}
 	
@@ -50,9 +51,9 @@ The high­ level idea of the project is to employ the principle used by the CSTM
 	\begin{enumerate}
 		\item Building a model of the visual processing that occurs between the retina and the actual CSTMD1 neurons of a real dragonfly.
 		\item Deciding how many CSTMD1 neurons we will use and how exactly to connect them to the output of our visual pre-processing.
-		\item Once connected, test the system for various inputs from simple animations to see if we can recreate the selectivity between two targets observed in actual CSTMD1 neurons. ~\cite{w13}
+		\item Once connected, test the system for various inputs from simple animations to see if we can recreate the selectivity between two targets observed in actual CSTMD1 neurons \cite{w13}.
 	\end{enumerate}
-	\item (1B) We need to build a layer of pattern recognition neurons that can decode the output of the CSTMD1 neuron.
+	\item (1B) We need to build a layer of pattern recognition neurons that can decode the output of the CSTMD1 neurons.
 	\item (1C) We need to integrate the visual processing and the pattern recognition system and add a simple action selection mechanism. For the minimum requirement, we will need two neurons that take input from the pattern recognition system that fire when the dragonfly chooses to go left or right respectively to catch a target.
 \end{enumerate} 
  
@@ -60,38 +61,108 @@ The high­ level idea of the project is to employ the principle used by the CSTM
  	
  	Beyond the minimum requirements, we expect to enhance the action selection mechanism in order to give a more complex reaction to targets in the visual field . This will involve:
  \begin{enumerate}
- 	\item Creating virtual 3D environment for dragonfly agent.
- 	\item Enhancing the action selection mechanism to have at least 12 output neurons, giving the dragonfly 12 degrees of motion (6 for rotation and 6 for translation).
+ 	\item Creating a virtual 3D environment for dragonfly agent.
+ 	\item Enhancing the action selection mechanism to have at least 12 output neurons, giving the dragonfly 6 degrees of freedom (3 for rotation and 3 for translation).
  	\item Employing reinforcement learning in the action selection mechanism to train the agent to move more effectively towards the target.
  \end{enumerate}
  
- 	\subsection{Possible extensions (Stage3)}
+ 	\subsection{Possible extensions (Stage 3)}
  	
- 	Beyond the expected implementation, there are numerous ways we have thought of to extend the project:
+ 	Beyond the expected implementation, these are ways we have thought of to extend the project:
  \begin{enumerate}
- 	\item Embody the agent in a quadcopter drone (owned by the Neurodynamics lab).
+ 	\item Implement the agent in a quadcopter drone (owned by the Neurodynamics lab).
+ 	\item Replace normal camera with an event-based camera to more realistically emulate the dragonfly retina.
+ 	\item Improve user interface of virtual simulation environment (allow user to change number and speed of targets etc. 
  \end{enumerate}
 
-\section{Another section}
+\section{Development Methodology}
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\subsection{Project Management}
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\subsubsection{Agile Scrum}
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+Given the complexity of our project and its division into clear working stages, we chose to apply the Scrum Methodology of Agile Development as our project management framework.
 
+\subsubsection{Sprints}
+The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Martínez, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using Trello, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
+
+\subsubsection{Stand Ups}
+Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand ups are later addressed by the Team Leader.
+
+\subsection{Collaboration Tools}
+
+\subsubsection{Communication Channels}
+All of our communication is conducted using Slack, which allows team members visibility to all aspects of the project. Relevant information is shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
+
+\subsubsection{Version Control}
+We are using Git as our version control system, hosting our remote repository on GitLab, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
+
+\section{Task scheduling}
+\subsection{Stage 1A: Visual Pre-processing}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Implement visual pre-processing chain based on \cite{hal11} & 1 & 1 \\
+	Connect output of pre-processing to CSTMD1. & 1 & 1\\
+	Replicate experiment in \cite{w13}. & 1 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 1B: Pattern Recognition}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Consolidate Spike-Response Model neuron as a Python class. & 2 & 1 \\
+	Consolidate pattern and noise sample generators as a Python class. & 2 & 1 \\
+	Design and implement unit tests for neuron model. & 2 & 1 \\
+	Design and implement unit tests for generators. & 2 & 1 \\
+	Add the ability to save and load samples for testing. & 3 & 1 \\
+	Make single pattern recognition neuron into a module. & 1 & 1 \\
+	Extend single pattern recognition neuron to a model of competing patterns. & 1 & 1 \\
+	Analyse impact of varying noise on pattern recognition neurons. & 2 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 1C: Integration and Basic Action Selection}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Define the points of integration between both modules. & 1 & 2 \\
+	Design unit tests for connecting neurons. & 1 & 2 \\    
+	Connect visual pre-processing neurons to pattern recognition neurons. & 1 & 2 \\
+	Implement two action selection neurons. & 1 & 2\\
+	Train action selection neurons with reinforcement learning & 1 & 2\\    
+	Implement unit tests for sample visual input. & 2 & 2 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 2: Enhanced Action Selection Mechanism}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Define range of actions available to the biomimetic agent. & 1 & 3 \\
+	Create tests to measure success of action taken given input. & 1 & 3 \\ 
+	Design basic environment for simulated agent. & 1 & 3 \\
+	Implement basic environment for simulated agent. & 1 & 4 \\
+	Implement unit tests to ensure integrity with rest of the system. & 2 & 4 \\
+	Extend simulated environment to approach behaviour in nature. & 3 & 4 \\
+	Run extended tests with various inputs and refine mechanism. & 2 & 5 \\
+	Analyse how results compare to the literature. & 2 & 5 \\
+    \end{tabular}
+\end{center}
+
+\subsection{Stage 3: Embodiment of Agent for Real-World Interaction}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Prepare software in agent for prototyping. & 3 & 6 \\
+	Set wireless real-time connection between GPU and agent. & 3 & 6 \\
+	Define measure of success for agent's interaction with its environment. & 3 & 6 \\
+	Write unit tests for sample simulations in agent's operating system. & 3 & 6 \\
+	Test agent in predefined real-world environment. & 3 & 7 \\
+	Analyse effect of different targets on success of agent. & 3 & 7 \\
+    \end{tabular}
+\end{center}	
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -102,20 +173,10 @@ Please use this template as a starting point.
 \subsection{Organisation}
 
 
-Juan Carlos Farah was selected to become Group Leader, due his experiece in organisation and software development.
+Juan Carlos Farah was selected to become Group Leader, due his experience in organisation and software development. He took responsibility for project coordination and code integration.
 
-He took responsibility for project coordination and code integration.
-
-
-Our project is split in two stages. Stage one and two. We are allocating team members on rolling basis, however in
-
-stage one our team is split in two sub-groups. One sub-group is working on action selection, while other is working
-
-on dragonfly neurons. We assigned members according to estimation of how long each part will take.
-
-
+Our project is split in two stages. Stage one and two. We are allocating team members on rolling basis, however in stage one our team is split in two sub-groups. One sub-group is working on action selection, while other is working on dragonfly neurons. We assigned members according to estimation of how long each part will take.
 The table below shows how we have allocated work so far:
-
 
 \begin{table}[ht]
 
@@ -147,55 +208,25 @@ Ioannis Kasidakis & & x & & x & x \\ [1ex] % [1ex] adds vertical space
 
 \end{table}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Project Boundaries}
 
-\section{And maybe another one}
+\subsection{Software}
+The development of the code is done in Python. The numpy library is particularly useful for the purposes of this project as, among other features, it provides functions for fast matrix manipulations.
+To appropriately process the visual input (from the camera), we will use OpenCV for spatial transforms and the scipy library for temporal filters. This way we can discard irrelevant information before the frames of the input are sent for processing.
+The CSTMD1 neuron is modelled using NEURON, a simulation environment created by Yale University, which has the power to very accurately model individual neurons. We are learning to use this library in order to connect the CSTMD1s to our other neurons.
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\subsection{Hardware}
+If we are to have the agent running in real time or close to real time, it will require a lot of computer processing power. Although the prototyping will be done using the virtual machine we were provided, at a later stage we will have to use the GPU accelerated computer located in the Neurodynamics lab.
+To make an actual drone behave like a dragonfly, it will have to be equipped with a camera. The input signal will be sent to the GPU for processing which in turn would send back instructions to the drone with the required movement it has to make. This constant exchange of information between the drone and the remote GPU is highly likely to create delay in the response of the drone to the movement of the target. Thus, this is one of the limitations of this project. A more accurate realistic application would require a light weight and at the same powerful GPU to be installed on the drone so that all required computations can be done locally. 
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
+\subsection{Audience}
+This project is mostly relevant to academic research in the field of Computational Neuroscience. The ultimate goal is to publish an academic paper based on this project.
 
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
-
-
-\section{Final section}
-
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
-
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
-
-The contents of your report goes here.  Report One should be between 2
-and 5 pages, while Report Two should be between 2 and 4 pages
-(excluding the appendix).  Reports should be typed in Latex, using an
-11-point font size, with 2cm margins all around, and spaced normally.
-Please use this template as a starting point.
 
 \bibliography{report1}{}
 \bibliographystyle{plain}
-
-
 
 \end{document}
 
