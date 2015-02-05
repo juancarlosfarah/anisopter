@@ -1,0 +1,41 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[nodayofweek]{datetime}
+\usepackage{cite}
+\longdate
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{M.Sc.\ Group Project Report}}
+\rhead{\fancyplain{}{\today}}
+\cfoot{\fancyplain{}{\thepage}}
+
+
+\title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Report One ---}}
+\author{Juan Carlos Farah, Panos Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
+       \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
+       \small{Co-supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Martinez-Mediano}\\
+       \small{Course: CO530/533, Imperial College London}
+}
+
+\begin{document}
+\maketitle
+
+\section{Project Boundaries}
+
+\subsection{Software}
+The development of the code is done in Python. The numpy library is particularly useful for the purposes of this project as -among others- it provides functions for fast matrix manipulations.
+To make the appropriate filtering of the visual input (from the camera), we are using OpenCV. This way we can discard irrelevant information before the frames of the input are sent for processing.
+We are also using NEURON, a simulation environment created by Yale University. NEURON is very efficient and accurate in modelling not only individual neurons but also networks of neurons. What is more, it allows the user to pick the programming language of his choice which makes it a rather flexible software to use.
+
+\subsection{Hardware}
+The real time nature of this project results in high processing requirements. Although the prototyping will be done using the virtual machine we were provided, at a later stage we will have to use the GPU accelerated computer located in the Neurodynamics lab.
+To make an actual drone behave like a dragonfly, it will have to be equipped with a camera. The input signal will be sent to the GPU for processing which in turn would send back instructions to the drone with the required movement it has to make. This constant exchange of information between the drone and the remote GPU is highly likely to create delay in the response of the drone to the movement of the target. Thus, this is one of the limitations of this project. A more accurate realistic application would require a light weight and at the same powerful GPU to be installed on the drone so that all required computations can be done locally. 
+
+\subsection{Audience}
+This project is mostly relevant to academic research undertaken globally by the Neurodynamics community. The ultimate goal is for a paper to be published. We would like to share our findings with academics or researchers that are interested in real life applications of the theoretical work that is being done on the wide domain of Neurodynamics.
+
+\end{document}
+
