@@ -17,7 +17,7 @@
 \title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Report One ---}}
 \author{Juan Carlos Farah, Panos Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
        \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
-       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Martinez-Mediano}\\
+       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Mart\'{i}nez-Mediano}\\
        \small{Course: CO530/533, Imperial College London}
 }
 
@@ -28,12 +28,12 @@
 
 Our goal in this project is to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent. Dragonflies are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate. 
 
-The centrifugal small ­target motion detector neuron 1 (CSTMD1) is a higher ­order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism \cite{w13}. At Professor Shanahan's lab, they have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi­compartmental Hodgkin and Huxley model. Along with Klaus Stiefel \cite{ne13}, they found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.
+The centrifugal small �target motion detector neuron 1 (CSTMD1) is a higher �order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism \cite{w13}. At Professor Shanahan's lab, they have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi­compartmental Hodgkin-Huxley model. Along with Klaus Stiefel \cite{ne13}, researchers found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.
 
-The high­ level idea of the project is to employ the principle used by the CSTMD1 neuron in a biomimetic agent that behaves like a dragonfly, showing attention-­like target selection when performing a simple foraging task.
+The high­ level idea of the project is to employ the principle used by the CSTMD1 neuron in a biomimetic agent that behaves like a dragonfly, showing attention-�like target selection when performing a simple foraging task.
 
 \section{Specification}
-We brainstormed using Goal-Oriented capture in order to determine the requirements for our project. Below is a chart that portrays this process.	
+We brainstormed using goal-oriented capture in order to determine the requirements for our project. Below is a chart that portrays this process.	
 		
 	
 	\begin{figure}
@@ -47,7 +47,7 @@ We brainstormed using Goal-Oriented capture in order to determine the requiremen
 	
 	The goal-oriented capture enabled us to establish some minimum requirements for the completion of the project. In order to build an agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, three main objectives need to be completed:
 \begin{enumerate}
-	\item (1A) We need to connect the visual input of the agent (in the form 	of either a camera input or a constructed animation) to the modelled CSTMD1 neurons. This will involve:
+	\item (1A) We need to connect the visual input of the agent (in the form of either a camera input or a constructed animation) to the modelled CSTMD1 neurons. This will involve:
 	\begin{enumerate}
 		\item Building a model of the visual processing that occurs between the retina and the actual CSTMD1 neurons of a real dragonfly.
 		\item Deciding how many CSTMD1 neurons we will use and how exactly to connect them to the output of our visual pre-processing.
@@ -61,8 +61,8 @@ We brainstormed using Goal-Oriented capture in order to determine the requiremen
  	
  	Beyond the minimum requirements, we expect to enhance the action selection mechanism in order to give a more complex reaction to targets in the visual field . This will involve:
  \begin{enumerate}
- 	\item Creating a virtual 3D environment for dragonfly agent.
- 	\item Enhancing the action selection mechanism to have at least 12 output neurons, giving the dragonfly 6 degrees of freedom (3 for rotation and 3 for translation).
+ 	\item Creating a virtual 3D environment for the dragonfly agent.
+ 	\item Enhancing the action-selection mechanism to have at least 12 output neurons, giving the dragonfly six degrees of freedom (three for rotation and three for translation).
  	\item Employing reinforcement learning in the action selection mechanism to train the agent to move more effectively towards the target.
  \end{enumerate}
  
@@ -70,9 +70,9 @@ We brainstormed using Goal-Oriented capture in order to determine the requiremen
  	
  	Beyond the expected implementation, these are ways we have thought of to extend the project:
  \begin{enumerate}
- 	\item Implement the agent in a quadcopter drone (owned by the Neurodynamics lab).
+ 	\item Implement the agent in a quadcopter drone (owned by the Neurodynamics Lab).
  	\item Replace normal camera with an event-based camera to more realistically emulate the dragonfly retina.
- 	\item Improve user interface of virtual simulation environment (allow user to change number and speed of targets etc. 
+ 	\item Improve user interface of virtual simulation environment (allow user to change number and speed of targets, etc.). 
  \end{enumerate}
 
 \section{Development Methodology}
@@ -84,10 +84,10 @@ We brainstormed using Goal-Oriented capture in order to determine the requiremen
 Given the complexity of our project and its division into clear working stages, we chose to apply the Scrum Methodology of Agile Development as our project management framework.
 
 \subsubsection{Sprints}
-The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Martínez, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using Trello, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
+The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mart\'{i}nez, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using Trello, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
 
-\subsubsection{Stand Ups}
-Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand ups are later addressed by the Team Leader.
+\subsubsection{Stand-Ups}
+Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand-ups are later addressed by the Team Leader.
 
 \subsection{Collaboration Tools}
 
@@ -102,7 +102,7 @@ We are using Git as our version control system, hosting our remote repository on
 \begin{center}
     \begin{tabular}{p{12cm} c c}
     \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
-	Implement visual pre-processing chain based on \cite{hal11} & 1 & 1 \\
+	Implement visual pre-processing chain based on \cite{hal11}. & 1 & 1 \\
 	Connect output of pre-processing to CSTMD1. & 1 & 1\\
 	Replicate experiment in \cite{w13}. & 1 & 1 \\
     \end{tabular}
@@ -131,7 +131,7 @@ We are using Git as our version control system, hosting our remote repository on
 	Design unit tests for connecting neurons. & 1 & 2 \\    
 	Connect visual pre-processing neurons to pattern recognition neurons. & 1 & 2 \\
 	Implement two action selection neurons. & 1 & 2\\
-	Train action selection neurons with reinforcement learning & 1 & 2\\    
+	Train action selection neurons with reinforcement learning. & 1 & 2\\    
 	Implement unit tests for sample visual input. & 2 & 2 \\
     \end{tabular}
 \end{center}
@@ -168,15 +168,9 @@ We are using Git as our version control system, hosting our remote repository on
 
 \section{Work Allocation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \subsection{Organisation}
 
-
-Juan Carlos Farah was selected to become Group Leader, due his experience in organisation and software development. He took responsibility for project coordination and code integration.
-
-Our project is split in two stages. Stage one and two. We are allocating team members on rolling basis, however in stage one our team is split in two sub-groups. One sub-group is working on action selection, while other is working on dragonfly neurons. We assigned members according to estimation of how long each part will take.
-The table below shows how we have allocated work so far:
+Juan Carlos Farah was selected to become Group Leader, due his experience in organisation and software development. He took responsibility for project coordination and code integration. Our project is split in three stages and we are allocating team members to tasks on a rolling basis. For stage one we have split the team into two sub-groups. One sub-group is working on visual pre-processing, while the other is working on pattern recognition. We assign members according to an estimation of how long each part will take. The table below shows how we have allocated work so far:
 
 \begin{table}[ht]
 
@@ -219,13 +213,10 @@ Nevertheless, there are a number of risks that could influence the outcome of ou
 \section{Project Boundaries}
 
 \subsection{Software}
-The development of the code is done in Python. The numpy library is particularly useful for the purposes of this project as, among other features, it provides functions for fast matrix manipulations.
-To appropriately process the visual input (from the camera), we will use OpenCV for spatial transforms and the scipy library for temporal filters. This way we can discard irrelevant information before the frames of the input are sent for processing.
-The CSTMD1 neuron is modelled using NEURON, a simulation environment created by Yale University, which has the power to very accurately model individual neurons. We are learning to use this library in order to connect the CSTMD1s to our other neurons.
+Software development will be predominantly done using Python. The numpy library is particularly useful for the purposes of this project as, among other features, it provides functions for fast matrix manipulations. To appropriately process the visual input (from the camera), we will use OpenCV for spatial transforms and the scipy library for temporal filters. This way we can discard irrelevant information before the frames of the input are sent for processing. The CSTMD1 neuron is modelled using NEURON, a simulation environment created by Yale University, which has the power to very accurately model individual neurons. We are learning to use this library in order to connect the CSTMD1s to our other neurons.
 
 \subsection{Hardware}
-If we are to have the agent running in real time or close to real time, it will require a lot of computer processing power. Although the prototyping will be done using the virtual machine we were provided, at a later stage we will have to use the GPU accelerated computer located in the Neurodynamics lab.
-To make an actual drone behave like a dragonfly, it will have to be equipped with a camera. The input signal will be sent to the GPU for processing which in turn would send back instructions to the drone with the required movement it has to make. This constant exchange of information between the drone and the remote GPU is highly likely to create delay in the response of the drone to the movement of the target. Thus, this is one of the limitations of this project. A more accurate realistic application would require a light weight and at the same powerful GPU to be installed on the drone so that all required computations can be done locally. 
+Having the agent running in close to real-time will require significant computer processing power. Although prototyping will be done using the virtual machine we were provided, staging and testing will be undertaken using the GPU-accelerated computer located in the Neurodynamics Lab. To make an actual drone behave like a dragonfly, it will have to be equipped with a camera. The input signal will be sent to the GPU for processing which in turn would send back instructions to the drone with the required movement it has to make. This constant exchange of information between the drone and the remote GPU is highly likely to create delay in the response of the drone to the movement of the target. Thus, this is one of the limitations of this project. A more accurate realistic application would require a light weight and at the same powerful GPU to be installed on the drone so that all required computations can be done locally. 
 
 \subsection{Audience}
 This project is mostly relevant to academic research in the field of Computational Neuroscience. The ultimate goal is to publish an academic paper based on this project.
