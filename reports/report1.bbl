@@ -1,8 +1,14 @@
 \begin{thebibliography}{1}
 
 \bibitem{ne13}
-Zafeirios Fountas.
+Zafeirios Fountas and Klaus Stiefel.
 \newblock {Neuromorphic Engineering Workshop}, 2013.
+
+\bibitem{tsdn}
+P.T. Gonzalez-Bellido, H.~Peng, J.~Yang, Georgopoulos A.P., and R.M. Olberg.
+\newblock {Eight pairs of descending visual neurons in the dragonfly give wing
+  motor centers accurate population vector of prey direction.}
+\newblock {\em Proc Natl Acad Sci USA}, 2013.
 
 \bibitem{hal11}
 K.J. Halupka, S.D. Wiederman, B.S. Cazzolato, and D.C. O'Carroll.
@@ -11,21 +17,15 @@ K.J. Halupka, S.D. Wiederman, B.S. Cazzolato, and D.C. O'Carroll.
 \newblock In {\em {ISSNIP}}, 2011.
 
 \bibitem{stdp2}
-T~Masquelier, R~Guyonneau, and SJ. Thorpe.
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
 \newblock {Spike timing dependent plasticity finds the start of repeating
   patterns in continuous spike trains}.
 \newblock {\em PLoS One}, 2008.
 
 \bibitem{stdp1}
-T~Masquelier, R~Guyonneau, and SJ. Thorpe.
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
 \newblock {Competitive STDP-based spike pattern learning}.
 \newblock {\em Neural Comput.}, 2009.
-
-\bibitem{tsdn}
-Gonzalez-Bellido PT, H~Peng, J~Yang, Georgopoulos AP, and Olberg RM.
-\newblock {Eight pairs of descending visual neurons in the dragonfly give wing
-  motor centers accurate population vector of prey direction.}
-\newblock {\em Proc Natl Acad Sci U S A}, 2013.
 
 \bibitem{w13}
 Steven Wiederman and David O'Carroll.
