@@ -21,7 +21,7 @@ H_filter = np.array ([[-1, -1, -1, -1, -1],
 
 t = T0
 frame_history = []
-cap = cv2.VideoCapture("Slow Motion Dragonfly Hunting.mov")
+cap = cv2.VideoCapture("clay.mov")
 
 while(True):
     ret, frame = cap.read()
@@ -32,6 +32,8 @@ while(True):
     # Blur and downsize image.
     downsize = cv2.pyrDown(green)
     downsize = 1.0 * downsize / 256.0
+
+    cv2.imshow('original', downsize)
 
     frame_history.append(downsize)
     if len(frame_history) < LMC_rec_depth:
@@ -45,7 +47,7 @@ while(True):
     downsize = signal.lfilter(b, a, frame_history[-n:])[-1]
 
     # Convert to float
-    downsize = downsize.astype(float) #/ 256.0
+    #downsize = downsize.astype(float) #/ 256.0
 
     # Center surround antagonism kernel applied.
     CSscale = -1.0 / 9.0
@@ -54,6 +56,9 @@ while(True):
     CSKernel[1][1] = 8.0 / 9.0
 
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
+
+    if 0.01 < t < 0.02:
+        print "max", np.amax(downsize), "min", np.amin(downsize)
 
     # RTC filter.
     down_pos = deepcopy(downsize)
@@ -73,18 +78,18 @@ while(True):
 
     # Do everything for pos == ON.
     thau_pos = down_pos - down_pos_prev
-    thau_pos[thau_pos > 0] = 0.001
+    thau_pos[thau_pos >= 0] = 0.001
     thau_pos[thau_pos < 0] = 0.1
-    mult = RTC_exp(dt, thau_pos)
-    v_pos = -(mult-1) * down_pos + mult * v_pos_prev
+    mult_pos = RTC_exp(dt, thau_pos)
+    v_pos = -(mult_pos-1) * down_pos + mult_pos * v_pos_prev
     v_pos_prev = deepcopy(v_pos)
 
     # Do everything for neg == OFF.
     thau_neg = down_neg - down_neg_prev
-    thau_neg[thau_neg > 0] = 0.001
+    thau_neg[thau_neg >= 0] = 0.001
     thau_neg[thau_neg < 0] = 0.1
-    mult = RTC_exp(dt, thau_neg)
-    v_neg = -(mult-1) * down_neg + mult * v_neg_prev
+    mult_neg = RTC_exp(dt, thau_neg)
+    v_neg = -(mult_neg-1) * down_neg + mult_neg * v_neg_prev
     v_neg_prev = deepcopy(v_neg)
 
     down_pos_prev = deepcopy(down_pos)
@@ -98,16 +103,16 @@ while(True):
     v_pos[v_pos < 0] = 0
     v_neg[v_neg < 0] = 0
 
-    #b1 = [1.0, 1.0]
-    #a1 = [51.0, -49.0]
-    #v_neg = signal.lfilter(b1, a1, [v_neg_prev, v_neg])[-1]
+    b1 = [1.0, 1.0]
+    a1 = [51.0, -49.0]
+    v_neg = signal.lfilter(b1, a1, [v_neg_prev, v_neg])[-1]
 
     downsize = v_neg * v_pos
-    downsize = np.tanh(downsize + 1)
-    if 0.005 < t < 0.015:
-        print downsize
 
     # Show image.
+    downsize *= 10000
+    if 0.01 < t < 0.02:
+        print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
     cv2.imshow('frame', downsize)
 
     # Rinse and repeat.
