@@ -466,13 +466,13 @@ def plot_stdp():
 # ============================
 # Set parameters.
 num_neurons = 2000
-test_length = 1000
+test_length = 50000
 pattern_len = 50
 
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
 #                                                    test_length,
 #                                                    pattern_len)
-sample = poisson_pattern_generator.load_sample("samples/2000_5000.txt.npz")
+sample = poisson_pattern_generator.load_sample("samples/1_2000_50000_50_0.25_100_0.5_10.0.npz")
 spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
 

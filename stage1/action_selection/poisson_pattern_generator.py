@@ -18,11 +18,11 @@ Constants
 DT = 0.001                      # Time step in seconds.
 SPIKES_PER_S = 64               # spikes per second, on average
 F_PROB = SPIKES_PER_S * DT      # probability of a neuron firing in a timestep
-TOTAL_MS = 5000               # Length of sample.
+TOTAL_MS = 50000               # Length of sample.
 SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
-PATTERN_SPACING = 200           # Minimum level of spacing from 10% to 100%.
+PATTERN_SPACING = 100           # Minimum level of spacing from 10% to 100%.
 REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
 INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
 NOISE = 10.0                    # Noise in Hz.
@@ -364,6 +364,7 @@ def save_sample(filename, sample):
     f.close()
 """
 
+
 def save_sample(filename, sample):
     """
     :param filename:
@@ -372,19 +373,21 @@ def save_sample(filename, sample):
     """
     start_positions = sample['start_positions']
     spike_trains = sample['spike_trains']
-    np.savez(filename,start_positions=start_positions,spike_trains=spike_trains)
+    np.savez(filename,
+             start_positions=start_positions,
+             spike_trains=spike_trains)
 
 
 def save():
     sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
-    filename = "samples/{}_{}_{}_{}_{}_{}_{}_{}.txt".format(SEED,
-                                                            NUM_NEURONS,
-                                                            TOTAL_MS,
-                                                            PATTERN_MS,
-                                                            REPETITION_RATIO,
-                                                            PATTERN_SPACING,
-                                                            INVOLVEMENT_RATIO,
-                                                            NOISE)
+    filename = "samples/{}_{}_{}_{}_{}_{}_{}_{}".format(SEED,
+                                                        NUM_NEURONS,
+                                                        TOTAL_MS,
+                                                        PATTERN_MS,
+                                                        REPETITION_RATIO,
+                                                        PATTERN_SPACING,
+                                                        INVOLVEMENT_RATIO,
+                                                        NOISE)
     save_sample(filename, sample)
 
 
