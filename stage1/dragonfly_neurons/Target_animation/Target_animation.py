@@ -3,12 +3,13 @@
 # Author: Erik Grabljevec
 # E-mail: erikgrabljevec5@gmail.com
 # Description: Tool to animate flies.
-#              Pretty hard coded. Should there be any need to change that let
-#              let me know.
+#              TO
+#              DO             
 ################################################################################
 
 import os
 import pyglet
+import cv2
 from pyglet.gl import *
 from random import *
 from math import pi, sin, cos, atan2, sqrt
@@ -108,11 +109,32 @@ class Animation():
             print "Making dir!"
             os.makedirs(directory)
 
+    def create_movie(self):
+        print "Hello!"
+        img1 = cv2.imread('test/scr0.png')
+        height, width, layers =  img1.shape
+        print height, width, layers
+        codec = 0
+        video = cv2.VideoWriter('output.avi', codec, 20.0, (width,height))
+
+        for i in range(30):
+            img_name = "test/scr" + str(i) + ".png"
+            print img_name
+            img = cv2.imread(img_name)
+            cv2.imshow("Frame", img)
+            video.write(img)
+
+        video.release()
+        cv2.destroyAllWindows()
+
     def run(self, directory="test", fps=10):
         self.make_directory(directory)
         window = AnimationWindow(self.target_list, directory)
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
+        # Change this:
+        print "I'm here"
+        self.create_movie()
 
 
 # Test
