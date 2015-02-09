@@ -21,7 +21,7 @@ H_filter = np.array ([[-1, -1, -1, -1, -1],
 
 t = T0
 frame_history = []
-cap = cv2.VideoCapture("clay.mov")
+cap = cv2.VideoCapture("target.mov")
 
 while(True):
     ret, frame = cap.read()
@@ -32,8 +32,6 @@ while(True):
     # Blur and downsize image.
     downsize = cv2.pyrDown(green)
     downsize = 1.0 * downsize / 256.0
-
-    cv2.imshow('original', downsize)
 
     frame_history.append(downsize)
     if len(frame_history) < LMC_rec_depth:
@@ -56,6 +54,8 @@ while(True):
     CSKernel[1][1] = 8.0 / 9.0
 
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
+
+    cv2.imshow('pre RTC', downsize)
 
     if 0.01 < t < 0.02:
         print "max", np.amax(downsize), "min", np.amin(downsize)
