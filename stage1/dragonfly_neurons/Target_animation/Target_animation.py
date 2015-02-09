@@ -114,14 +114,12 @@ class Animation():
         img1 = cv2.imread('test/scr0.png')
         height, width, layers =  img1.shape
         print height, width, layers
-        codec = 0
-        video = cv2.VideoWriter('output.avi', codec, 20.0, (width,height))
+        codec =  cv2.cv.CV_FOURCC('M','J','P','G')
+        video = cv2.VideoWriter('../ESTMD model/output.avi', codec, 20.0, (width,height))
 
-        for i in range(30):
+        for i in range(40):
             img_name = "test/scr" + str(i) + ".png"
-            print img_name
             img = cv2.imread(img_name)
-            cv2.imshow("Frame", img)
             video.write(img)
 
         video.release()
@@ -140,5 +138,6 @@ class Animation():
 # Test
 # ====
 test = Animation()
-test.add_target(2, start=[100,100], end=[500,500], size=8, v=10)
+test.add_target(2, start=[200,200], end=[0,200], size=5
+, v=5)
 test.run()
