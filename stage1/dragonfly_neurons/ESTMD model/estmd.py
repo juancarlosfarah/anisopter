@@ -25,6 +25,8 @@ cap = cv2.VideoCapture("target.mov")
 
 while(True):
     ret, frame = cap.read()
+    
+    cv2.imshow("original", frame)
 
     # Split to basic colors and keep green color.
     blue,green,red = cv2.split(frame)
@@ -34,9 +36,10 @@ while(True):
     downsize = 1.0 * downsize / 256.0
 
     frame_history.append(downsize)
+    """
     if len(frame_history) < LMC_rec_depth:
         continue
-
+    """
 
     b = [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]
     a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
@@ -55,62 +58,78 @@ while(True):
 
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
 
-    cv2.imshow('pre RTC', downsize)
-
     if 0.01 < t < 0.02:
         print "max", np.amax(downsize), "min", np.amin(downsize)
 
     # RTC filter.
-    down_pos = deepcopy(downsize)
-    down_neg = deepcopy(downsize)
-    down_pos[down_pos < 0] = 0
-    down_neg[down_neg > 0] = 0
-    down_neg = -down_neg
+    u_pos = deepcopy(downsize)
+    u_neg = deepcopy(downsize)
+    u_pos[u_pos < 0] = 0
+    u_neg[u_neg > 0] = 0
+    u_neg = -u_neg
 
     # On first step, instead of computing just save the images.
     if t == T0:
-        v_pos_prev = deepcopy(down_pos)
-        v_neg_prev = deepcopy(down_neg)
-        down_pos_prev = deepcopy(down_pos)
-        down_neg_prev = deepcopy(down_neg)  
-        t += dt
-        continue
+        v_pos_prev = deepcopy(u_pos)
+        v_neg_prev = deepcopy(u_neg)
+        u_pos_prev = deepcopy(u_pos)
+        u_neg_prev = deepcopy(u_neg)  
+        #t += dt
+        #continue
 
     # Do everything for pos == ON.
-    thau_pos = down_pos - down_pos_prev
-    thau_pos[thau_pos >= 0] = 0.001
-    thau_pos[thau_pos < 0] = 0.1
-    mult_pos = RTC_exp(dt, thau_pos)
-    v_pos = -(mult_pos-1) * down_pos + mult_pos * v_pos_prev
+    tau_pos = u_pos - u_pos_prev
+    tau_pos[tau_pos >= 0] = 0.001
+    tau_pos[tau_pos < 0] = 0.1
+    mult_pos = RTC_exp(dt, tau_pos)
+    v_pos = -(mult_pos-1) * u_pos + mult_pos * v_pos_prev
     v_pos_prev = deepcopy(v_pos)
 
     # Do everything for neg == OFF.
-    thau_neg = down_neg - down_neg_prev
-    thau_neg[thau_neg >= 0] = 0.001
-    thau_neg[thau_neg < 0] = 0.1
-    mult_neg = RTC_exp(dt, thau_neg)
-    v_neg = -(mult_neg-1) * down_neg + mult_neg * v_neg_prev
+    tau_neg = u_neg - u_neg_prev
+    tau_neg[tau_neg >= 0] = 0.001
+    tau_neg[tau_neg < 0] = 0.1
+    mult_neg = RTC_exp(dt, tau_neg)
+    v_neg = -(mult_neg-1) * u_neg + mult_neg * v_neg_prev
     v_neg_prev = deepcopy(v_neg)
 
-    down_pos_prev = deepcopy(down_pos)
-    down_neg_prev = deepcopy(down_neg)    
+    # keep track of previous u
+    u_pos_prev = deepcopy(u_pos)
+    u_neg_prev = deepcopy(u_neg)    
+
+    # Subtract v from u to give the output of each channel
+    out_pos = u_pos - v_pos
+    out_neg = u_neg - v_neg
 
     # Now apply yet another filter to both parts.
-    v_pos = cv2.filter2D(v_pos, -1, H_filter) 
-    v_neg = cv2.filter2D(v_neg, -1, H_filter) 
+    out_pos = cv2.filter2D(out_pos, -1, H_filter) 
+    out_neg = cv2.filter2D(out_neg, -1, H_filter) 
+
+    cv2.imshow("outpos", out_pos)
+    cv2.imshow("outneg", out_neg)
     
     # TO DO: figure out if you turn negative to 0 or to absolute value.
-    v_pos[v_pos < 0] = 0
-    v_neg[v_neg < 0] = 0
+    out_pos[out_pos < 0] = 0
+    out_neg[out_neg < 0] = 0
 
+    if t == (T0):
+        #out_pos_prev = deepcopy(out_pos)
+        out_neg_prev = deepcopy(out_neg)
+        #t += dt
+        #continue
+
+    # delay off channel 
     b1 = [1.0, 1.0]
     a1 = [51.0, -49.0]
-    v_neg = signal.lfilter(b1, a1, [v_neg_prev, v_neg])[-1]
+    out_neg = signal.lfilter(b1, a1, [out_neg_prev, out_neg])[-1]
 
-    downsize = v_neg * v_pos
+    out_neg_prev = out_neg
+
+    downsize = out_neg * out_pos
 
     # Show image.
-    downsize *= 10000
+    downsize = np.tanh(downsize)
+    downsize[downsize < 0.2] = 0
     if 0.01 < t < 0.02:
         print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
     cv2.imshow('frame', downsize)
