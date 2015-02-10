@@ -28,6 +28,13 @@ class SampleGeneratorTests(unittest.TestCase):
         #   self.failIf()
         return
 
+    def spacing(self):
+        """
+
+        :return:
+        """
+        return
+
     def tearDown(self):
         """
 
