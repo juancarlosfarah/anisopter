@@ -44,9 +44,6 @@ PATTERN_LEN = 50            # Length of pattern.
 # Set Seed
 # np.random.seed(1)
 
-# TODO: Integrate this global variable.
-non_weighted_neurons = np.ones((2000, 1), dtype=int)
-
 # Sample Neuron
 # =============
 # TODO: Make this a class
@@ -59,7 +56,7 @@ def calculate_epsilons():
     """
     epsilons = np.ndarray((T_WINDOW, 1), dtype=float)
     for i in range(0, T_WINDOW):
-        delta = T_WINDOW - i
+        delta = T_WINDOW - (i + 1)
         hss = calculate_heavyside_step(delta)
         left_exp = math.exp(-delta / TAU_M)
         right_exp = math.exp(-delta / TAU_S)
@@ -80,6 +77,8 @@ def update_weights(spike_trains, weights, time_delta):
     # Get number of neurons.
     num_neurons = spike_trains.shape[0]
 
+    global non_weighted_neurons
+
     # If post-synaptic neuron has just fired, calculate time delta and
     # LTP for each afferent, then adjust all weights within the time window.
     if time_delta == 0:
@@ -90,6 +89,9 @@ def update_weights(spike_trains, weights, time_delta):
             # Add weight delta and clip so that it's not > WEIGHT_MAX.
             weights[i] = min(WEIGHT_MAX, weights[i] + weight_delta)
 
+        # Flush EPSPs and reset neurons to be weighed.
+        non_weighted_neurons = np.ones((num_neurons, 1), dtype=np.int32)
+
     # Otherwise calculate LTD for all neurons that have fired,
     # if post-synaptic neuron has fired within the time window.
     elif time_delta > 0 and math.fabs(time_delta) < LTD_WINDOW:
@@ -99,8 +101,8 @@ def update_weights(spike_trains, weights, time_delta):
         spikes = spike_trains[:, last_ms]
         spikes = np.reshape(spikes, (num_neurons, 1))
 
-        # Get LTD change for pre-synaptic neurons that just spiked.
-        global non_weighted_neurons
+        # Get LTD change for pre-synaptic neurons that
+        # just spiked and have not been weighted yet.
         neurons_to_weigh = np.multiply(spikes, non_weighted_neurons)
         weight_delta = calculate_ltd(time_delta) * neurons_to_weigh
 
@@ -201,9 +203,9 @@ def update_epsp_inputs(epsps, spikes, weights):
     num_neurons = epsps.shape[0]
 
     # Flush EPSP for neurons that fired.
-    for i in range(0, num_neurons):
-        if spikes[i] == 1:
-            epsps[i, :] = 0
+    # for i in range(0, num_neurons):
+    #     if spikes[i] == 1:
+    #         epsps[i, :] = 0
 
     weighted = np.multiply(spikes, weights)
     epsps = np.hstack((epsps, weighted))
@@ -297,7 +299,7 @@ def plot_epsilon():
     :return: Void.
     """
     epsilons = calculate_epsilons()
-    pylab.plot(range(T_WINDOW, T_MIN, -1), epsilons)
+    pylab.plot(range(T_WINDOW - 1, T_MIN - 1, -1), epsilons)
     pylab.xlabel('Time (ms)')
     pylab.ylabel('Epsilon')
     pylab.title('EPSP Epsilon Kernel')
@@ -464,22 +466,30 @@ def plot_stdp():
 
 # Run Sample Test without STDP
 # ============================
-# Set parameters.
-num_neurons = 2000
-test_length = 50000
-pattern_len = 50
-
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
 #                                                    test_length,
 #                                                    pattern_len)
-sample = poisson_pattern_generator.load_sample("samples/1_2000_50000_50_0.25_100_0.5_10.0.npz")
+folder = "samples/"
+filename = "1_2000_5000_50_0.25_0.5_10.0"
+extension = ".npz"
+path = folder + filename + extension
+sample = poisson_pattern_generator.load_sample(path)
 spike_trains = sample['spike_trains']
 start_positions = sample['start_positions']
+
+# Get parameters.
+params = map(float, filename.split("_"))
+num_neurons = int(params[1])
+test_length = int(params[2])
+pattern_len = int(params[3])
 
 # Initialise weights.
 weights = np.random.normal(0.475, 0.1, (num_neurons, 1))
 weights[weights < WEIGHT_MIN] = WEIGHT_MIN
 weights[weights > WEIGHT_MAX] = WEIGHT_MAX
+
+# TODO: Integrate this global variable.
+non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
 
 epsilons = calculate_epsilons()
 
@@ -539,12 +549,11 @@ for ms in range(0, test_length - 1):
         plot_weights(weights, ms, rows, current_frame=frame, bin_size=bin_size)
         frame += 1
 
-    # If threshold has been met and more than 1 ms has elapsed since
-    # the last post-synaptic spike, schedule a spike and flush EPSPs.
+    # If threshold has been met and more than 1 ms has elapsed
+    # since the last post-synaptic spike, schedule a spike.
     if p >= THETA and math.fabs(time_delta) > 1:
         last_spike = ms + 1
         epsp_inputs = np.zeros((num_neurons, 1))
-        non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
 
     # Progress bar.
     progress = (ms / float(test_length - 1)) * 100
