@@ -2,9 +2,28 @@
 # File: Target_animation.py
 # Author: Erik Grabljevec
 # E-mail: erikgrabljevec5@gmail.com
-# Description: Tool to animate flies.
+# Doc: Tool to animate flies. As user only interect with class Animation
+#      To create new animation create new instance of class Animation.
+#      Animation has next methods (each followed with list of arguments):
+#
+#       add_target: 
+#                - type : it is either 0 for stationary target,
+#                         1 for randomly moving target and 2 for target
+#                         moving from start to end.
+#                - start = [0, 0] : starting position.
+#                - end = [100, 100] : ending position, only relavant for type 2.
+#                - v = 5 : sets velocity of target.
+#                - size = 10 : sets size of target.
+#                - color = [0, 0, 0]) : sets color of target.
 #              
-#              DO             
+#       add_background: 
+#                - img_dir = False : sets directory of background image.
+#                                    If it stays False background is white.
+#                - speed = 0 : sets how fast the background is moving.
+#
+#       run:
+#                - out_directory : sets directory+name of output movie.
+#                - fps = 10 : sets fps used to make animation.
 ################################################################################
 
 import os
@@ -18,6 +37,8 @@ from math import pi, sin, cos, atan2, sqrt
 
 # Class: Target
 # =============
+# This class represents different targets that will move on the screen.
+# (Refer to top of the file).
 class Target():
     def __init__(self, type, start, end, v, size, color):
         self.type = type
@@ -51,13 +72,16 @@ class Target():
 # ======================
 # This class is extension of Class pyglet.window.Window. It animates
 # N flies flying in parallel. It is very hard coded.
+# (Refer to top of the file).
 class AnimationWindow(pyglet.window.Window):
     def __init__(self, target_list, width, height, bg_image, bg_speed):
         super(AnimationWindow, self).__init__(width, height)
         
         self.bg_image = bg_image
-        self.bg_speed = bg_speed
-        self.background = pyglet.image.load(self.bg_image).get_texture()
+        if self.bg_image:
+            self.bg_speed = bg_speed
+            self.background = pyglet.image.load(self.bg_image).get_texture()
+            
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
@@ -82,8 +106,10 @@ class AnimationWindow(pyglet.window.Window):
     def on_draw(self):
         pyglet.gl.glClearColor(1, 1, 1, 1)
         self.clear()
-        glColor3f(1, 1, 1)
-        self.background.blit(0, 0)
+        if self.bg_image:
+            glColor3f(1, 1, 1)
+            bg_pos = -self.time * self.bg_speed
+            self.background.blit(bg_pos, bg_pos)
         for i in range(self.N):
             x = self.target_list[i].pos[0]
             y = self.target_list[i].pos[1]
@@ -99,6 +125,7 @@ class AnimationWindow(pyglet.window.Window):
 # This class contains different possible fly animation.
 # Method run_random runs n flies randomly around the screen.
 # Method run_parallel runs n flies in parallel through the screen.
+# (Refer to top of the file).
 class Animation():
     def __init__(self, width=640, height=480):
         self.target_list = []
@@ -129,7 +156,7 @@ class Animation():
         new_target = Target(type, start, end, v, size, color)
         self.target_list.append(new_target)
         
-    def add_background(self, img_dir, speed=0):
+    def add_background(self, img_dir=False, speed=0):
         self.bg_image = img_dir
         self.bg_speed = speed
 
@@ -140,21 +167,4 @@ class Animation():
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
         self.create_movie(out_directory)
-
-
-# Create video
-# ============
-out_directory = "../ESTMD model/output.avi"
-bg_image = "Images/test.jpg"
-bg_speed = 0
-
-test = Animation()
-test.add_target(2, start=[200,0], end=[200,500], size=2, v=20)
-test.add_target(1, start=[500, 250], size=2, v=20)
-test.add_target(2, start=[0,0], end=[500,500], size=2, v=20)
-test.add_target(0, start=[300, 250], size=2, v=20)
-test.add_background(bg_image, bg_speed)
-
-test.run(out_directory)
-
 
