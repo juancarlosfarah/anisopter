@@ -34,7 +34,7 @@ T_WINDOW = int(TAU_M * 7)   # Maximum time that a spike can affect EPSP.
 T_PLUS = 16.8               # LTP synaptic modification constant in ms.
 T_MINUS = 33.7              # LTD synaptic modification constant in ms.
 A_PLUS = 0.03125            # LTP learning rate.
-A_MINUS = 0.85 * A_PLUS     # LTD learning rate.
+A_MINUS = 0.90 * A_PLUS     # LTD learning rate. NOTE: should be 0.85
 LTP_WINDOW = 7 * T_PLUS     # LTP learning window.
 LTD_WINDOW = 7 * T_MINUS    # LTD learning window.
 WEIGHT_MAX = 1              # Maximum weight value.
@@ -77,7 +77,7 @@ def update_weights(spike_trains, weights, time_delta):
     # Get number of neurons.
     num_neurons = spike_trains.shape[0]
 
-    global non_weighted_neurons
+    global non_weighted_neurons, penultimate_spike, last_spike
 
     # If post-synaptic neuron has just fired, calculate time delta and
     # LTP for each afferent, then adjust all weights within the time window.
@@ -89,6 +89,7 @@ def update_weights(spike_trains, weights, time_delta):
             weights[i] = min(WEIGHT_MAX, weights[i] + weight_delta)
 
         # Reset neurons to be weighed.
+        penultimate_spike = last_spike
         non_weighted_neurons = np.ones((num_neurons, 1), dtype=np.float)
 
     # Otherwise calculate LTD for all neurons that have fired,
@@ -501,6 +502,7 @@ time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
 
 # Set last spike to an irrelevant value at first.
 last_spike = 0 - max(LTD_WINDOW, LTP_WINDOW, T_WINDOW)
+penultimate_spike = last_spike
 
 # Values for plotting weights.
 frame = 1
@@ -530,14 +532,17 @@ for ms in range(0, test_length - 1):
     # TODO: Confirm with Pedro if this makes sense.
     ps[ms + 1] = p
 
-    # Get relevant spikes for weight updating in LTP.
-    ltp_window_start = max(0, ms - LTP_WINDOW)
-    ltp_window_end = ms + 1
-    spikes = deepcopy(spike_trains[:, ltp_window_start:ltp_window_end])
-
     # Record sample neurons' weight at this point.
     for i in range(0, neuron_sample_size):
         neuron_weights[i][ms] = weights[neuron_numbers[i]][0]
+
+    # Get relevant spikes for weight updating in LTP.
+    # print ms, last_spike, epsp_inputs.shape[1]
+    # print ms, last_spike, penultimate_spike
+    ltp_window_start = max(0, ms - LTP_WINDOW, penultimate_spike + 1)
+    ltp_window_end = ms + 1
+
+    spikes = deepcopy(spike_trains[:, ltp_window_start:ltp_window_end])
 
     # Update weights.
     time_delta = ms - math.fabs(last_spike)
@@ -551,6 +556,7 @@ for ms in range(0, test_length - 1):
     # If threshold has been met and more than 1 ms has elapsed
     # since the last post-synaptic spike, schedule a spike.
     if p >= THETA and math.fabs(time_delta) > 1:
+        penultimate_spike = last_spike
         last_spike = ms + 1
         epsp_inputs = np.zeros((num_neurons, 1))
 
