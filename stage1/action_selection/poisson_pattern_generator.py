@@ -18,11 +18,11 @@ Constants
 DT = 0.001                      # Time step in seconds.
 SPIKES_PER_S = 64               # spikes per second, on average
 F_PROB = SPIKES_PER_S * DT      # probability of a neuron firing in a timestep
-TOTAL_MS = 5000               # Length of sample.
+TOTAL_MS = 50000               # Length of sample.
 SEED = 1                        # Seed for the random generator.
 NUM_NEURONS = 2000              # Number of afferents.
 PATTERN_MS = 50                 # Duration of the spike pattern.
-PATTERN_SPACING = 200           # Minimum level of spacing from 10% to 100%.
+PATTERN_SPACING = 100           # Minimum level of spacing from 10% to 100%.
 REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
 INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
 NOISE = 10.0                    # Noise in Hz.
@@ -181,7 +181,6 @@ def generate_sample(num_neurons,
 
     # Get the start positions for the pattern to be inserted.
     starts = get_start_positions(pattern_duration, sample_duration, reps)
-    starts.sort()
 
     # Insert the pattern at start positions.
     num_neurons_in_pattern = num_neurons * involvement_ratio
@@ -213,26 +212,18 @@ def get_start_positions(pattern_len, bg_len, reps):
     :param reps: Number of repetitions of pattern in the observation period.
     :return: A list of the column indexes where the pattern starts.
     """
-
+    num_buckets = bg_len / pattern_len
+    positions = np.random.uniform(0, 1, num_buckets)
     start_positions = []
-    upper_limit = bg_len - pattern_len
-
-    # Insert positions into start_positions
-    while reps > 0:
-        is_valid_start = True
-        start_pos = np.random.randint(0, upper_limit)
-        spacing = 1 + PATTERN_SPACING / 100
-
-        # Check that it is a valid start position given
-        # the existing start positions in the list.
-        for pos in start_positions:
-            if math.fabs(pos - start_pos) < pattern_len * spacing:
-                is_valid_start = False
-
-        # Only insert pos if it is a valid start position.
-        if is_valid_start:
-            start_positions.append(start_pos)
-            reps -= 1
+    count = 0
+    effective_ratio = REPETITION_RATIO * 1.25
+    while count < num_buckets:
+        # Mark as bucket and skip next bucket.
+        if positions[count] < effective_ratio:
+            start_positions.append(count * pattern_len)
+            count += 2
+        else:
+            count += 1
 
     return start_positions
 
@@ -364,6 +355,7 @@ def save_sample(filename, sample):
     f.close()
 """
 
+
 def save_sample(filename, sample):
     """
     :param filename:
@@ -372,19 +364,20 @@ def save_sample(filename, sample):
     """
     start_positions = sample['start_positions']
     spike_trains = sample['spike_trains']
-    np.savez(filename,start_positions=start_positions,spike_trains=spike_trains)
+    np.savez(filename,
+             start_positions=start_positions,
+             spike_trains=spike_trains)
 
 
 def save():
     sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
-    filename = "samples/{}_{}_{}_{}_{}_{}_{}_{}.txt".format(SEED,
-                                                            NUM_NEURONS,
-                                                            TOTAL_MS,
-                                                            PATTERN_MS,
-                                                            REPETITION_RATIO,
-                                                            PATTERN_SPACING,
-                                                            INVOLVEMENT_RATIO,
-                                                            NOISE)
+    filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(SEED,
+                                                        NUM_NEURONS,
+                                                        TOTAL_MS,
+                                                        PATTERN_MS,
+                                                        REPETITION_RATIO,
+                                                        INVOLVEMENT_RATIO,
+                                                        NOISE)
     save_sample(filename, sample)
 
 
@@ -394,7 +387,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-
+    # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],
     #            interpolation='nearest',
