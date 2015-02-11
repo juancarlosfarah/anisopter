@@ -20,7 +20,6 @@ T_MIN = 0                   # Start time in ms.
 T_STEP = 1                  # Time step in ms.
 PATTERN_LEN = 50            # Length of pattern.
 
-THETA = 500                 # Threshold in arbitrary units.
 K = 2.1222619               # Multiplicative constant.
 K1 = 2                      # Constant for positive pulse.
 K2 = 4                      # Constant for negative spike after-potential.
@@ -28,10 +27,6 @@ K2 = 4                      # Constant for negative spike after-potential.
 
 # Set Seed
 # np.random.seed(1)
-
-# Sample Neuron
-# =============
-# TODO: Make this a class
 
 class Neuron:
     """
@@ -41,21 +36,22 @@ class Neuron:
     """
 
     def __init__(self, num_afferents):
-        self.num_afferents = num_afferents  # Number of afferents.
-        self.tau_m = 10.0                   # Membrane time constant in ms.
-        self.tau_s = 2.5                    # Synapse time constant in ms.
-        self.t_plus = 16.8                  # LTP modification constant in ms.
-        self.t_minus = 33.7                 # LTD modification constant in ms.
-        self.ltp_window = 7 * self.t_plus   # LTP learning window.
-        self.ltd_window = 7 * self.t_minus  # LTD learning window.
-        self.t_window = int(self.tau_m * 7) # Max time that spike affects EPSP.
-        self.weight_max = 1                 # Maximum weight value.
-        self.weight_min = 0                 # Minimum weight value.
-        self.a_plus = 0.03125               # LTP learning rate.
-        self.a_minus = 0.90 * self.a_plus   # LTD learning rate. NOTE: should be 0.85
+        self.num_afferents = num_afferents   # Number of afferents.
+        self.tau_m = 10.0                    # Membrane time constant in ms.
+        self.tau_s = 2.5                     # Synapse time constant in ms.
+        self.t_plus = 16.8                   # LTP modification constant in ms.
+        self.t_minus = 33.7                  # LTD modification constant in ms.
+        self.ltp_window = 7 * self.t_plus    # LTP learning window.
+        self.ltd_window = 7 * self.t_minus   # LTD learning window.
+        self.t_window = int(self.tau_m * 7)  # Max time that spike affects EPSP.
+        self.weight_max = 1                  # Maximum weight value.
+        self.weight_min = 0                  # Minimum weight value.
+        self.a_plus = 0.03125                # LTP learning rate.
+        self.a_minus = 0.90 * self.a_plus    # LTD learning rate. NOTE: should be 0.85
+        self.theta = 500                     # Threshold in arbitrary units.
 
         # Initialise weights.
-        self.weights = np.random.normal(0.475, 0.1, (num_neurons, 1))
+        self.weights = np.random.normal(0.475, 0.1, (num_afferents, 1))
         self.weights[self.weights < self.weight_min] = self.weight_min
         self.weights[self.weights > self.weight_max] = self.weight_max
 
@@ -63,8 +59,8 @@ class Neuron:
         self.epsilons = self.calculate_epsilons()
 
     def calculate_epsilons(self):
-        """ Returns a vector with epsilon values relevant for EPSP.
-
+        """
+        Returns a vector with epsilon values relevant for EPSP.
         :return: Vector of epsilon values in time window.
         """
         epsilons = np.ndarray((self.t_window, 1), dtype=float)
@@ -78,10 +74,10 @@ class Neuron:
 
         return epsilons
 
-    def update_weights(self, spike_trains, weights, time_delta):
-        """ Updates the weights according to STDP.
-        :param weights: Current weight vector.
-        :param time_delta: Time difference between post-synaptic and afferent spike.
+    def update_weights(self, spike_trains, time_delta):
+        """
+        Updates the weights according to STDP.
+        :param time_delta: Delay between post-synaptic and afferent spike.
         :return: Updated weight vector.
         """
 
@@ -94,8 +90,8 @@ class Neuron:
         # LTP for each afferent, then adjust all weights within the time window.
         if time_delta == 0:
             for i in range(0, self.num_afferents):
-                spike_lag = calculate_time_delta(spike_trains[i, :])
-                weight_delta = calculate_ltp(spike_lag)
+                spike_lag = self.calculate_time_delta(spike_trains[i, :])
+                weight_delta = self.calculate_ltp(spike_lag)
                 # Add weight delta and clip so that it's not > WEIGHT_MAX.
                 self.weights[i] = min(self.weight_max,
                                       self.weights[i] + weight_delta)
@@ -117,10 +113,10 @@ class Neuron:
             # Get LTD change for pre-synaptic neurons that
             # just spiked and have not been weighed yet.
             neurons_to_weigh = np.multiply(spikes, non_weighted_neurons)
-            weight_delta = calculate_ltd(time_delta) * neurons_to_weigh
+            weight_delta = self.calculate_ltd(time_delta) * neurons_to_weigh
 
-            # Add weight delta and clip weights so that they are not < WEIGHT_MIN.
-            weights += weight_delta
+            # Add weight delta and clip so that they are not < WEIGHT_MIN.
+            self.weights += weight_delta
             self.weights[self.weights < self.weight_min] = self.weight_min
             non_weighted_neurons = np.multiply(non_weighted_neurons,
                                                np.logical_not(spikes))
@@ -128,8 +124,8 @@ class Neuron:
         return self.weights
 
     def calculate_time_delta(self, spike_train):
-        """ Given an afferent, return its last spike time relative to now.
-
+        """
+        Given an afferent, return its last spike time relative to now.
         :param spike_train: Array of spike values for afferent.
         :return: Time delta of spike time.
         """
@@ -146,16 +142,16 @@ class Neuron:
         return (self.ltp_window + 1) * -1
 
     def calculate_ltp(self, time_delta):
-        """ Calculate weight change according to LTP.
-
+        """
+        Calculate weight change according to LTP.
         Note that the input delta to LTP has to be <= 0.
-        :param time_delta: Time difference between post-synaptic and afferent spike.
+        :param time_delta: Delay between post-synaptic and afferent spike.
         :return: Change in weight.
         """
 
         # Input delta to LTP has to be <= 0.
         if time_delta > 0:
-            print "ERROR! Time delta input to LTP function needs to be less than " \
+            print "ERROR! Input to LTP function needs to be less than " \
                   "or equal to zero. Please double check your function calls."
             # Use raise value error.
             exit(1)
@@ -176,7 +172,7 @@ class Neuron:
 
         # Input delta to LTP has to be > 0.
         if time_delta <= 0:
-            print "ERROR! Time delta input to LTD function needs to be greater " \
+            print "ERROR! Input to LTD function needs to be greater " \
                   "than zero. Please double check your function calls."
             # Use raise value error.
             exit(1)
@@ -188,7 +184,8 @@ class Neuron:
         return -self.a_minus * math.exp(-time_delta / self.t_minus)
 
     def calculate_heavyside_step(self, delta):
-        """ Calculate value of heavyside step for a given time delta.
+        """
+        Calculate value of heavyside step for a given time delta.
         :param delta: Time difference.
         :return:
         """
@@ -198,7 +195,8 @@ class Neuron:
             return 0
 
     def update_epsp_inputs(self, epsps, spikes):
-        """ Given vectors of spikes and weights update the EPSP contributions.
+        """
+        Given vectors of spikes and weights update the EPSP contributions.
         :param epsps: Matrix of current EPSP inputs.
         :param spikes: Vector of current spikes.
         :return:
@@ -218,7 +216,8 @@ class Neuron:
         return epsps
 
     def sum_epsps(self, epsps, epsilons):
-        """ Sum the EPSP contribution of all afferents.
+        """
+        Sum the EPSP contribution of all afferents.
         :param epsps: Matrix of current EPSP inputs.
         :param epsilons: Vector of epsilon values in time window.
         :return:
@@ -250,22 +249,21 @@ class Neuron:
         right_exp = math.exp(-delta / self.tau_s)
         return self.theta * (K1 * left_exp - K2 * (left_exp - right_exp)) * hss
 
-    def calculate_membrane_potential(self, epsps, epsilons, time, last_spike):
+    def calculate_membrane_potential(self, epsps, time, last_spike):
         """
         Return the membrane potential at any given time.
         :param epsps: Matrix of each afferent's EPSP input contribution.
-        :param epsilons: Vector of epsilon values in time window.
         :param time: Current time in ms.
         :param last_spike: Time of last spike of post-synaptic neuron.
         :return: Membrane potential.
         """
         psp = self.calculate_psp(time, last_spike)
-        epsp_sum = self.sum_epsps(epsps, epsilons)
+        epsp_sum = self.sum_epsps(epsps, self.epsilons)
         return psp + epsp_sum
 
     def plot_eta(self):
-        """ Plots the values of the eta kernel for a given range.
-
+        """
+        Plots the values of the eta kernel for a given range.
         :return: Void.
         """
         # Calculate PSPs for given range.
@@ -436,7 +434,8 @@ class Neuron:
     #     pylab.show()
 
     def plot_stdp(self):
-        """ Plot STDP from both LTD and LTP.
+        """
+        Plot STDP from both LTD and LTP.
         :return: Void.
         """
         self.plot_ltd(False)
@@ -450,13 +449,13 @@ class Neuron:
         pylab.show()
 
 
-# Run Sample Test without STDP
-# ============================
+# Run Sample Test
+# ===============
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
 #                                                    test_length,
 #                                                    pattern_len)
 folder = "samples/"
-filename = "1_2000_5000_50_0.25_0.5_10.0"
+filename = "1_2000_50000_50_0.25_0.5_10.0"
 extension = ".npz"
 path = folder + filename + extension
 sample = poisson_pattern_generator.load_sample(path)
@@ -465,27 +464,25 @@ start_positions = sample['start_positions']
 
 # Get parameters.
 params = map(float, filename.split("_"))
-num_neurons = int(params[1])
+num_afferents = int(params[1])
 test_length = int(params[2])
 pattern_len = int(params[3])
 
+# Instantiate neuron with given number of afferents.
+neuron = Neuron(num_afferents)
+
 # TODO: Integrate this global variable.
-non_weighted_neurons = np.ones((num_neurons, 1), dtype=int)
-
-neuron = new Neuron
-
-
-CHANGE_ME_TO_SELF_EPSILONS = calculate_epsilons()
+non_weighted_neurons = np.ones((neuron.num_afferents, 1), dtype=int)
 
 # Container for EPSP input contributions of each afferent.
-epsp_inputs = np.zeros((num_neurons, 1))
+epsp_inputs = np.zeros((neuron.num_afferents, 1))
 
 # Create container for results.
 ps = [T_MIN for i in range(test_length + 1)]
 time = np.arange(T_MIN, test_length, 1, dtype=np.int32)
 
 # Set last spike to an irrelevant value at first.
-last_spike = 0 - max(ltd_window, ltp_window, t_window)
+last_spike = 0 - max(neuron.ltd_window, neuron.ltp_window, neuron.t_window)
 penultimate_spike = last_spike
 
 # Values for plotting weights.
@@ -500,49 +497,46 @@ neuron_sample_size = 10
 neuron_numbers = []
 neuron_weights = []
 for i in range(0, neuron_sample_size):
-    neuron_numbers.append(np.random.randint(0, num_neurons))
+    neuron_numbers.append(np.random.randint(0, neuron.num_afferents))
     container = [0] * test_length
     neuron_weights.append(container)
 
 # Get membrane potential at each given point.
 for ms in range(0, test_length - 1):
     spikes = deepcopy(spike_trains[:, ms])
-    spikes = np.reshape(spikes, (num_neurons, 1))
-    p = self.calculate_membrane_potential(epsp_inputs, CHANGE_ME_TO_SELF_EPSILONS,
-                                     ms, last_spike, THETA)
-    epsp_inputs = update_epsp_inputs(epsp_inputs, spikes, weights)
+    spikes = np.reshape(spikes, (neuron.num_afferents, 1))
+    p = neuron.calculate_membrane_potential(epsp_inputs, ms, last_spike)
+    epsp_inputs = neuron.update_epsp_inputs(epsp_inputs, spikes)
 
-    # Here we're posting the potential to the next ms.
-    # TODO: Confirm with Pedro if this makes sense.
+    # Post the potential to the next ms.
     ps[ms + 1] = p
 
     # Record sample neurons' weight at this point.
     for i in range(0, neuron_sample_size):
-        neuron_weights[i][ms] = weights[neuron_numbers[i]][0]
+        neuron_weights[i][ms] = neuron.weights[neuron_numbers[i]][0]
 
     # Get relevant spikes for weight updating in LTP.
     # print ms, last_spike, epsp_inputs.shape[1]
     # print ms, last_spike, penultimate_spike
-    ltp_window_start = max(0, ms - ltp_window, penultimate_spike + 1)
+    ltp_window_start = max(0, ms - neuron.ltp_window, penultimate_spike + 1)
     ltp_window_end = ms + 1
-
     spikes = deepcopy(spike_trains[:, ltp_window_start:ltp_window_end])
 
     # Update weights.
     time_delta = ms - math.fabs(last_spike)
-    weights = update_weights(spikes, weights, time_delta)
+    neuron.update_weights(spikes, time_delta)
 
     # Plot weight distribution at given intervals.
     if ms % frame_step == 0:
-        plot_weights(weights, ms, rows, current_frame=frame, bin_size=bin_size)
+        neuron.plot_weights(ms, rows, current_frame=frame, bin_size=bin_size)
         frame += 1
 
     # If threshold has been met and more than 1 ms has elapsed
     # since the last post-synaptic spike, schedule a spike.
-    if p >= THETA and math.fabs(time_delta) > 1:
+    if p >= neuron.theta and math.fabs(time_delta) > 1:
         penultimate_spike = last_spike
         last_spike = ms + 1
-        epsp_inputs = np.zeros((num_neurons, 1))
+        epsp_inputs = np.zeros((neuron.num_afferents, 1))
 
     # Progress bar.
     progress = (ms / float(test_length - 1)) * 100
@@ -550,7 +544,7 @@ for ms in range(0, test_length - 1):
     sys.stdout.flush()
 
 # Plot final weight distribution.
-plot_weights(weights, test_length, rows, current_frame=frame, bin_size=bin_size)
+neuron.plot_weights(test_length, rows, current_frame=frame, bin_size=bin_size)
 
 # Plot sample neurons' weight over time.
 for i in range(0, neuron_sample_size):
@@ -562,8 +556,8 @@ pylab.show()
 
 # Prepare the pattern plot.
 color = '#E6E6E6'
-min_y = THETA * -0.5
-max_y = THETA * 2.25
+min_y = neuron.theta * -0.5
+max_y = neuron.theta * 2.25
 for i in start_positions:
     plt.gca().add_patch(Rectangle((i, min_y),
                                   PATTERN_LEN,
