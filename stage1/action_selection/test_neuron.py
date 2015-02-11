@@ -46,6 +46,19 @@ class NeuronTests(unittest.TestCase):
         self.failIf(tolerance>0.000001)
         return
 
+    def test_heavy_side(self):
+        """
+        Checks srm_lif_neuron.calculate_heavy_side_step returns the correct output
+        :return:
+        """
+        pos_val = 1
+        neg_val = -1
+        pos_result = srm_lif_neuron.calculate_heavyside_step(pos_val)
+        self.failIf(pos_result != 1)
+        neg_result = srm_lif_neuron.calculate_heavyside_step(neg_val)
+        self.failIf(pos_result != 0)
+        return
+
     def tearDown(self):
         """
 
