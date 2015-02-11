@@ -9,7 +9,7 @@ from Target_animation import Animation
 
 # Set constants
 # =============
-out_directory = "../ESTMD model/output.avi"
+out_directory = "../ESTMD model/test.avi"
 bg_image = "Images/test.jpg"
 bg_speed = 5
 
@@ -20,7 +20,7 @@ test.add_target(2, start=[200,0], end=[200,500], size=2, v=20)
 test.add_target(1, start=[500, 250], size=2, v=20)
 test.add_target(2, start=[0,0], end=[500,500], size=2, v=20)
 test.add_target(0, start=[300, 250], size=2, v=20)
-test.add_background(bg_image, bg_speed)
+test.add_background()
 
 test.run(out_directory)
 

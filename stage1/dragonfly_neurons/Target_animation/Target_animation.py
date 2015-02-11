@@ -27,7 +27,6 @@
 ################################################################################
 
 import os
-import shutil
 import pyglet
 from pyglet.gl import *
 import cv2
@@ -75,7 +74,7 @@ class Target():
 # (Refer to top of the file).
 class AnimationWindow(pyglet.window.Window):
     def __init__(self, target_list, width, height, bg_image, bg_speed):
-        super(AnimationWindow, self).__init__(width, height)
+        super(AnimationWindow, self).__init__()
         
         self.bg_image = bg_image
         if self.bg_image:
@@ -137,14 +136,15 @@ class Animation():
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def create_movie(self, out_directory):
+    def create_movie(self, out_directory, total_frames):
         img1 = cv2.imread('temp/scr0.png')
         height, width, layers =  img1.shape
-        codec =  cv2.cv.CV_FOURCC('M','J','P','G')
-        video = cv2.VideoWriter(out_directory , codec, 20.0, (width,height))
+        codec = cv2.cv.CV_FOURCC('M','J','P','G')
+        print out_directory
+        video = cv2.VideoWriter(out_directory, codec, 20.0, (width,height))
 
-        for i in range(200):
-            img_name = "test/scr" + str(i) + ".png"
+        for i in range(total_frames):
+            img_name = "temp/scr" + str(i) + ".png"
             img = cv2.imread(img_name)
             video.write(img)
 
@@ -160,11 +160,11 @@ class Animation():
         self.bg_image = img_dir
         self.bg_speed = speed
 
-    def run(self, out_directory, fps=10):
+    def run(self, out_directory, fps=10, total_frames=50):
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
                                  self.bg_image, self.bg_speed)
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
-        self.create_movie(out_directory)
-
+        self.create_movie(out_directory, total_frames)
+        
