@@ -387,7 +387,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-
+    # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],
     #            interpolation='nearest',

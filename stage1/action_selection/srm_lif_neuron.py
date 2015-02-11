@@ -83,14 +83,13 @@ def update_weights(spike_trains, weights, time_delta):
     # LTP for each afferent, then adjust all weights within the time window.
     if time_delta == 0:
         for i in range(0, num_neurons):
-            time_delta = calculate_time_delta(spike_trains[i, :])
-            weight_delta = calculate_ltp(time_delta)
-
+            spike_lag = calculate_time_delta(spike_trains[i, :])
+            weight_delta = calculate_ltp(spike_lag)
             # Add weight delta and clip so that it's not > WEIGHT_MAX.
             weights[i] = min(WEIGHT_MAX, weights[i] + weight_delta)
 
-        # Flush EPSPs and reset neurons to be weighed.
-        non_weighted_neurons = np.ones((num_neurons, 1), dtype=np.int32)
+        # Reset neurons to be weighed.
+        non_weighted_neurons = np.ones((num_neurons, 1), dtype=np.float)
 
     # Otherwise calculate LTD for all neurons that have fired,
     # if post-synaptic neuron has fired within the time window.
@@ -98,11 +97,11 @@ def update_weights(spike_trains, weights, time_delta):
 
         # Only consider last ms in spike trains.
         last_ms = spike_trains.shape[1] - 1
-        spikes = spike_trains[:, last_ms]
+        spikes = deepcopy(spike_trains[:, last_ms])
         spikes = np.reshape(spikes, (num_neurons, 1))
 
         # Get LTD change for pre-synaptic neurons that
-        # just spiked and have not been weighted yet.
+        # just spiked and have not been weighed yet.
         neurons_to_weigh = np.multiply(spikes, non_weighted_neurons)
         weight_delta = calculate_ltd(time_delta) * neurons_to_weigh
 
@@ -521,7 +520,7 @@ for i in range(0, neuron_sample_size):
 
 # Get membrane potential at each given point.
 for ms in range(0, test_length - 1):
-    spikes = spike_trains[:, ms]
+    spikes = deepcopy(spike_trains[:, ms])
     spikes = np.reshape(spikes, (num_neurons, 1))
     p = calculate_membrane_potential(epsp_inputs, epsilons,
                                      ms, last_spike, THETA)
