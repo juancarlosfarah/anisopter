@@ -21,7 +21,7 @@ H_filter = np.array ([[-1, -1, -1, -1, -1],
 
 t = T0
 frame_history = []
-cap = cv2.VideoCapture("output.avi")
+cap = cv2.VideoCapture("balls.mov")
 
 while(True):
     ret, frame = cap.read()
@@ -30,7 +30,7 @@ while(True):
     blue,green,red = cv2.split(frame)
 
     # Blur and downsize image.
-    downsize = cv2.resize(green,(100,100))
+    downsize = cv2.resize(green,(200,200))
     #downsize = cv2.pyrDown(green)
     #cv2.imshow("Pre", downsize)
     #downsize = cv2.GaussianBlur(downsize, (5, 5), 3)
@@ -130,12 +130,11 @@ while(True):
     
     out_neg = signal.lfilter(b1, a1, [out_neg_prev, out_neg], axis = 0)[-1]
     out_neg_prev = out_neg
-
     downsize = out_neg * out_pos
 
     # Show image.
-    #downsize = np.tanh(downsize)
-    downsize *= 1000
+    downsize *= 10000
+    downsize = np.tanh(downsize)
     if 0.00 < t < 0.02:
         print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
     cv2.imshow('frame', cv2.resize(downsize,(500,500)))
