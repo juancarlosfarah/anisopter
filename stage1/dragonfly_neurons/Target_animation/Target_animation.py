@@ -40,8 +40,8 @@ class Target():
             x_c = self.end[0] - self.start[0]
             y_c = self.end[1] - self.start[1]
             deg = atan2(y_c, x_c)
-            dx = 5.0 * cos(deg)
-            dy = 5.0 * sin(deg)
+            dx = self.v * cos(deg)
+            dy = self.v * sin(deg)
             self.change_position(dx, dy)
 
 # Class: AnimationWindow
@@ -49,11 +49,12 @@ class Target():
 # This class is extension of Class pyglet.window.Window. It animates
 # N flies flying in parallel. It is very hard coded.
 class AnimationWindow(pyglet.window.Window):
-    def __init__(self, target_list, directory):
+    def __init__(self, target_list, directory, bg_image):
         super(AnimationWindow, self).__init__()
-
-        self.background = pyglet.image.load('test.jpg').get_texture()
-
+        
+        self.bg_image = bg_image
+        print self.bg_image
+        self.background = pyglet.image.load(self.bg_image).get_texture()
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
@@ -114,22 +115,20 @@ class Animation():
         img1 = cv2.imread('test/scr0.png')
         height, width, layers =  img1.shape
         print height, width, layers
-        codec = 0
-        video = cv2.VideoWriter('output.avi', codec, 20.0, (width,height))
+        codec =  cv2.cv.CV_FOURCC('M','J','P','G')
+        video = cv2.VideoWriter('../ESTMD model/output.avi', codec, 20.0, (width,height))
 
-        for i in range(30):
+        for i in range(200):
             img_name = "test/scr" + str(i) + ".png"
-            print img_name
             img = cv2.imread(img_name)
-            cv2.imshow("Frame", img)
             video.write(img)
 
         video.release()
         cv2.destroyAllWindows()
 
-    def run(self, directory="test", fps=10):
+    def run(self, bg_image = "test.jpg", directory="test", fps=10):
         self.make_directory(directory)
-        window = AnimationWindow(self.target_list, directory)
+        window = AnimationWindow(self.target_list, directory, bg_image)
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
         # Change this:
@@ -140,5 +139,13 @@ class Animation():
 # Test
 # ====
 test = Animation()
-test.add_target(2, start=[100,100], end=[500,500], size=8, v=10)
-test.run()
+test.add_target(2, start=[200,0], end=[200,500], size=5, v=20)
+test.add_target(1, start=[500, 250], size=5, v=20)
+test.add_target(2, start=[0,0], end=[500,500], size=5, v=20)
+test.add_target(0, start=[300, 250], size=5, v=20)
+
+BG = "test.jpg"
+
+test.run(bg_image = BG, fps = 10)
+
+

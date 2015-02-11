@@ -20,8 +20,7 @@ cd ..
 cd nrn
 ./configure --prefix=`pwd` --with-iv=$HOME/neuron/iv --with-nrnpython=/usr/bin/python
 make
-
-sudo make install
+make install
 
 cd src/nrnpython
 python setup.py install --user

@@ -25,14 +25,15 @@ cap = cv2.VideoCapture("target.mov")
 
 while(True):
     ret, frame = cap.read()
-    
-    cv2.imshow("original", frame)
 
     # Split to basic colors and keep green color.
     blue,green,red = cv2.split(frame)
 
     # Blur and downsize image.
     downsize = cv2.pyrDown(green)
+    cv2.imshow("Pre", downsize)
+    #downsize = cv2.GaussianBlur(downsize, (7, 7), 5)
+    cv2.imshow("After", downsize)
     downsize = 1.0 * downsize / 256.0
 
     frame_history.append(downsize)
@@ -57,6 +58,8 @@ while(True):
     CSKernel[1][1] = 8.0 / 9.0
 
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
+
+    cv2.imshow('pre RTC', downsize)
 
     if 0.01 < t < 0.02:
         print "max", np.amax(downsize), "min", np.amin(downsize)
@@ -93,7 +96,7 @@ while(True):
     v_neg = -(mult_neg-1) * u_neg + mult_neg * v_neg_prev
     v_neg_prev = deepcopy(v_neg)
 
-    # keep track of previous u
+    # keep track of previous u.
     u_pos_prev = deepcopy(u_pos)
     u_neg_prev = deepcopy(u_neg)    
 
@@ -105,32 +108,28 @@ while(True):
     out_pos = cv2.filter2D(out_pos, -1, H_filter) 
     out_neg = cv2.filter2D(out_neg, -1, H_filter) 
 
-    cv2.imshow("outpos", out_pos)
-    cv2.imshow("outneg", out_neg)
-    
     # TO DO: figure out if you turn negative to 0 or to absolute value.
     out_pos[out_pos < 0] = 0
     out_neg[out_neg < 0] = 0
-
+    
+    #cv2.imshow("outpos", out_pos)
+    #cv2.imshow("outneg", out_neg)
+    
     if t == (T0):
-        #out_pos_prev = deepcopy(out_pos)
         out_neg_prev = deepcopy(out_neg)
-        #t += dt
-        #continue
 
     # delay off channel 
     b1 = [1.0, 1.0]
     a1 = [51.0, -49.0]
+    
     out_neg = signal.lfilter(b1, a1, [out_neg_prev, out_neg])[-1]
-
     out_neg_prev = out_neg
 
     downsize = out_neg * out_pos
 
     # Show image.
     downsize = np.tanh(downsize)
-    downsize[downsize < 0.2] = 0
-    if 0.01 < t < 0.02:
+    if 0.00 < t < 0.02:
         print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
     cv2.imshow('frame', downsize)
 
