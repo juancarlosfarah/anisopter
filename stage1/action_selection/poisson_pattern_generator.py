@@ -168,9 +168,6 @@ def generate_sample(num_neurons,
     # Generate background spike trains.
     spike_trains = generate_spike_trains(num_neurons, sample_duration)
 
-    # TODO: Make into warning.
-    print sum(sum(spike_trains)) / (num_neurons * sample_duration) / DT
-
     # Generate pattern from spike trains.
     pattern = generate_pattern(spike_trains,
                                pattern_duration,
@@ -191,9 +188,6 @@ def generate_sample(num_neurons,
     # Add noise to all spike trains.
     for i in range(num_neurons):
         spike_trains[i, :] = add_noise(spike_trains[i, :], NOISE)
-
-    # TODO: Make into warning.
-    print sum(sum(spike_trains)) / (num_neurons * sample_duration) / DT
 
     # Package everything nicely.
     rvalue = dict()
@@ -372,12 +366,12 @@ def save_sample(filename, sample):
 def save():
     sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(SEED,
-                                                        NUM_NEURONS,
-                                                        TOTAL_MS,
-                                                        PATTERN_MS,
-                                                        REPETITION_RATIO,
-                                                        INVOLVEMENT_RATIO,
-                                                        NOISE)
+                                                     NUM_NEURONS,
+                                                     TOTAL_MS,
+                                                     PATTERN_MS,
+                                                     REPETITION_RATIO,
+                                                     INVOLVEMENT_RATIO,
+                                                     NOISE)
     save_sample(filename, sample)
 
 
