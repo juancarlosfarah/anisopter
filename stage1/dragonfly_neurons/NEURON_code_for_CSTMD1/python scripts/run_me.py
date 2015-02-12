@@ -12,7 +12,7 @@ D = 30 # Maximum distance between compartments that are connected with a synapse
 
 
 
-dr = Dragonfly(4)
+dr = Dragonfly(2)
 
 dr.run_experiment(synapses_no = SYNAPSES_NO, D=D, PLOTS = True)
 
