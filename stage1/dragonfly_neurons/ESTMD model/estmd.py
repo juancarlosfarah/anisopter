@@ -61,7 +61,7 @@ while(True):
     # Convert to float
     #downsize = downsize.astype(float) #/ 256.0
 
-    cv2.imshow('pre CS', cv2.resize(downsize,(500,500)))
+    #cv2.imshow('pre CS', cv2.resize(downsize,(500,500)))
 
     # Center surround antagonism kernel applied.
     CSscale = -1.0 / 9.0
@@ -144,11 +144,16 @@ while(True):
         print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
     cv2.imshow('frame', cv2.resize(downsize,(500,500)))
 
+    d_256 = 256*downsize.astype(int)
+
+    video = cv2.VideoWriter("result.avi", cv2.cv.CV_FOURCC('P','I','M','1'), 20.0, (500,500), isColor = 0)
+    video.write(256)
     # Rinse and repeat.
     t += dt
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # Run.s
+video.release()
 cap.release()
 cv2.destroyAllWindows()
