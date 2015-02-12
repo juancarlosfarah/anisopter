@@ -22,6 +22,8 @@ H_filter = np.array ([[-1, -1, -1, -1, -1],
 t = T0
 frame_history = []
 cap = cv2.VideoCapture("test.avi")
+codec = cv2.cv.CV_FOURCC('P','I','M','1')
+video = cv2.VideoWriter("result.avi", codec, 20.0, (500,500), isColor = 0)
 
 while(True):
     ret, frame = cap.read()
@@ -71,8 +73,8 @@ while(True):
 
     downsize = cv2.filter2D(downsize, -1, CSKernel) 
 
-    if 0.01 < t < 0.02:
-        print "max", np.amax(downsize), "min", np.amin(downsize)
+    #if 0.01 < t < 0.02:
+    #    print "max", np.amax(downsize), "min", np.amin(downsize)
 
     # RTC filter.
     u_pos = deepcopy(downsize)
@@ -142,12 +144,14 @@ while(True):
     downsize[downsize < 0.6] = 0
     if 0.00 < t < 0.02:
         print "maxpost", np.amax(downsize), "minpost", np.amin(downsize)
-    cv2.imshow('frame', cv2.resize(downsize,(500,500)))
-
-    d_256 = 256*downsize.astype(int)
-
-    video = cv2.VideoWriter("result.avi", cv2.cv.CV_FOURCC('P','I','M','1'), 20.0, (500,500), isColor = 0)
-    video.write(256)
+        
+    # Resize image.
+    downsize = cv2.resize(downsize,(500,500))
+    processed = (downsize * 255.0).astype('u1')
+    cv2.imshow('frame', processed)
+    
+    video.write(processed)
+    
     # Rinse and repeat.
     t += dt
     if cv2.waitKey(1) & 0xFF == ord('q'):
