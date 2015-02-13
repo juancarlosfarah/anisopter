@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import random
 import time
 import math
+import time
 import sys
 
 class CSTMD(object) :
@@ -23,8 +24,8 @@ class CSTMD(object) :
     h.celsius = 20  # Temperature of the cells
 
     # SEEDS
-    stim_seed = 400 
-    synapses_seed = 20
+    stim_seed = int(time.time())#400 
+    synapses_seed = int(time.time())#20
 
     # Synapses
     weights = 0.01
@@ -34,9 +35,9 @@ class CSTMD(object) :
 
     # Stimulation
     IC = 0
-    NetStim = -1   # 1: T1, 2: T2, 3: T1&T2, -1: Visual input
+    NetStim = 0   # 1: T1, 2: T2, 3: T1&T2, -1: Visual input
     SpTrain = False
-    IntFire = False
+    IntFire = True
     
     delay_of_T1 = 13 # [ms]
     delay_of_T2 = 50 # [ms]
@@ -70,8 +71,15 @@ class CSTMD(object) :
     PLOT_ACTIVITY = True
 
 
-    PIXEL_NO = 64
+    PIXEL_NO = 4096
+    MAX_CURRENT = 10.0
+    MIN_CURRENT = 2.0
     # --------------------------------------------------------------------------
+
+
+    # -- Helper functions ------------------------------------------------------
+    def calc_rand_weight(self, x, MIN, MAX) :
+        return MIN + np.random.rand()*((MAX-MIN)*np.exp(-x)**2.0)/800.0
 
 	# IK: constructor
     def __init__(self, neurons_no, synapses_no, D, PRINT = True) :
@@ -224,17 +232,53 @@ class CSTMD(object) :
 
     def set_input_output(self) :
         if self.IntFire:
+
+            """
             self.w1_n0 = 0.05
                 # First stimulus
             self.stimNet = h.IntFire2()
-            self.stimNet.taum = 5
+            self.stimNet.taum = 100
             self.stimNet.taus = 1
-            self.stimNet.ib = 10.0
+            self.stimNet.ib = 2.0
             # To see the current state of variable m or input current i, check
             # self.stimNet.M
             # self.stimNet.I
             self.syn0net = h.Exp2Syn(h.neuron0_tree[self.input_indx](0.5))
             self.nc0net  = h.NetCon(self.stimNet,self.syn0net,0,0.025+self.delay_of_T1,self.w1_n0) # threshold, delay, weight
+            """
+
+
+            self.stimNet = []
+            self.syn0net = []
+            self.nc0net = []
+            for p in range(self.PIXEL_NO) :
+                self.stimNet.append(h.IntFire2())
+                self.stimNet[p].taum = 100
+                self.stimNet[p].taus = 1
+                self.stimNet[p].ib = self.MIN_CURRENT
+                # To see the current state of variable m or input current i, check
+                # self.stimNet.M
+                # self.stimNet.I
+
+                # Connect every neuron to this input that represents a pixel
+                for n in range(self.neurons_no) :
+                    # This means that the maximum weight of the whole input
+                    # stimulus will be from MIN to MAX
+                    MIN = 0.01
+                    MAX = 0.1 # SOS ZAF: The correct value is 0.01
+                    
+                    Centre = np.sqrt(self.PIXEL_NO)/2.0
+                    x = p % np.sqrt(self.PIXEL_NO)
+                    y = p / np.sqrt(self.PIXEL_NO)
+                    Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
+
+                    weight = self.calc_rand_weight(Dist, MIN, MAX)/float(self.PIXEL_NO)
+                    exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
+                    self.nc0net.append(h.NetCon(self.stimNet[p],
+                                                self.syn0net[-1],
+                                                0,0.025+self.delay_of_T1,
+                                                weight)) # threshold, delay, weight
+
 
         elif self.IC :
             self.stimIC = h.IClamp(h.neuron0_tree[720](0.5))
@@ -245,10 +289,6 @@ class CSTMD(object) :
             self.nc0ic = h.NetCon(stimIC,syn0ic,0,0.025+delay_of_T1,0.05) # threshold, delay, weight
             self.syn1ic = h.Exp2Syn(h.neuron1_tree[3](0.5)) # 720
             self.nc1ic = h.NetCon(stimIC,syn1ic,0,0.025,0.01) # threshold, delay, weight
-
-
-
-
 
         elif self.NetStim:
             # Experiment 2
@@ -269,8 +309,8 @@ class CSTMD(object) :
                     for n in range(self.neurons_no) :
                         # This means that the maximum weight of the whole input
                         # stimulus will be from MIN to MAX
-                        MIN = 0.001
-                        MAX = 0.1 # SOS ZAF: The correct value is 0.01
+                        MIN = 0.00001
+                        MAX = 0.0001 # SOS ZAF: The correct value is 0.01
                         weight = (MIN + np.random.rand()*(MAX-MIN))/float(self.PIXEL_NO)
                         exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
                         self.nc0net.append(h.NetCon(self.stimNet[p],
@@ -371,6 +411,15 @@ class CSTMD(object) :
                     exec "self.trec0"+str(e)+".record(h._ref_t)"
                     exec "self.vrec1"+str(e)+".record(h.neuron1_tree["+str(self.rec1[e])+"](0.5)._ref_v)"
                     exec "self.trec1"+str(e)+".record(h._ref_t)"
+
+
+
+                    self.id_input = h.Vector()
+                    self.t_input = h.Vector()
+                    self.raster_input = h.NetCon(self.stimNet[0], None)
+                    self.raster_input.threshold = 0 #-10 #set threshold to a value of your choice
+                    self.raster_input.record(self.id_input,self.t_input)
+
         # ----------------------------------------------------------------------
 
         # Finalize initialization
@@ -378,20 +427,18 @@ class CSTMD(object) :
         h.dt = self.dt
 
 
-    def run(self, time, rates) :
+    def run(self, time, rates,ib=0) :
+        print "len ",len(rates)
+        #if self.IntFire:
+        #    self.stimNet.ib = ib
+
         if self.IntFire:
-            self.stimNet.ib = 10
-
-        if self.NetStim == -1 :
-
             if len(rates) > self.PIXEL_NO :
                 print "Error: Not enough stimuli!\nReturning.."
                 return [], []
+            
             for i in range(len(rates)) :
-                self.stimNet[i].interval = rates[i]
-                # To find how many spikes need to occur.
-                self.stimNet[i].number = time/rates[i]
-                self.stimNet[i].start = self.curr_time
+                self.stimNet[i].ib = self.MIN_CURRENT + rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT)
 
         self.curr_time += time
 
@@ -408,9 +455,9 @@ class CSTMD(object) :
             for i in range(len(self.t_vec)) :
                 print "Spikes of neuron",str(i)+":", len(self.t_vec[i])
 
-        if self.IntFire:
-            print self.stimNet.M()
-            print self.stimNet.I()
+        #if self.IntFire:
+        #    print self.stimNet[0].M()
+        #    print self.stimNet[0].I()
 
 
         #for i in range(len(self.t_vec)) :
@@ -424,8 +471,7 @@ class CSTMD(object) :
         
         T = list(self.t_vec)
         ID = self.id_vec
-        #h.t = 0
-        #self.curr_time = 0 
+
         return T, ID
 
     def plot(self) :
@@ -495,6 +541,11 @@ class CSTMD(object) :
                     plt.plot(spikes, fr, c='b')
                 elif neu == 1:
                     plt.plot(spikes, fr, c='r')
+
+
+            plt.figure()
+            plt.scatter(self.id_input, self.t_input, c='b', marker='+')
+            plt.xlim(0, self.curr_time)
             plt.show()
 
 
