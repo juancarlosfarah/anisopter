@@ -38,7 +38,7 @@ from math import pi, sin, cos, atan2, sqrt
 # =============
 # This class represents different targets that will move on the screen.
 # (Refer to top of the file).
-class Target():
+class Target:
     def __init__(self, type, start, end, v, size, color):
         self.type = type
         self.start = start
@@ -125,7 +125,7 @@ class AnimationWindow(pyglet.window.Window):
 # Method run_random runs n flies randomly around the screen.
 # Method run_parallel runs n flies in parallel through the screen.
 # (Refer to top of the file).
-class Animation():
+class Animation:
     def __init__(self, width=640, height=480):
         self.target_list = []
         self.width = width
