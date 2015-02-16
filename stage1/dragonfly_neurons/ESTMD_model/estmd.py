@@ -73,7 +73,7 @@ class ESTMD:
         # Run.
         self.video.release()
         self.cap.release()
-        self.cv2.destroyAllWindows() 
+        cv2.destroyAllWindows() 
         
     def next_frame(self):
         ret, frame = self.cap.read()
