@@ -1,44 +1,25 @@
-################################################################################
-# File: Target_animation.py
-# Author: Erik Grabljevec
-# E-mail: erikgrabljevec5@gmail.com
-# Doc: Tool to animate flies. As user only interect with class Animation
-#      To create new animation create new instance of class Animation.
-#      Animation has next methods (each followed with list of arguments):
-#
-#       add_target: 
-#                - type : it is either 0 for stationary target,
-#                         1 for randomly moving target and 2 for target
-#                         moving from start to end.
-#                - start = [0, 0] : starting position.
-#                - end = [100, 100] : ending position, only relavant for type 2.
-#                - v = 5 : sets velocity of target.
-#                - size = 10 : sets size of target.
-#                - color = [0, 0, 0]) : sets color of target.
-#              
-#       add_background: 
-#                - img_dir = False : sets directory of background image.
-#                                    If it stays False background is white.
-#                - speed = 0 : sets how fast the background is moving.
-#
-#       run:
-#                - out_directory : sets directory+name of output movie.
-#                - fps = 10 : sets fps used to make animation.
-################################################################################
+"""
+Tool to animate dragonfly targets. User only interect with class Animation.
+To create new animation create new instance of class Animation.
+For any information on how to use this module refer to class Animation.
+"""
+
 
 import os
-import pyglet
-from pyglet.gl import *
-import cv2
 from random import *
 from math import pi, sin, cos, atan2, sqrt
 
+import pyglet
+from pyglet.gl import *
 
-# Class: Target
-# =============
-# This class represents different targets that will move on the screen.
-# (Refer to top of the file).
+import cv2
+
+
 class Target:
+    """
+    This class represents different targets that will move on the screen.
+    """
+    
     def __init__(self, type, start, end, v, size, color):
         self.type = type
         self.start = start
@@ -66,13 +47,14 @@ class Target:
             dx = self.v * cos(deg)
             dy = self.v * sin(deg)
             self.change_position(dx, dy)
-
-# Class: AnimationWindow
-# ======================
-# This class is extension of Class pyglet.window.Window. It animates
-# N flies flying in parallel. It is very hard coded.
-# (Refer to top of the file).
+            
+            
 class AnimationWindow(pyglet.window.Window):
+    """
+    This class is extension of class pyglet.window.Window. We make it over
+    pyglet.window.Window so we have easier work with some functions.
+    """
+    
     def __init__(self, target_list, width, height, bg_image, bg_speed):
         super(AnimationWindow, self).__init__()
         
@@ -119,13 +101,18 @@ class AnimationWindow(pyglet.window.Window):
         pyglet.image.get_buffer_manager().get_color_buffer().save(image_name)
         self.time += 1
 
-# Class: FlyAnimation
-# ===================
-# This class contains different possible fly animation.
-# Method run_random runs n flies randomly around the screen.
-# Method run_parallel runs n flies in parallel through the screen.
-# (Refer to top of the file).
+
 class Animation:
+    """ 
+    This class handles different possible target animations.
+    
+    User uses this class with next functions:
+    - add_target
+    - add_background
+    - run
+    For more information on these functions refer to their comments.
+    """
+    
     def __init__(self, width=640, height=480):
         self.target_list = []
         self.width = width
@@ -137,7 +124,7 @@ class Animation:
             os.makedirs(directory)
 
     def create_movie(self, out_directory, total_frames):
-        img1 = cv2.imread('temp/scr0.png')
+        img1 = cv2.imread("temp/scr0.png")
         height, width, layers =  img1.shape
         codec = cv2.cv.CV_FOURCC('M','J','P','G')
         print out_directory
@@ -153,14 +140,46 @@ class Animation:
 
     def add_target(self, type, start=[0, 0], end=[100, 100], 
                    v=5, size=10, color=[0, 0, 0]):
+        """
+        Adds target in animation with several different options.
+        
+        Args:
+            type: It is either 0 for stationary target,
+                1 for randomly moving target and 2 for target
+                moving from start to end.
+            start: Starting position.
+            end: Ending position, only relavant for type 2.
+            v: Sets velocity of target.
+            size: Sets size of target.
+            color: Sets color of target.
+        """      
+        
         new_target = Target(type, start, end, v, size, color)
         self.target_list.append(new_target)
         
     def add_background(self, img_dir=False, speed=0):
+        """
+        Adds background to animation. It can be either stationary or moving.
+        
+        Args:
+            img_dir: Sets directory of background image.
+                If it stays False background is white.
+            speed: Sets how fast the background is moving.
+        """
+        
         self.bg_image = img_dir
         self.bg_speed = speed
 
     def run(self, out_directory, fps=10, total_frames=50):
+        """
+        Run animation and save it in out_directory.
+        
+        Args:
+            out_directory: Sets directory+name of output movie.
+            fps: Sets fps used to make animation.
+            total_frames: Total frames that movie will contain.
+        """
+        
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
                                  self.bg_image, self.bg_speed)
