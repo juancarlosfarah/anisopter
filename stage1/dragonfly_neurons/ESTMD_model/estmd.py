@@ -1,26 +1,33 @@
-################################################################################
-# File: estmd.py
-# Author: Erik Grabljevec
-# E-mail: erikgrabljevec5@gmail.com
-# Doc: 
-#
-################################################################################
+"""
+Tool to isolate targets from video. You can generate appropriate videos
+using module Target_animation.
+"""
 
-import cv2
+
 import math
-import numpy as np
-from scipy import signal
 from copy import deepcopy
 
-# Class: ESTMD
-# ============
-# Missing description !!!
-#
-class ESTMD:
+import numpy as np
+from scipy import signal
+
+import cv2
+
+
+class ESTMD(object):
+    """
+    With this class we set parameters and extract targets from movie.
+    
+    User should interact with next methods:
+        - open_movie: To set movie.
+        - run: To make new_movie.
+        - get_next_frame: To extract next frame in by_frame mode.
+    For more information refer to method run.
+    """
+
     # Constants.
-    T0 = 0.001
-    LMC_rec_depth = 8
-    dt = 0.001
+    T0 = 0.001  # Starting time.
+    LMC_rec_depth = 8   # Sets how smoothly we want to apply "signal.lfilter".
+    dt = 0.001  # Time step.
     H_filter = np.array ([[-1, -1, -1, -1, -1],
                           [-1,  0,  0,  0, -1],
                           [-1,  0,  2,  0, -1],
@@ -28,7 +35,6 @@ class ESTMD:
                           [-1, -1, -1, -1, -1]])
     cap = False  # Movie that we are capturing - "cap" - is set to false
                  # before we run "open_movie" method.
-    by_frame = False
     # ---                
                           
     def RTC_exp(self, T_s, x):
@@ -40,22 +46,51 @@ class ESTMD:
         pass
         
     def open_movie(self, movie_dir):
+        """
+        This method sets movie that we'll try to modify.
+        
+        Args:
+            movie_dir: Directory of input we want to modify.
+        """
+        
         self.cap = cv2.VideoCapture(movie_dir)
                                     
-    def run(self, by_frame = False, cod = "PIM1", out_dir = "result.avi"):
+    def run(self, by_frame=False, cod="PIM1", out_dir="result.avi"):
+        """
+        This method runs modification on the movie that we previously added
+        using "open_movie" method.
+        
+        We have two options on how to process movie. We can either set 
+        "by_frame" to True and than extract new video frame by frame using 
+        method "get_next_frame". Other option we have is to set "by_frame"
+        to False. In that case the movie will be exported to directory
+        "out_dir" in format that we encode using argument "cod".
+        
+        Args:
+            by_frame: Do we want to convert entire movie or by frame.
+            cod: Encoding in which we want output movie.
+            out_dir: Directory in which we output converted movie.
+        """
+        
         if not self.cap:
-            "You need to run 'open_movie' method first!!! (refer to doc)"
+            "You need to run 'open_movie' method first!"
             return
         self.by_frame = by_frame
         codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
         self.video = cv2.VideoWriter(out_dir, codec, 
-                                     20.0, (500,500), isColor = 0)
+                                     20.0, (500,500), isColor=0)
         self.t = self.T0
         self.frame_history = []
         if not by_frame:
             self.create_movie()
     
     def get_next_frame(self):
+        """
+        Extract next frame.
+        
+        Only works if we ran method "run" with argument "by_frame" set to True.
+        """
+        
         # You can extract next frame only in by_frame mode.
         if not self.by_frame:
             "Run video in by_frame method! (refer to doc)"
@@ -70,12 +105,20 @@ class ESTMD:
                 break
             self.video.write(frame)
 
-        # Run.
         self.video.release()
         self.cap.release()
         cv2.destroyAllWindows() 
         
     def next_frame(self):
+        """
+        The engine of the class.
+        
+        Applies concepts from paper:
+        'Discrete Implementation of Biologically Inspired Image Processing for
+         Target Detection' by K. H., S. W., B. C. and D. C. from
+        The Univerity of Adelaide, Australia.
+        """
+        
         ret, frame = self.cap.read()
 
         # Split to basic colors and keep green color.
@@ -86,7 +129,8 @@ class ESTMD:
         downsize = 1.0 * downsize / 256.0
         self.frame_history.append(downsize)
 
-        b = [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]
+        b = [0.0, 0.00006, -0.00076, 0.0044, 
+             -0.016, 0.043, -0.057, 0.1789, -0.1524]
         a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
         n = self.LMC_rec_depth
 
@@ -174,4 +218,3 @@ class ESTMD:
             return False
         else:
             return processed
-        

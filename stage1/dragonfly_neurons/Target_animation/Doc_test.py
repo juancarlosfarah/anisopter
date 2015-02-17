@@ -1,4 +1,4 @@
 import pydoc
-import Target_animation   # Import this in order to check its documentation
+import Target_animation
 
 pydoc.help(Target_animation)
