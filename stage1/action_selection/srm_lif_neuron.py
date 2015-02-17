@@ -31,8 +31,13 @@ class Neuron:
     the parameters from Masquelier et al. (2008).
     """
 
+    # Defaults
+    THETA = 500
+    A_PLUS = 0.03125
+    A_RATIO = 0.92
+
     def __init__(self, num_afferents,
-                 a_plus=0.03125, a_minus_ratio=0.92, theta=500):
+                 a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
         self.dt = 1                          # Discrete time step in ms.
         self.num_afferents = num_afferents   # Number of afferents.
         self.tau_m = 10.0                    # Membrane time constant in ms.
@@ -48,7 +53,7 @@ class Neuron:
 
         # LTP and LTD learning rates. NOTE: a_minus_ratio should be 0.85.
         self.a_plus = a_plus
-        self.a_minus = a_minus_ratio * self.a_plus
+        self.a_minus = a_ratio * self.a_plus
 
         self.time_delta = None               # Time since last spike in ms.
         self.spike_times = []                # Container to save spike times.
