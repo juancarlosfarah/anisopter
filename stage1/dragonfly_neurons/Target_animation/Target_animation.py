@@ -5,9 +5,13 @@ For any information on how to use this module refer to class Animation.
 """
 
 
-import os
+from math import atan2
+from math import cos 
+from math import pi
+from math import sin
+from math import sqrt
 from random import *
-from math import pi, sin, cos, atan2, sqrt
+import os
 
 import pyglet
 from pyglet.gl import *
@@ -35,7 +39,7 @@ class Target(object):
 
     def next_position(self):
         """
-        Moves Target's position according to it's type.
+        Moves Target's position according to its type.
         """
         
         if self.type == 0:
@@ -57,7 +61,7 @@ class Target(object):
             
 class AnimationWindow(pyglet.window.Window):
     """
-    This class is extension of class pyglet.window.Window. We make it over
+    This class is extension of class pyglet.window.Window. We make it over      
     pyglet.window.Window so we have easier work with some functions.
     """
     
@@ -114,11 +118,11 @@ class Animation(object):
     """ 
     This class handles different possible target animations.
     
-    User uses this class with next functions:
+    Interact with this class with next methods:
     - add_target
     - add_background
     - run
-    For more information on these functions refer to their comments.
+    For more information on these methpds refer to their doc.
     """
     
     def __init__(self, width=640, height=480):
@@ -183,7 +187,7 @@ class Animation(object):
         Run animation and save it in out_directory.
         
         Args:
-            out_directory: Sets directory+name of output movie.
+            out_directory: Sets directory of output movie.
             fps: Sets fps used to make animation.
             total_frames: Total frames that movie will contain.
         """
@@ -196,4 +200,3 @@ class Animation(object):
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
         self.create_movie(out_directory, total_frames)
-        
