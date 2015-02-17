@@ -31,7 +31,8 @@ class Neuron:
     the parameters from Masquelier et al. (2008).
     """
 
-    def __init__(self, num_afferents):
+    def __init__(self, num_afferents,
+                 a_plus=0.03125, a_minus_ratio=0.92, theta=500):
         self.dt = 1                          # Discrete time step in ms.
         self.num_afferents = num_afferents   # Number of afferents.
         self.tau_m = 10.0                    # Membrane time constant in ms.
@@ -43,12 +44,17 @@ class Neuron:
         self.t_window = int(self.tau_m * 7)  # Max time that spike affects EPSP.
         self.weight_max = 1                  # Maximum weight value.
         self.weight_min = 0                  # Minimum weight value.
-        self.a_plus = 0.03125                # LTP learning rate.
-        self.a_minus = 0.92 * self.a_plus    # LTD learning rate. NOTE: should be 0.85
-        self.theta = 500                     # Threshold in arbitrary units.
+        self.theta = theta                   # Threshold in arbitrary units.
+
+        # LTP and LTD learning rates. NOTE: a_minus_ratio should be 0.85.
+        self.a_plus = a_plus
+        self.a_minus = a_minus_ratio * self.a_plus
+
         self.time_delta = None               # Time since last spike in ms.
-        self.spike_times = []
-        self.potential = []
+        self.spike_times = []                # Container to save spike times.
+        self.potential = []                  # Tracks membrane potential.
+
+        # Save weights in this container.
         self.historic_weights = np.array([])
 
         # Effective width of the LTP window given spike pattern.
