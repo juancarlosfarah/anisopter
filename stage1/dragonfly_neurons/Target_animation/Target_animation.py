@@ -15,7 +15,7 @@ from pyglet.gl import *
 import cv2
 
 
-class Target:
+class Target(object):
     """
     This class represents different targets that will move on the screen.
     """
@@ -34,6 +34,10 @@ class Target:
         self.pos[1] += dy
 
     def next_position(self):
+        """
+        Moves Target's position according to it's type.
+        """
+        
         if self.type == 0:
             self.change_position(0, 0)
         elif self.type == 1:
@@ -41,9 +45,11 @@ class Target:
             dy = randint(-self.v, self.v)
             self.change_position(dx, dy)
         elif self.type == 2:
+            # Find direction in which we are moving.
             x_c = self.end[0] - self.start[0]
             y_c = self.end[1] - self.start[1]
             deg = atan2(y_c, x_c)
+            # And move in that direction, making length of move "self.v".
             dx = self.v * cos(deg)
             dy = self.v * sin(deg)
             self.change_position(dx, dy)
@@ -87,10 +93,12 @@ class AnimationWindow(pyglet.window.Window):
     def on_draw(self):
         pyglet.gl.glClearColor(1, 1, 1, 1)
         self.clear()
+        
         if self.bg_image:
             glColor3f(1, 1, 1)
             bg_pos = -self.time * self.bg_speed
             self.background.blit(bg_pos, bg_pos)
+            
         for i in range(self.N):
             x = self.target_list[i].pos[0]
             y = self.target_list[i].pos[1]
@@ -102,7 +110,7 @@ class AnimationWindow(pyglet.window.Window):
         self.time += 1
 
 
-class Animation:
+class Animation(object):
     """ 
     This class handles different possible target animations.
     
@@ -145,8 +153,8 @@ class Animation:
         
         Args:
             type: It is either 0 for stationary target,
-                1 for randomly moving target and 2 for target
-                moving from start to end.
+                1 for randomly moving target or 2 for target
+                moving from start to end position in straight line.
             start: Starting position.
             end: Ending position, only relavant for type 2.
             v: Sets velocity of target.
@@ -183,6 +191,8 @@ class Animation:
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
                                  self.bg_image, self.bg_speed)
+        # Next line makes window update every 1.0/fps seconds after
+        # running method update_frames on window.
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.app.run()
         self.create_movie(out_directory, total_frames)
