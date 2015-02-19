@@ -222,4 +222,4 @@ class ESTMD(object):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             return False
         else:
-            return processed
+            return downsize

@@ -17,13 +17,13 @@ bg_speed = 4
 
 # Create movie (tests Target_animation.py)
 # ========================================
-#test = Animation()
+test = Animation()
 
 #test.add_target(2, start=[0,300], end=[500,300], size=4, v=5)
 #test.add_target(2, start=[0,350], end=[500,350], size=5, v=5)
-#test.add_background(bg_image, bg_speed)
+test.add_background()#bg_image, bg_speed)
 
-#test.run(out_directory)
+test.run(out_directory)
 
 # Load CSTMD neurons
 # ==============================
