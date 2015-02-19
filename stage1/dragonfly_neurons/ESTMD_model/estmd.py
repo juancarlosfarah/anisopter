@@ -103,6 +103,7 @@ class ESTMD(object):
     def create_movie(self):
         while(True):
             frame = self.next_frame()
+            frame = (frame * 255.0).astype('u1')
             if frame is False:
                 break
             self.video.write(frame)
@@ -214,7 +215,6 @@ class ESTMD(object):
 
         # Resize image.
         downsize = cv2.resize(downsize,(self.image_width,self.image_height))
-        processed = (downsize * 255.0).astype('u1')
         #cv2.imshow('Output', processed)
         
         self.t += self.dt
