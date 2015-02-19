@@ -55,7 +55,7 @@ class ESTMD(object):
         
         self.cap = cv2.VideoCapture(movie_dir)
                                     
-    def run(self, by_frame=False, cod="PIM1", out_dir="result.avi"):
+    def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", image_width = 20, image_height = 20):
         """
         This method runs modification on the movie that we previously added
         using "open_movie" method.
@@ -76,9 +76,11 @@ class ESTMD(object):
             "You need to run 'open_movie' method first!"
             return
         self.by_frame = by_frame
+        self.image_width = image_width
+        self.image_height = image_height
         codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
         self.video = cv2.VideoWriter(out_dir, codec, 
-                                     20.0, (500,500), isColor=0)
+                                     20.0, (self.image_width,self.image_height), isColor=0)
         self.t = self.T0
         self.frame_history = []
         if not by_frame:
@@ -96,7 +98,7 @@ class ESTMD(object):
             "Run video in by_frame method! (refer to doc)"
             return
             
-        return next_frame()   
+        return self.next_frame()   
         
     def create_movie(self):
         while(True):
@@ -121,10 +123,13 @@ class ESTMD(object):
         
         ret, frame = self.cap.read()
 
+        if frame is False:
+            return
+
         # Split to basic colors and keep green color.
         blue,green,red = cv2.split(frame)
         downsize = green
-        cv2.imshow("Input", downsize)
+        #cv2.imshow("Input", downsize)
         
         downsize = 1.0 * downsize / 256.0
         self.frame_history.append(downsize)
@@ -208,9 +213,9 @@ class ESTMD(object):
         downsize[downsize < 0.6] = 0
 
         # Resize image.
-        downsize = cv2.resize(downsize,(500,500))
+        downsize = cv2.resize(downsize,(self.image_width,self.image_height))
         processed = (downsize * 255.0).astype('u1')
-        cv2.imshow('Output', processed)
+        #cv2.imshow('Output', processed)
         
         self.t += self.dt
 
