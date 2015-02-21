@@ -55,7 +55,8 @@ class ESTMD(object):
         
         self.cap = cv2.VideoCapture(movie_dir)
                                     
-    def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", image_width = 20, image_height = 20):
+    def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", 
+            image_width = 20, image_height = 2):
         """
         This method runs modification on the movie that we previously added
         using "open_movie" method.
@@ -76,15 +77,14 @@ class ESTMD(object):
             "You need to run 'open_movie' method first!"
             return
         self.by_frame = by_frame
+        
         self.image_width = image_width
         self.image_height = image_height
-        codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
-        self.video = cv2.VideoWriter(out_dir, codec, 
-                                     20.0, (self.image_width,self.image_height), isColor=0)
+        
         self.t = self.T0
         self.frame_history = []
         if not by_frame:
-            self.create_movie()
+            self.create_movie(cod, out_dir)
     
     def get_next_frame(self):
         """
@@ -97,15 +97,25 @@ class ESTMD(object):
         if not self.by_frame:
             "Run video in by_frame method! (refer to doc)"
             return
-            
-        return self.next_frame()   
+
+        frame = self.next_frame()
+        frame = cv2.resize(frame, (self.image_width, self.image_height))
         
-    def create_movie(self):
+        return frame
+        
+    def create_movie(self, cod, out_dir):
+        img = self.next_frame()
+        height, width =  img.shape
+        codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
+        self.video = cv2.VideoWriter(out_dir, codec, 20.0, 
+                                    (width, height), 
+                                    isColor=0)
         while(True):
+
             frame = self.next_frame()
-            frame = (frame * 255.0).astype('u1')
             if frame is False:
                 break
+            frame = (frame * 255.0).astype('u1')
             self.video.write(frame)
 
         self.video.release()
@@ -122,13 +132,13 @@ class ESTMD(object):
         The Univerity of Adelaide, Australia.
         """
         
-        ret, frame = self.cap.read()
-
-        if frame is False:
-            return
-
-        # Split to basic colors and keep green color.
-        blue,green,red = cv2.split(frame)
+        try:
+            ret, frame = self.cap.read()
+            # Split to basic colors and keep green color.
+            blue,green,red = cv2.split(frame)
+        except:
+            return False
+            
         downsize = green
         #cv2.imshow("Input", downsize)
         
@@ -214,8 +224,7 @@ class ESTMD(object):
         downsize[downsize < 0.6] = 0
 
         # Resize image.
-        downsize = cv2.resize(downsize,(self.image_width,self.image_height))
-        #cv2.imshow('Output', processed)
+        cv2.imshow('Output', downsize)
         
         self.t += self.dt
 
