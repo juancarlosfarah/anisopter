@@ -15,372 +15,318 @@ from copy import deepcopy
 Constants
 =========
 """
-DT = 0.001                      # Time step in seconds.
-SPIKES_PER_S = 64               # spikes per second, on average
-F_PROB = SPIKES_PER_S * DT      # probability of a neuron firing in a timestep
-TOTAL_MS = 50000               # Length of sample.
-SEED = 1                        # Seed for the random generator.
-NUM_NEURONS = 2000              # Number of afferents.
-PATTERN_MS = 50                 # Duration of the spike pattern.
-PATTERN_SPACING = 100           # Minimum level of spacing from 10% to 100%.
-REPETITION_RATIO = 0.25         # Ratio of pattern in the overall sample.
-INVOLVEMENT_RATIO = 0.5         # Ratio of afferents involved in the pattern.
-NOISE = 10.0                    # Noise in Hz.
 
-R_MIN = 0.0                     # Minimum firing rate in Hz.
-R_MAX = 90.0                    # Maximum firing rate in Hz.
-S_MIN = -1800.0                 # Minimum negative rate of change in Hz/s.
-S_MAX = 1800.0                  # Maximum positive rate of change in Hz/s.
-DS_MIN = -360.0                 # Maximum change of rate of change in Hz/s.
-DS_MAX = 360.0                  # Maximum change of rate of change in Hz/s.
+SEED = 1                        # Seed for the random generator.
 
 # Set seed.
 np.random.seed(SEED)
 
 
-def generate_spike_train(duration, period):
+class SampleGenerator:
     """
-
-    :param duration:
-    :param period:
-    :return:
+    Generates sample input spike trains.
     """
+    def __init__(self, duration, num_patterns, num_neurons=2000):
+        self.duration = duration
+        self.num_patterns = num_patterns
+        self.num_neurons = num_neurons
 
-    # Container for spike train.
-    spike_train = np.zeros(duration)
+        # Initialise containers
+        self.spike_trains = np.zeros((num_neurons, duration), dtype=np.float)
+        self.start_positions = []
 
-    # Set initial rate of change.
-    s = np.random.uniform(S_MIN, S_MAX)
-    r = np.random.uniform(R_MIN, R_MAX)
+        self.pattern_duration = 50  # Duration of the spike pattern.
+        self.dt = 0.001             # Time step in seconds.
+        self.rep_ratio = 0.25       # Ratio of pattern in the overall sample.
+        self.inv_ratio = 0.5        # Ratio of afferents in the pattern.
+        self.noise = 10.0           # Noise in Hz.
 
-    for i in range(0, duration):
+        self.r_min = 0.0            # Minimum firing rate in Hz.
+        self.r_max = 90.0           # Maximum firing rate in Hz.
+        self.s_min = -1800.0        # Minimum negative rate of change in Hz/s.
+        self.s_max = 1800.0         # Maximum positive rate of change in Hz/s.
+        self.ds_min = -360.0        # Maximum change of rate of change in Hz/s.
+        self.ds_max = 360.0         # Maximum change of rate of change in Hz/s.
 
-        # Calculate probability of giving a spike at given time step.
-        p = r * DT
+    def generate_spike_train(self):
+        """
+        Generates spike train for one neuron.
+        :return:
+        """
 
-        # Ensure that all afferent spikes at least once every given period.
-        if i >= period:
-            spike_sum = np.sum(spike_train[i - period: i])
-        else:
-            spike_sum = 1
+        # Container for spike train.
+        spike_train = np.zeros(self.duration)
 
-        if spike_sum < 1:
-            spike_train[i] = 1
+        # Set initial rate of change.
+        s = np.random.uniform(self.s_min, self.s_max)
+        r = np.random.uniform(self.r_min, self.r_max)
 
-        # Fire if p is > random number between 0 and 1.
-        elif p > np.random.uniform(0, 1):
-            spike_train[i] = 1
+        for i in range(0, self.duration):
 
-        # Calculate change in r, apply and clip.
-        dr = s * DT
-        r += dr
-        r = min(R_MAX, max(r, R_MIN))
+            # Calculate probability of giving a spike at given time step.
+            p = r * self.dt
 
-        # Calculate rate of change and clip.
-        ds = np.random.uniform(DS_MIN, DS_MAX)
-        s += ds
-        s = min(S_MAX, max(S_MIN, s))
-
-    return spike_train
-
-
-def generate_spike_trains(num_neurons, sample_duration):
-    """
-
-    :param num_neurons:
-    :param sample_duration:
-    :return:
-    """
-
-    # Container for spike trains.
-    spike_trains = np.zeros((num_neurons, sample_duration))
-
-    for i in range(0, num_neurons):
-        spike_train = generate_spike_train(sample_duration, 50)
-        spike_trains[i, :] = spike_train
-
-        # Track progress
-        progress = (i / float(num_neurons)) * 100
-        sys.stdout.write("Generating spike trains: %d%% \r" % progress)
-        sys.stdout.flush()
-
-    return spike_trains
-
-
-def generate_pattern(spike_trains, duration=PATTERN_MS,
-                     involvement_ratio=INVOLVEMENT_RATIO):
-    """
-
-    :param spike_trains:
-    :param duration:
-    :param involvement_ratio:
-    :return:
-    """
-
-    # Number of neurons involved in the pattern.
-    num_neurons = spike_trains.shape[0] * involvement_ratio
-
-    # Identify a pattern of given length.
-    start = np.random.randint(0, spike_trains.shape[1] - duration)
-    end = start + duration
-
-    # Display the pattern.
-    pattern = deepcopy(spike_trains[:num_neurons, start: end])
-
-    return pattern
-
-
-def add_noise(sample, frequency=NOISE):
-    """
-
-    :param sample:
-    :param frequency:
-    :return:
-    """
-
-    # Get indices without spikes.
-    indices = [i for i, dt in enumerate(sample) if dt == 0]
-
-    # Add spikes to indices randomly with given probability.
-    p = frequency * DT
-    for index in indices:
-        if np.random.uniform(0, 1) < p:
-            sample[index] = 1
-
-    return sample
-
-
-def generate_sample(num_neurons,
-                    sample_duration,
-                    pattern_duration,
-                    involvement_ratio=INVOLVEMENT_RATIO,
-                    repetition_ratio=REPETITION_RATIO):
-    """
-
-    :param num_neurons:
-    :param sample_duration:
-    :param pattern_duration:
-    :param involvement_ratio:
-    :param repetition_ratio:
-    :return:
-    """
-
-    # Generate background spike trains.
-    spike_trains = generate_spike_trains(num_neurons, sample_duration)
-
-    # Generate pattern from spike trains.
-    pattern = generate_pattern(spike_trains,
-                               pattern_duration,
-                               involvement_ratio)
-
-    # Calculate number of times that pattern will be repeated.
-    reps = math.floor((sample_duration * repetition_ratio) / pattern_duration)
-
-    # Get the start positions for the pattern to be inserted.
-    starts = get_start_positions(pattern_duration, sample_duration, reps)
-
-    # Insert the pattern at start positions.
-    num_neurons_in_pattern = num_neurons * involvement_ratio
-    for left in starts:
-        right = left + pattern_duration
-        spike_trains[:num_neurons_in_pattern, left: right] = pattern
-
-    # Add noise to all spike trains.
-    for i in range(num_neurons):
-        spike_trains[i, :] = add_noise(spike_trains[i, :], NOISE)
-
-    # Package everything nicely.
-    rvalue = dict()
-    rvalue['spike_trains'] = spike_trains
-    rvalue['start_positions'] = starts
-
-    return rvalue
-
-
-# Predefined functions in pattern_generator.py
-def get_start_positions(pattern_len, bg_len, reps):
-    """ Gets the start position of a repeating pattern within the noise.
-
-    :param pattern_len: Length of repeating pattern.
-    :param bg_len: Length of total observation period.
-    :param reps: Number of repetitions of pattern in the observation period.
-    :return: A list of the column indexes where the pattern starts.
-    """
-    num_buckets = bg_len / pattern_len
-    positions = np.random.uniform(0, 1, num_buckets)
-    start_positions = []
-    count = 0
-    effective_ratio = REPETITION_RATIO * 1.25
-    while count < num_buckets:
-        # Mark as bucket and skip next bucket.
-        if positions[count] < effective_ratio:
-            start_positions.append(count * pattern_len)
-            count += 2
-        else:
-            count += 1
-
-    return start_positions
-
-
-# def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
-#     """ Create the spike trains using a Poisson distribution.
-#         Returns a dictionary with the spike trains and the time steps where the pattern begins
-#
-#     :param num_neurons: Number of neurons.
-#     :param bg_len: Length in ms of observation period.
-#     :param pattern_len: Length in ms of repeating pattern.
-#     :param seed: Seed to use for random generation.
-#     :return: Pseudo-random-generated observation matrix.
-#     """
-#
-#     # Set seed.
-#     np.random.seed(seed)
-#
-#     # Ensure that pattern is always shorter than total lengths.
-#     if pattern_len > bg_len:
-#         pattern_len = bg_len - 1
-#
-#     # Create a num_neurons * bg_len matrix that contains
-#     # values uniformly distributed between 0 and 1.
-#     vt = np.random.uniform(0, 1, (num_neurons, bg_len))
-#
-#     spikes = deepcopy(vt)
-#
-#     # When probability is lower afferent does not spike.
-#     spikes[vt > F_PROB] = 0
-#
-#     # When probability is lower afferent spikes.
-#     spikes[vt < F_PROB] = 1
-#
-#     # Identify a pattern of given length.
-#     start = np.random.randint(0, bg_len - pattern_len)
-#
-#     # Make only half of the neurons display the pattern.
-#     pattern = deepcopy(spikes[NUM_NEURONS / 2:, start: start + pattern_len])
-#
-#     # Ensure that all afferents spike at least once in the pattern.
-#     for i in range(0, pattern.shape[0]):
-#         spike_sum = np.sum(pattern[i, :])
-#         if spike_sum < 1:
-#             rand_col = np.random.randint(0, pattern_len)
-#             pattern[i, rand_col] = 1
-#
-#     # Calculate number of times that pattern will be repeated.
-#     reps = math.floor((bg_len * REPETITION_RATIO) / pattern_len)
-#
-#     # Get the start positions for the pattern to be inserted.
-#     start_positions = get_start_positions(pattern_len, bg_len, reps)
-#     start_positions.sort()
-#
-#     # Insert the pattern at start positions.
-#     for left in start_positions:
-#         right = left + pattern_len
-#         spikes[NUM_NEURONS / 2:, left: right] = pattern
-#
-#     rvalue = dict()
-#     rvalue['spikes'] = spikes
-#     rvalue['start_positions'] = start_positions
-#
-#     return rvalue
-
-"""
-def load_sample(filename):
-    #TODO: erase this function 
-    f = open(filename)
-
-    spike_trains = np.array([])
-    start_positions = map(int, (f.readline()).split())
-    lines = f.read().split('\n')
-    num_neurons = len(lines)
-    count = 0.0
-    for line in lines:
-        if line != [] and line != ['\n'] and line != '':
-            if spike_trains.size == 0:
-                spike_trains = map(int, line.split())
-                spike_trains = np.reshape(spike_trains, (1, len(spike_trains)))
+            # Ensure that all afferent spikes at
+            # least once every given pattern length.
+            if i >= self.pattern_duration:
+                spike_sum = np.sum(spike_train[i - self.pattern_duration: i])
             else:
-                spike_trains = np.vstack((spike_trains, map(int, line.split())))
+                spike_sum = 1
 
-        progress = (count / num_neurons) * 100
-        sys.stdout.write("Loading spike trains: %d%% \r" % progress)
-        sys.stdout.flush()
-        count += 1
-    f.close()
+            if spike_sum < 1:
+                spike_train[i] = 1
 
-    # Package everything nicely.
-    rvalue = dict()
-    rvalue['spike_trains'] = spike_trains
-    rvalue['start_positions'] = start_positions
+            # Fire if p is > random number between 0 and 1.
+            elif p > np.random.uniform(0, 1):
+                spike_train[i] = 1
 
-    return rvalue
-"""
+            # Calculate change in r, apply and clip.
+            dr = s * self.dt
+            r += dr
+            r = min(self.r_max, max(r, self.r_min))
 
-def load_sample(filename):
+            # Calculate rate of change and clip.
+            ds = np.random.uniform(self.ds_min, self.ds_max)
+            s += ds
+            s = min(self.s_max, max(self.s_min, s))
+
+        return spike_train
+
+    def generate_spike_trains(self):
+        """
+        Generates spike trains for all the afferents in the sample.
+        :return:
+        """
+
+        # Container for spike trains.
+        spike_trains = np.zeros((self.num_neurons, self.duration))
+
+        for i in range(0, self.num_neurons):
+            spike_train = self.generate_spike_train()
+            spike_trains[i, :] = spike_train
+
+            # Track progress
+            progress = (i / float(self.num_neurons)) * 100
+            sys.stdout.write("Generating spike trains: %d%% \r" % progress)
+            sys.stdout.flush()
+
+        self.spike_trains = spike_trains
+
+    def generate_pattern(self):
+        """
+
+        :param spike_trains:
+        :return:
+        """
+
+        # Number of neurons involved in the pattern.
+        num_neurons = self.num_neurons * self.inv_ratio
+
+        # Identify a pattern of given length.
+        start = np.random.randint(0, self.duration - self.pattern_duration)
+        end = start + self.pattern_duration
+
+        # Display the pattern.
+        pattern = deepcopy(self.spike_trains[:num_neurons, start: end])
+
+        return pattern
+
+    def add_noise(self, spike_train):
+        """
+        Adds noise to a given spike train.
+        :param spike_train: Input spike train.
+        :return: Spike train with noise added.
+        """
+
+        # Get indices without spikes.
+        indices = [i for i, dt in enumerate(spike_train) if dt == 0]
+
+        # Add spikes to indices randomly with given probability.
+        p = self.noise * self.dt
+        for index in indices:
+            if np.random.uniform(0, 1) < p:
+                spike_train[index] = 1
+
+        return spike_train
+
+    def generate_sample(self):
+        """
+        Generates the sample.
+        :return:
+        """
+
+        # Generate background spike trains.
+        self.generate_spike_trains()
+
+        # Generate pattern from spike trains.
+        pattern = self.generate_pattern()
+
+        # Get the start positions for the pattern to be inserted.
+        starts = self.generate_start_positions()
+
+        # Insert the pattern at start positions.
+        num_neurons_in_pattern = self.num_neurons * self.inv_ratio
+        for left in starts:
+            right = left + self.pattern_duration
+            self.spike_trains[:num_neurons_in_pattern, left: right] = pattern
+
+        # Add noise to all spike trains.
+        for i in range(self.num_neurons):
+            self.spike_trains[i, :] = self.add_noise(self.spike_trains[i, :])
+
+        # Package everything nicely.
+        self.start_positions = starts
+
+    def generate_start_positions(self):
+        """
+        Gets the start position of a repeating pattern within the noise.
+        :return: A list of the column indexes where the pattern starts.
+        """
+        effective_factor = 1.25
+        num_buckets = self.duration / self.pattern_duration
+        positions = np.random.uniform(0, 1, num_buckets)
+        start_positions = []
+        count = 0
+        effective_ratio = self.rep_ratio * effective_factor
+        while count < num_buckets:
+
+            # Mark as bucket and skip next bucket.
+            if positions[count] < effective_ratio:
+                start_positions.append(count * self.pattern_duration)
+                count += 2
+            else:
+                count += 1
+
+        return start_positions
+
     """
+    def generate_pattern(num_neurons, bg_len, pattern_len=50, seed=SEED):
+        # Create the spike trains using a Poisson distribution.
+        # Returns a dictionary with the spike trains and the time steps
+        # where the pattern begins.
+        #
+        # :param num_neurons: Number of neurons.
+        # :param bg_len: Length in ms of observation period.
+        # :param pattern_len: Length in ms of repeating pattern.
+        # :param seed: Seed to use for random generation.
+        # :return: Pseudo-random-generated observation matrix.
 
-    :param filename:
-    :return:
-    """
+        # Set seed.
+        np.random.seed(seed)
 
-    rvalue = np.load(filename)
+        # Ensure that pattern is always shorter than total lengths.
+        if pattern_len > bg_len:
+            pattern_len = bg_len - 1
 
-    return rvalue
+        # Create a num_neurons * bg_len matrix that contains
+        # values uniformly distributed between 0 and 1.
+        vt = np.random.uniform(0, 1, (num_neurons, bg_len))
 
-"""
-def save_sample(filename, sample):
-    #TODO: Erase this function    
-    #Old version
-    start_positions = sample['start_positions']
-    spike_trains = sample['spike_trains']
-    f = open(filename, 'w')
-    for start in range(len(start_positions)):
-        f.write('%d ' % start_positions[start])
-    f.write('\n')
+        spikes = deepcopy(vt)
 
-    num_neurons = spike_trains.shape[0]
-    for row in range(num_neurons):
-        for col in range(spike_trains.shape[1]):
-            f.write('%0.1d ' % spike_trains[row, col])
+        # When probability is lower afferent does not spike.
+        spikes[vt > F_PROB] = 0
+
+        # When probability is lower afferent spikes.
+        spikes[vt < F_PROB] = 1
+
+        # Identify a pattern of given length.
+        start = np.random.randint(0, bg_len - pattern_len)
+
+        # Make only half of the neurons display the pattern.
+        pattern = deepcopy(spikes[NUM_NEURONS / 2:, start: start + pattern_len])
+
+        # Ensure that all afferents spike at least once in the pattern.
+        for i in range(0, pattern.shape[0]):
+            spike_sum = np.sum(pattern[i, :])
+            if spike_sum < 1:
+                rand_col = np.random.randint(0, pattern_len)
+                pattern[i, rand_col] = 1
+
+        # Calculate number of times that pattern will be repeated.
+        reps = math.floor((bg_len * REPETITION_RATIO) / pattern_len)
+
+        # Get the start positions for the pattern to be inserted.
+        start_positions = get_start_positions(pattern_len, bg_len, reps)
+        start_positions.sort()
+
+        # Insert the pattern at start positions.
+        for left in start_positions:
+            right = left + pattern_len
+            spikes[NUM_NEURONS / 2:, left: right] = pattern
+
+        rvalue = dict()
+        rvalue['spikes'] = spikes
+        rvalue['start_positions'] = start_positions
+
+        return rvalue
+
+    def load_sample(filename):
+        #TODO: erase this function
+        f = open(filename)
+
+        spike_trains = np.array([])
+        start_positions = map(int, (f.readline()).split())
+        lines = f.read().split('\n')
+        num_neurons = len(lines)
+        count = 0.0
+        for line in lines:
+            if line != [] and line != ['\n'] and line != '':
+                if spike_trains.size == 0:
+                    spike_trains = map(int, line.split())
+                    spike_trains = np.reshape(spike_trains, (1, len(spike_trains)))
+                else:
+                    spike_trains = np.vstack((spike_trains, map(int, line.split())))
+
+            progress = (count / num_neurons) * 100
+            sys.stdout.write("Loading spike trains: %d%% \r" % progress)
+            sys.stdout.flush()
+            count += 1
+        f.close()
+
+        # Package everything nicely.
+        rvalue = dict()
+        rvalue['spike_trains'] = spike_trains
+        rvalue['start_positions'] = start_positions
+
+        return rvalue
+
+    def save_sample(filename, sample):
+        #TODO: Erase this function
+        #Old version
+        start_positions = sample['start_positions']
+        spike_trains = sample['spike_trains']
+        f = open(filename, 'w')
+        for start in range(len(start_positions)):
+            f.write('%d ' % start_positions[start])
         f.write('\n')
-        progress = (row / float(num_neurons)) * 100
-        sys.stdout.write("Saving spike trains: %d%% \r" % progress)
-        sys.stdout.flush()
-    f.write('\n\n')
-    f.close()
-"""
 
-
-def save_sample(filename, sample):
+        num_neurons = spike_trains.shape[0]
+        for row in range(num_neurons):
+            for col in range(spike_trains.shape[1]):
+                f.write('%0.1d ' % spike_trains[row, col])
+            f.write('\n')
+            progress = (row / float(num_neurons)) * 100
+            sys.stdout.write("Saving spike trains: %d%% \r" % progress)
+            sys.stdout.flush()
+        f.write('\n\n')
+        f.close()
     """
-    :param filename:
-    :param sample:
-    :return:
-    """
-    start_positions = sample['start_positions']
-    spike_trains = sample['spike_trains']
-    np.savez(filename,
-             start_positions=start_positions,
-             spike_trains=spike_trains)
+
+    def save(self):
+        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(SEED,
+                                                         self.num_neurons,
+                                                         self.duration,
+                                                         self.pattern_duration,
+                                                         self.rep_ratio,
+                                                         self.inv_ratio,
+                                                         self.noise)
+        np.savez(filename,
+                 start_positions=self.start_positions,
+                 spike_trains=self.spike_trains)
 
 
-def save():
-    sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
-    filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(SEED,
-                                                     NUM_NEURONS,
-                                                     TOTAL_MS,
-                                                     PATTERN_MS,
-                                                     REPETITION_RATIO,
-                                                     INVOLVEMENT_RATIO,
-                                                     NOISE)
-    save_sample(filename, sample)
-
-
-def main():
-    save()
-
-if __name__ == '__main__':
-    main()
-
+# if __name__ == '__main__':
     # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],

@@ -41,7 +41,7 @@ class Simulation:
         :return: None.
         """
         path = folder + filename + extension
-        sample = sample_generator.load_sample(path)
+        sample = np.load(path)
         self.spike_trains = sample['spike_trains']
         self.start_positions = sample['start_positions']
         params = map(float, filename.split("_"))
