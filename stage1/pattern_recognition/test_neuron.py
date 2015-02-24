@@ -1,6 +1,6 @@
 __author__ = 'juancarlosfarah'
 
-import srm_lif_neuron
+import neuron
 import numpy as np
 import math
 import unittest
@@ -14,7 +14,7 @@ class NeuronTests(unittest.TestCase):
         :return:
         """
         self.num_afferents = 10
-        self.neuron = srm_lif_neuron.Neuron(self.num_afferents)
+        self.neuron = neuron.Neuron(self.num_afferents)
         self.tolerance = 0.000001
         return
 

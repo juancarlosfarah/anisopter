@@ -1,7 +1,7 @@
 __author__ = 'juancarlosfarah'
 
 import unittest
-import poisson_pattern_generator as sg
+import sample_generator as sg
 import numpy as np
 import math
 

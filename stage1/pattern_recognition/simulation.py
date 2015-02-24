@@ -1,8 +1,8 @@
 __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
-import poisson_pattern_generator
-import srm_lif_neuron
+import sample_generator
+import neuron
 import math
 import pylab
 import matplotlib as plt
@@ -17,6 +17,11 @@ class Simulation:
     Simulation of a given number of afferents firing into a pattern
     recognition neuron over a given number of time steps.
     """
+    # Defaults
+    A_PLUS = neuron.Neuron.A_PLUS
+    A_RATIO = neuron.Neuron.A_RATIO
+    THETA = neuron.Neuron.THETA
+
     def __init__(self):
         self.t_min = 0                   # Start time in ms.
         self.t_step = 1                  # Time step in ms.
@@ -36,7 +41,7 @@ class Simulation:
         :return: None.
         """
         path = folder + filename + extension
-        sample = poisson_pattern_generator.load_sample(path)
+        sample = sample_generator.load_sample(path)
         self.spike_trains = sample['spike_trains']
         self.start_positions = sample['start_positions']
         params = map(float, filename.split("_"))
@@ -44,13 +49,14 @@ class Simulation:
         self.test_length = int(params[2])
         self.pattern_len = int(params[3])
 
-    def add_neuron(self):
+    def add_neuron(self, a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
         """
         Adds neuron to simulation.
-        :return: None.
+        :return: Neuron.
         """
-        neuron = srm_lif_neuron.Neuron(self.num_afferents)
-        self.neurons.append(neuron)
+        n = neuron.Neuron(self.num_afferents, a_plus, a_ratio, theta)
+        self.neurons.append(n)
+        return n
 
     def plot_weight_distributions(self):
         # Values for plotting weights.
@@ -87,37 +93,48 @@ class Simulation:
         # Get membrane potential at each given point.
         for ms in range(0, self.test_length - 1):
 
-            # Update time delta.
-            if len(self.neurons[0].spike_times) > 0:
-                self.neurons[0].time_delta = ms - self.neurons[0].spike_times[-1]
+            for n in self.neurons:
 
-            spikes = deepcopy(self.spike_trains[:, ms])
-            spikes = np.reshape(spikes, (self.neurons[0].num_afferents, 1))
+                # Update time delta.
+                if len(n.spike_times) > 0:
+                    n.time_delta = ms - n.spike_times[-1]
 
-            # Update LTP window width.
-            self.neurons[0].update_ltp_window_width(ms)
+                # Shape spikes.
+                spikes = deepcopy(self.spike_trains[:, ms])
+                spikes = np.reshape(spikes, (n.num_afferents, 1))
 
-            p = self.neurons[0].calculate_membrane_potential()
-            self.neurons[0].update_epsps(spikes)
+                # Update EPSP inputs.
+                n.update_epsps(spikes)
 
-            # Post the potential to the next ms.
-            self.neurons[0].potential[ms + 1] = p
+                # Send inhibitory signal to sibling neurons.
+                if n.time_delta == 0:
+                    n.ipsps = np.array([])
+                    for s in n.siblings:
+                        s.update_ipsps(ms)
 
-            # Record weights at this point.
-            if self.neurons[0].historic_weights.size == 0:
-                self.neurons[0].historic_weights = self.neurons[0].current_weights
-            else:
-                self.neurons[0].historic_weights = np.hstack((self.neurons[0].historic_weights,
-                                                              self.neurons[0].current_weights))
+                # Calculate membrane potential.
+                p = n.calculate_membrane_potential(ms)
 
-            # Update weights.
-            self.neurons[0].update_weights(self.spike_trains, ms)
+                # Update LTP window width.
+                n.update_ltp_window_width(ms)
 
-            # If threshold has been met and more than 1 ms has elapsed
-            # since the last post-synaptic spike, schedule a spike.
-            if p >= self.neurons[0].theta and (self.neurons[0].time_delta > 1 or self.neurons[0].time_delta is None):
-                self.neurons[0].spike_times.append(ms + 1)
-                self.neurons[0].epsps = np.zeros((self.neurons[0].num_afferents, 1))
+                # Post the potential to the next ms.
+                n.potential[ms + 1] = p
+
+                # Record weights at this point.
+                if n.historic_weights.size == 0:
+                    n.historic_weights = self.neurons[0].current_weights
+                else:
+                    n.historic_weights = np.hstack((n.historic_weights,
+                                                    n.current_weights))
+
+                # Update weights.
+                n.update_weights(self.spike_trains, ms)
+
+                # If threshold has been met and more than 1 ms has elapsed
+                # since the last post-synaptic spike, schedule a spike.
+                if p >= n.theta and (n.time_delta > 1 or n.time_delta is None):
+                    n.spike_times.append(ms + 1)
 
             # Progress bar.
             progress = (ms / float(self.test_length - 1)) * 100
@@ -161,9 +178,12 @@ class Simulation:
                                             facecolor=color,
                                             edgecolor=color))
 
-        # Plot membrane potential.
-        pylab.plot(time[start:end], self.neurons[0].potential[start:end])
-        pylab.ylim(min_y, max_y)
+        # Plot membrane potential for each neuron.
+        for n in self.neurons:
+            pylab.plot(time[start:end], n.potential[start:end])
+            pylab.ylim(min_y, max_y)
+
+        # Prepare and display plot.
         pylab.xlabel('Time (ms)')
         pylab.ylabel('Membrane Potential')
         pylab.title('Spike Train with STDP')
@@ -176,9 +196,13 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("1_2000_15000_50_0.25_0.5_10.0")
-    sim.add_neuron()
-
+    sim.load("1_2000_1000_50_0.25_0.5_10.0")
+    n1 = sim.add_neuron(0.03125, 0.85, 550)
+    n2 = sim.add_neuron(0.03125, 0.85, 550)
+    n3 = sim.add_neuron(0.03125, 0.85, 550)
+    n1.connect(n2)
+    n1.connect(n3)
+    n2.connect(n3)
     sim.run()
-    sim.plot_weights()
+    # sim.plot_weights()
     sim.plot_membrane_potential()

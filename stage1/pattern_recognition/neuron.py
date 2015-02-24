@@ -11,15 +11,8 @@ import matplotlib.pyplot as plt
 import math
 import pattern_generator
 import sys
-import poisson_pattern_generator
+import sample_generator
 from copy import deepcopy
-
-
-
-K = 2.1222619               # Multiplicative constant.
-K1 = 2                      # Constant for positive pulse.
-K2 = 4                      # Constant for negative spike after-potential.
-
 
 # Set Seed
 # np.random.seed(1)
@@ -50,6 +43,10 @@ class Neuron:
         self.weight_max = 1                  # Maximum weight value.
         self.weight_min = 0                  # Minimum weight value.
         self.theta = theta                   # Threshold in arbitrary units.
+        self.alpha = 0.25                    # Multiplicative constant for IPSP.
+        self.k = 2.1222619                   # Multiplicative constant for EPSP.
+        self.k1 = 2                          # Constant for positive pulse.
+        self.k2 = 4                          # Constant for after-potential.
 
         # LTP and LTD learning rates. NOTE: a_minus_ratio should be 0.85.
         self.a_plus = a_plus
@@ -58,6 +55,10 @@ class Neuron:
         self.time_delta = None               # Time since last spike in ms.
         self.spike_times = []                # Container to save spike times.
         self.potential = []                  # Tracks membrane potential.
+        self.ipsps = np.array([])            # Stores deltas for IPSP.
+
+        # Sibling neurons.
+        self.siblings = []
 
         # Save weights in this container.
         self.historic_weights = np.array([])
@@ -87,13 +88,21 @@ class Neuron:
         epsilons = np.ndarray((self.t_window, 1), dtype=float)
         for i in range(0, self.t_window):
             delta = self.t_window - (i + 1)
-            hss = self.calculate_heavyside_step(delta)
-            left_exp = math.exp(-delta / self.tau_m)
-            right_exp = math.exp(-delta / self.tau_s)
-            epsilon = K * (left_exp - right_exp) * hss
-            epsilons[i, 0] = epsilon
+            epsilons[i, 0] = self.calculate_epsilon(delta)
 
         return epsilons
+
+    def calculate_epsilon(self, delta):
+        """
+        Returns the value of the epsilon kernel given a time delta.
+        :param delta: Time since last spike.
+        :return:
+        """
+        hss = self.calculate_heavyside_step(delta)
+        left_exp = math.exp(-delta / self.tau_m)
+        right_exp = math.exp(-delta / self.tau_s)
+        epsilon = self.k * (left_exp - right_exp) * hss
+        return epsilon
 
     def update_weights(self, spike_trains, ms):
         """
@@ -103,7 +112,7 @@ class Neuron:
 
         # Avoid updating weights without time delta.
         if self.time_delta is None:
-            return
+            return self.current_weights
 
         # Get number of neurons.
         num_afferents = spike_trains.shape[0]
@@ -242,16 +251,20 @@ class Neuron:
         :return:
         """
 
-        weighted = np.multiply(spikes, self.current_weights)
-        self.epsps = np.hstack((self.epsps, weighted))
+        # Flush EPSP inputs if neuron just spiked.
+        if self.time_delta == 0:
+            self.epsps = np.zeros((self.num_afferents, 1))
+        else:
+            weighted = np.multiply(spikes, self.current_weights)
+            self.epsps = np.hstack((self.epsps, weighted))
 
-        # Length of new EPSP window.
-        width = self.epsps.shape[1]
+            # Length of new EPSP window.
+            width = self.epsps.shape[1]
 
-        # Clamp neuron to learning window.
-        if width > self.t_window:
-            window_start = width - self.t_window
-            self.epsps = self.epsps[:, window_start:]
+            # Clamp neuron to learning window.
+            if width > self.t_window:
+                window_start = width - self.t_window
+                self.epsps = self.epsps[:, window_start:]
 
         return self.epsps
 
@@ -272,6 +285,31 @@ class Neuron:
         # Return sum of weighted contributions.
         return np.sum(weighted)
 
+    def update_ipsps(self, ms):
+        """
+        Add the current time delta to the input values for IPSP calculation.
+        :param ms: Current time in ms.
+        :return: None.
+        """
+        # TODO: Figure out clamping for efficiency.
+        self.ipsps = np.append(self.ipsps, ms)
+
+    def sum_ipsps(self, ms):
+        """
+        Sum the IPSP contribution of all connected neurons.
+        :return: Sum of IPSP values.
+        """
+        # Don't calculate if IPSP is empty.
+        if self.ipsps.size == 0:
+            return 0
+
+        # Return sum of weighted contributions.
+        ms = np.repeat(ms, len(self.ipsps))
+        time_deltas = ms - self.ipsps
+        f = np.vectorize(self.calculate_mu)
+        ipsp_values = f(time_deltas)
+        return np.sum(ipsp_values)
+
     def calculate_psp(self, time_delta=0, debugging=False):
         """
         Calculate the effect of a post-synaptic spike on the potential.
@@ -291,16 +329,30 @@ class Neuron:
         hss = self.calculate_heavyside_step(time_delta)
         left_exp = math.exp(-time_delta / self.tau_m)
         right_exp = math.exp(-time_delta / self.tau_s)
-        return self.theta * (K1 * left_exp - K2 * (left_exp - right_exp)) * hss
+        v = self.k1 * left_exp - self.k2 * (left_exp - right_exp)
+        return self.theta * v * hss
 
-    def calculate_membrane_potential(self):
+    def calculate_membrane_potential(self, ms):
         """
         Return the current membrane potential.
         :return: Membrane potential.
         """
         psp = self.calculate_psp()
         epsp_sum = self.sum_epsps()
-        return psp + epsp_sum
+        ipsp_sum = self.sum_ipsps(ms)
+
+        return psp + epsp_sum + ipsp_sum
+
+    def calculate_mu(self, delta):
+        """
+        Calculate the value of the mu kernel.
+        :return: Value of mu.
+        """
+        if delta is None or delta > self.t_window:
+            return 0
+        epsilon = self.calculate_epsilon(delta)
+        mu = -self.alpha * self.theta * epsilon
+        return mu
 
     def plot_eta(self, t_min=0):
         """
@@ -474,6 +526,15 @@ class Neuron:
     #     pylab.ylabel('Membrane Potential (Arbitrary Units)')
     #     pylab.title('Sample LIF Neuron')
     #     pylab.show()
+
+    def connect(self, neuron):
+        """
+        Connects two neurons.
+        :param neuron: Neuron to connect to.
+        :return: None.
+        """
+        self.siblings.append(neuron)
+        neuron.siblings.append(self)
 
     def plot_stdp(self):
         """
