@@ -167,16 +167,20 @@ class Simulation:
         # Container for time.
         time = np.arange(start, end, 1, dtype=np.int32)
 
+        # Up to five colors supported.
+        colors = ["#FF6666", "#FFCC99", "#CCFFFF", "#FFFFCC", "#E6E6E6"]
+
         # Prepare the pattern plot.
-        color = '#E6E6E6'
-        min_y = self.neurons[0].theta * -0.5
-        max_y = self.neurons[0].theta * 2.25
-        for i in self.start_positions:
-            pylab.gca().add_patch(Rectangle((i, min_y),
-                                            self.pattern_len,
-                                            max_y + math.fabs(min_y),
-                                            facecolor=color,
-                                            edgecolor=color))
+        for i in range(len(self.start_positions)):
+            color = colors[i % (len(colors) - 1)]
+            min_y = self.neurons[0].theta * -0.5
+            max_y = self.neurons[0].theta * 2.25
+            for j in self.start_positions[i]:
+                pylab.gca().add_patch(Rectangle((j, min_y),
+                                                self.pattern_len,
+                                                max_y + math.fabs(min_y),
+                                                facecolor=color,
+                                                edgecolor=color))
 
         # Plot membrane potential for each neuron.
         for n in self.neurons:
@@ -196,13 +200,13 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("1_2000_1000_50_0.25_0.5_10.0")
-    n1 = sim.add_neuron(0.03125, 0.85, 550)
-    n2 = sim.add_neuron(0.03125, 0.85, 550)
-    n3 = sim.add_neuron(0.03125, 0.85, 550)
-    n1.connect(n2)
-    n1.connect(n3)
-    n2.connect(n3)
+    sim.load("3_500_15000_50_0.1_0.5_10.0")
+    n1 = sim.add_neuron(0.03125, 0.9125, 125)
+    # n2 = sim.add_neuron(0.03125, 0.85, 125)
+    # n3 = sim.add_neuron(0.03125, 0.85, 125)
+    # n1.connect(n2)
+    # n1.connect(n3)
+    # n2.connect(n3)
     sim.run()
     # sim.plot_weights()
     sim.plot_membrane_potential()

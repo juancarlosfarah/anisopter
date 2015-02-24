@@ -26,18 +26,24 @@ class SampleGenerator:
     """
     Generates sample input spike trains.
     """
-    def __init__(self, duration, num_patterns, num_neurons=2000):
+    def __init__(self, duration, num_patterns,
+                 num_neurons=2000, rep_ratio=0.25):
         self.duration = duration
         self.num_patterns = num_patterns
         self.num_neurons = num_neurons
 
         # Initialise containers
         self.spike_trains = np.zeros((num_neurons, duration), dtype=np.float)
+        self.patterns = []
         self.start_positions = []
 
-        self.pattern_duration = 50  # Duration of the spike pattern.
+        # Duration of the spike pattern and buckets.
+        self.pattern_duration = 50
+        self.num_buckets = math.floor(self.duration / self.pattern_duration)
+        self.free_buckets = np.arange(self.num_buckets - 1)
+
         self.dt = 0.001             # Time step in seconds.
-        self.rep_ratio = 0.25       # Ratio of pattern in the overall sample.
+        self.rep_ratio = rep_ratio  # Ratio of pattern in the overall sample.
         self.inv_ratio = 0.5        # Ratio of afferents in the pattern.
         self.noise = 10.0           # Noise in Hz.
 
@@ -126,8 +132,10 @@ class SampleGenerator:
         start = np.random.randint(0, self.duration - self.pattern_duration)
         end = start + self.pattern_duration
 
-        # Display the pattern.
+        # Extract the pattern and save.
+        # TODO: Ensure that it is not too similar to other patterns.
         pattern = deepcopy(self.spike_trains[:num_neurons, start: end])
+        self.patterns.append(pattern)
 
         return pattern
 
@@ -158,24 +166,28 @@ class SampleGenerator:
         # Generate background spike trains.
         self.generate_spike_trains()
 
-        # Generate pattern from spike trains.
-        pattern = self.generate_pattern()
+        # Generate patterns.
+        for i in range(self.num_patterns):
 
-        # Get the start positions for the pattern to be inserted.
-        starts = self.generate_start_positions()
+            # Generate pattern from spike trains.
+            pattern = self.generate_pattern()
+            self.patterns.append(pattern)
 
-        # Insert the pattern at start positions.
-        num_neurons_in_pattern = self.num_neurons * self.inv_ratio
-        for left in starts:
-            right = left + self.pattern_duration
-            self.spike_trains[:num_neurons_in_pattern, left: right] = pattern
+            # Get the start positions for the pattern to be inserted.
+            starts = self.generate_start_positions()
+
+            # Insert the pattern at start positions.
+            num_neurons_in_pattern = self.num_neurons * self.inv_ratio
+            for left in starts:
+                right = left + self.pattern_duration
+                self.spike_trains[:num_neurons_in_pattern, left: right] = pattern
+
+            # Save start positions for this pattern.
+            self.start_positions.append(starts)
 
         # Add noise to all spike trains.
         for i in range(self.num_neurons):
             self.spike_trains[i, :] = self.add_noise(self.spike_trains[i, :])
-
-        # Package everything nicely.
-        self.start_positions = starts
 
     def generate_start_positions(self):
         """
@@ -183,19 +195,27 @@ class SampleGenerator:
         :return: A list of the column indexes where the pattern starts.
         """
         effective_factor = 1.25
-        num_buckets = self.duration / self.pattern_duration
+        num_buckets = len(self.free_buckets)
         positions = np.random.uniform(0, 1, num_buckets)
         start_positions = []
         count = 0
         effective_ratio = self.rep_ratio * effective_factor
+        buckets_to_delete = []
+
+        # Select buckets for this pattern.
         while count < num_buckets:
 
             # Mark as bucket and skip next bucket.
             if positions[count] < effective_ratio:
-                start_positions.append(count * self.pattern_duration)
+                pos = self.free_buckets[count] * self.pattern_duration
+                buckets_to_delete.append(count)
+                start_positions.append(pos)
                 count += 2
             else:
                 count += 1
+
+        # Remove newly-occupied buckets.
+        self.free_buckets = np.delete(self.free_buckets, buckets_to_delete)
 
         return start_positions
 
@@ -314,7 +334,7 @@ class SampleGenerator:
     """
 
     def save(self):
-        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(SEED,
+        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(self.num_patterns,
                                                          self.num_neurons,
                                                          self.duration,
                                                          self.pattern_duration,
@@ -326,7 +346,11 @@ class SampleGenerator:
                  spike_trains=self.spike_trains)
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
+    sg = SampleGenerator(15000, 3, 500, 0.10)
+    sg.generate_sample()
+    sg.save()
+
     # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],
