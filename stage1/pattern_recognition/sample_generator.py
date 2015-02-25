@@ -347,7 +347,7 @@ class SampleGenerator:
 
 
 if __name__ == '__main__':
-    sg = SampleGenerator(15000, 3, 500, 0.10)
+    sg = SampleGenerator(50000, 3, 500, 0.15)
     sg.generate_sample()
     sg.save()
 

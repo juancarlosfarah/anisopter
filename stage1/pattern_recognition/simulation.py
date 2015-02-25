@@ -200,7 +200,7 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("3_500_15000_50_0.1_0.5_10.0")
+    sim.load("3_500_50000_50_0.15_0.5_10.0")
     n1 = sim.add_neuron(0.03125, 0.9125, 125)
     # n2 = sim.add_neuron(0.03125, 0.85, 125)
     # n3 = sim.add_neuron(0.03125, 0.85, 125)
