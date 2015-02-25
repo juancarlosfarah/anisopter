@@ -1,7 +1,7 @@
 __author__ = 'juancarlosfarah'
 
 import unittest
-import poisson_pattern_generator as sg
+import sample_generator as sg
 import numpy as np
 import math
 
@@ -30,7 +30,11 @@ class SampleGeneratorTests(unittest.TestCase):
         target_sigma = 2.0
         threshold = 100
         firing_rates = []
-        spike_trains = sg.generate_spike_trains(num_neurons, sample_duration)
+
+        # Generate Sample
+        sample_generator = sg.SampleGenerator(sample_duration, 1, num_neurons)
+        sample_generator.generate_sample()
+        spike_trains = sample_generator.spike_trains
 
         # Sample rate over time bins.
         for i in range(0, spike_trains.shape[1] - bin_size, bin_size):
