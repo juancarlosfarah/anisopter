@@ -224,7 +224,7 @@ class ESTMD(object):
         downsize[downsize < 0.6] = 0
 
         # Resize image.
-        cv2.imshow('Output', downsize)
+        #cv2.imshow('Output', downsize)
         
         self.t += self.dt
 
