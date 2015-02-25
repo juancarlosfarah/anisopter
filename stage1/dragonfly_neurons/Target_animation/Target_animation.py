@@ -1,5 +1,5 @@
 """
-Tool to animate dragonfly targets. User only interect with class Animation.
+Tool to animate dragonfly targets. User only interacts with class Animation.
 To create new animation create new instance of class Animation.
 For any information on how to use this module refer to class Animation.
 """
@@ -109,6 +109,7 @@ class AnimationWindow(pyglet.window.Window):
             size = self.target_list[i].size
             color = self.target_list[i].color
             self.circle(x, y, size, color)
+            
         image_name = "temp/scr" + str(self.time) + ".png"
         pyglet.image.get_buffer_manager().get_color_buffer().save(image_name)
         self.time += 1
