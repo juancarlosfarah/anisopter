@@ -257,11 +257,13 @@ class TestAnimation(unittest.TestCase):
         
     def test_add_target(self):
         self.animation.add_target(0)
-        target1 = Target(0, [0, 0], [100, 100], 5, 5, [0, 0, 0])
+        target1 = Target(0, [0, 0], [100, 100], 5, 10, [0, 0, 0])
         self.animation.add_target(1, start=[10, 10])
-        target2 = Target(1, [10, 10], [100, 100], 5, 5, [0, 0, 0])
+        target2 = Target(1, [10, 10], [100, 100], 5, 10, [0, 0, 0])
         
         target_list = [target1, target2]
+        target_list2 = self.animation.target_list
+        
         self.assertEqual(self.animation.target_list, target_list)
         
     def test_add_background(self):

@@ -34,13 +34,18 @@ class Target(object):
         self.color = color
         
     def __eq__(self, other):
-        self.type = other.type
-        self.start = other.start 
-        self.pos = other.pos
-        self.end = other.end
-        self.v = other.v
-        self.size = other.size
-        self.color = other.color
+        result = True
+        
+        result &= self.type == other.type
+        
+        result &= self.start == other.start 
+        result &= self.pos == other.pos
+        result &= self.end == other.end
+        result &= self.v == other.v
+        result &= self.size == other.size
+        result &= self.color == other.color
+
+        return result
 
     def change_position(self, dx, dy):
         self.pos[0] += dx
