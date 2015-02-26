@@ -1,5 +1,5 @@
 """
-Unit tests for module Target_animation.py.
+Unit tests for module Target_animation.
 """
 
 import unittest
@@ -150,20 +150,25 @@ class TestAnimationWindow(unittest.TestCase):
         self.target2.next_position()
         
         self.assertEqual(self.target_list, self.window.target_list)
-        
+    """
     def test_on_draw(self):
-        """
+       
         Tests if AnimationsWindows' method on_draw works correctly. It also
         implicitly checks correctness of method circle.
         This function works by drawing one image and saving it. It than checks
         if there are circles at those points as expected and that self.time
         was updated.
-        TO DO(ask): Is implicit testing ok? How to improve this part.
-        """
+        TO DO(ask): Is implicit testing ok? How to improve this part?
         
-        self.window2.on_draw()
-        self.assertEqual(self.window2.time, 1)
+        
+        # self.window.on_draw()
+        # self.assertEqual(self.window.time, 1)
         img1 = cv2.imread("temp/scr0.png")
+        
+        pyglet.clock.schedule_interval(self.window2.update_frames, 1.0/10)
+        pyglet.app.run()
+        print "Here!!!"
+        print
         
         for i in range(self.N):
             x = self.pos[i][0]
@@ -172,7 +177,16 @@ class TestAnimationWindow(unittest.TestCase):
 
         self.assertTrue(img1[100][150][0] == 0)
         self.assertTrue(img1[200][150][0] == 0)
-       
+    """
+
+class TestAnimation(unittest.TestCase):
+    """
+    This class represents sequence of tests for class Animation.
+    """
+    
+    
+    
+        
        
 if __name__ == '__main__':
     unittest.main()

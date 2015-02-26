@@ -123,7 +123,7 @@ class Animation(object):
     - add_target
     - add_background
     - run
-    For more information on these methpds refer to their doc.
+    For more information on these methods refer to their doc.
     """
     
     def __init__(self, width=640, height=480):
