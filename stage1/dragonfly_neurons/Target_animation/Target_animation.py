@@ -183,6 +183,9 @@ class Animation(object):
         
         self.bg_image = img_dir
         self.bg_speed = speed
+        
+    def stop(self, dt):
+        pyglet.app.exit()
 
     def run(self, out_directory, fps=10, total_frames=50):
         """
@@ -190,7 +193,7 @@ class Animation(object):
         
         Args:
             out_directory: Sets directory of output movie.
-            fps: Sets fps used to make animation.
+            fps: Sets fps used to make animation. It must be larger than 0.
             total_frames: Total frames that movie will contain.
         """
         
@@ -200,5 +203,6 @@ class Animation(object):
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
+        pyglet.clock.schedule_once(self.stop, total_frames/fps)
         pyglet.app.run()
         self.create_movie(out_directory, total_frames)
