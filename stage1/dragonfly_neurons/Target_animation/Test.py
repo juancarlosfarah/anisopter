@@ -132,6 +132,7 @@ class TestAnimationWindow(unittest.TestCase):
         """
         Method that runs at the end of each test.
         """
+        
         del self.window
         del self.window2
             
@@ -232,6 +233,47 @@ class TestAnimation(unittest.TestCase):
     This class represents sequence of tests for class Animation.
     """
     
+    def setUp(self):
+        self.width = 640
+        self.height = 480
+        self.animation = Animation(self.width, self.height)
+  
+    def test_init(self):
+        self.assertEqual(self.animation.target_list, [])
+        self.assertEqual(self.animation.width, self.width)
+        self.assertEqual(self.animation.height, self.height)
+        self.assertEqual(self.animation.bg_image, False)
+        self.assertEqual(self.animation.bg_speed, 0)
+        
+    def test_make_directory(self):
+        random_dir_name = "aaabbbcccdddeeefffghijkl"
+        self.animation.make_directory(random_dir_name)
+        self.assertTrue(os.path.exists(random_dir_name))
+        self.animation.make_directory(random_dir_name)
+        os.rmdir(random_dir_name)
+        
+    def test_create_movie(self):
+        pass
+        
+    def test_add_target(self):
+        self.animation.add_target(0)
+        target1 = Target(0, [0, 0], [100, 100], 5, 5, [0, 0, 0])
+        self.animation.add_target(1, start=[10, 10])
+        target2 = Target(1, [10, 10], [100, 100], 5, 5, [0, 0, 0])
+        
+        target_list = [target1, target2]
+        self.assertEqual(self.animation.target_list, target_list)
+        
+    def test_add_background(self):
+        bg_image = "random_test"
+        bg_speed = 123
+    
+        self.animation.add_background(bg_image, bg_speed)
+        self.assertEqual(self.animation.bg_image, bg_image)
+        self.assertEqual(self.animation.bg_speed, bg_speed)
+        
+    def test_run(self):
+        pass
     
     
     

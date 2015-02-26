@@ -32,6 +32,15 @@ class Target(object):
         self.v = v
         self.size = size
         self.color = color
+        
+    def __eq__(self, other):
+        self.type = other.type
+        self.start = other.start 
+        self.pos = other.pos
+        self.end = other.end
+        self.v = other.v
+        self.size = other.size
+        self.color = other.color
 
     def change_position(self, dx, dy):
         self.pos[0] += dx
