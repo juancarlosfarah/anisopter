@@ -98,9 +98,7 @@ class AnimationWindow(pyglet.window.Window):
         pyglet.gl.glClearColor(1, 1, 1, 1)
         self.clear()
         
-        print self.bg_image
         if self.bg_image:
-            print "WHY HERE"
             glColor3f(1, 1, 1)
             bg_pos = -self.time * self.bg_speed
             self.background.blit(bg_pos, bg_pos)

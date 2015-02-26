@@ -205,23 +205,26 @@ class TestOnDraw(unittest.TestCase):
         was updated.
         TO DO(ask): Is implicit testing ok? How to improve this part?
         """
-        
+
         self.make_directory("temp")
         
         pyglet.clock.schedule_once(self.window.update_frames, 0.001)
         pyglet.clock.schedule_once(self.window.stop, 0.001)
         pyglet.app.run()
         
+        windows = pyglet.app.WeakSet()
+        
         self.assertEqual(self.window.time, 2)
         
         img1 = cv2.imread("temp/scr0.png")
         for i in range(self.N):
-            x = self.pos[i][0]
+            x = self.height - self.pos[i][0] - 1
             y = self.pos[i][1]
-            self.assertTrue(img1[x][y][0] > 0)
 
-        self.assertTrue(img1[100][150][0] == 0)
-        self.assertTrue(img1[200][150][0] == 0)
+            self.assertTrue(img1[x][y][0] == 0)
+
+        self.assertTrue(img1[100][150][0] > 0)
+        self.assertTrue(img1[200][150][0] > 0)
     
 
 class TestAnimation(unittest.TestCase):
