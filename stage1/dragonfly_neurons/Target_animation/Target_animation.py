@@ -98,7 +98,9 @@ class AnimationWindow(pyglet.window.Window):
         pyglet.gl.glClearColor(1, 1, 1, 1)
         self.clear()
         
+        print self.bg_image
         if self.bg_image:
+            print "WHY HERE"
             glColor3f(1, 1, 1)
             bg_pos = -self.time * self.bg_speed
             self.background.blit(bg_pos, bg_pos)
@@ -113,6 +115,9 @@ class AnimationWindow(pyglet.window.Window):
         image_name = "temp/scr" + str(self.time) + ".png"
         pyglet.image.get_buffer_manager().get_color_buffer().save(image_name)
         self.time += 1
+
+    def stop(self, dt):
+        pyglet.app.exit()
 
 
 class Animation(object):
@@ -183,9 +188,6 @@ class Animation(object):
         
         self.bg_image = img_dir
         self.bg_speed = speed
-        
-    def stop(self, dt):
-        pyglet.app.exit()
 
     def run(self, out_directory, fps=10, total_frames=50):
         """
@@ -203,6 +205,6 @@ class Animation(object):
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
-        pyglet.clock.schedule_once(self.stop, total_frames/fps)
+        pyglet.clock.schedule_once(window.stop, total_frames/fps)
         pyglet.app.run()
         self.create_movie(out_directory, total_frames)
