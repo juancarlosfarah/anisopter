@@ -214,6 +214,7 @@ class TestOnDraw(unittest.TestCase):
         pyglet.app.run()
         
         windows = pyglet.app.WeakSet()
+        print len(windows)
         
         self.assertEqual(self.window.time, 2)
         
@@ -234,11 +235,19 @@ class TestAnimation(unittest.TestCase):
     """
     
     def setUp(self):
+        """
+        Method that runs at the start of each test.
+        """
+        
         self.width = 640
         self.height = 480
         self.animation = Animation(self.width, self.height)
   
     def test_init(self):
+        """
+        Test constructor.
+        """
+        
         self.assertEqual(self.animation.target_list, [])
         self.assertEqual(self.animation.width, self.width)
         self.assertEqual(self.animation.height, self.height)
@@ -246,16 +255,21 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(self.animation.bg_speed, 0)
         
     def test_make_directory(self):
+        """
+        Tests if make_directory actually creates directory.
+        """
+    
         random_dir_name = "aaabbbcccdddeeefffghijkl"
         self.animation.make_directory(random_dir_name)
         self.assertTrue(os.path.exists(random_dir_name))
         self.animation.make_directory(random_dir_name)
         os.rmdir(random_dir_name)
         
-    def test_create_movie(self):
-        pass
-        
     def test_add_target(self):
+        """
+        Tests if target is added.
+        """
+    
         self.animation.add_target(0)
         target1 = Target(0, [0, 0], [100, 100], 5, 10, [0, 0, 0])
         self.animation.add_target(1, start=[10, 10])
@@ -267,6 +281,10 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(self.animation.target_list, target_list)
         
     def test_add_background(self):
+        """
+        Tests if background is added.
+        """
+        
         bg_image = "random_test"
         bg_speed = 123
     
@@ -276,7 +294,6 @@ class TestAnimation(unittest.TestCase):
         
     def test_run(self):
         pass
-    
     
     
 if __name__ == '__main__':
