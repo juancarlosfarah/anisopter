@@ -25,7 +25,6 @@ test = Animation()
 test.add_target(2, start=[250,0], end=[250,500], size=5, v=4)
 #test.add_target(2, start=[500,0], end=[0,500], size = 5, v=10)
 #test.add_target(0, start=[0, 250], size=5, v=20)
-test.add_background()
 
 test.run(out_directory)
 
