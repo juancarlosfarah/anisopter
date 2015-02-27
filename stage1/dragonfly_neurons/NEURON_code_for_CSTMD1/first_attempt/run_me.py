@@ -6,7 +6,7 @@ from CSTMD import *
 
 import zaf_arrays as zaf
 
-neurons_no = 10
+neurons_no = 2
 SYNAPSES_NO = 500   #1005        # Syn: 0 - 1100, K: 0.015 - 0.08
 
 # Synapses

@@ -50,8 +50,17 @@ class CSTMD(object) :
 
     # HH parameters - (Na is Sodium, K is Potassium)
     # SOS: For Na = 0.48, K below 0.0125 is not bistable, above something as well
-    K = 0.06 #My limit: 0.0125 # Klauss used: 0.072
-    Na = 0.48
+    #K = 0.06 #My limit: 0.0125 # Klauss used: 0.072
+    #Na = 0.48
+    
+    # Nice combination of values for debugging because the neuron doesn't fire
+    Na = 0.2
+    K = 0.06
+
+    #K = 0.02
+    #Na = 0.48
+
+
                    # SOS: We should leave Sodium constant and vary the Potassium
                    # The thick dendrites should be arround 5 microMeters
                    # the thin ones arround 1.5...
@@ -71,15 +80,20 @@ class CSTMD(object) :
     PLOT_ACTIVITY = True
 
 
-    PIXEL_NO = 4096
-    MAX_CURRENT = 100.0 #10.0
-    MIN_CURRENT = 2.0
+    PIXEL_NO = 1024
+    MAX_CURRENT = 50 #10.0
+    MIN_CURRENT = 5.0
+
+
+    # Minimum and maximum allowed weight of input neurons to CSTMDs
+    MIN = 0.000005
+    MAX = 0.00005
     # --------------------------------------------------------------------------
 
 
     # -- Helper functions ------------------------------------------------------
-    def calc_rand_weight(self, x, MIN, MAX) :
-        return MIN + np.random.rand()*((MAX-MIN)*np.exp(-x)**2.0)/800.0
+    def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
+        return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
 
 	# IK: constructor
     def __init__(self, neurons_no, synapses_no, D, PRINT = True) :
@@ -87,7 +101,6 @@ class CSTMD(object) :
             print "------------------------------------------------------ "
             print "     *    Dragonfly CSTMD1 neuron simulation    *      "
             print "     *                                          *      "
-            print "     *      author: Zafeirios Fountas           *      "
             print "------------------------------------------------------ "
         
         self.global_time = time.time()
@@ -255,7 +268,11 @@ class CSTMD(object) :
                 self.stimNet.append(h.IntFire2())
                 self.stimNet[p].taum = 100
                 self.stimNet[p].taus = 1
+                # SOS: For debugging purposes, use a fixed value here so all 
+                #      neurons can fire together and you can observe a 
+                #      consistent EPSP
                 self.stimNet[p].ib = self.MIN_CURRENT
+                #self.stimNet[p].ib = 10.0*np.random.rand()#self.MIN_CURRENT
                 # To see the current state of variable m or input current i, check
                 # self.stimNet.M
                 # self.stimNet.I
@@ -264,20 +281,23 @@ class CSTMD(object) :
                 for n in range(self.neurons_no) :
                     # This means that the maximum weight of the whole input
                     # stimulus will be from MIN to MAX
-                    MIN = 0.01
-                    MAX = 0.1 # SOS ZAF: The correct value is 0.01
+                    #MIN = 0.001
+                    #MAX = 0.01
                     
                     Centre = np.sqrt(self.PIXEL_NO)/2.0
                     x = p % np.sqrt(self.PIXEL_NO)
                     y = p / np.sqrt(self.PIXEL_NO)
                     Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
 
-                    weight = self.calc_rand_weight(Dist, MIN, MAX)/float(self.PIXEL_NO)
+                    weight = self.calc_rand_weight(Dist, self.MIN, self.MAX)
+                    #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
+                    #print weight
                     exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
                     self.nc0net.append(h.NetCon(self.stimNet[p],
                                                 self.syn0net[-1],
-                                                0,0.025+self.delay_of_T1,
-                                                weight)) # threshold, delay, weight
+                                                0, # Threshold
+                                                0.025+40.0,#*np.random.rand(), # Delay
+                                                weight)) # Weight
 
 
         elif self.IC :
@@ -311,7 +331,7 @@ class CSTMD(object) :
                         # stimulus will be from MIN to MAX
                         MIN = 0.00001
                         MAX = 0.0001 # SOS ZAF: The correct value is 0.01
-                        weight = (MIN + np.random.rand()*(MAX-MIN))/float(self.PIXEL_NO)
+                        weight =(MIN + np.random.rand()*(MAX-MIN))/float(self.PIXEL_NO)
                         exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
                         self.nc0net.append(h.NetCon(self.stimNet[p],
                                                     self.syn0net[-1],
@@ -429,16 +449,26 @@ class CSTMD(object) :
 
     def run(self, time, rates,ib=0) :
         print "len ",len(rates)
-        #if self.IntFire:
-        #    self.stimNet.ib = ib
+
 
         if self.IntFire:
             if len(rates) > self.PIXEL_NO :
                 print "Error: Not enough stimuli!\nReturning.."
-                return [], []
+                return [], []            
+
+            count=0
+
+            #normalizing pixel values
+            norm=sum(rates)            
+            if norm!=0:
+                for i in range(len(rates)) :
+                    rates[i]=rates[i]/norm
             
             for i in range(len(rates)) :
-                self.stimNet[i].ib = self.MIN_CURRENT + rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT)
+
+                self.stimNet[i].ib = self.MIN_CURRENT+1000*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
+
+            #print sum(rates)
 
         self.curr_time += time
 
