@@ -576,7 +576,7 @@ class CSTMD(object) :
             plt.figure()
             plt.scatter(self.id_input, self.t_input, c='b', marker='+')
             plt.xlim(0, self.curr_time)
-            plt.show()
+            #plt.show()
 
 
 

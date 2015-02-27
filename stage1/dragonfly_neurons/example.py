@@ -36,7 +36,7 @@ if not from_file and not no_input :
     # ========================================
     test = Animation()
     test.add_target(2, start=[0,300], end=[500,300], size=6, v=5)
-    #test.add_target(2, start=[0,150], end=[500,150], size=6, v=5)
+    test.add_target(2, start=[0,150], end=[500,150], size=6, v=5)
     test.add_background(bg_image, bg_speed)
     test.run(out_directory)
 
@@ -83,9 +83,9 @@ for frame in frame_list :
 dr.plot()
 
 
-SAVE_FRAMES = False
+SAVE_FRAMES = True
 if SAVE_FRAMES :
-    with open("frame_target1.pkl", 'wb') as my_file :
+    with open("frame_target1and2.pkl", 'wb') as my_file :
         pickle.dump(frame_list, my_file)
 
 
