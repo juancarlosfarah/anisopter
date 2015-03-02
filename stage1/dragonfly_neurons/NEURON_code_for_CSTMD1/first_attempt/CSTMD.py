@@ -50,12 +50,12 @@ class CSTMD(object) :
 
     # HH parameters - (Na is Sodium, K is Potassium)
     # SOS: For Na = 0.48, K below 0.0125 is not bistable, above something as well
-    #K = 0.06 #My limit: 0.0125 # Klauss used: 0.072
-    #Na = 0.48
+    K = 0.06 #My limit: 0.0125 # Klauss used: 0.072
+    Na = 0.48
     
     # Nice combination of values for debugging because the neuron doesn't fire
-    Na = 0.2
-    K = 0.06
+    #Na = 0.2
+    #K = 0.06
 
     #K = 0.02
     #Na = 0.48
@@ -81,8 +81,8 @@ class CSTMD(object) :
 
 
     PIXEL_NO = 1024
-    MAX_CURRENT = 50 #10.0
-    MIN_CURRENT = 5.0
+    MAX_CURRENT = 30 #10.0
+    MIN_CURRENT = 2.0 #5
 
 
     # Minimum and maximum allowed weight of input neurons to CSTMDs
@@ -466,7 +466,7 @@ class CSTMD(object) :
             
             for i in range(len(rates)) :
 
-                self.stimNet[i].ib = self.MIN_CURRENT+1000*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
+                self.stimNet[i].ib = self.MIN_CURRENT+2000*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
 
             #print sum(rates)
 
@@ -576,7 +576,7 @@ class CSTMD(object) :
             plt.figure()
             plt.scatter(self.id_input, self.t_input, c='b', marker='+')
             plt.xlim(0, self.curr_time)
-            #plt.show()
+            plt.show()
 
 
 

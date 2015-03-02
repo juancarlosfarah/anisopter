@@ -85,7 +85,7 @@ dr.plot()
 
 SAVE_FRAMES = True
 if SAVE_FRAMES :
-    with open("frame_target1and2.pkl", 'wb') as my_file :
+    with open("frame_targets.pkl", 'wb') as my_file :
         pickle.dump(frame_list, my_file)
 
 
