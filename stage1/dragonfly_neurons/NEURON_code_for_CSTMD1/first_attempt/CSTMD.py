@@ -552,8 +552,19 @@ class CSTMD(object) :
                 spikes = [0.0]
                 my_length = 0
                 my_length = len(self.t_vec[neu])
+
+                #Save the spike occurences in a .txt file
+                if self.save == True :             
+                    exec "spikes_file=open('CSTMD_out_spikes/spikes"+str(neu+1)+".txt','w')"
+                    spikes_file.write("Neuron No "+str(neu+1)+"\n")
+                
+
                 for s in range(my_length) :
-                    spikes.append(self.t_vec[neu][s])
+                    spikes.append(self.t_vec[neu][s])                    
+
+                    #Save the spike occurences in a .txt file
+                    if self.save == True :
+                       spikes_file.write(str(self.t_vec[neu][s])+"\n") 
                 
                 fr = []
                 s = 0
@@ -577,7 +588,9 @@ class CSTMD(object) :
                     plt.plot(spikes, fr, c='b')
                 elif neu == 1:
                     plt.plot(spikes, fr, c='r')
-
+                
+                if self.save == True :
+                    spikes_file.close()
 
             plt.figure()
             plt.scatter(self.id_input, self.t_input, c='b', marker='+')

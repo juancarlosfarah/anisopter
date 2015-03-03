@@ -59,7 +59,7 @@ if not from_file and not no_input :
 elif from_file :
     with open(filename, 'rb') as my_file :
         frame_list = pickle.load(my_file)
-        #frame_list = frame_list[10:20]    
+        frame_list = frame_list[10:20]    
 elif no_input :
     frame_list = []
     for i in range(10) :
