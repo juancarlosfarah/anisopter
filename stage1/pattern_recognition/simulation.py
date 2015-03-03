@@ -168,11 +168,11 @@ class Simulation:
         time = np.arange(start, end, 1, dtype=np.int32)
 
         # Up to five colors supported.
-        colors = ["#FF6666", "#FFCC99", "#CCFFFF", "#FFFFCC", "#E6E6E6"]
+        colors = ["#E6E6E6", "#CCFFCC", "#FFCC99", "#CCFFFF", "#FFFFCC"]
 
         # Prepare the pattern plot.
         for i in range(len(self.start_positions)):
-            color = colors[i % (len(colors) - 1)]
+            color = colors[i % len(colors)]
             min_y = self.neurons[0].theta * -0.5
             max_y = self.neurons[0].theta * 2.25
             for j in self.start_positions[i]:
@@ -200,10 +200,10 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("3_500_50000_50_0.15_0.5_10.0")
-    n1 = sim.add_neuron(0.03125, 0.9125, 125)
-    # n2 = sim.add_neuron(0.03125, 0.85, 125)
-    # n3 = sim.add_neuron(0.03125, 0.85, 125)
+    sim.load("1_500_50000_50_0.25_0.5_10.0")
+    n1 = sim.add_neuron(0.03125, 0.91, 125)
+    # n2 = sim.add_neuron(0.03125, 0.91, 125)
+    # n3 = sim.add_neuron(0.03125, 0.91, 125)
     # n1.connect(n2)
     # n1.connect(n3)
     # n2.connect(n3)
