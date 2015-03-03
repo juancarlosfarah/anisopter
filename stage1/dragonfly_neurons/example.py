@@ -59,7 +59,7 @@ if not from_file and not no_input :
 elif from_file :
     with open(filename, 'rb') as my_file :
         frame_list = pickle.load(my_file)
-        frame_list = frame_list[10:20]    
+        #frame_list = frame_list[10:20]    
 elif no_input :
     frame_list = []
     for i in range(10) :
@@ -83,7 +83,7 @@ for frame in frame_list :
 dr.plot()
 
 
-SAVE_FRAMES = True
+SAVE_FRAMES = False
 if SAVE_FRAMES :
     with open("frame_targets.pkl", 'wb') as my_file :
         pickle.dump(frame_list, my_file)

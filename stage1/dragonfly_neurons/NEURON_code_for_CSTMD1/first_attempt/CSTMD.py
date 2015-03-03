@@ -84,6 +84,8 @@ class CSTMD(object) :
     MAX_CURRENT = 30 #10.0
     MIN_CURRENT = 2.0 #5
 
+    #Save spikes to txt file
+    save=True    
 
     # Minimum and maximum allowed weight of input neurons to CSTMDs
     MIN = 0.000005
@@ -472,6 +474,9 @@ class CSTMD(object) :
 
         self.curr_time += time
 
+        #Adjust the limit of time in the plots
+        self.t_stop=self.curr_time
+
         if not self.PLOT_ACTIVITY :
             # Delete previously recorded spikes from the vectors
             for i in range(len(self.t_vec)) :
@@ -552,6 +557,7 @@ class CSTMD(object) :
                 
                 fr = []
                 s = 0
+                print "bli/2",len(spikes)
                 for i in range(len(spikes)-1) :
                     t0 = spikes[i]
                     t1 = spikes[i+1]
