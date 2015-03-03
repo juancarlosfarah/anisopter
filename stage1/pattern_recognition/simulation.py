@@ -11,6 +11,12 @@ from matplotlib.patches import Rectangle
 from copy import deepcopy
 import numpy as np
 import sys
+import os
+
+# Import simulation_dao for saving.
+server = os.path.abspath(os.path.join("..", "..", "server"))
+sys.path.append(server)
+import simulation_dao
 
 
 class Simulation:
@@ -210,57 +216,6 @@ class Simulation:
         pylab.title('Spike Train with STDP')
         pylab.show()
 
-    def save(self):
-        """
-        Saves the simulation to the database.
-        :return:
-        """
-
-        if not self.savable:
-            print "Cannot save this simulation in the database."
-            return
-
-        connection_string = "mongodb://localhost"
-        connection = pymongo.MongoClient(connection_string)
-        db = connection.anisopter
-
-        # Strip down neurons.
-        neurons = []
-        for n in self.neurons:
-            obj = {
-                "tau_m": n.tau_m,
-                "tau_s": n.tau_s,
-                "spike_times": n.spike_times,
-                "potential": n.potential,
-                "t_plus": n.t_plus,
-                "t_minus": n.t_minus,
-                "ltp_window": n.ltp_window,
-                "ltd_window": n.ltd_window,
-                "t_window": n.t_window,
-                "alpha": n.alpha,
-                "theta": n.theta,
-                "k": n.k,
-                "k1": n.k1,
-                "k2": n.k2,
-                "weight_max": n.weight_max,
-                "weight_min": n.weight_min,
-                "a_plus": n.a_plus,
-                "a_minus": n.a_minus,
-                "weights": n.current_weights.flatten().tolist(),
-                "weight_distributions": n.weight_distributions
-            }
-
-            neurons.append(obj)
-
-        simulation = {
-            "start_positions": self.start_positions.tolist(),
-            "num_afferents": self.num_afferents,
-            "neurons": neurons,
-            "pattern_duration": self.pattern_duration,
-            "duration": self.duration
-        }
-        db.simulation.insert(simulation)
-
 
 # Run Sample Test
 # ===============
@@ -279,4 +234,10 @@ if __name__ == '__main__':
     sim.run()
     # sim.plot_weights()
     # sim.plot_membrane_potential()
-    sim.save()
+
+    # Save simulation to database.
+    connection_string = "mongodb://localhost"
+    connection = pymongo.MongoClient(connection_string)
+    db = connection.anisopter
+    simulations = simulation_dao.SimulationDao(db)
+    simulations.save(sim)
