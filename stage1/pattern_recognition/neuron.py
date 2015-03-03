@@ -17,6 +17,7 @@ from copy import deepcopy
 # Set Seed
 # np.random.seed(1)
 
+
 class Neuron:
     """
     Simulates a leaky integrate-and-fire (LIF) neuron following the
@@ -37,8 +38,6 @@ class Neuron:
         self.tau_s = 2.5                     # Synapse time constant in ms.
         self.t_plus = 16.8                   # LTP modification constant in ms.
         self.t_minus = 33.7                  # LTD modification constant in ms.
-        self.ltp_window = 7 * self.t_plus    # LTP learning window.
-        self.ltd_window = 7 * self.t_minus   # LTD learning window.
         self.t_window = int(self.tau_m * 7)  # Max time that spike affects EPSP.
         self.weight_max = 1                  # Maximum weight value.
         self.weight_min = 0                  # Minimum weight value.
@@ -51,7 +50,10 @@ class Neuron:
         # LTP and LTD learning rates. NOTE: a_minus_ratio should be 0.85.
         self.a_plus = a_plus
         self.a_minus = a_ratio * self.a_plus
+        self.ltp_window = int(7 * self.t_plus)    # LTP learning window.
+        self.ltd_window = int(7 * self.t_minus)   # LTD learning window.
 
+        # Spike information.
         self.time_delta = None               # Time since last spike in ms.
         self.spike_times = []                # Container to save spike times.
         self.potential = []                  # Tracks membrane potential.
@@ -60,8 +62,12 @@ class Neuron:
         # Sibling neurons.
         self.siblings = []
 
-        # Save weights in this container.
+        # Save historic weights in this container. Note that all weights will
+        # be saved only if the simulation is running with the save_weights flag.
         self.historic_weights = np.array([])
+
+        # Weight distributions will be saved.
+        self.weight_distributions = []
 
         # Effective width of the LTP window given spike pattern.
         self.effective_ltp_window = self.ltp_window
@@ -471,6 +477,14 @@ class Neuron:
             pylab.xlabel("Weight Value")
             p.axes.get_xaxis().set_visible(True)
             pylab.show()
+
+    def save_weight_distributions(self):
+        """
+        Saves current weight distribution.
+        :return: None.
+        """
+        dist = np.histogram(self.current_weights, range=(0, 1))[0]
+        self.weight_distributions.append(dist.tolist())
 
     # TODO: Put this function somewhere else.
     # def plot_lif_neuron(self):

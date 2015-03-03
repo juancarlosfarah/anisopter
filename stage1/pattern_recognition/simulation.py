@@ -5,6 +5,7 @@ import sample_generator
 import neuron
 import math
 import pylab
+import pymongo
 import matplotlib as plt
 from matplotlib.patches import Rectangle
 from copy import deepcopy
@@ -29,8 +30,10 @@ class Simulation:
         self.start_positions = None
         self.num_afferents = None
         self.neurons = []
-        self.pattern_len = None
-        self.test_length = None
+        self.pattern_duration = None
+        self.duration = None
+        self.savable = True
+        self.sampling_interval = None
 
     def load(self, filename, folder="samples/", extension=".npz"):
         """
@@ -46,8 +49,9 @@ class Simulation:
         self.start_positions = sample['start_positions']
         params = map(float, filename.split("_"))
         self.num_afferents = int(params[1])
-        self.test_length = int(params[2])
-        self.pattern_len = int(params[3])
+        self.duration = int(params[2])
+        self.pattern_duration = int(params[3])
+        self.sampling_interval = math.ceil(self.duration / 5)
 
     def add_neuron(self, a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
         """
@@ -63,11 +67,11 @@ class Simulation:
         frame = 1
         frames = 5
         bin_size = 50
-        frame_step = self.test_length / frames
+        frame_step = self.duration / frames
         rows = frames + 1
 
         # Plot weight distribution at given intervals.
-        for ms in range(self.test_length):
+        for ms in range(self.duration):
             if ms % frame_step == 0:
                 self.neurons[0].plot_weight_distribution(ms, rows,
                                                          current_frame=frame,
@@ -75,11 +79,19 @@ class Simulation:
                 frame += 1
 
         # Plot final weight distribution.
-        self.neurons[0].plot_weight_distribution(self.test_length, rows,
+        self.neurons[0].plot_weight_distribution(self.duration, rows,
                                                  current_frame=frame,
                                                  bin_size=bin_size)
 
-    def run(self):
+    def run(self, save_weights=False):
+        """
+        Runs a simulation.
+        :param save_weights: Saves all historic weights. Only for debugging.
+        :return: None.
+        """
+
+        # If weights are being saved, simulation is not savable.
+        self.savable = not save_weights
 
         # Reset neurons.
         for i in range(len(self.neurons)):
@@ -88,10 +100,10 @@ class Simulation:
             self.neurons[i].spike_times = []
 
             # Create container for results.
-            self.neurons[i].potential = [j for j in range(self.test_length + 1)]
+            self.neurons[i].potential = [j for j in range(self.duration + 1)]
 
         # Get membrane potential at each given point.
-        for ms in range(0, self.test_length - 1):
+        for ms in range(0, self.duration - 1):
 
             for n in self.neurons:
 
@@ -121,12 +133,17 @@ class Simulation:
                 # Post the potential to the next ms.
                 n.potential[ms + 1] = p
 
-                # Record weights at this point.
-                if n.historic_weights.size == 0:
-                    n.historic_weights = self.neurons[0].current_weights
-                else:
-                    n.historic_weights = np.hstack((n.historic_weights,
-                                                    n.current_weights))
+                # Record weights at this point only if running with flag.
+                if save_weights:
+                    if n.historic_weights.size == 0:
+                        n.historic_weights = self.neurons[0].current_weights
+                    else:
+                        n.historic_weights = np.hstack((n.historic_weights,
+                                                        n.current_weights))
+
+                # Save weight distribution if at interval.
+                if ms % self.sampling_interval == 0:
+                    n.save_weight_distributions()
 
                 # Update weights.
                 n.update_weights(self.spike_trains, ms)
@@ -137,13 +154,13 @@ class Simulation:
                     n.spike_times.append(ms + 1)
 
             # Progress bar.
-            progress = (ms / float(self.test_length - 1)) * 100
+            progress = (ms / float(self.duration - 1)) * 100
             sys.stdout.write("Processing spikes: %d%% \r" % progress)
             sys.stdout.flush()
 
     def plot_weights(self):
         start = self.t_min
-        end = self.test_length - 1
+        end = self.duration - 1
 
         # Container for time.
         time = np.arange(start, end, 1, dtype=np.int32)
@@ -162,7 +179,7 @@ class Simulation:
 
     def plot_membrane_potential(self):
         start = self.t_min
-        end = self.test_length
+        end = self.duration
 
         # Container for time.
         time = np.arange(start, end, 1, dtype=np.int32)
@@ -177,7 +194,7 @@ class Simulation:
             max_y = self.neurons[0].theta * 2.25
             for j in self.start_positions[i]:
                 pylab.gca().add_patch(Rectangle((j, min_y),
-                                                self.pattern_len,
+                                                self.pattern_duration,
                                                 max_y + math.fabs(min_y),
                                                 facecolor=color,
                                                 edgecolor=color))
@@ -193,6 +210,58 @@ class Simulation:
         pylab.title('Spike Train with STDP')
         pylab.show()
 
+    def save(self):
+        """
+        Saves the simulation to the database.
+        :return:
+        """
+
+        if not self.savable:
+            print "Cannot save this simulation in the database."
+            return
+
+        connection_string = "mongodb://localhost"
+        connection = pymongo.MongoClient(connection_string)
+        db = connection.anisopter
+
+        # Strip down neurons.
+        neurons = []
+        for n in self.neurons:
+            obj = {
+                "tau_m": n.tau_m,
+                "tau_s": n.tau_s,
+                "spike_times": n.spike_times,
+                "potential": n.potential,
+                "t_plus": n.t_plus,
+                "t_minus": n.t_minus,
+                "ltp_window": n.ltp_window,
+                "ltd_window": n.ltd_window,
+                "t_window": n.t_window,
+                "alpha": n.alpha,
+                "theta": n.theta,
+                "k": n.k,
+                "k1": n.k1,
+                "k2": n.k2,
+                "weight_max": n.weight_max,
+                "weight_min": n.weight_min,
+                "a_plus": n.a_plus,
+                "a_minus": n.a_minus,
+                "weights": n.current_weights.flatten().tolist(),
+                "weight_distributions": n.weight_distributions
+            }
+
+            neurons.append(obj)
+
+        simulation = {
+            "start_positions": self.start_positions.tolist(),
+            "num_afferents": self.num_afferents,
+            "neurons": neurons,
+            "pattern_duration": self.pattern_duration,
+            "duration": self.duration
+        }
+        db.simulation.insert(simulation)
+
+
 # Run Sample Test
 # ===============
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
@@ -200,13 +269,14 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("1_500_50000_50_0.25_0.5_10.0")
+    sim.load("3_500_5000_50_0.1_0.5_10.0")
     n1 = sim.add_neuron(0.03125, 0.91, 125)
-    # n2 = sim.add_neuron(0.03125, 0.91, 125)
-    # n3 = sim.add_neuron(0.03125, 0.91, 125)
-    # n1.connect(n2)
-    # n1.connect(n3)
-    # n2.connect(n3)
+    n2 = sim.add_neuron(0.03125, 0.91, 125)
+    n3 = sim.add_neuron(0.03125, 0.91, 125)
+    n1.connect(n2)
+    n1.connect(n3)
+    n2.connect(n3)
     sim.run()
     # sim.plot_weights()
-    sim.plot_membrane_potential()
+    # sim.plot_membrane_potential()
+    sim.save()
