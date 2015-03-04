@@ -91,7 +91,47 @@
             % for i in range(len(simulation['neurons'])):
             % neuron = simulation['neurons'][i]
             <div role="tabpanel" class="tab-pane" id="n{{i + 1}}">
+                <h3>Properties</h3>
+                <table class="table">
+                    <tr>
+                        <td>Theta</td>
+                        <td>{{neuron['theta']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Alpha</td>
+                        <td>{{neuron['alpha']}}</td>
+                    </tr>
+                </table>
+                <br />
+                % if i == 0:
+                <h3>Spike-Timing Information</h3>
+                <table class="table">
+                    <tr>
+                        <th>Type</th>
+                        <th>First Quarter</th>
+                        <th>Second Quarter</th>
+                        <th>Third Quarter</th>
+                        <th>Fourth Quarter</th>
+                    </tr>
+                    <tr>
+                        <td>True Positives</td>
+                        <td>{{'%.2f' % neuron['spike_info'][0][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][1][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][2][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][3][0]}}%</td>
+                    </tr>
+                    <tr>
+                        <td>False Positives</td>
+                        <td>{{'%.2f' % neuron['spike_info'][0][1]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][1][1]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][2][1]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][3][1]}}%</td>
+                    </tr>
+                </table>
+                <br />
+                % end
                 {{!neuron['weight_distribution_plot']}}
+                <br />
             </div>
             % end
         </div>

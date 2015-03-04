@@ -7,6 +7,7 @@ import mpld3
 import pylab
 import math
 from matplotlib.patches import Rectangle
+from copy import deepcopy
 
 
 class SimulationDao:
@@ -111,6 +112,13 @@ class SimulationDao:
         for i in range(len(sim['neurons'])):
             sim['neurons'][i]['weight_distribution_plot'] = wd_plots[i]
 
+        spike_info = self.get_neuron_info(sim)
+
+        # Currently we only get spike-timing info
+        # for the first neuron for one pattern.
+        # TODO: Expand to all neurons.
+        sim['neurons'][0]['spike_info'] = spike_info
+
         return sim
 
     def plot_weight_distributions(self, simulation):
@@ -179,3 +187,53 @@ class SimulationDao:
 
         plot = mpld3.fig_to_html(f)
         return plot
+
+    def get_neuron_info(self, simulation):
+        """
+        Get spike-timing information for each neuron.
+        :param simulation:
+        :return:
+        """
+
+        # Currently we only get spike-timing info
+        # for the first neuron for one pattern.
+        # TODO: Expand to all neurons.
+        pattern_duration = simulation["pattern_duration"]
+        duration = simulation["duration"]
+        neurons = simulation["neurons"]
+        patterns = simulation["start_positions"]
+
+        n = neurons[0]
+        spike_info = []
+
+        # Split start positions and spikes into 4 arrays.
+        split = duration / 4
+        pattern = np.array(patterns[0])
+        spikes = np.array(n["spike_times"])
+        for i in range(1, 5):
+            p = pattern[split * (i - 1) <= pattern]
+            p = p[p < split * i]
+            s = spikes[split * (i - 1) <= spikes]
+            s = s[s < split * i]
+
+            f_positives = 0.0
+            t_positives = 0.0
+            num_spikes = s.size
+            num_patterns = p.size
+            p_left = deepcopy(p)
+            for spike in s:
+                matched = False
+                for start_pos in p:
+                    if math.fabs(spike - start_pos) <= pattern_duration:
+                        t_positives += 1
+                        p_left = np.delete(p_left, start_pos)
+                        matched = True
+                if not matched:
+                    f_positives += 1
+
+            results = [t_positives / num_spikes * 100,
+                       f_positives / num_spikes * 100]
+                       # TODO: False negative.
+                       # p_left.size / num_patterns * 100]
+            spike_info.append(results)
+        return spike_info
