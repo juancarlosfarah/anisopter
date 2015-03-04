@@ -107,7 +107,9 @@ class SimulationDao:
                                                         duration))
 
         sim['potential_plots'] = p_plots
-        sim['weight_distribution_plots'] = self.plot_weight_distributions(sim)
+        wd_plots = self.plot_weight_distributions(sim)
+        for i in range(len(sim['neurons'])):
+            sim['neurons'][i]['weight_distribution_plot'] = wd_plots[i]
 
         return sim
 
