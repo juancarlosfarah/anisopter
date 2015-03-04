@@ -101,10 +101,15 @@
 </div>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script>
-    $(function () {
-        $('.nav-tabs li:first').addClass("active");
-        $('.tab-content > div:first').addClass("active");
-    })
+    $(document).ready(function() {
+        // Activate first tab.
+        $('.nav-tabs').each(function() {
+            $(this).find('li:first').addClass("active");
+        });
+        $('.tab-content').each(function() {
+            $(this).find('div:first').addClass("active");
+        });
+    });
 </script>
 </body>
 </html>
