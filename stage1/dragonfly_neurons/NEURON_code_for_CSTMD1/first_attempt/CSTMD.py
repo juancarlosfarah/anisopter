@@ -75,7 +75,17 @@ class CSTMD(object) :
 
     # Index of electrode for output
     output_indx = 323
-    
+
+    #--------------OUTPUT FOR PATTERN RECOGNITION---------
+    # Start index of compartments for pattern recognition output
+    start_patt_rec_indx=10
+
+    # Compartment number step for pattern recognition output
+    step_patt_rec_indx=10
+ 
+    #------------------------------------------------------
+
+
     # Plot an array of electrodes for neurons 0 and 1
     PLOT_ACTIVITY = True
 
@@ -84,8 +94,9 @@ class CSTMD(object) :
     MAX_CURRENT = 30 #10.0
     MIN_CURRENT = 2.0 #5
 
-    #Save spikes to txt file
-    save=True    
+    #Save spike rate to txt file
+    saveSpikeRate=False    
+ 
 
     # Minimum and maximum allowed weight of input neurons to CSTMDs
     MIN = 0.000005
@@ -98,7 +109,7 @@ class CSTMD(object) :
         return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
 
 	# IK: constructor
-    def __init__(self, neurons_no, synapses_no, D, PRINT = True) :
+    def __init__(self, neurons_no, synapses_no, D, electrds,PRINT = True) :
         if PRINT == True :
             print "------------------------------------------------------ "
             print "     *    Dragonfly CSTMD1 neuron simulation    *      "
@@ -108,6 +119,7 @@ class CSTMD(object) :
         self.global_time = time.time()
         self.PRINTS = PRINT
         self.neurons_no = neurons_no
+        self.electrds=electrds
 
         # THINGS THAT RUN ONLY ONCE 
     
@@ -298,7 +310,7 @@ class CSTMD(object) :
                     self.nc0net.append(h.NetCon(self.stimNet[p],
                                                 self.syn0net[-1],
                                                 0, # Threshold
-                                                0.025+40.0,#*np.random.rand(), # Delay
+                                                0.025+40.0*np.random.rand(), # Delay
                                                 weight)) # Weight
 
 
@@ -408,6 +420,25 @@ class CSTMD(object) :
             self.raster[-1].record(self.t_vec[-1], self.id_vec[-1], n)
         # ----------------------------------------------------------------------
 
+        # -- Spiking recording for pattern recognition output-------------------
+       
+        self.t_out_vec = [] #time
+        self.id_out_vec = [] #cell number
+        self.out_raster = []
+
+        # Initialize the electrodes
+        for n in range(self.neurons_no) :
+            for i in range(self.electrds):
+                # The compartment number which will be recorded
+                comp_idx=(i+1)*self.step_patt_rec_indx+self.start_patt_rec_indx
+                #print "Neuron No ",n, " elec no: ",i," comp num: ",comp_idx
+                self.t_out_vec.append(h.Vector())
+                self.id_out_vec.append(h.Vector())
+                exec "self.out_raster.append(h.NetCon(h.neuron"+str(n)+"_tree[comp_idx](.5)._ref_v, None, sec=h.neuron"+str(n)+"_tree[comp_idx]))" #(.5)
+                self.out_raster[-1].threshold = 0 #-10 #set threshold to a value of your choice
+                self.out_raster[-1].record(self.t_out_vec[-1], self.id_out_vec[-1], n)
+        # ----------------------------------------------------------------------
+
 
         # -- Electrodes for observations ---------------------------------------
         if self.PLOT_ACTIVITY == True :
@@ -450,9 +481,7 @@ class CSTMD(object) :
 
 
     def run(self, time, rates,ib=0) :
-        print "len ",len(rates)
-
-
+    
         if self.IntFire:
             if len(rates) > self.PIXEL_NO :
                 print "Error: Not enough stimuli!\nReturning.."
@@ -509,6 +538,37 @@ class CSTMD(object) :
 
         return T, ID
 
+
+    
+    def sp_trains_save(self):
+
+    
+
+        # Container for spike trains.
+        spike_trains = np.zeros((self.neurons_no*self.electrds, self.curr_time))
+
+        # Add spike occurences to spike train
+
+        #For each neuron
+        for n in range(self.neurons_no) :
+
+            #and each electrode
+            for i in range(self.electrds):
+                elec_index=(n+1)*(i+1)-1               
+                elec_len=len(self.t_out_vec[elec_index])
+
+                for y in range(elec_len):
+                    timestamp=round(self.t_out_vec[elec_index][y],0)
+                    spike_trains[elec_index][timestamp-1]=1
+                    #print "Timestanmp" ,spike_trains[elec_index][timestamp-1]
+                    #print self.t_out_vec[elec_index][y], spike_trains[elec_index][timestamp-1]  
+
+        filename = "spike_trains/{}_{}_{}_{}_{}_{}".format(self.neurons_no,"neur",
+                                                         self.electrds,"elecs",
+                                                         self.curr_time,"runtime")
+        np.savez(filename,spike_trains)
+        
+
     def plot(self) :
         # -- Plot the recordings -----------------------------------------------    
         if self.PLOT_ACTIVITY == True :
@@ -554,21 +614,20 @@ class CSTMD(object) :
                 my_length = len(self.t_vec[neu])
 
                 #Save the spike occurences in a .txt file
-                if self.save == True :             
+                if self.saveSpikeRate == True :             
                     exec "spikes_file=open('CSTMD_out_spikes/spikes"+str(neu+1)+".txt','w')"
-                    spikes_file.write("Neuron No "+str(neu+1)+"\n")
-                
+                                    
 
                 for s in range(my_length) :
                     spikes.append(self.t_vec[neu][s])                    
 
                     #Save the spike occurences in a .txt file
-                    if self.save == True :
+                    if self.saveSpikeRate == True :
                        spikes_file.write(str(self.t_vec[neu][s])+"\n") 
                 
                 fr = []
                 s = 0
-                print "bli/2",len(spikes)
+
                 for i in range(len(spikes)-1) :
                     t0 = spikes[i]
                     t1 = spikes[i+1]
@@ -589,7 +648,7 @@ class CSTMD(object) :
                 elif neu == 1:
                     plt.plot(spikes, fr, c='r')
                 
-                if self.save == True :
+                if self.saveSpikeRate == True :
                     spikes_file.close()
 
             plt.figure()
