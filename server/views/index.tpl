@@ -20,7 +20,7 @@
 </nav>
 </header>
 <div class="container">
-<h1>Simulation</h1>
+<h1>Simulations</h1>
 
 %for s in simulations:
 <h2><a href="/simulation/{{s['_id']}}">{{s['date']}}</a></h2>
