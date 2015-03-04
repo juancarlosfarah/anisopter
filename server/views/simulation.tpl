@@ -104,7 +104,7 @@
                 </table>
                 <br />
                 % if i == 0:
-                <h3>Spike-Timing Information</h3>
+                <h3>Spike Timing Information</h3>
                 <table class="table">
                     <tr>
                         <th>Type</th>
@@ -126,6 +126,13 @@
                         <td>{{'%.2f' % neuron['spike_info'][1][1]}}%</td>
                         <td>{{'%.2f' % neuron['spike_info'][2][1]}}%</td>
                         <td>{{'%.2f' % neuron['spike_info'][3][1]}}%</td>
+                    </tr>
+                    <tr>
+                        <td>False Negatives</td>
+                        <td>{{'%.2f' % neuron['spike_info'][0][2]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][1][2]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][2][2]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][3][2]}}%</td>
                     </tr>
                 </table>
                 <br />

@@ -194,6 +194,8 @@ class SimulationDao:
         :param simulation:
         :return:
         """
+        # Container for return value.
+        rvalue = []
 
         # Currently we only get spike-timing info
         # for the first neuron for one pattern.
@@ -202,9 +204,7 @@ class SimulationDao:
         duration = simulation["duration"]
         neurons = simulation["neurons"]
         patterns = simulation["start_positions"]
-
         n = neurons[0]
-        spike_info = []
 
         # Split start positions and spikes into 4 arrays.
         split = duration / 4
@@ -220,20 +220,27 @@ class SimulationDao:
             t_positives = 0.0
             num_spikes = s.size
             num_patterns = p.size
-            p_left = deepcopy(p)
+            to_delete = []
             for spike in s:
                 matched = False
-                for start_pos in p:
+                for j in range(p.size):
+                    start_pos = p[j]
                     if math.fabs(spike - start_pos) <= pattern_duration:
                         t_positives += 1
-                        p_left = np.delete(p_left, start_pos)
+                        to_delete.append(j)
                         matched = True
                 if not matched:
                     f_positives += 1
 
+            # Remove patterns that contain a spike
+            # and calculate false negatives.
+            p_left = np.delete(p, to_delete)
+            f_negatives = float(p_left.size)
+
+            # Package results and append to return value.
             results = [t_positives / num_spikes * 100,
-                       f_positives / num_spikes * 100]
-                       # TODO: False negative.
-                       # p_left.size / num_patterns * 100]
-            spike_info.append(results)
-        return spike_info
+                       f_positives / num_spikes * 100,
+                       f_negatives / num_patterns * 100]
+            rvalue.append(results)
+
+        return rvalue
