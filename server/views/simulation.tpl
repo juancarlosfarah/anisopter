@@ -48,6 +48,23 @@ media="screen">
         <td>{{simulation['duration']}} ms</td>
     </tr>
 </table>
+
+%for p_plot in simulation['potential_plots']:
+<div class="row">
+    <div class="col-md-12">
+        {{!p_plot}}
+    </div>
+</div>
+%end
+
+%for wd_plot in simulation['weight_distribution_plots']:
+<div class="row">
+    <div class="col-md-12">
+        {{!wd_plot}}
+    </div>
+</div>
+%end
+
 </div>
 </body>
 </html>

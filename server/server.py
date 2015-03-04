@@ -17,7 +17,7 @@ import simulation
 def show_index():
 
     obj = dict()
-    obj['simulations'] = simulations.get_simulations(2)
+    obj['simulations'] = simulations.get_simulations(5)
 
     return bottle.template('index', obj)
 
