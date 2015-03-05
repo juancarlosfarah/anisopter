@@ -1,20 +1,22 @@
+from stage1.pattern_recognition.pattern_recognition import neuron
+
 __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
-import sample_generator
-from . import neuron
 import math
+from copy import deepcopy
+import sys
+
+from . import neuron
 import pylab
 import pymongo
-import matplotlib as plt
 from matplotlib.patches import Rectangle
-from copy import deepcopy
 import numpy as np
-import sys
 import os
 
+
 # Import simulation_dao for saving.
-server = os.path.abspath(os.path.join("..", "..", "server"))
+server = os.path.abspath(os.path.join("..", "..", "..", "server"))
 sys.path.append(server)
 import simulation_dao
 

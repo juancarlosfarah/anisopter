@@ -5,14 +5,13 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk,' \
                   'panagiotis.almpouras12@imperial.ac.uk,' \
                   'erik.grabljevec14@imperial.ac.uk'
 
+import math
+from copy import deepcopy
+
 import numpy as np
 import pylab
 import matplotlib.pyplot as plt
-import math
-import pattern_generator
-import sys
-import sample_generator
-from copy import deepcopy
+
 
 # Set Seed
 # np.random.seed(1)

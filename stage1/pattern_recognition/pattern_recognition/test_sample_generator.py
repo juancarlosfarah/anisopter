@@ -1,9 +1,10 @@
 __author__ = 'juancarlosfarah'
 
 import unittest
-import sample_generator as sg
-import numpy as np
 import math
+
+from . import sample_generator as sg
+import numpy as np
 
 
 class SampleGeneratorTests(unittest.TestCase):

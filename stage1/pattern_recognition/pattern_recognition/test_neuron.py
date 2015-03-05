@@ -1,9 +1,10 @@
 __author__ = 'juancarlosfarah'
 
-from . import neuron
-import numpy as np
 import math
 import unittest
+
+from . import neuron
+import numpy as np
 
 
 class NeuronTests(unittest.TestCase):
