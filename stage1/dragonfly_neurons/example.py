@@ -59,7 +59,7 @@ if not from_file and not no_input :
 elif from_file :
     with open(filename, 'rb') as my_file :
         frame_list = pickle.load(my_file)
-        #frame_list = frame_list[10:20]    
+        frame_list = frame_list[20:25]    
 elif no_input :
     frame_list = []
     for i in range(10) :
@@ -78,7 +78,7 @@ all_times = []
 all_ids = []
 for frame in frame_list :
     frame = frame.ravel()
-    times, ids = dr.run(time = 40, rates = frame)
+    times, ids = dr.run(time = 10, rates = frame)
     all_times.append(times)
     all_ids.append(ids)
 #dr.plot()
