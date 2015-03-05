@@ -5,6 +5,7 @@
     <script src="/static/jquery.js"></script>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"
           media="screen">
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <header>
@@ -146,7 +147,6 @@
     </div>
 
 </div>
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
         // Activate first tab.

@@ -78,7 +78,8 @@ class SimulationDao:
                 {
                     '_id': sim['_id'],
                     'date': sim['_id'].generation_time,
-                    'body': sim['num_afferents'],
+                    'description': "Description",
+                    'num_afferents': sim['num_afferents'],
                     'duration': sim['duration'],
                     'num_neurons': len(sim['neurons'])
                 })
