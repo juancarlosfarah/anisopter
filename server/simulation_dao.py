@@ -7,7 +7,6 @@ import mpld3
 import pylab
 import math
 from matplotlib.patches import Rectangle
-from copy import deepcopy
 
 
 class SimulationDao:
@@ -225,7 +224,7 @@ class SimulationDao:
                 matched = False
                 for j in range(p.size):
                     start_pos = p[j]
-                    if math.fabs(spike - start_pos) <= pattern_duration:
+                    if 0 <= spike - start_pos <= pattern_duration:
                         t_positives += 1
                         to_delete.append(j)
                         matched = True
