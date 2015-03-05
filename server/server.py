@@ -27,7 +27,6 @@ def show_simulation(_id):
     sim = simulations.get_simulation(_id)
 
     if sim is None:
-        print "None!"
         bottle.redirect("/")
 
     obj = dict()
@@ -37,15 +36,24 @@ def show_simulation(_id):
 # Static Routes
 @bottle.get('/static/bootstrap/css/<filename>')
 def bootstrap_css(filename):
-    return bottle.static_file(filename, root='static/bootstrap/css')
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        "static",
+                                        "bootstrap",
+                                        "css"))
+    return bottle.static_file(filename, root=root)
 
 @bottle.get('/static/bootstrap/js/<filename>')
 def bootstrap_js(filename):
-    return bottle.static_file(filename, root='static/bootstrap/js')
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        "static",
+                                        "bootstrap",
+                                        "js"))
+    return bottle.static_file(filename, root=root)
 
 @bottle.get('/static/<filename>')
 def jquery(filename):
-    return bottle.static_file(filename, root='static')
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
+    return bottle.static_file(filename, root=root)
 
 
 def main():
@@ -66,7 +74,8 @@ def main():
         bottle.debug(True)
         bottle.run(host=options.host, port=options.port, reloader=True)
     else:
-        bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "views")))
+        bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(
+            os.path.dirname(__file__), "views")))
         bottled.daemon_run(host="146.169.47.153", port=55080)
 
 if __name__ == "__main__":
