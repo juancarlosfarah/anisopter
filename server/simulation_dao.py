@@ -238,9 +238,17 @@ class SimulationDao:
             f_negatives = float(p_left.size)
 
             # Package results and append to return value.
-            results = [t_positives / num_spikes * 100,
-                       f_positives / num_spikes * 100,
-                       f_negatives / num_patterns * 100]
+            rate_t_positives = 0
+            rate_f_positives = 0
+            rate_f_negatives = 0
+            if num_spikes != 0:
+                rate_t_positives = t_positives / num_spikes * 100
+                rate_f_positives = f_positives / num_spikes * 100
+            if num_patterns != 0:
+                rate_f_negatives = f_negatives / num_patterns * 100
+            results = [rate_t_positives,
+                       rate_f_positives,
+                       rate_f_negatives]
             rvalue.append(results)
 
         return rvalue
