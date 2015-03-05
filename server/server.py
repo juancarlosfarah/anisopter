@@ -10,8 +10,6 @@ import simulation_dao
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
 sys.path.append(pr)
-import simulation
-
 
 @bottle.route('/')
 def show_index():
@@ -58,4 +56,4 @@ if __name__ == '__main__':
 
     # Start the webserver running and wait for requests.
     bottle.debug(True)
-    bottle.run(host='localhost', port=8082, reloader=True)
+    bottle.run(host='localhost', port=508080, reloader=True)
