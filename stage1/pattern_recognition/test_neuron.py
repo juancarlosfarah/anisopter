@@ -1,6 +1,6 @@
 __author__ = 'juancarlosfarah'
 
-import neuron
+from . import neuron
 import numpy as np
 import math
 import unittest

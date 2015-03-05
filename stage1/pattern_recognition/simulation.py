@@ -2,7 +2,7 @@ __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 import sample_generator
-import neuron
+from . import neuron
 import math
 import pylab
 import pymongo
