@@ -67,7 +67,7 @@ def main():
         bottle.run(host=options.host, port=options.port, reloader=True)
     else:
         bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "views")))
-        bottled.daemon_run(host="localhost", port=8080)
+        bottled.daemon_run(host="146.169.47.153", port=55080)
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
