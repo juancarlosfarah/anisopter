@@ -18,7 +18,7 @@ def firing_rates(binned_data) :
     buf = [0]*length
     for t in range(len(binned_data)) :
         buf[t%length] = binned_data[t]
-        FR.append(np.mean(buf)*1000.0)
+        FR.append(np.mean(buf[:min(t,length-1)])*1000.0)
     return FR
 
 
