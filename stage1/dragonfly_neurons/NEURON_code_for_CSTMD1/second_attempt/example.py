@@ -71,7 +71,7 @@ if not from_file and not no_input :
 elif from_file :
     with open(filename, 'rb') as my_file :
         frame_list = pickle.load(my_file)
-        frame_list = frame_list[10:20]    
+        #frame_list = frame_list[10:20]    
 elif no_input :
     frame_list = []
     for i in range(10) :
@@ -82,8 +82,10 @@ elif no_input :
 neurons_no = 2
 SYNAPSES_NO = 500
 D = 30
+time_bet_frames = 10
 electrds=2
 dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds)
+
 
 if K >= 0 :
     dr.K = K
@@ -95,7 +97,7 @@ neuron_idx = 0
 
 for frame in frame_list :
     frame = frame.ravel()
-    times, ids = dr.run(time = 40, rates = frame)
+    times, ids = dr.run(time = time_bet_frames, rates = frame)
 
 FINAL_THING = []
 for i in times[neuron_idx] :

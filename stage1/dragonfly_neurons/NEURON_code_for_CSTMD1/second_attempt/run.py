@@ -24,7 +24,7 @@ def firing_rates(binned_data) :
 def real_firing_rates(data) :
     fr = []
     for i in range(len(data)-4) :
-        fr.append(2000.0 / (data[i+4] - data[i]))
+        fr.append(4000.0 / (data[i+4] - data[i]))
     return fr
 
 K = 1
@@ -38,7 +38,7 @@ with open("data.pkl", 'rb') as my_file :
 call(["python", "example.py", "-file", "frame_target2.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data2 = pickle.load(my_file)
-call(["python", "example.py", "-file", "frame_target1and2.pkl", "-K", str(K), "-Na", str(Na)])
+call(["python", "example.py", "-file", "frame_target12.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data12 = pickle.load(my_file)
 
@@ -57,8 +57,7 @@ real_fr_2 = real_firing_rates(data2)
 real_fr_12 = real_firing_rates(data12)
 
 
-print data_test
-print bin_data(data_test)
+print data1
 
 plt.subplot(2,1,1)
 #plt.plot(bin_data(data1), c='b', lw=2.0)
