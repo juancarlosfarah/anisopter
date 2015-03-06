@@ -149,6 +149,7 @@ class SimulationDao:
                     p.axes.get_xaxis().set_visible(True)
                 frame += 1
             plots.append(mpld3.fig_to_html(f))
+            pylab.close(f)
         return plots
 
     def plot_membrane_potential(self, simulation, start, end):
@@ -186,6 +187,7 @@ class SimulationDao:
         pylab.title('Spike Train')
 
         plot = mpld3.fig_to_html(f)
+        pylab.close(f)
         return plot
 
     def get_neuron_info(self, simulation):
