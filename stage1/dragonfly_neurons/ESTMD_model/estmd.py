@@ -222,7 +222,7 @@ class ESTMD(object):
         downsize = np.tanh(downsize)
         
         # Threshold.
-        #downsize[downsize < 0.6] = 0
+        downsize[downsize < 0.4] = 0
 
         # Resize image.
         cv2.imshow('Output', downsize)
