@@ -648,6 +648,7 @@ class CSTMD(object) :
                     fr.append(0.0)
                 else :
                     fr.append(1000.0/s)
+                
                 if False :
                     if self.PRINTS : print fr
                     return fr, []
@@ -658,6 +659,7 @@ class CSTMD(object) :
                 
                 if self.saveSpikeRate == True :
                     spikes_file.close()
+                print fr
 
             plt.figure()
             plt.scatter(self.id_input, self.t_input, c='b', marker='+')
