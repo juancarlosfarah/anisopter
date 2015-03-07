@@ -32,6 +32,9 @@ Na = 0.48
 #for K in np.arange(0.01, 0.1, 0.01) :
 K = 0.05
 
+call(["python", "example.py", "-file", "frame_target0.pkl", "-K", str(K), "-Na", str(Na)])
+with open("data.pkl", 'rb') as my_file :
+    data0 = pickle.load(my_file)
 call(["python", "example.py", "-file", "frame_target1.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data1 = pickle.load(my_file)
@@ -52,12 +55,13 @@ with open("data.pkl", 'rb') as my_file :
 #FR12 = firing_rates(bin_data(data12))
 
 #real_fr_test = real_firing_rates(data_test)
+real_fr_0 = real_firing_rates(data0)
 real_fr_1 = real_firing_rates(data1)
 real_fr_2 = real_firing_rates(data2)
 real_fr_12 = real_firing_rates(data12)
 
 
-print data1
+print data0
 
 plt.subplot(2,1,1)
 #plt.plot(bin_data(data1), c='b', lw=2.0)
@@ -66,6 +70,7 @@ plt.subplot(2,1,1)
 plt.title("binned  data")
 
 plt.subplot(2,1,2)
+plt.plot(real_fr_0, c='r', lw=2.0)
 plt.plot(real_fr_1, c='b', lw=2.0)
 plt.plot(real_fr_2, c='g', lw=2.0)
 plt.plot(real_fr_12, c='k', lw=2.0)

@@ -51,7 +51,7 @@ class CSTMD(object) :
     # HH parameters - (Na is Sodium, K is Potassium)
     # SOS: For Na = 0.48, K below 0.0125 is not bistable, above something as well
     K = 0.06 #My limit: 0.0125 # Klauss used: 0.072
-    Na = 0.48
+    Na = 0.48#0.48
     
     # Nice combination of values for debugging because the neuron doesn't fire
     #Na = 0.2
@@ -301,7 +301,7 @@ class CSTMD(object) :
                     y = p / np.sqrt(self.PIXEL_NO)
                     Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
 
-                    weight = self.calc_rand_weight(Dist, self.MIN, self.MAX)
+                    weight = 1000*self.calc_rand_weight(Dist, self.MIN, self.MAX)
                     #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
                     #if self.PRINTS : print weight
                     exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
@@ -310,7 +310,6 @@ class CSTMD(object) :
                                                 0, # Threshold
                                                 0.025+40.0*np.random.rand(), # Delay
                                                 weight)) # Weight
-
 
         elif self.IC :
             self.stimIC = h.IClamp(h.neuron0_tree[720](0.5))
@@ -488,14 +487,15 @@ class CSTMD(object) :
             count=0
 
             #normalizing pixel values
+            """
             norm=sum(rates)            
             if norm!=0:
                 for i in range(len(rates)) :
                     rates[i]=rates[i]/norm
-            
+            """
             for i in range(len(rates)) :
 
-                self.stimNet[i].ib = self.MIN_CURRENT+2000*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
+                self.stimNet[i].ib = self.MIN_CURRENT+100*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
 
             #if self.PRINTS : print sum(rates)
 
