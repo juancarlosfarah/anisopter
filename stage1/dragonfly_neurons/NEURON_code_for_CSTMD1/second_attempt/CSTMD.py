@@ -90,7 +90,7 @@ class CSTMD(object) :
     PLOT_ACTIVITY = True
 
 
-    PIXEL_NO = 1024
+    PIXEL_NO = 4096#1024
     MAX_CURRENT = 30 #10.0
     MIN_CURRENT = 2.0 #5
 
@@ -301,7 +301,9 @@ class CSTMD(object) :
                     y = p / np.sqrt(self.PIXEL_NO)
                     Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
 
-                    weight = 1000*self.calc_rand_weight(Dist, self.MIN, self.MAX)
+                    weight_factor = 1000
+
+                    weight = weight_factor*self.calc_rand_weight(Dist, self.MIN, self.MAX)
                     #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
                     #if self.PRINTS : print weight
                     exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
@@ -493,9 +495,10 @@ class CSTMD(object) :
                 for i in range(len(rates)) :
                     rates[i]=rates[i]/norm
             """
+            rate_factor = 100
             for i in range(len(rates)) :
 
-                self.stimNet[i].ib = self.MIN_CURRENT+100*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
+                self.stimNet[i].ib = self.MIN_CURRENT+rate_factor*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
 
             #if self.PRINTS : print sum(rates)
 
