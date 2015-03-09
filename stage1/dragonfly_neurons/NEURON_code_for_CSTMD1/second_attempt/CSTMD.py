@@ -301,7 +301,7 @@ class CSTMD(object) :
                     y = p / np.sqrt(self.PIXEL_NO)
                     Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
 
-                    weight_factor = 1000
+                    weight_factor = 200
 
                     weight = weight_factor*self.calc_rand_weight(Dist, self.MIN, self.MAX)
                     #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)

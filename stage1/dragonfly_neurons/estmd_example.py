@@ -12,9 +12,9 @@ bg_speed = 4
 # Create movie (tests Target_animation.py)
 # ========================================
 test = Animation()
-test.add_target(2, start=[150,0], end=[150,500], size=6, v=3)
+#test.add_target(2, start=[150,0], end=[150,500], size=6, v=3)
 #test.add_target(2, start=[250,0], end=[250,500], size=6, v=3)
-#test.add_target(2, start=[50,0], end=[50,500], size=6, v=3)
+test.add_target(2, start=[0,0], end=[500,500], size=6, v=3)
 #test.add_background(bg_image, bg_speed)
 test.run(out_directory, total_frames = 200)
 
@@ -37,5 +37,5 @@ for i in range(200):
 
 SAVE_FRAMES = True
 if SAVE_FRAMES :
-    with open("frame_target_weak_closer_200.pkl", 'wb') as my_file :
+    with open("64x64_diag_200.pkl", 'wb') as my_file :
         pickle.dump(frame_list, my_file)
