@@ -17,9 +17,17 @@ sys.path.append(pr)
 def show_index():
 
     obj = dict()
-    obj['simulations'] = simulations.get_simulations(5)
 
     return bottle.template('index', obj)
+
+@bottle.route('/simulations')
+def show_index():
+
+    obj = dict()
+    obj['simulations'] = simulations.get_simulations(5)
+
+    return bottle.template('simulations', obj)
+
 
 @bottle.get("/simulation/<_id>")
 def show_simulation(_id):

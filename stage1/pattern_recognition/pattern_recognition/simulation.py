@@ -1,5 +1,3 @@
-from stage1.pattern_recognition.pattern_recognition import neuron
-
 __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
@@ -16,9 +14,10 @@ import os
 
 
 # Import simulation_dao for saving.
-server = os.path.abspath(os.path.join("..", "..", "..", "server"))
-sys.path.append(server)
-import simulation_dao
+#TODO: Uncomment
+# server = os.path.abspath(os.path.join("..", "..", "..", "server"))
+# sys.path.append(server)
+# import simulation_dao
 
 
 class Simulation:
@@ -55,10 +54,9 @@ class Simulation:
         sample = np.load(path)
         self.spike_trains = sample['spike_trains']
         self.start_positions = sample['start_positions']
-        params = map(float, filename.split("_"))
-        self.num_afferents = int(params[1])
-        self.duration = int(params[2])
-        self.pattern_duration = int(params[3])
+        self.pattern_duration = sample['pattern_duration']
+        self.num_afferents = self.spike_trains.shape[0]
+        self.duration = self.spike_trains.shape[1]
         self.sampling_interval = math.ceil(self.duration / 5)
 
     def add_neuron(self, a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
@@ -226,20 +224,22 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    sim.load("3_500_50000_50_0.1_0.5_10.0")
-    n1 = sim.add_neuron(0.03125, 0.91, 125)
-    n2 = sim.add_neuron(0.03125, 0.91, 125)
-    n3 = sim.add_neuron(0.03125, 0.91, 125)
-    n1.connect(n2)
-    n1.connect(n3)
-    n2.connect(n3)
+    # sim.load("3_500_50000_50_0.1_0.5_10.0")
+    sim.load("combined_50k")
+    n1 = sim.add_neuron(0.03125, .95, 125)
+    # n2 = sim.add_neuron(0.03125, 0.91, 125)
+    # n3 = sim.add_neuron(0.03125, 0.91, 125)
+    # n1.connect(n2)
+    # n1.connect(n3)
+    # n2.connect(n3)
     sim.run()
     # sim.plot_weights()
-    # sim.plot_membrane_potential()
+    sim.plot_membrane_potential()
+
 
     # Save simulation to database.
-    connection_string = "mongodb://localhost"
-    connection = pymongo.MongoClient(connection_string)
-    db = connection.anisopter
-    simulations = simulation_dao.SimulationDao(db)
-    simulations.save(sim)
+    # connection_string = "mongodb://localhost"
+    # connection = pymongo.MongoClient(connection_string)
+    # db = connection.anisopter
+    # simulations = simulation_dao.SimulationDao(db)
+    # simulations.save(sim)
