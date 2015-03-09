@@ -35,6 +35,20 @@ K = 0.05
 call(["python", "example.py", "-file", "frame_target0.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data0 = pickle.load(my_file)
+
+call(["python", "example.py", "-file", "frame_target_strong_200.pkl", "-K", str(K), "-Na", str(Na)])
+with open("data.pkl", 'rb') as my_file :
+    data_strong = pickle.load(my_file)
+
+call(["python", "example.py", "-file", "frame_target_weak_closer_200.pkl", "-K", str(K), "-Na", str(Na)])
+with open("data.pkl", 'rb') as my_file :
+    data_weak = pickle.load(my_file)
+
+call(["python", "example.py", "-file", "frame_target_both_closer_200.pkl", "-K", str(K), "-Na", str(Na)])
+with open("data.pkl", 'rb') as my_file :
+    data_both = pickle.load(my_file)
+
+"""
 call(["python", "example.py", "-file", "frame_target1.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data1 = pickle.load(my_file)
@@ -44,24 +58,17 @@ with open("data.pkl", 'rb') as my_file :
 call(["python", "example.py", "-file", "frame_target12.pkl", "-K", str(K), "-Na", str(Na)])
 with open("data.pkl", 'rb') as my_file :
     data12 = pickle.load(my_file)
+"""
 
-call(["python", "example.py", "-file", "frame_targets.pkl", "-K", str(K), "-Na", str(Na)])
-with open("data.pkl", 'rb') as my_file :
-    data_test = pickle.load(my_file)
-
-#FRTEST = firing_rates(bin_data(data_test))
-#FR1 = firing_rates(bin_data(data1))
-#FR2 = firing_rates(bin_data(data2))
-#FR12 = firing_rates(bin_data(data12))
-
-#real_fr_test = real_firing_rates(data_test)
 real_fr_0 = real_firing_rates(data0)
+real_fr_strong = real_firing_rates(data_strong)
+real_fr_weak = real_firing_rates(data_weak)
+real_fr_both = real_firing_rates(data_both)
+"""
 real_fr_1 = real_firing_rates(data1)
 real_fr_2 = real_firing_rates(data2)
 real_fr_12 = real_firing_rates(data12)
-
-
-print data0
+"""
 
 plt.subplot(2,1,1)
 #plt.plot(bin_data(data1), c='b', lw=2.0)
@@ -71,13 +78,14 @@ plt.title("binned  data")
 
 plt.subplot(2,1,2)
 plt.plot(real_fr_0, c='r', lw=2.0)
+plt.plot(real_fr_strong, c='b', lw=2.0)
+plt.plot(real_fr_weak, c='g', lw=2.0)
+plt.plot(real_fr_both, c='k', lw=2.0)
+"""
 plt.plot(real_fr_1, c='b', lw=2.0)
 plt.plot(real_fr_2, c='g', lw=2.0)
 plt.plot(real_fr_12, c='k', lw=2.0)
-#plt.plot(FR1, c='b', lw=2.0)
-#plt.plot(FR2, c='g', lw=2.0)
-#plt.plot(FR12, c='k', lw=2.0)
-#plt.plot(real_fr_test, c='k', lw=2.0)
+"""
 plt.title("FR")
 
 plt.savefig("letssee.png")

@@ -56,7 +56,7 @@ class ESTMD(object):
         self.cap = cv2.VideoCapture(movie_dir)
                                     
     def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", 
-            image_width = 32, image_height = 32):
+            image_width = 64, image_height = 64):
         """
         This method runs modification on the movie that we previously added
         using "open_movie" method.
@@ -222,7 +222,7 @@ class ESTMD(object):
         downsize = np.tanh(downsize)
         
         # Threshold.
-        downsize[downsize < 0.4] = 0
+        #downsize[downsize < 0.4] = 0
 
         # Resize image.
         downsize = cv2.resize(downsize, (self.image_width, self.image_height))
