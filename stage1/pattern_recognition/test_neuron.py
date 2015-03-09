@@ -3,7 +3,7 @@ __author__ = 'juancarlosfarah'
 import math
 import unittest
 
-from . import neuron
+from stage1.pattern_recognition import neuron
 import numpy as np
 
 

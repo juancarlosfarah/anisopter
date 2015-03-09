@@ -5,12 +5,11 @@ import math
 from copy import deepcopy
 import sys
 
-from . import neuron
+from stage1.pattern_recognition import neuron
 import pylab
-import pymongo
 from matplotlib.patches import Rectangle
 import numpy as np
-import os
+
 
 
 # Import simulation_dao for saving.
@@ -30,7 +29,7 @@ class Simulation:
     A_RATIO = neuron.Neuron.A_RATIO
     THETA = neuron.Neuron.THETA
 
-    def __init__(self):
+    def __init__(self, description=None):
         self.t_min = 0                   # Start time in ms.
         self.t_step = 1                  # Time step in ms.
         self.spike_trains = None
@@ -41,8 +40,9 @@ class Simulation:
         self.duration = None
         self.savable = True
         self.sampling_interval = None
+        self.description = description
 
-    def load(self, filename, folder="samples/", extension=".npz"):
+    def load_file(self, filename, folder="samples/", extension=".npz"):
         """
         Loads a file containing sample spike trains.
         :param filename: Name of file with spike trains.
@@ -55,6 +55,19 @@ class Simulation:
         self.spike_trains = sample['spike_trains']
         self.start_positions = sample['start_positions']
         self.pattern_duration = sample['pattern_duration']
+        self.num_afferents = self.spike_trains.shape[0]
+        self.duration = self.spike_trains.shape[1]
+        self.sampling_interval = math.ceil(self.duration / 5)
+
+    def load(self, sample):
+        """
+        Loads a sample.
+        :param sample: Sample
+        :return: None.
+        """
+        self.spike_trains = sample.spike_trains
+        self.start_positions = sample.start_positions
+        self.pattern_duration = sample.pattern_duration
         self.num_afferents = self.spike_trains.shape[0]
         self.duration = self.spike_trains.shape[1]
         self.sampling_interval = math.ceil(self.duration / 5)
@@ -225,7 +238,7 @@ class Simulation:
 if __name__ == '__main__':
     sim = Simulation()
     # sim.load("3_500_50000_50_0.1_0.5_10.0")
-    sim.load("combined_50k")
+    sim.load_file("combined_50k")
     n1 = sim.add_neuron(0.03125, .95, 125)
     # n2 = sim.add_neuron(0.03125, 0.91, 125)
     # n3 = sim.add_neuron(0.03125, 0.91, 125)

@@ -26,7 +26,7 @@ class SampleGenerator:
     """
     Generates sample input spike trains.
     """
-    def __init__(self, duration, patterns=None,
+    def __init__(self, duration, patterns=None, pattern_duration=50,
                  num_neurons=2000, rep_ratio=0.25, filename=None):
 
         self.duration = duration
@@ -42,7 +42,7 @@ class SampleGenerator:
         if patterns is None:
             self.patterns = []
             self.num_patterns = 0
-            self.pattern_duration = 0
+            self.pattern_duration = pattern_duration
         else:
             self.patterns = patterns
             self.num_patterns = len(patterns)
@@ -148,24 +148,6 @@ class SampleGenerator:
 
         return pattern
 
-    def add_noise(self, spike_train):
-        """
-        Adds noise to a given spike train.
-        :param spike_train: Input spike train.
-        :return: Spike train with noise added.
-        """
-
-        # Get indices without spikes.
-        indices = [i for i, dt in enumerate(spike_train) if dt == 0]
-
-        # Add spikes to indices randomly with given probability.
-        p = self.noise * self.dt
-        for index in indices:
-            if np.random.uniform(0, 1) < p:
-                spike_train[index] = 1
-
-        return spike_train
-
     def generate_sample(self):
         """
         Generates the sample.
@@ -175,7 +157,30 @@ class SampleGenerator:
         # Generate background spike trains.
         self.generate_spike_trains()
 
-        # Insert patterns to background.
+    def add_noise(self):
+        """
+        Add noise to all spike trains.
+        :return: None
+        """
+        for i in range(self.num_neurons):
+            spike_train = deepcopy(self.spike_trains[i, :])
+
+            # Get indices without spikes.
+            indices = [j for j, dt in enumerate(spike_train) if dt == 0]
+
+            # Add spikes to indices randomly with given probability.
+            p = self.noise * self.dt
+            for index in indices:
+                if np.random.uniform(0, 1) < p:
+                    spike_train[index] = 1
+
+            self.spike_trains[i, :] = spike_train
+
+    def insert_patterns(self):
+        """
+        Inserts patterns into the background noise.
+        :return: None.
+        """
         for pattern in self.patterns:
             # Get the start positions for the pattern to be inserted.
             starts = self.generate_start_positions()
@@ -189,18 +194,13 @@ class SampleGenerator:
             # Save start positions for this pattern.
             self.start_positions.append(starts)
 
-        # Add noise to all spike trains.
-        for i in range(self.num_neurons):
-            self.spike_trains[i, :] = self.add_noise(self.spike_trains[i, :])
-
-    def generate_patterns(self, num_patterns, pattern_duration):
+    def generate_patterns(self, num_patterns):
         """
         Generate patterns based on current spike trains.
         :param num_patterns: Number of patterns to generate.
         :return: Patterns generated.
         """
         self.num_patterns = num_patterns
-        self.pattern_duration = pattern_duration
 
         # Duration of the spike pattern and buckets.
         self.num_buckets = math.floor(self.duration / self.pattern_duration)
@@ -212,10 +212,9 @@ class SampleGenerator:
                   "Please generate spike trains first."
 
         for i in range(self.num_patterns):
-
+            print "Generating pattern..."
             # Generate pattern from spike trains.
-            pattern = self.generate_pattern()
-            self.patterns.append(pattern)
+            self.generate_pattern()
 
         return self.patterns
 
