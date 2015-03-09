@@ -26,21 +26,31 @@ class SampleGenerator:
     """
     Generates sample input spike trains.
     """
-    def __init__(self, duration, num_patterns,
-                 num_neurons=2000, rep_ratio=0.25):
+    def __init__(self, duration, patterns=None,
+                 num_neurons=2000, rep_ratio=0.25, filename=None):
+
         self.duration = duration
-        self.num_patterns = num_patterns
         self.num_neurons = num_neurons
+        self.filename = filename
+        self.description = None
 
         # Initialise containers
         self.spike_trains = np.zeros((num_neurons, duration), dtype=np.float)
-        self.patterns = []
         self.start_positions = []
 
-        # Duration of the spike pattern and buckets.
-        self.pattern_duration = 50
-        self.num_buckets = math.floor(self.duration / self.pattern_duration)
-        self.free_buckets = np.arange(self.num_buckets - 1)
+        # Handle custom patterns.
+        if patterns is None:
+            self.patterns = []
+            self.num_patterns = 0
+            self.pattern_duration = 0
+        else:
+            self.patterns = patterns
+            self.num_patterns = len(patterns)
+            self.pattern_duration = patterns[0].shape[1]
+
+            # Duration of the spike pattern and buckets.
+            self.num_buckets = math.floor(self.duration / self.pattern_duration)
+            self.free_buckets = np.arange(self.num_buckets - 1)
 
         self.dt = 0.001             # Time step in seconds.
         self.rep_ratio = rep_ratio  # Ratio of pattern in the overall sample.
@@ -120,9 +130,8 @@ class SampleGenerator:
 
     def generate_pattern(self):
         """
-
-        :param spike_trains:
-        :return:
+        Generates a repeating pattern.
+        :return: Pattern as a numpy array.
         """
 
         # Number of neurons involved in the pattern.
@@ -166,13 +175,8 @@ class SampleGenerator:
         # Generate background spike trains.
         self.generate_spike_trains()
 
-        # Generate patterns.
-        for i in range(self.num_patterns):
-
-            # Generate pattern from spike trains.
-            pattern = self.generate_pattern()
-            self.patterns.append(pattern)
-
+        # Insert patterns to background.
+        for pattern in self.patterns:
             # Get the start positions for the pattern to be inserted.
             starts = self.generate_start_positions()
 
@@ -188,6 +192,42 @@ class SampleGenerator:
         # Add noise to all spike trains.
         for i in range(self.num_neurons):
             self.spike_trains[i, :] = self.add_noise(self.spike_trains[i, :])
+
+    def generate_patterns(self, num_patterns, pattern_duration):
+        """
+        Generate patterns based on current spike trains.
+        :param num_patterns: Number of patterns to generate.
+        :return: Patterns generated.
+        """
+        self.num_patterns = num_patterns
+        self.pattern_duration = pattern_duration
+
+        # Duration of the spike pattern and buckets.
+        self.num_buckets = math.floor(self.duration / self.pattern_duration)
+        self.free_buckets = np.arange(self.num_buckets - 1)
+
+        # TODO: Handle error more gracefully.
+        if np.sum(self.spike_trains) == 0:
+            print "WARNING! Generating empty pattern. " \
+                  "Please generate spike trains first."
+
+        for i in range(self.num_patterns):
+
+            # Generate pattern from spike trains.
+            pattern = self.generate_pattern()
+            self.patterns.append(pattern)
+
+        return self.patterns
+
+    def load_pattern(self, pattern):
+        """
+        Loads a custom pattern to the generator.
+        :param pattern: Pattern to load.
+        :return: Array of patterns.
+        """
+        # TODO: Do some error checking.
+        self.patterns.append(pattern)
+        return self.patterns
 
     def generate_start_positions(self):
         """
@@ -334,20 +374,31 @@ class SampleGenerator:
     """
 
     def save(self):
-        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(self.num_patterns,
-                                                         self.num_neurons,
-                                                         self.duration,
-                                                         self.pattern_duration,
-                                                         self.rep_ratio,
-                                                         self.inv_ratio,
-                                                         self.noise)
+        if self.filename is None:
+            filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(self.num_patterns,
+                                                             self.num_neurons,
+                                                             self.duration,
+                                                             self.pattern_duration,
+                                                             self.rep_ratio,
+                                                             self.inv_ratio,
+                                                             self.noise)
+        else:
+            filename = "samples/" + self.filename
+
         np.savez(filename,
                  start_positions=self.start_positions,
-                 spike_trains=self.spike_trains)
+                 spike_trains=self.spike_trains,
+                 pattern_duration=self.pattern_duration)
 
 
 if __name__ == '__main__':
-    sg = SampleGenerator(50000, 3, 500, 0.15)
+    p = np.load("../dragonfly_neurons/spike_trains"
+                      "/5_neur_50_elecs_50_runtime.npz")
+
+    ps = [p['spike_trains']]
+    sg = SampleGenerator(50000, ps,
+                         num_neurons=500, rep_ratio=0.25,
+                         filename="combined_50k")
     sg.generate_sample()
     sg.save()
 
