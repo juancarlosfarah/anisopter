@@ -566,7 +566,7 @@ class CSTMD(object) :
         filename = "spike_trains/{}_{}_{}_{}_{}_{}".format(self.neurons_no,"neur",
                                                          self.electrds,"elecs",
                                                          self.curr_time,"runtime")
-        np.savez(filename,spike_trains)
+        np.savez(filename, spike_trains=spike_trains)
         
 
     def plot(self) :
