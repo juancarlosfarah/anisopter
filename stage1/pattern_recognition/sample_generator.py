@@ -27,12 +27,13 @@ class SampleGenerator:
     Generates sample input spike trains.
     """
     def __init__(self, duration, patterns=None, pattern_duration=50,
-                 num_neurons=2000, rep_ratio=0.25, filename=None):
+                 num_neurons=2000, rep_ratio=0.25, filename=None,
+                 description=None):
 
         self.duration = duration
         self.num_neurons = num_neurons
         self.filename = filename
-        self.description = None
+        self.description = description
 
         # Initialise containers
         self.spike_trains = np.zeros((num_neurons, duration), dtype=np.float)
