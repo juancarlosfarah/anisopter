@@ -9,6 +9,7 @@ import os
 import bottle
 import pymongo
 from stage1.server import simulation_dao
+from stage1.server import sample_dao
 import bottledaemon as bottled
 
 
@@ -32,7 +33,7 @@ def show_simulations():
     return bottle.template('simulations', obj)
 
 @bottle.route('/simulation/new')
-def run_simulation():
+def new_simulation():
 
     obj = dict()
     return bottle.template('new_simulation', obj)
@@ -60,6 +61,43 @@ def show_simulation(_id):
     obj = dict()
     obj['simulation'] = sim
     return bottle.template("simulation", obj)
+
+@bottle.route('/samples')
+def show_samples():
+
+    obj = dict()
+    obj['samples'] = samples.get_samples(10)
+
+    return bottle.template('samples', obj)
+
+@bottle.get("/sample/<_id>")
+def show_sample(_id):
+
+    sample = samples.get_sample(_id)
+
+    if sample is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['sample'] = sample
+    return bottle.template("sample", obj)
+
+@bottle.route('/samples/new')
+def new_sample():
+
+    obj = dict()
+    return bottle.template('new_sample', obj)
+
+@bottle.post('/sample/generate')
+def generate_sample():
+    form = bottle.request.forms
+    duration = int(form.get("duration"))
+    num_neurons = int(form.get("num_neurons"))
+    num_patterns = int(form.get("num_patterns"))
+    description = form.get("description")
+    _id = samples.generate_sample(duration, num_neurons,
+                                  num_patterns, description)
+    bottle.redirect("/sample/" + str(_id))
 
 # Static Routes
 @bottle.get('/static/bootstrap/css/<filename>')
@@ -113,4 +151,5 @@ if __name__ == "__main__":
 
     # Data Access Objects.
     simulations = simulation_dao.SimulationDao(db)
+    samples = sample_dao.SampleDao(db)
     main()

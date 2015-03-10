@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New Simulation")
+% include('head.tpl', title="New Sample")
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Simulation</h2>
+    <h2>New Sample</h2>
 
-    <form action="/simulation/run" method="post">
+    <form action="/sample/generate" method="post">
         <div class="form-group">
             <label for="duration">Duration</label>
             <input type="number" class="form-control" id="duration"
