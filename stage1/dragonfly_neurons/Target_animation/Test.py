@@ -133,8 +133,8 @@ class TestAnimationWindow(unittest.TestCase):
         Method that runs at the end of each test.
         """
         
-        del self.window
-        del self.window2
+        self.window.close()
+        self.window2.close()
             
     def test_AnimationWindow_init(self):
         """
@@ -213,9 +213,6 @@ class TestOnDraw(unittest.TestCase):
         pyglet.clock.schedule_once(self.window.stop, 0.001)
         pyglet.app.run()
         
-        windows = pyglet.app.WeakSet()
-        print len(windows)
-        
         self.assertEqual(self.window.time, 2)
         
         img1 = cv2.imread("temp/scr0.png")
@@ -293,7 +290,9 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(self.animation.bg_speed, bg_speed)
         
     def test_run(self):
-        pass
+        out_directory = "result.test1.avi"
+        self.animation.run(out_directory, 10, 10)
+        self.assertTrue(os.path.exists(out_directory))
     
     
 if __name__ == '__main__':

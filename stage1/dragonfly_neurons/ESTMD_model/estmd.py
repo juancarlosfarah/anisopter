@@ -38,7 +38,7 @@ class ESTMD(object):
     # ---                
                           
     def RTC_exp(self, T_s, x):
-        x[x > 0] = 1 / x[x >0]
+        x[x > 0] = 1 / x[x > 0]
         x[x > 0] = np.exp(-T_s * x[x > 0])
         return x
 
