@@ -219,4 +219,5 @@ class Animation(object):
         pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
         pyglet.clock.schedule_once(window.stop, total_frames/fps)
         pyglet.app.run()
+        window.close()
         self.create_movie(out_directory, total_frames)
