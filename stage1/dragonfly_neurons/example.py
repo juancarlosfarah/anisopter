@@ -70,7 +70,7 @@ elif no_input :
 neurons_no = 5
 SYNAPSES_NO = 500
 D = 30
-electrds=50
+electrds=100
 dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds)
 
 
