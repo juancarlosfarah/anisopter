@@ -6,7 +6,7 @@ from Target_animation import Animation
 import cv2
 
 
-NUMBER_OF_REPS = 15
+NUMBER_OF_REPS = 2
 pat_dir = "Pattern.avi"
 ran_dir = "Random.avi"
 out_dir = "Result.avi"
@@ -32,12 +32,13 @@ for i in range(NUMBER_OF_REPS):
         ret, frame = cap1.read()
         blue,green,red = cv2.split(frame)
         height, width = green.shape
-        cod="PIM1"
+        cod = "PIM1"
         codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
         video = cv2.VideoWriter(out_dir, codec, 20.0, 
                                     (width, height), 
                                     isColor=0)
-                                    
+        video.write(green)
+
     while True:
         try:                        
             ret, frame = cap1.read()
@@ -46,7 +47,7 @@ for i in range(NUMBER_OF_REPS):
             break
 
         video.write(green)
-        
+
     while True:          
         try:                     
             ret, frame = cap2.read()
