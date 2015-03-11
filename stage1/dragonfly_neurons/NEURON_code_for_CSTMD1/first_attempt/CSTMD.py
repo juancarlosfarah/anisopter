@@ -4,7 +4,7 @@
 import neuron
 from neuron import h
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import random
 import time
 import math
@@ -90,7 +90,7 @@ class CSTMD(object) :
     PLOT_ACTIVITY = True
 
 
-    PIXEL_NO = 1024
+    PIXEL_NO = 4096
     MAX_CURRENT = 30 #10.0
     MIN_CURRENT = 2.0 #5
 
