@@ -2,8 +2,10 @@
 Unit tests for module ESTMD.
 """
 
-import unittest
 from estmd import *
+import numpy as np
+import unittest
+
 
 class TestESTMD(unittest.TestCase):
     """
@@ -15,10 +17,49 @@ class TestESTMD(unittest.TestCase):
         Method that runs at start of each test.
         """
 
-        estmd = ESTMD()
+        self.estmd = ESTMD()
 
     def test_RTC_exp(self):
-        pass
+        input = [0, 1, 0.001, 2]
+        expected_result = [0, np.exp(-1), 0, np.exp(-0.5)]
+
+        T_s = 1
+        x = np.array(input)
+        result = [i for i in self.estmd.RTC_exp(T_s, x)]
+
+        self.assertEqual(result, expected_result)
+
+    def test_open_movie(self):
+        wrong_dir = "Random12345.avii"
+        correct_dir = "Test.avi"
+
+        with self.assertRaises(NameError):
+            self.estmd.open_movie(wrong_dir)
+
+        self.estmd.open_movie(correct_dir)
+
+    def test_get_next_frame(self):
+        input_dir = "Test.avi"
+
+        result = self.estmd.get_next_frame()
+        self.assertEqual(result, False)
+
+        self.estmd.open_movie(input_dir)
+        self.estmd.run(by_frame = True)
+        img = self.estmd.get_next_frame()
+        x, y = img.shape
+        self.assertEqual(x, 64)
+        self.assertEqual(y, 64)
+
+    def test_run(self):
+        input_dir = "Test.avi"
+
+        result = self.estmd.run(out_dir = "Test_result.avi")
+        self.assertEqual(result, False)
+
+        self.estmd.open_movie(input_dir)
+        result = self.estmd.run(out_dir = "Test_result.avi")
+        self.assertTrue(result)
 
 
 if __name__ == '__main__':
