@@ -207,12 +207,13 @@ class TestOnDraw(unittest.TestCase):
         TO DO(ask): Is implicit testing ok? How to improve this part?
         """
 
+        # First run animation without background.
         self.make_directory("temp")
         
         pyglet.clock.schedule_once(self.window.update_frames, 0.001)
         pyglet.clock.schedule_once(self.window.stop, 0.001)
         pyglet.app.run()
-        
+
         self.assertEqual(self.window.time, 2)
         
         img1 = cv2.imread("temp/scr0.png")
@@ -224,7 +225,26 @@ class TestOnDraw(unittest.TestCase):
 
         self.assertTrue(img1[100][150][0] > 0)
         self.assertTrue(img1[200][150][0] > 0)
-    
+
+        # Second run animation with background.
+        self.window.close()
+
+        self.window2 = AnimationWindow(self.target_list, self.width,
+                                       self.height, self.bg_image,
+                                       self.bg_speed)
+
+        pyglet.clock.schedule_once(self.window2.update_frames, 0.001)
+        pyglet.clock.schedule_once(self.window2.stop, 0.001)
+        pyglet.app.run()
+
+        img1 = cv2.imread("temp/scr0.png")
+        for i in range(1):
+            x = self.height - self.pos[i][0] - 1
+            y = self.pos[i][1]
+
+            self.assertTrue(img1[x][y][0] == 0)
+        
+
 
 class TestAnimation(unittest.TestCase):
     """
