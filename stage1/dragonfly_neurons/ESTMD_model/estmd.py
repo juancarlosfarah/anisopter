@@ -4,8 +4,9 @@ using module Target_animation.
 """
 
 
-import math
 from copy import deepcopy
+import math
+import os
 
 import numpy as np
 from scipy import signal
@@ -35,6 +36,7 @@ class ESTMD(object):
                           [-1, -1, -1, -1, -1]])
     cap = False  # Movie that we are capturing - "cap" - is set to false
                  # before we run "open_movie" method.
+    by_frame = None
     # ---                
                           
     def RTC_exp(self, T_s, x):
@@ -52,7 +54,10 @@ class ESTMD(object):
         Args:
             movie_dir: Directory of input we want to modify.
         """
-        
+
+        if not os.path.exists(movie_dir):
+            raise NameError
+
         self.cap = cv2.VideoCapture(movie_dir)
                                     
     def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", 
@@ -75,7 +80,8 @@ class ESTMD(object):
         
         if not self.cap:
             "You need to run 'open_movie' method first!"
-            return
+            return False
+
         self.by_frame = by_frame
         
         self.image_width = image_width
@@ -85,6 +91,7 @@ class ESTMD(object):
         self.frame_history = []
         if not by_frame:
             self.create_movie(cod, out_dir)
+        return True
     
     def get_next_frame(self):
         """
@@ -96,7 +103,7 @@ class ESTMD(object):
         # You can extract next frame only in by_frame mode.
         if not self.by_frame:
             "Run video in by_frame method! (refer to doc)"
-            return
+            return False
 
         frame = self.next_frame()
         frame = cv2.resize(frame, (self.image_width, self.image_height))
@@ -169,7 +176,6 @@ class ESTMD(object):
 
         # On first step, instead of computing just save the images.
         if self.t == self.T0:
-            print "Setting values"
             self.v_pos_prev = deepcopy(u_pos)
             self.v_neg_prev = deepcopy(u_neg)
             self.u_pos_prev = deepcopy(u_pos)
@@ -231,7 +237,4 @@ class ESTMD(object):
         
         self.t += self.dt
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            return False
-        else:
-            return downsize
+        return downsize
