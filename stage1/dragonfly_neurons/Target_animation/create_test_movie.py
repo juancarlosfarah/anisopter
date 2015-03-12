@@ -6,7 +6,7 @@ from Target_animation import Animation
 import cv2
 
 
-NUMBER_OF_REPS = 2
+NUMBER_OF_REPS = 40
 pat_dir = "Pattern.avi"
 ran_dir = "Random.avi"
 out_dir = "Result.avi"
