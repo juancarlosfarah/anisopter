@@ -5,6 +5,8 @@ import unittest
 
 import neuron
 import numpy as np
+import matplotlib.pyplot as plt
+import pylab
 
 
 class NeuronTests(unittest.TestCase):
@@ -234,8 +236,17 @@ class NeuronTests(unittest.TestCase):
             test_failed = True
             
         self.failIf(test_failed)
-        return        
+        return
         
+    def test_plot_ltp(self):
+        fig =  self.neuron.plot_ltp(show=False, return_fig=True)
+        self.failUnless(type(fig) is list)
+        return
+        
+    def test_plot_ltd(self):      
+        fig =  self.neuron.plot_ltd(show=False, return_fig=True)
+        self.failUnless(type(fig) is list)
+        return        
         
     def tearDown(self):
         """

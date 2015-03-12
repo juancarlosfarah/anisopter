@@ -392,7 +392,7 @@ class Neuron:
         pylab.title('EPSP Epsilon Kernel')
         pylab.show()
 
-    def plot_ltp(self, show=True):
+    def plot_ltp(self, show=True, return_fig=False):
         """
         Plots the values of LTP over the learning window.
         :return: Void.
@@ -412,14 +412,17 @@ class Neuron:
             ltps.append(ltp)
 
         # Plot values.
-        pylab.plot(time_deltas, ltps)
+        fig = pylab.plot(time_deltas, ltps)
         if show:
             pylab.xlabel('Time Delta (ms)')
             pylab.ylabel('Weight Change')
             pylab.title('Weight Change from LTP')
             pylab.show()
+        
+        if return_fig:
+            return fig
 
-    def plot_ltd(self, show=True):
+    def plot_ltd(self, show=True, return_fig = False):
         """
         Plots the values of LTD over the learning window.
         :return: Void.
@@ -438,14 +441,17 @@ class Neuron:
             ltds.append(ltd)
 
         # Plot values.
-        pylab.plot(time_deltas[start:end], ltds[start:end])
+        fig = pylab.plot(time_deltas[start:end], ltds[start:end])
 
         if show:
             pylab.xlabel('Time Delta (ms)')
             pylab.ylabel('Weight Change')
             pylab.title('Weight Change from LTD')
             pylab.show()
-
+            
+        if return_fig:    
+            return fig
+            
     def plot_weight_distribution(self, ms, rows=1, cols=1,
                                  current_frame=1, bin_size=1):
         """
