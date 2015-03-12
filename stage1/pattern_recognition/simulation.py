@@ -178,7 +178,7 @@ class Simulation:
             progress = (ms / float(self.duration - 1)) * 100
             sys.stdout.write("Processing spikes: %d%% \r" % progress)
             sys.stdout.flush()
-
+    """
     def plot_weights(self):
         start = self.t_min
         end = self.duration - 1
@@ -197,7 +197,7 @@ class Simulation:
             pylab.ylabel('Weight')
             pylab.title('Synaptic Weight')
         pylab.show()
-
+    """
     def plot_membrane_potential(self):
         start = self.t_min
         end = self.duration
@@ -231,7 +231,7 @@ class Simulation:
         pylab.title('Spike Train with STDP')
         pylab.show()
 
-
+"""
 # Run Sample Test
 # ===============
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
@@ -258,3 +258,4 @@ if __name__ == '__main__':
     # db = connection.anisopter
     # simulations = simulation_dao.SimulationDao(db)
     # simulations.save(sim)
+"""
