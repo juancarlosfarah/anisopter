@@ -159,6 +159,57 @@ class NeuronTests(unittest.TestCase):
         self.failIf(test_failed)
         return
         
+    def test_update_weights_time_delta_1(self):
+        """
+        Checks that neuron.update_weights returns the correct output
+        """        
+        spike_train = np.array([[1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0]])
+        ms = 1
+        test_failed = False
+        
+        self.neuron.time_delta = 1
+        
+        self.neuron.current_weights = [ 0.49599198,
+                                        0.46974692,
+                                         0.44050216,
+                                         0.59499429,
+                                         0.38400322,
+                                         0.59385204,
+                                         0.35422254,
+                                         0.60763721,
+                                         0.44616867,
+                                         0.47623609]
+                                        
+        correct_sum_updated_weights = [ 4.9599198,
+                                    4.6974692,
+                                    4.4050216,
+                                    5.9499429,
+                                    3.8400322,
+                                    5.9385204,
+                                    3.5422254,
+                                    6.0763721,
+                                    4.4616867,
+                                    4.7623609]
+                                        
+        sum_updated_weights = sum(self.neuron.update_weights(spike_train, ms))
+                         
+        for i in range(len(sum_updated_weights)):
+            if(abs(sum_updated_weights[i] - correct_sum_updated_weights[i]) > self.tolerance):
+                test_failed=True
+                break
+
+        self.failIf(test_failed)
+        return
+        
         
     def test_update_epsps(self):
         """
