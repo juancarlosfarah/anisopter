@@ -1,12 +1,14 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage[margin=2cm]{geometry}
 
-\usepackage[toc,page]{appendix}
+\usepackage[titletoc,toc,title,page]{appendix}
 \usepackage[nodayofweek]{datetime}
 \usepackage{cite}
 \usepackage{graphicx}
 \longdate
 
+\usepackage{minted}
+\usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancyplain}
@@ -133,7 +135,31 @@ Below is a condensed version of our updated schedule.
 \begin{appendices}
 \section{Animation / ESTMD screenshots}
 \section{Testing results}
+\subsection{Target Animation}
+\begin{minted}{bash}
+cvm-g1453017% coverage run test_target_animation.py
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 2.185s
 
+OK
+cvm-g1453017% coverage report --include=target_animation.py --show-missing
+Name Stmts Miss Cover Missing
+---------------------------------------------------------------
+target_animation 125 0 100%
+\end{minted}
+\subsection{ESTMD (visual pre-processing)}
+\begin{minted}{bash}
+cvm-g1453017% coverage run test_estmd.py
+....
+----------------------------------------------------------------------
+Ran 4 tests in 3.879s
+
+cvm-g1453017% coverage report --include=estmd.py --show-missing
+Name Stmts Miss Cover Missing
+------------------------------------------------------
+estmd 115 0 100% 
+\end{minted}
 \end{appendices}
 
 \end{document}
