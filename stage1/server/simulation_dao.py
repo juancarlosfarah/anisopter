@@ -5,10 +5,16 @@ from bson.objectid import ObjectId
 import numpy as np
 import mpld3
 import pylab
+import os
+import sys
 import math
 from matplotlib.patches import Rectangle
-from ..pattern_recognition import simulation
-from ..pattern_recognition import sample
+
+root = os.path.abspath(os.path.join("..", "..", "stage1"))
+sys.path.append(root)
+
+from pattern_recognition.simulation import Simulation
+from pattern_recognition.sample import Sample
 
 
 class SimulationDao:
@@ -262,12 +268,12 @@ class SimulationDao:
         return rvalue
 
     def run_simulation(self, duration, num_neurons, num_patterns, description):
-        sg = sample.Sample(duration, num_neurons=num_neurons)
+        sg = Sample(duration, num_neurons=num_neurons)
         sg.generate_sample()
         sg.generate_patterns(num_patterns=num_patterns)
         sg.insert_patterns()
         sg.add_noise()
-        sim = simulation.Simulation(description)
+        sim = Simulation(description)
         sim.load(sg)
         sim.add_neuron(0.03125, .905, 125)
         sim.run()

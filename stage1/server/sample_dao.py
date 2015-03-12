@@ -2,13 +2,14 @@ __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
-import numpy as np
-import mpld3
-import pylab
-import math
-from matplotlib.patches import Rectangle
+import os
+import sys
 import pymongo
-from stage1.pattern_recognition import sample
+
+root = os.path.abspath(os.path.join("..", "..", "stage1"))
+sys.path.append(root)
+
+from pattern_recognition import sample
 
 
 class SampleDao:
@@ -99,8 +100,8 @@ class SampleDao:
 
     def generate_sample(self, duration, num_neurons, num_patterns, description):
         s = sample.Sample(duration,
-                                   num_neurons=num_neurons,
-                                   description=description)
+                          num_neurons=num_neurons,
+                          description=description)
         s.generate_sample()
         s.generate_patterns(num_patterns=num_patterns)
         s.insert_patterns()

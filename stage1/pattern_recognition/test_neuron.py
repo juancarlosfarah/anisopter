@@ -194,7 +194,7 @@ class NeuronTests(unittest.TestCase):
         
     def test_calculate_psp(self):
         """
-        Checks that neuron.calculate_psp returns the correct result
+        Checks that neuron.calculate_psp returns the correct result.
         """    
         correct_psp = 1000.0
         calculated_psp = self.neuron.calculate_psp(time_delta=0, debugging=True)
@@ -203,7 +203,10 @@ class NeuronTests(unittest.TestCase):
         
         
     def test_calculate_membrane_potential(self):
-    
+        """
+        Checks that neuron.calculate_membrane_potential 
+        returns the correct result.
+        """    
         ms = 10
         self.neuron.ipsps = np.array([1,1])
         correct_membrane_potential = -201.214800862
@@ -211,6 +214,28 @@ class NeuronTests(unittest.TestCase):
         
         self.failIf(abs(correct_membrane_potential-calculated_membrane_potential)>self.tolerance)
         return
+        
+    def test_calculate_mu(self):
+        """
+        Checks that neuron.calculate_mu returns the correct result.
+        """    
+        test_failed = False
+        
+        # Case delta = 0
+        delta = 0
+        if(self.neuron.calculate_mu(delta) != 0):
+            test_failed = True
+        
+        # Case delta != 0
+        delta = 1
+        correct_mu = -62.2134104356
+        calculated_mu = self.neuron.calculate_mu(delta)
+        if(abs(correct_mu - calculated_mu)>self.tolerance):
+            test_failed = True
+            
+        self.failIf(test_failed)
+        return        
+        
         
     def tearDown(self):
         """

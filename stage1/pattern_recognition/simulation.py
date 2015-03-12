@@ -4,13 +4,15 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 import math
 from copy import deepcopy
 import sys
-
-from stage1.pattern_recognition import neuron
-import pylab
+import os
 from matplotlib.patches import Rectangle
 import numpy as np
+import pylab
 
+root = os.path.abspath(os.path.join("..", "..", "stage1"))
+sys.path.append(root)
 
+from pattern_recognition import neuron
 
 # Import simulation_dao for saving.
 #TODO: Uncomment
