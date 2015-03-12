@@ -18,8 +18,7 @@ class SampleGeneratorTests(unittest.TestCase):
         # Generate Sample
         sample_duration = 1000
         num_neurons = 500
-        self.sample = sg.SampleGenerator(sample_duration,
-                                         num_neurons=num_neurons)
+        self.sample = sg.Sample(sample_duration, num_neurons=num_neurons)
 
     def test_pattern_duration(self):
         """
@@ -188,7 +187,7 @@ class SampleGeneratorTests(unittest.TestCase):
         ps = [st]
         d = 1000
         num_neurons = 500
-        self.sample = sg.SampleGenerator(d, ps, 50, num_neurons, 0.25)
+        self.sample = sg.Sample(d, ps, 50, num_neurons, 0.25)
         sample = self.sample
 
         # Expected values.

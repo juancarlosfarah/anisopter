@@ -22,7 +22,7 @@ SEED = 1                        # Seed for the random generator.
 np.random.seed(SEED)
 
 
-class SampleGenerator:
+class Sample:
     """
     Generates sample input spike trains.
     """
