@@ -172,7 +172,9 @@ class NeuronTests(unittest.TestCase):
         return
     
     def test_sum_ipsps(self):
-        
+        """
+        Checks that neuron.sum_ipsps returns the correct result
+        """        
         ms = 10
         test_failed = False
         
@@ -188,7 +190,16 @@ class NeuronTests(unittest.TestCase):
 
         self.failIf(test_failed)
         return
-
+        
+        
+    def test_calculate_psp(self):
+        """
+        Checks that neuron.calculate_psp returns the correct result
+        """    
+        correct_psp = 1000.0
+        calculated_psp = self.neuron.calculate_psp(time_delta=0, debugging=True)
+        self.failIf(abs(correct_psp - calculated_psp)>self.tolerance)
+        return
         
     def tearDown(self):
         """
