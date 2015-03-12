@@ -8,7 +8,6 @@
 *.orig
 \#*
 .\#*
-.coverage
 
 # LaTeX Files
 # ===========
