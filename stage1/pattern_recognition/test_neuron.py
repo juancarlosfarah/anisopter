@@ -63,13 +63,15 @@ class NeuronTests(unittest.TestCase):
         self.failIf(neg_result != 0)
         return
 
-    def test_update_weights(self):
+    def test_update_weights_time_delta_None(self):
         """
         Checks that neuron.update_weights returns the correct output
         """        
         spike_train = np.array([1,0,1,1,0,1,0,0,0])
         ms = 1
         test_failed = False
+        
+        self.neuron.time_delta = None
         
         self.neuron.current_weights = [[ 0.49599198],
                                         [ 0.46974692],
@@ -98,10 +100,65 @@ class NeuronTests(unittest.TestCase):
         for i in range(len(correct_updated_weights)):
             if(updated_weights[i] != correct_updated_weights[i]):
                 test_failed=True
+                break
 
         self.failIf(test_failed)
         return
         
+        
+    def test_update_epsps(self):
+        """
+        Checks that neuron.update_epsps returns the correct result
+        """
+        test_failed = False
+        
+        spike_train = np.array([1,0,1,1,0,1,0,0,0])
+        
+        self.neuron.time_delta = 1
+        
+        self.neuron.current_weights = [[ 0.49599198],
+                                        [ 0.46974692],
+                                        [ 0.44050216],
+                                        [ 0.59499429],
+                                        [ 0.38400322],
+                                        [ 0.59385204],
+                                        [ 0.35422254],
+                                        [ 0.60763721],
+                                        [ 0.44616867],
+                                        [ 0.47623609]]
+        
+        self.neuron.epsps =[[ 0],
+                            [ 1],
+                            [ 2],
+                            [ 3],
+                            [ 4],
+                            [ 4],
+                            [ 3],
+                            [ 2],
+                            [ 1],
+                            [ 0]]
+                            
+        correct_updated_epsps_sums = [ 20.,           
+                                        4.86335512,   
+                                        0.,
+                                        4.86335512,   
+                                        4.86335512,   
+                                        0.,
+                                        4.86335512,   
+                                        0.,           
+                                        0.,           
+                                        0.,]
+                                       
+        updated_epsps_sums = sum(self.neuron.update_epsps(spike_train))
+        
+        for i in range(len(updated_epsps_sums)):
+            if abs(correct_updated_epsps_sums[i] - updated_epsps_sums[i]) > self.tolerance:
+                test_failed = True
+                break
+                
+        self.failIf(test_failed)
+        return
+    
         
     def tearDown(self):
         """
