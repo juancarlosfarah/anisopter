@@ -453,7 +453,8 @@ class Neuron:
             return fig
             
     def plot_weight_distribution(self, ms, rows=1, cols=1,
-                                 current_frame=1, bin_size=1):
+                                 current_frame=1, bin_size=1, 
+                                 show = True, return_fig = False):
         """
         Plots the distribution of the values of the weights.
         :param rows: Number of rows in the plot.
@@ -475,13 +476,19 @@ class Neuron:
         label = str(ms / 1000) + 's'
         bins = len(self.current_weights) / bin_size
         pylab.ylabel(label)
-        p.hist(self.current_weights, bins=bins)
+        fig = p.hist(self.current_weights, bins=bins)
+        
+        
 
         # Only show if plot is complete.
         if rows * cols == current_frame:
             pylab.xlabel("Weight Value")
             p.axes.get_xaxis().set_visible(True)
-            pylab.show()
+            if show:
+                pylab.show()
+            
+        if return_fig:
+            return fig
 
     def save_weight_distributions(self):
         """
@@ -555,17 +562,20 @@ class Neuron:
         self.siblings.append(neuron)
         neuron.siblings.append(self)
 
-    def plot_stdp(self):
+    def plot_stdp(self, show=True, return_fig=False ):
         """
         Plot STDP from both LTD and LTP.
         :return: Void.
         """
-        self.plot_ltd(False)
-        self.plot_ltp(False)
+        fig1 = self.plot_ltd(False)
+        fig2 = self.plot_ltp(False)
         plt.axhline(0, color='black')
         plt.axvline(0, color='black')
         pylab.xlabel('Time Delta (ms)')
         pylab.ylabel('Weight Change from STDP')
         pylab.xlim(-1 * self.ltp_window, self.ltd_window)
         pylab.title('Effect of STDP on Synaptic Weights')
-        pylab.show()
+        if show:
+            pylab.show()
+        if return_fig:
+            return fig1, fig2
