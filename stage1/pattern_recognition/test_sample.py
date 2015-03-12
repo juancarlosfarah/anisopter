@@ -2,9 +2,10 @@ __author__ = 'juancarlosfarah'
 
 import unittest
 import math
-
-from stage1.pattern_recognition import sample_generator as sg
+import os
+import sample as sg
 import numpy as np
+from copy import deepcopy
 
 
 class SampleGeneratorTests(unittest.TestCase):
@@ -15,11 +16,10 @@ class SampleGeneratorTests(unittest.TestCase):
         :return: None.
         """
         # Generate Sample
-        sample_duration = 5000
+        sample_duration = 1000
         num_neurons = 500
         self.sample = sg.SampleGenerator(sample_duration,
                                          num_neurons=num_neurons)
-        self.sample.generate_sample()
 
     def test_pattern_duration(self):
         """
@@ -29,6 +29,7 @@ class SampleGeneratorTests(unittest.TestCase):
         """
 
         # Create and insert patterns.
+        self.sample.generate_sample()
         self.sample.generate_patterns(num_patterns=1)
         self.sample.insert_patterns()
 
@@ -41,6 +42,8 @@ class SampleGeneratorTests(unittest.TestCase):
         print "Expected: ", target_duration
         print "Actual:   ", actual_duration
         print ""
+
+        self.failUnless(target_duration == actual_duration)
 
     def test_avg_hz(self):
         """
@@ -56,8 +59,10 @@ class SampleGeneratorTests(unittest.TestCase):
         threshold = 100
         firing_rates = []
 
+        self.sample.generate_sample()
         spike_trains = self.sample.spike_trains
         num_neurons = self.sample.num_neurons
+        actual_rate = 0
 
         # Sample rate over time bins.
         for i in range(0, spike_trains.shape[1] - bin_size, bin_size):
@@ -101,8 +106,10 @@ class SampleGeneratorTests(unittest.TestCase):
         threshold = 100
         firing_rates = []
 
+        self.sample.generate_sample()
         spike_trains = self.sample.spike_trains
         num_neurons = self.sample.num_neurons
+        actual_rate = 0
 
         # Add noise.
         self.sample.add_noise()
@@ -140,6 +147,74 @@ class SampleGeneratorTests(unittest.TestCase):
         :return:
         """
         return
+
+    def test_empty_pattern(self):
+        """
+        Test that empty pattern check is correct.
+        :return: None.
+        """
+        self.sample.generate_patterns(num_patterns=1)
+        self.failUnless(np.sum(self.sample.spike_trains) == 0)
+        return
+
+    def test_save(self):
+        sample = self.sample
+        sample.generate_sample()
+        sample.generate_patterns(num_patterns=1)
+        extension = ".npz"
+        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(sample.num_patterns,
+                                                         sample.num_neurons,
+                                                         sample.duration,
+                                                         sample.pattern_duration,
+                                                         sample.rep_ratio,
+                                                         sample.inv_ratio,
+                                                         sample.noise)
+
+        sample.save()
+        self.failUnless(os.path.exists(filename + extension))
+
+        # Now save with custom filename.
+        filename = "test_save"
+        path = "samples/test_save"
+        sample.filename = filename
+        sample.save()
+        self.failUnless(os.path.exists(path + extension))
+
+    def test_custom_pattern(self):
+
+        # Load sample custom pattern.
+        p = np.load("test/custom_pattern_500_50.npz")
+        st = p['spike_trains']
+        ps = [st]
+        d = 1000
+        num_neurons = 500
+        self.sample = sg.SampleGenerator(d, ps, 50, num_neurons, 0.25)
+        sample = self.sample
+
+        # Expected values.
+        expected_patterns = deepcopy(ps)
+        expected_num_patterns = 1
+        expected_pattern_duration = 50
+        expected_num_buckets = math.floor(d / 50)
+        expected_free_buckets = np.arange(expected_num_buckets - 1)
+
+        # Assertions.
+        for i in range(len(expected_patterns)):
+            self.failUnless((expected_patterns[i] == sample.patterns[i]).all())
+        self.failUnless(expected_num_patterns == len(sample.patterns))
+        self.failUnless(expected_pattern_duration == sample.pattern_duration)
+        self.failUnless(expected_num_buckets == sample.num_buckets)
+        self.failUnless((expected_free_buckets == sample.free_buckets).all())
+
+        # Append another pattern and run again.
+        sample.load_pattern(st)
+        expected_num_patterns = 2
+        expected_patterns.append(st)
+
+        # Assertions.
+        for i in range(len(expected_patterns)):
+            self.failUnless((expected_patterns[i] == sample.patterns[i]).all())
+        self.failUnless(expected_num_patterns == len(sample.patterns))
 
     def tearDown(self):
         """

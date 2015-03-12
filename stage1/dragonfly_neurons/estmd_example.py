@@ -1,4 +1,4 @@
-from Target_animation.Target_animation import Animation
+from target_animation.target_animation import Animation
 from ESTMD_model.estmd import ESTMD
 import numpy as np
 import pickle
@@ -9,7 +9,7 @@ out_directory = "input.avi"
 bg_image = "Target_animation/Images/test.jpg"
 bg_speed = 4
 
-# Create movie (tests Target_animation.py)
+# Create movie (tests target_animation.py)
 # ========================================
 test = Animation()
 #test.add_target(2, start=[150,0], end=[150,500], size=6, v=3)

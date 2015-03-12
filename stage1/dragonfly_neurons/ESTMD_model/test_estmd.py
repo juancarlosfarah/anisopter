@@ -31,7 +31,7 @@ class TestESTMD(unittest.TestCase):
 
     def test_open_movie(self):
         wrong_dir = "Random12345.avii"
-        correct_dir = "Test.avi"
+        correct_dir = "test.avi"
 
         with self.assertRaises(NameError):
             self.estmd.open_movie(wrong_dir)
@@ -39,7 +39,7 @@ class TestESTMD(unittest.TestCase):
         self.estmd.open_movie(correct_dir)
 
     def test_get_next_frame(self):
-        input_dir = "Test.avi"
+        input_dir = "test.avi"
 
         result = self.estmd.get_next_frame()
         self.assertEqual(result, False)
@@ -52,13 +52,13 @@ class TestESTMD(unittest.TestCase):
         self.assertEqual(y, 64)
 
     def test_run(self):
-        input_dir = "Test.avi"
+        input_dir = "test.avi"
 
-        result = self.estmd.run(out_dir = "Test_result.avi")
+        result = self.estmd.run(out_dir = "test_result.avi")
         self.assertEqual(result, False)
 
         self.estmd.open_movie(input_dir)
-        result = self.estmd.run(out_dir = "Test_result.avi")
+        result = self.estmd.run(out_dir = "test_result.avi")
         self.assertTrue(result)
 
 

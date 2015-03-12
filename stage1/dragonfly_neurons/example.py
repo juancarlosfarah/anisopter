@@ -1,8 +1,8 @@
 ################################################################################
-# File: Example.py
+# File: example.py
 # Author: Erik Grabljevec
 # E-mail: erikgrabljevec5@gmail.com
-# Description: Example of how to use Target_animation.py and estmd.py together.         
+# Description: Example of how to use target_animation.py and estmd.py together.
 ################################################################################
 
 from NEURON_code_for_CSTMD1.first_attempt.CSTMD import CSTMD
@@ -23,7 +23,7 @@ if len(argv) > 1 :
         print "Running without any inputs"
 
 if not from_file and not no_input :
-    from Target_animation.Target_animation import Animation
+    from target_animation.target_animation import Animation
     from ESTMD_model.estmd import ESTMD
 
     # Set constants
@@ -32,7 +32,7 @@ if not from_file and not no_input :
     bg_image = "Target_animation/Images/test.jpg"
     bg_speed = 4
 
-    # Create movie (tests Target_animation.py)
+    # Create movie (tests target_animation.py)
     # ========================================
     test = Animation()
     test.add_target(2, start=[0,300], end=[500,300], size=6, v=5)

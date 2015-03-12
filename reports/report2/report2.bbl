@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{tsdn}
+P.T. Gonzalez-Bellido, H.~Peng, J.~Yang, Georgopoulos A.P., and R.M. Olberg.
+\newblock {Eight pairs of descending visual neurons in the dragonfly give wing
+  motor centers accurate population vector of prey direction.}
+\newblock {\em Proc Natl Acad Sci USA}, 2013.
+
+\bibitem{hal11}
+K.J. Halupka, S.D. Wiederman, B.S. Cazzolato, and D.C. O'Carroll.
+\newblock { Discrete implementation of biologically inspired image processing
+  for target detection }.
+\newblock In {\em {ISSNIP}}, 2011.
+
+\bibitem{stdp2}
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
+\newblock {Spike timing dependent plasticity finds the start of repeating
+  patterns in continuous spike trains}.
+\newblock {\em PLoS One}, 2008.
+
+\bibitem{stdp1}
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
+\newblock {Competitive STDP-based spike pattern learning}.
+\newblock {\em Neural Comput.}, 2009.
+
+\bibitem{w13}
+Steven Wiederman and David O'Carroll.
+\newblock {Selective Attention in an Insect Visual Neuron}.
+\newblock {\em Current Biology}, 2013.
+
+\end{thebibliography}
