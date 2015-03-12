@@ -2,7 +2,6 @@
 Unit tests for module Target_animation.
 """
 
-import pdb
 import unittest
 from target_animation import *
 
@@ -217,7 +216,7 @@ class TestOnDraw(unittest.TestCase):
         self.assertEqual(self.window.time, 2)
         
         img1 = cv2.imread("temp/scr0.png")
-        for i in range(self.N):
+        for i in range(1):
             x = self.height - self.pos[i][0] - 1
             y = self.pos[i][1]
 
@@ -244,7 +243,6 @@ class TestOnDraw(unittest.TestCase):
 
             self.assertTrue(img1[x][y][0] == 0)
         
-
 
 class TestAnimation(unittest.TestCase):
     """
