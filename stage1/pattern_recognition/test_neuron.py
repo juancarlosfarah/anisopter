@@ -75,32 +75,84 @@ class NeuronTests(unittest.TestCase):
         
         self.neuron.time_delta = None
         
-        self.neuron.current_weights = [[ 0.49599198],
-                                        [ 0.46974692],
-                                        [ 0.44050216],
-                                        [ 0.59499429],
-                                        [ 0.38400322],
-                                        [ 0.59385204],
-                                        [ 0.35422254],
-                                        [ 0.60763721],
-                                        [ 0.44616867],
-                                        [ 0.47623609]]
+        self.neuron.current_weights = np.array([0.49599198,
+                                                0.46974692,
+                                                0.44050216,
+                                                0.59499429,
+                                                0.38400322,
+                                                0.59385204,
+                                                0.35422254,
+                                                0.60763721,
+                                                0.44616867,
+                                                0.47623609])
                                         
-        correct_updated_weights = [ [ 0.49599198],
-                                    [ 0.46974692],
-                                    [ 0.44050216],
-                                    [ 0.59499429],
-                                    [ 0.38400322],
-                                    [ 0.59385204],
-                                    [ 0.35422254],
-                                    [ 0.60763721],
-                                    [ 0.44616867],
-                                    [ 0.47623609]]
+        correct_updated_weights = np.array([0.49599198,
+                                            0.46974692,
+                                            0.44050216,
+                                            0.59499429,
+                                            0.38400322,
+                                            0.59385204,
+                                            0.35422254,
+                                            0.60763721,
+                                            0.44616867,
+                                            0.47623609])
         
         updated_weights = self.neuron.update_weights(spike_train, ms)
                             
         for i in range(len(correct_updated_weights)):
-            if(updated_weights[i] != correct_updated_weights[i]):
+            if(abs(updated_weights[i] - correct_updated_weights[i]) > self.tolerance):
+                test_failed=True
+                break
+
+        self.failIf(test_failed)
+        return
+        
+        
+    def test_update_weights_time_delta_0(self):
+        """
+        Checks that neuron.update_weights returns the correct output
+        """        
+        spike_train = np.array([[1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0],
+                               [1,0,1,1,0,1,0,0,0]])
+        ms = 1
+        test_failed = False
+        
+        self.neuron.time_delta = 0
+        
+        self.neuron.current_weights = np.array([ 0.49599198,
+                                        0.46974692,
+                                         0.44050216,
+                                         0.59499429,
+                                         0.38400322,
+                                         0.59385204,
+                                         0.35422254,
+                                         0.60763721,
+                                         0.44616867,
+                                         0.47623609])
+                                        
+        correct_updated_weights = np.array([0.52543614,
+                                            0.49919108,
+                                            0.46994632,
+                                            0.62443845,
+                                            0.41344738,
+                                            0.6232962,
+                                            0.3836667,
+                                            0.63708137,
+                                            0.47561283,
+                                            0.50568025])
+                                        
+        updated_weights = self.neuron.update_weights(spike_train, ms)
+                          
+        for i in range(len(correct_updated_weights)):
+            if(abs(updated_weights[i] - correct_updated_weights[i]) > self.tolerance):
                 test_failed=True
                 break
 
@@ -245,7 +297,7 @@ class NeuronTests(unittest.TestCase):
         
     def test_plot_ltd(self):      
         fig =  self.neuron.plot_ltd(show=False, return_fig=True)
-        self.failUnless(type(fig))# is list)
+        self.failUnless(type(fig) is list)
         return
         
     def test_plot_weight_distribution(self):
@@ -260,11 +312,7 @@ class NeuronTests(unittest.TestCase):
         self.failUnless(type(fig) is tuple)
         return
         
-    def test_plot_stdp(self):
-        fig1, fig2 = self.neuron.plot_stdp(show=False, return_fig=True)
-
-        self.failUnless(type(fig1))# and type(fig2) is 'NoneType')
-        return       
+      
         
     def tearDown(self):
         """
