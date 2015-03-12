@@ -246,7 +246,19 @@ class NeuronTests(unittest.TestCase):
     def test_plot_ltd(self):      
         fig =  self.neuron.plot_ltd(show=False, return_fig=True)
         self.failUnless(type(fig) is list)
-        return        
+        return
+        
+    def test_plot_weight_distribution(self):
+        ms = 1
+        fig = self.neuron.plot_weight_distribution(ms,
+                                                   rows=1,cols=1,
+                                                   current_frame=1,
+                                                   bin_size=1, 
+                                                   show = False, 
+                                                   return_fig = True)
+        
+        self.failUnless(type(fig) is tuple)
+        return       
         
     def tearDown(self):
         """
