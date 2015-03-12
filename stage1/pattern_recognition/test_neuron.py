@@ -201,6 +201,17 @@ class NeuronTests(unittest.TestCase):
         self.failIf(abs(correct_psp - calculated_psp)>self.tolerance)
         return
         
+        
+    def test_calculate_membrane_potential(self):
+    
+        ms = 10
+        self.neuron.ipsps = np.array([1,1])
+        correct_membrane_potential = -201.214800862
+        calculated_membrane_potential = self.neuron.calculate_membrane_potential(ms)
+        
+        self.failIf(abs(correct_membrane_potential-calculated_membrane_potential)>self.tolerance)
+        return
+        
     def tearDown(self):
         """
 
