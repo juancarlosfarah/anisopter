@@ -8,10 +8,10 @@ import os
 
 import bottle
 import pymongo
-from stage1.server import simulation_dao
-from stage1.server import sample_dao
+import signal
+import simulation_dao
+import sample_dao
 import bottledaemon as bottled
-
 
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
@@ -28,7 +28,7 @@ def show_index():
 def show_simulations():
 
     obj = dict()
-    obj['simulations'] = simulations.get_simulations(10)
+    obj['simulations'] = simulations.get_simulations(50)
 
     return bottle.template('simulations', obj)
 
@@ -122,34 +122,40 @@ def jquery(filename):
     return bottle.static_file(filename, root=root)
 
 
-def main():
+def start():
 
-    # Parse command line options.
-    parser = OptionParser()
-    parser.add_option("--host", dest="host", default='localhost',
-                      help="specify HOST", metavar="HOST")
-    parser.add_option("-p", "--port", dest="port", default=8082,
-                      help="specify PORT", metavar="PORT")
-    parser.add_option("-d", "--debug", action="store_true", dest="debug",
-                      help="run locally", default=False)
+    # # Parse command line options.
+    # parser = OptionParser()
+    # parser.add_option("--host", dest="host", default='localhost',
+    #                   help="specify HOST", metavar="HOST")
+    # parser.add_option("-p", "--port", dest="port", default=8082,
+    #                   help="specify PORT", metavar="PORT")
+    # parser.add_option("-d", "--debug", action="store_true", dest="debug",
+    #                   help="run locally", default=False)
+    #
+    # (options, args) = parser.parse_args()
+    #
+    # # Start the webserver running and wait for requests.
+    # if options.debug:
+    #     bottle.debug(True)
+    #     bottle.run(host=options.host, port=options.port, reloader=True)
+    # else:
+    #     bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(
+    #         os.path.dirname(__file__), "views")))
+    #     bottled.daemon_run(host="146.169.47.153", port=55080)
+    bottle.run(host="localhost", port=8082, reloader=True)
 
-    (options, args) = parser.parse_args()
 
-    # Start the webserver running and wait for requests.
-    if options.debug:
-        bottle.debug(True)
-        bottle.run(host=options.host, port=options.port, reloader=True)
-    else:
-        bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(
-            os.path.dirname(__file__), "views")))
-        bottled.daemon_run(host="146.169.47.153", port=55080)
-
-if __name__ == "__main__":
+def connect_db(db_name="anisopter"):
+    global db, simulations, samples
     connection_string = "mongodb://localhost"
     connection = pymongo.MongoClient(connection_string)
-    db = connection.anisopter
+    db = connection[db_name]
 
     # Data Access Objects.
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
-    main()
+
+if __name__ == "__main__":
+    connect_db("anisopter")
+    start()
