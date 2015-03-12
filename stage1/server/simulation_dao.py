@@ -262,7 +262,7 @@ class SimulationDao:
         return rvalue
 
     def run_simulation(self, duration, num_neurons, num_patterns, description):
-        sg = sample.SampleGenerator(duration, num_neurons=num_neurons)
+        sg = sample.Sample(duration, num_neurons=num_neurons)
         sg.generate_sample()
         sg.generate_patterns(num_patterns=num_patterns)
         sg.insert_patterns()

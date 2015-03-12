@@ -98,7 +98,7 @@ class SampleDao:
         return sample
 
     def generate_sample(self, duration, num_neurons, num_patterns, description):
-        s = sample.SampleGenerator(duration,
+        s = sample.Sample(duration,
                                    num_neurons=num_neurons,
                                    description=description)
         s.generate_sample()
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     connection = pymongo.MongoClient(connection_string)
     db = connection.anisopter
 
-    s = sample.SampleGenerator(1000, num_neurons=10)
+    s = sample.Sample(1000, num_neurons=10)
     s.generate_sample()
     sample_dao = SampleDao(db)
     sample_dao.save(s)
