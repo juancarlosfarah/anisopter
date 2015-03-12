@@ -3,7 +3,7 @@ __author__ = 'juancarlosfarah'
 import math
 import unittest
 
-from stage1.pattern_recognition import neuron
+import neuron
 import numpy as np
 
 
@@ -62,6 +62,11 @@ class NeuronTests(unittest.TestCase):
         neg_result = self.neuron.calculate_heavyside_step(neg_val)
         self.failIf(neg_result != 0)
         return
+
+    def test_update_weights(self):
+        self.neuron.time_delta = None
+        current_weights = self.neuron.current_weights
+
 
     def tearDown(self):
         """
