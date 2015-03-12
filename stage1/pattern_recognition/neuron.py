@@ -562,13 +562,13 @@ class Neuron:
         self.siblings.append(neuron)
         neuron.siblings.append(self)
 
-    def plot_stdp(self, show=True, return_fig=False ):
+    def plot_stdp(self, show=True):
         """
         Plot STDP from both LTD and LTP.
         :return: Void.
         """
-        fig1 = self.plot_ltd(False)
-        fig2 = self.plot_ltp(False)
+        self.plot_ltd(False)
+        self.plot_ltp(False)
         plt.axhline(0, color='black')
         plt.axvline(0, color='black')
         pylab.xlabel('Time Delta (ms)')
@@ -577,5 +577,4 @@ class Neuron:
         pylab.title('Effect of STDP on Synaptic Weights')
         if show:
             pylab.show()
-        if return_fig:
-            return fig1, fig2
+        
