@@ -87,7 +87,7 @@ Below we layout our new requirements and the stage of completion for each part:
 	\item Visual processing. We successfully implemented a model for ESTMD (elementary small-target-motion detectors) based on \cite{hal11}. The model can detect small-target motion across a moving, complicated background. This stage required a lot of research and understanding of spatio-temporal filters that approximate the function of real ESTMD neurons. The input of the ESTMD can either be a full video or frame by frame as it is produced by the animation tool. The output of the ESTMD model is a time series of matrices of processed pixels, which can be viewed in a video. See screenshots of videos in Appendix A.
 This output is connected to the CSTMD neurons by converting each pixel into a firing rate for a simple integrate-and-fire neuron and connecting the output of each of these neurons to the CSTMDs, biasing the weights of the centre of the visual input with a Gaussian distribution.
 	\item Pattern recognition. To model the pattern-recognition neurons needed for our project, we initially replicated experiments conducted by T. Masquelier et al. (Citation Needed). The resulting code was a Python module for Spike Response Model (SRM) Leaky Integrate-and-Fire (LIF) neurons that successfully recognised input patterns based on the samples described in the respective papers. A single of these neurons is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. We then extended the module so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency with which the pattern appears, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and measures the effectiveness of the pattern-recognition neurons by tracking key information such as true-positive, false-positive and true negative spike incidences.
-	\item Web client.The web client is designed to be a simple interface through which simulations for each of the modules can be run and automated, both separately and jointly. We have currently implemented a prototype using Bottle and MongoDB of the interface for the pattern-recognition module. This graphical user interface provides the minimal functionality needed to create sample spike trains, test pattern-recognition neurons against them and save the results of each experiment, providing key insight to the effect of each parameter on the output.
+	\item Web client. The web client is designed to be a simple interface through which simulations for each of the modules can be run and automated, both separately and jointly. We have currently implemented a prototype using Bottle and MongoDB of the interface for the pattern-recognition module. This graphical user interface provides the minimal functionality needed to create sample spike trains, test pattern-recognition neurons against them and save the results of each experiment, providing key insight to the effect of each parameter on the output.
 \end{enumerate}
 
 \section{Updated Task Scheduling}	
@@ -132,12 +132,13 @@ Below is a condensed version of our updated schedule.
 
 \bibliography{report2}{}
 \bibliographystyle{plain}
-
+\newpage
 \begin{appendices}
 \section{Animation / ESTMD screenshots}
 Below are screenshots of an animation of a small target moving diagonally across a moving complicated background (left) and a screenshot of the corresponding output of the ESTMD. Despite the moving background, the ESTMD highlights the small moving target. \\ \\
 \includegraphics[scale = 0.4]{input}
 \includegraphics[scale = 0.5]{processed}
+
 \section{Pattern recognition screenshots}
 Single neuron \\
 \includegraphics[scale = 0.3]{single_pattern_beginning}
@@ -145,6 +146,7 @@ Single neuron \\
 Multiple neurons \\
 \includegraphics[scale = 0.3]{multiple_beginning}
 \includegraphics[scale = 0.3]{multiple_end}
+\newpage
 \section{Testing results}
 \subsection{Target Animation}
 \begin{minted}{bash}
