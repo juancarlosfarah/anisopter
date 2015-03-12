@@ -158,6 +158,18 @@ class NeuronTests(unittest.TestCase):
                 
         self.failIf(test_failed)
         return
+        
+        
+    def test_sum_epsps(self):
+        """
+        Checks that neuron.sum_epsps returns the correct result
+        """        
+        correct_sum = 0
+        
+        calculated_sum = self.neuron.sum_epsps()
+        
+        self.failIf(abs(correct_sum-calculated_sum)>self.tolerance)
+        return
     
         
     def tearDown(self):
