@@ -239,10 +239,14 @@ class NeuronTests(unittest.TestCase):
         return
         
     def test_plot_ltp(self):
-        fig =  self.neuron.plot_ltp(show=False)
+        fig =  self.neuron.plot_ltp(show=False, return_fig=True)
         self.failUnless(type(fig) is list)
-        return      
+        return
         
+    def test_plot_ltd(self):      
+        fig =  self.neuron.plot_ltd(show=False, return_fig=True)
+        self.failUnless(type(fig) is list)
+        return        
         
     def tearDown(self):
         """
