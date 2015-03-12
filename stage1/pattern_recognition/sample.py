@@ -226,7 +226,7 @@ class SampleGenerator:
         :return: Array of patterns.
         """
         # TODO: Do some error checking.
-        self.patterns.append(pattern)
+        self.patterns.append(deepcopy(pattern))
         return self.patterns
 
     def generate_start_positions(self):
@@ -391,17 +391,16 @@ class SampleGenerator:
                  pattern_duration=self.pattern_duration)
 
 
-if __name__ == '__main__':
-    p = np.load("../dragonfly_neurons/spike_trains"
-                      "/5_neur_50_elecs_50_runtime.npz")
-
-    ps = [p['spike_trains']]
-    sg = SampleGenerator(50000, ps,
-                         num_neurons=500, rep_ratio=0.25,
-                         filename="combined_50k")
-    sg.generate_sample()
-    sg.save()
-
+# if __name__ == '__main__':
+    # p = np.load("../dragonfly_neurons/spike_trains"
+    #                   "/custom_pattern_500_50.npz")
+    #
+    # ps = [p['spike_trains']]
+    # sg = SampleGenerator(50000, ps,
+    #                      num_neurons=500, rep_ratio=0.25,
+    #                      filename="combined_50k")
+    # sg.generate_sample()
+    # sg.save()
     # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],

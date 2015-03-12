@@ -8,7 +8,7 @@ import pylab
 import math
 from matplotlib.patches import Rectangle
 from ..pattern_recognition import simulation
-from ..pattern_recognition import sample_generator
+from ..pattern_recognition import sample
 
 
 class SimulationDao:
@@ -262,7 +262,7 @@ class SimulationDao:
         return rvalue
 
     def run_simulation(self, duration, num_neurons, num_patterns, description):
-        sg = sample_generator.SampleGenerator(duration, num_neurons=num_neurons)
+        sg = sample.SampleGenerator(duration, num_neurons=num_neurons)
         sg.generate_sample()
         sg.generate_patterns(num_patterns=num_patterns)
         sg.insert_patterns()

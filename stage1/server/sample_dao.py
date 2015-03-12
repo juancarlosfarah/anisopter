@@ -8,7 +8,7 @@ import pylab
 import math
 from matplotlib.patches import Rectangle
 import pymongo
-from stage1.pattern_recognition import sample_generator
+from stage1.pattern_recognition import sample
 
 
 class SampleDao:
@@ -98,14 +98,14 @@ class SampleDao:
         return sample
 
     def generate_sample(self, duration, num_neurons, num_patterns, description):
-        sample = sample_generator.SampleGenerator(duration,
-                                                  num_neurons=num_neurons,
-                                                  description=description)
-        sample.generate_sample()
-        sample.generate_patterns(num_patterns=num_patterns)
-        sample.insert_patterns()
-        sample.add_noise()
-        _id = self.save(sample)
+        s = sample.SampleGenerator(duration,
+                                   num_neurons=num_neurons,
+                                   description=description)
+        s.generate_sample()
+        s.generate_patterns(num_patterns=num_patterns)
+        s.insert_patterns()
+        s.add_noise()
+        _id = self.save(s)
         return _id
 
 if __name__ == "__main__":
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     connection = pymongo.MongoClient(connection_string)
     db = connection.anisopter
 
-    sample = sample_generator.SampleGenerator(1000, num_neurons=10)
-    sample.generate_sample()
+    s = sample.SampleGenerator(1000, num_neurons=10)
+    s.generate_sample()
     sample_dao = SampleDao(db)
-    sample_dao.save(sample)
+    sample_dao.save(s)
