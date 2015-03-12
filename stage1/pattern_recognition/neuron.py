@@ -418,6 +418,8 @@ class Neuron:
             pylab.ylabel('Weight Change')
             pylab.title('Weight Change from LTP')
             pylab.show()
+            
+        return pylab.plot(time_deltas, ltps)
 
     def plot_ltd(self, show=True):
         """
