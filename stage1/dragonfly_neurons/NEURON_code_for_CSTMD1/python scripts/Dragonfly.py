@@ -34,8 +34,8 @@ class Dragonfly(object) :
     max_synapses = 10000 # maximum limit of synapses in case where we are very close
 
     # Stimulation
-    IC = 0
-    NetStim = 1   # 1: T1, 2: T2, 3: T1&T2, 0: No stimulation
+    IC = 1
+    NetStim = 0   # 1: T1, 2: T2, 3: T1&T2, 0: No stimulation
     SpTrain = False
     
     delay_of_T1 = 13 # [ms]
@@ -217,7 +217,7 @@ class Dragonfly(object) :
             stimIC.dur = self.stim_duration  # [ms]
             stimIC.amp = self.stim_amp       # [nA] amplitude
             syn0ic = h.Exp2Syn(h.neuron0_tree[3](0.5)) # 720
-            nc0ic = h.NetCon(stimIC,syn0ic,0,0.025+delay_of_T1,0.05) # threshold, delay, weight
+            nc0ic = h.NetCon(stimIC,syn0ic,0,0.025+self.delay_of_T1,0.05) # threshold, delay, weight
             syn1ic = h.Exp2Syn(h.neuron1_tree[3](0.5)) # 720
             nc1ic = h.NetCon(stimIC,syn1ic,0,0.025,0.01) # threshold, delay, weight
         elif self.NetStim:

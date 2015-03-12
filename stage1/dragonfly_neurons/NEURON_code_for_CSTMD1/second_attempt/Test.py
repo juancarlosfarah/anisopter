@@ -6,22 +6,44 @@ from subprocess import call
 import unittest
 import numpy as np
 import pickle
+import os
+import matplotlib.pyplot as plt
+import matplotlib
 
 class TestCSTMD(unittest.TestCase):
     """
     This class represents sequence of tests for class CSTMD.
     """
-    perc_change_acceptable=50.0
+    # Set up initial value for the CSTMD object    
+    neurons_no = 2
+    electrds=2
+    SYNAPSES_NO=500
+    D=30
+    time_bet_frames=10
+
+    # Initiate the CSTMD object
+    dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,PRINT =True)
+
+    # Create an array of zeros
+    frame_list = []
+    for i in range(10) :
+        frame_list.append(np.zeros([32,32]))
+
+    # Run simulation for the empty arrray
+    for frame in frame_list :
+        frame = frame.ravel()
+        times, ids = dr.run(time = time_bet_frames, rates = frame)
+
 
     def setUp(self):
         """
         Method that runs at start of each test.
         """
-        neurons_no = 2
-        SYNAPSES_NO = 500
-        D = 30
-        electrds = 50
-        self.cstmd = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds)
+        self.perc_change_acceptable=50.0       
+        self.Na = 0.48
+        self.K = 0.05
+        self.runtime=2000
+
 
     def real_firing_rates(self,data) :
         """
@@ -32,21 +54,19 @@ class TestCSTMD(unittest.TestCase):
             fr.append(4000.0 / (data[i+4] - data[i]))
         return fr
 
-    def compFireRate(self):
+    def test_compFireRate(self):
         """
         Method which compares the firing rate of the CSTMD with and without
         input.
         """
-        Na = 0.48
-        K = 0.05
         
         # Runs the simulation with no input
-        call(["python", "example.py", "-file", "64x64_no_input_200.pkl", "-K", str(K), "-Na", str(Na)])
+        call(["python", "example.py", "-file", "64x64_no_input_200.pkl", "-K", str(self.K), "-Na", str(self.Na)])
         with open("data.pkl", 'rb') as my_file :
             data_no_input = pickle.load(my_file)
 
         # Runs the simulation with some input
-        call(["python", "example.py", "-file", "64x64_strong_200.pkl", "-K", str(K), "-Na", str(Na)])
+        call(["python", "example.py", "-file", "64x64_strong_200.pkl", "-K", str(self.K), "-Na", str(self.Na)])
         with open("data.pkl", 'rb') as my_file :
             data_input = pickle.load(my_file)
 
@@ -60,12 +80,36 @@ class TestCSTMD(unittest.TestCase):
         with_input_rng=max(real_fr_input)-min(real_fr_input)
         perc_change=100*(with_input_rng-without_input_rng)/without_input_rng
 
-        return perc_change
-
-    def test_run(self):
         # If the percentage change of the firing rate is greater than the 
         # predicted rate then the test succeeds
-        self.assertTrue(self.compFireRate()>=self.perc_change_acceptable)
+        self.failUnless(perc_change>=self.perc_change_acceptable)
+ 
+    def test_save(self):
+        """
+        Method which checks whether the resulted spike trains are saved
+        after a CSTMD simulation is run.
+        """        
+        # Save file
+        self.dr.sp_trains_save()
+
+        extension = ".npz"
+        filename = "spike_trains/{}_{}_{}_{}_{}_{}".format(self.neurons_no,"neur",
+                                                         self.electrds,"elecs",
+                                                         self.time_bet_frames*len(self.frame_list),"runtime")
+
+        # Checks whether a file of spike trains is created
+        self.failUnless(os.path.exists(filename + extension))
+    
+    def test_plot(self):
+        """
+        Method which checks whether the expected plots are produced.
+        """ 
+        # Retrieve scatter plot
+        fig = self.dr.plot(return_fig=True)
+
+        # If the correct type of plot is return, then the test succeeds
+        self.failUnless(type(fig) is matplotlib.collections.PathCollection)
+
 
 if __name__ == '__main__':
     unittest.main()

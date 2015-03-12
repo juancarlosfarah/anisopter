@@ -112,6 +112,7 @@ class CSTMD(object) :
 
 	# IK: constructor
     def __init__(self, neurons_no, synapses_no, D, electrds, PRINT = False) :
+        self.PRINTS = PRINT
         if PRINT == True :
             if self.PRINTS : print "------------------------------------------------------ "
             if self.PRINTS : print "     *    Dragonfly CSTMD1 neuron simulation    *      "
@@ -119,7 +120,7 @@ class CSTMD(object) :
             if self.PRINTS : print "------------------------------------------------------ "
         
         self.global_time = time.time()
-        self.PRINTS = PRINT
+
         self.neurons_no = neurons_no
         self.electrds=electrds
 
@@ -544,7 +545,7 @@ class CSTMD(object) :
     def sp_trains_save(self):
 
     
-        if self.PRINTS : print "bal23 ", self.curr_time
+
         # Container for spike trains.
         spike_trains = np.zeros((self.neurons_no*self.electrds, self.curr_time))
 
@@ -557,30 +558,20 @@ class CSTMD(object) :
             for i in range(self.electrds):
                 elec_index=(n+1)*(i+1)-1               
                 elec_len=len(self.t_out_vec[elec_index])
-                """
-                if self.PRINTS : print "output No ", elec_index
-                for z in range(len(self.t_out_vec[n])):
-                    if self.PRINTS : print self.t_out_vec[elec_index][z]
-                """
+
                 for y in range(elec_len):
                     timestamp=round(self.t_out_vec[elec_index][y],0)
                     spike_trains[elec_index][timestamp-1]=1
-                    if self.PRINTS : print "Timestanmp" ,spike_trains[elec_index][timestamp-1]
-                                   
-        """
-        filename = "samples/{}_{}_{}_{}_{}_{}_{}".format(self.num_patterns,
-                                                         self.num_neurons,
-                                                         self.duration,
-                                                         self.pattern_duration,
-                                                         self.rep_ratio,
-                                                         self.inv_ratio,
-                                                         self.noise)
-        np.savez(filename,
-                 start_positions=self.start_positions,
-                 spike_trains=self.spike_trains)
-        """
+                    #print "Timestanmp" ,spike_trains[elec_index][timestamp-1]
+                    #print self.t_out_vec[elec_index][y], spike_trains[elec_index][timestamp-1]  
 
-    def plot(self) :
+        filename = "spike_trains/{}_{}_{}_{}_{}_{}".format(self.neurons_no,"neur",
+                                                         self.electrds,"elecs",
+                                                         self.curr_time,"runtime")
+        np.savez(filename, spike_trains=spike_trains)
+        
+
+    def plot(self, show=False, return_fig=False) :
         # -- Plot the recordings -----------------------------------------------    
         if self.PLOT_ACTIVITY == True :
             plt.figure(1)
@@ -665,9 +656,12 @@ class CSTMD(object) :
                 print fr
 
             plt.figure()
-            plt.scatter(self.id_input, self.t_input, c='b', marker='+')
+            fig = plt.scatter(self.id_input, self.t_input, c='b', marker='+')
             plt.xlim(0, self.curr_time)
-            plt.show()
+            if show:
+                plt.show()
+            if return_fig:
+                return fig
 
 
 
