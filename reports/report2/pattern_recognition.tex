@@ -1,0 +1,21 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[nodayofweek]{datetime}
+\usepackage{cite}
+\usepackage{graphicx}
+\longdate
+
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+
+\begin{document}
+
+\section{Progress}
+
+\subsection{Pattern-Recognition}
+
+To model the pattern-recognition neurons needed for our project, we initially replicated experiments conducted by T. Masquelier et al. (Citation Needed). The resulting code was a Python module for Spike Response Model (SRM) Leaky Integrate-and-Fire (LIF) neurons that successfully recognised input patterns based on the samples described in the respective papers. A single of these neurons is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. We then extended the module so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency with which the pattern appears, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and measures the effectiveness of the pattern-recognition neurons by tracking key information such as true-positive, false-positive and true negative spike incidences.
+
+\end{document}
