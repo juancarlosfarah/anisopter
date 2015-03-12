@@ -171,6 +171,24 @@ class NeuronTests(unittest.TestCase):
         self.failIf(abs(correct_sum-calculated_sum)>self.tolerance)
         return
     
+    def test_sum_ipsps(self):
+        
+        ms = 10
+        test_failed = False
+        
+        #ipsps size = 0
+        if(self.neuron.sum_ipsps(ms) != 0):
+            test_failed = True
+            
+        #ipsps size > 0
+        self.neuron.ipsps = np.array([1,1])
+        correct_sum = -201.214800862
+        if(abs(self.neuron.sum_ipsps(ms) - correct_sum) > self.tolerance):
+            test_failed = True
+
+        self.failIf(test_failed)
+        return
+
         
     def tearDown(self):
         """
