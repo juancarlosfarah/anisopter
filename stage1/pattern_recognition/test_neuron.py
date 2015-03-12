@@ -21,7 +21,7 @@ class NeuronTests(unittest.TestCase):
 
     def test_time_delta(self):
         """
-        Checks that srm_lif_neuron.calculate_time_delta 
+        Checks that neuron.calculate_time_delta 
         returns the correct output
         :return:
         """
@@ -32,7 +32,7 @@ class NeuronTests(unittest.TestCase):
 
     def test_ltp(self):
         """
-        Checks srm_lif_neuron.calculate_ltp returns the correct output
+        Checks that neuron.calculate_ltp returns the correct output
         :return:
         """
         ltp = self.neuron.calculate_ltp(-3)
@@ -42,7 +42,7 @@ class NeuronTests(unittest.TestCase):
 
     def test_ltd(self):
         """
-        Checks srm_lif_neuron.calculate_ltd returns the correct output
+        Checks that neuron.calculate_ltd returns the correct output
         :return:
         """
         ltd = self.neuron.calculate_ltd(3)
@@ -52,7 +52,7 @@ class NeuronTests(unittest.TestCase):
 
     def test_heavy_side(self):
         """
-        Checks srm_lif_neuron.calculate_heavy_side_step returns the correct output
+        Checks that neuron.calculate_heavy_side_step returns the correct output
         :return:
         """
         pos_val = 1
@@ -64,10 +64,45 @@ class NeuronTests(unittest.TestCase):
         return
 
     def test_update_weights(self):
-        self.neuron.time_delta = None
-        current_weights = self.neuron.current_weights
+        """
+        Checks that neuron.update_weights returns the correct output
+        """        
+        spike_train = np.array([1,0,1,1,0,1,0,0,0])
+        ms = 1
+        test_failed = False
+        
+        self.neuron.current_weights = [[ 0.49599198],
+                                        [ 0.46974692],
+                                        [ 0.44050216],
+                                        [ 0.59499429],
+                                        [ 0.38400322],
+                                        [ 0.59385204],
+                                        [ 0.35422254],
+                                        [ 0.60763721],
+                                        [ 0.44616867],
+                                        [ 0.47623609]]
+                                        
+        correct_updated_weights = [ [ 0.49599198],
+                                    [ 0.46974692],
+                                    [ 0.44050216],
+                                    [ 0.59499429],
+                                    [ 0.38400322],
+                                    [ 0.59385204],
+                                    [ 0.35422254],
+                                    [ 0.60763721],
+                                    [ 0.44616867],
+                                    [ 0.47623609]]
+        
+        updated_weights = self.neuron.update_weights(spike_train, ms)
+                            
+        for i in range(len(correct_updated_weights)):
+            if(updated_weights[i] != correct_updated_weights[i]):
+                test_failed=True
 
-
+        self.failIf(test_failed)
+        return
+        
+        
     def tearDown(self):
         """
 
