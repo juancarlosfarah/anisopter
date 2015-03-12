@@ -2,7 +2,7 @@
 Creating test movie, where 25% of the movie represents repeating pattern.
 """
 
-from Target_animation import Animation
+from target_animation import Animation
 import cv2
 
 

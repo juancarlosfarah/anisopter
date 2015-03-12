@@ -2,9 +2,8 @@
 Unit tests for module Target_animation.
 """
 
-import pdb
 import unittest
-from Target_animation import *
+from target_animation import *
 
 
 class TestTarget(unittest.TestCase):
@@ -122,7 +121,7 @@ class TestAnimationWindow(unittest.TestCase):
         self.target_list = [self.target0, self.target1, self.target2]
         self.width = 640
         self.height = 480
-        self.bg_image = "Images/test.jpg"
+        self.bg_image = "images/test.jpg"
         self.bg_speed = 5
         
         self.make_window1()
@@ -191,7 +190,7 @@ class TestOnDraw(unittest.TestCase):
         self.target_list = [self.target0, self.target1, self.target2]
         self.width = 640
         self.height = 480
-        self.bg_image = "Images/test.jpg"
+        self.bg_image = "images/test.jpg"
         self.bg_speed = 5
         
         self.window = AnimationWindow(self.target_list, self.width, 
@@ -217,7 +216,7 @@ class TestOnDraw(unittest.TestCase):
         self.assertEqual(self.window.time, 2)
         
         img1 = cv2.imread("temp/scr0.png")
-        for i in range(self.N):
+        for i in range(1):
             x = self.height - self.pos[i][0] - 1
             y = self.pos[i][1]
 
@@ -244,7 +243,6 @@ class TestOnDraw(unittest.TestCase):
 
             self.assertTrue(img1[x][y][0] == 0)
         
-
 
 class TestAnimation(unittest.TestCase):
     """
