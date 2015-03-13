@@ -30,7 +30,7 @@
 \section{Challenges and Motivation for New Specifications}
 In this section, we motivate our change in specifications by highlighting the biggest challenges that we have encountered in our project. 
 
-Our most significant challenge has been to generate the output we expect from the CSTMD1 (Central small target motion detector) neurons, given an input from the initial visual processing ESTMD (elementary small target motion detector) neurons. In part (iii) of Stage 1A, as specified in Report 1, we expected to observe evidence that the CSTMD1, when presented with two targets in the visual receptive field, will select one of them. However, the CSTMD1 model is not currently displaying this selectivity as shown in Figure 1. What we expected was that the firing rate graph for both targets would emulate that of one of the two. Instead, what we are observing is a CSTMD1 neuron that fires more frequently when both targets are present.
+Our most significant challenge has been to generate the output we expect from the CSTMD1 (Central Small-Target-Motion Detector) neurons, given an input from the initial visual processing ESTMD (Elementary Small-Target-Motion Detector) neurons. In part (iii) of Stage 1A, as specified in Report 1, we expected to observe evidence that the CSTMD1, when presented with two targets in the visual receptive field, would select one of them. However, the CSTMD1 model is not currently displaying this selectivity as shown in Figure 1. What we expected was that the firing rate graph for both targets would emulate that of one of the two. Instead, what we are observing is a CSTMD1 neuron that fires more frequently when both targets are present.
 
 	\begin{figure}[h]
 	\begin{center}
@@ -41,7 +41,7 @@ Our most significant challenge has been to generate the output we expect from th
 
 Given the complicated nature of the morphologically-modelled CSTMD1, which is largely third party code, and the fact that this target selection has never been shown before in a CSTMD1 model, we are concerned that we may not be able to reproduce this phenomenon as shown by biological CSTMD1 neurons within the time constraints of this project. While it is still our goal to do so, we are moving this part of the specifications out of minimum requirements and into our possible extensions.
 
-In light of this change, we have added a task to our specification consisting of designing a web client that will enable users to:
+In light of this change, we have added a task to our specifications consisting of designing a web client that will enable users to:
 \begin{enumerate}
 	\item Modify key parameters in each of the components of our dragonfly visual system model.
 	\item Run each component individually and display key metrics demonstrating the functionality of each component.
@@ -50,7 +50,7 @@ In light of this change, we have added a task to our specification consisting of
 This would enable us, and external users, to efficiently investigate the properties of our dragonfly visual system and better tune the parameters in order to achieve target selection and prey capture with our model.
 
 \section{New Specifications}
-Below we layout our new requirements and the revised stage of completion for each part:
+Below we layout our new requirements and the revised stage of completion for each part.
 \begin{center}
     \begin{tabular}{p{12cm} c c}
     \textbf{Minimum Requirements (Stage 1)} & \textbf{Completion} \\ \hline
@@ -84,10 +84,10 @@ Below we layout our new requirements and the revised stage of completion for eac
 \section{Progress}
 
 \subsection{Animation Tool}
-In order to generate input for our visual pre-processing layer, we developed an animation tool using Pyglet. This allows the user the option to create a video of black targets moving across a custom background that is either stationary or moving. The size and velocity vector of each target is adjustable.
+In order to generate input for our visual pre-processing layer, we developed an animation tool using Pyglet. This allows the user to create a video of black targets moving across a custom background that is either stationary or moving. The size and velocity vector of each target is adjustable.
 
 \subsection{Visual Processing}
-We successfully implemented a model for ESTMD (elementary small-target-motion detection) based on \cite{hal11}. The model can detect small-target motion across a moving, complicated background. This stage required research into spatio-temporal filters that approximate the function of real ESTMD neurons. The input of the ESTMD can either be a full video or frame by frame as it is produced by the animation tool. The output of the ESTMD model is a time series of matrices of processed pixels, which can be viewed in a video. This output is connected to the CSTMD1 neurons by converting each pixel into a firing rate for a simple integrate-and-fire neuron and connecting the output of each of these neurons to the CSTMDs. Sample screenshots of video input and output are included in Appendix A.
+We successfully implemented a model for ESTMD based on \cite{hal11}. The model can detect small-target motion across a moving, complicated background. This stage required research into spatio-temporal filters that approximate the function of real ESTMD neurons. The input of the ESTMD can either be a full video or a frame-by-frame stream as it is produced by the animation tool. The output of the ESTMD model is a time series of matrices of processed pixels, which can be viewed in a video. This output is connected to the CSTMD1 neurons by converting each pixel into a firing rate for a simple integrate-and-fire neuron and connecting the output of each of these neurons to the CSTMDs. Sample screenshots of video input and output are included in Appendix A.
 
 \subsection{Pattern Recognition}
 To model the pattern recognition neurons, we initially replicated experiments conducted by T. Masquelier et al. \cite{stdp2} \cite{stdp1} . The resulting code was a Python module for Spike Response Model (SRM) leaky integrate-and-fire neurons that successfully recognised input patterns based on the samples described in the respective papers. A single of these neurons is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. We then extended the module so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency of pattern appearance, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and measures the effectiveness of the pattern recognition neurons by tracking key information such as true-positive, false-positive and true-negative spike incidences. Sample plots for this module are included in Appendix B.
@@ -145,7 +145,7 @@ As we progress with our development we aim to augment our testing strategy to in
 Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we are using Python's coverage library, which allows us to run tests on each file separately and combine results to create comprehensive reports.
 
 \subsection{Results}
-Our current test coverage is 81\%. Details results from our latest test run covering all of our modules can be found in Appendix C.
+Our current test coverage is 81\%. Detailed results from our latest test run covering all of our modules can be found in Appendix C.
 
 \subsection{Challenges}
 At this stage, some of the functionalities we are developing have not been factored out optimally, which causes some methods to be very tightly interlinked. This in turn requires more complex tests, some of which will need extensive modification as we restructure the code. We have thus decided to omit some of these methods from our current tests. As we gain more experience with unit testing and refine our design, these methods will be covered.
@@ -158,13 +158,13 @@ We also found it difficult to test the graphical output that our modules produce
 \newpage
 \begin{appendices}
 \section{Animation / ESTMD Sample Screenshots}
-Below are screenshots of an animation of a small target moving diagonally across a moving complicated background (left) and a screenshot of the corresponding output of the ESTMD. Despite the moving background, the ESTMD highlights the small moving target. \\ \\
+Below are screenshots of an animation of a small target moving diagonally across a complicated moving background (left) and a screenshot of the corresponding output of the ESTMD. Despite the moving background, the ESTMD highlights the target. \\ \\
 \includegraphics[scale = 0.4]{input}
 \includegraphics[scale = 0.5]{processed}
 
 \section{Pattern Recognition Sample Plots}
 \subsection{Single Neuron / Single Pattern}
-A single pattern recognition neuron is able to detect a recurring pattern (shown in gray) within a noisy background. At the beginning of the simulation, the neuron is not selective and fires repeatedly, as shown below on the left. However, spike-timing-dependent plasticity allows the neuron to become selective to the pattern and towards the last quarter of the simulation, fires consistently when it appears, as shown below on the right. \\
+A single pattern recognition neuron is able to detect a recurring pattern (shown in gray) within a noisy background. At the beginning of the simulation, the neuron is not selective and fires repeatedly, as shown below on the left. However, spike-timing-dependent plasticity allows the neuron to become selective to the pattern and after approximately 30 seconds, it fires consistently when the pattern appears, as shown below on the right. \\
 
 \begin{figure}[h]
 \centering
@@ -175,7 +175,7 @@ A single pattern recognition neuron is able to detect a recurring pattern (shown
 \newpage
 
 \subsection{Multiple Neurons / Multiple Patterns}
-A network of mutually-inhibiting pattern recognition neurons are able to detect multiple patterns (shown in various colours) within a noisy background. As with the single neuron, at the beginning of the simulation the neurons fire a lot, as shown below on the left. However, towards the end some neurons become selective to multiple patterns and others, inhibited by their counterparts, cease to fire, as shown below on the right.
+A network of mutually-inhibiting pattern recognition neurons are able to detect multiple patterns (shown in various colours) within a noisy background. As with the single neuron, at the beginning of the simulation the neurons fire constantly, as shown below on the left. However, after approximately 30 seconds, some neurons become selective to multiple patterns and others, inhibited by their counterparts, cease to fire, as shown below on the right.
 
 \begin{figure}[h]
 \centering
