@@ -30,7 +30,7 @@
 \section{Challenges and Motivation for New Specifications}
 In this section, we motivate our change in specifications by highlighting the biggest challenges that we have encountered in our project. 
 
-Our most significant challenge has been to generate the output we expect from the CSTMD1 (Central Small-Target-Motion Detector) neurons, given an input from the initial visual processing ESTMD (Elementary Small-Target-Motion Detector) neurons. In part (iii) of Stage 1A, as specified in Report 1, we expected to observe evidence that the CSTMD1, when presented with two targets in the visual receptive field, would select one of them. However, the CSTMD1 model is not currently displaying this selectivity as shown in Figure 1. What we expected was that the firing rate graph for both targets would emulate that of one of the two. Instead, what we are observing is a CSTMD1 neuron that fires more frequently when both targets are present.
+Our most significant challenge has been to generate the output we expect from the CSTMD1 (Central Small-Target-Motion Detector) neurons, given an input from the initial visual processing ESTMD (Elementary Small-Target-Motion Detector) neurons. In part (iii) of Stage 1A, as specified in Report 1, we expected to observe evidence that the CSTMD1, when presented with two targets in the visual receptive field, would select one of them. However, the CSTMD1 model is not currently displaying this selectivity, as shown in Figure 1. What we expected was that the firing rate graph for both targets would emulate that of one of the two. Instead, what we are observing is a CSTMD1 neuron that fires more frequently when both targets are present.
 
 	\begin{figure}[h]
 	\begin{center}
@@ -65,7 +65,7 @@ Below we layout our new requirements and the revised stage of completion for eac
 \begin{center}
     \begin{tabular}{p{12cm} c c}
     \textbf{Expected Implementation (Stage 2)} & \textbf{Completion} \\ \hline
-	(A) Develop a web client to analyse metrics of each component of our model. & Partial \\
+	(A) Develop a web client to analyse metrics of each component in our model. & Partial \\
 	(B) Create a virtual 3D environment for the dragonfly agent. & None\\
 	(C) Enhance the action selection mechanism to control the agent within the environment. & None\\
     \end{tabular}
@@ -75,7 +75,7 @@ Below we layout our new requirements and the revised stage of completion for eac
     \begin{tabular}{p{12cm} c c}
     \textbf{Possible Extensions (Stage 3)} & \textbf{Completion} \\ \hline
 	(A) Achieve CSTMD1 target selection through experimentation with various parameters and connections with the ESTMD neurons. & Partial\\
-	(B) Improve usability and features of web client. & None\\
+	(B) Improve the usability and features of the web client. & None\\
 	(C) Implement the agent in a quadcopter drone. & None\\
     \end{tabular}
 \end{center}
