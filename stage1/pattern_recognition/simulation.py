@@ -55,8 +55,17 @@ class Simulation:
         path = folder + filename + extension
         sample = np.load(path)
         self.spike_trains = sample['spike_trains']
-        self.start_positions = sample['start_positions']
-        self.pattern_duration = sample['pattern_duration']
+
+        if 'start_positions' in sample:
+            self.start_positions = sample['start_positions']
+        else:
+            self.start_positions = []
+
+        if 'pattern_duration' in sample:
+            self.pattern_duration = sample['pattern_duration']
+        else:
+            self.pattern_duration = 50
+
         self.num_afferents = self.spike_trains.shape[0]
         self.duration = self.spike_trains.shape[1]
         self.sampling_interval = math.ceil(self.duration / 5)
@@ -79,7 +88,10 @@ class Simulation:
         Adds neuron to simulation.
         :return: Neuron.
         """
-        n = neuron.Neuron(self.num_afferents, a_plus, a_ratio, theta)
+        n = neuron.Neuron(self.num_afferents,
+                          a_plus,
+                          a_ratio,
+                          theta)
         self.neurons.append(n)
         return n
 
@@ -208,11 +220,13 @@ class Simulation:
         # Up to five colors supported.
         colors = ["#E6E6E6", "#CCFFCC", "#FFCC99", "#CCFFFF", "#FFFFCC"]
 
+        # Boundaries.
+        min_y = self.neurons[0].theta * -0.5
+        max_y = self.neurons[0].theta * 2.25
+
         # Prepare the pattern plot.
         for i in range(len(self.start_positions)):
             color = colors[i % len(colors)]
-            min_y = self.neurons[0].theta * -0.5
-            max_y = self.neurons[0].theta * 2.25
             for j in self.start_positions[i]:
                 pylab.gca().add_patch(Rectangle((j, min_y),
                                                 self.pattern_duration,
@@ -231,7 +245,7 @@ class Simulation:
         pylab.title('Spike Train with STDP')
         pylab.show()
 
-"""
+
 # Run Sample Test
 # ===============
 # sample = poisson_pattern_generator.generate_sample(num_neurons,
@@ -239,17 +253,27 @@ class Simulation:
 #                                                    pattern_len)
 if __name__ == '__main__':
     sim = Simulation()
-    # sim.load("3_500_50000_50_0.1_0.5_10.0")
-    sim.load_file("combined_50k")
-    n1 = sim.add_neuron(0.03125, .95, 125)
+    # sim.load_file("1_500_50000_50_0.25_0.5_10.0")
+    sim.load_file("trial_inv_100pc")
+    n1 = sim.add_neuron(0.03125, .95, 300)
     # n2 = sim.add_neuron(0.03125, 0.91, 125)
     # n3 = sim.add_neuron(0.03125, 0.91, 125)
     # n1.connect(n2)
     # n1.connect(n3)
     # n2.connect(n3)
     sim.run()
-    # sim.plot_weights()
+    w = n1.current_weights
     sim.plot_membrane_potential()
+    # for i in range(2):
+    #     sim = Simulation()
+    #     sim.load_file("trial_inv_50pc")
+    #     n1 = sim.add_neuron(0.03125, .95, 275)
+    #     n1.current_weights = w
+    #     sim.run()
+    #     w = n1.current_weights
+    #     sim.plot_membrane_potential()
+    # sim.plot_weights()
+
 
 
     # Save simulation to database.
@@ -258,4 +282,3 @@ if __name__ == '__main__':
     # db = connection.anisopter
     # simulations = simulation_dao.SimulationDao(db)
     # simulations.save(sim)
-"""

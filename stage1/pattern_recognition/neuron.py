@@ -29,8 +29,11 @@ class Neuron:
     A_PLUS = 0.03125
     A_RATIO = 0.92
 
-    def __init__(self, num_afferents,
-                 a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
+    def __init__(self,
+                 num_afferents,
+                 a_plus=A_PLUS,
+                 a_ratio=A_RATIO,
+                 theta=THETA):
         self.dt = 1                          # Discrete time step in ms.
         self.num_afferents = num_afferents   # Number of afferents.
         self.tau_m = 10.0                    # Membrane time constant in ms.
@@ -72,6 +75,7 @@ class Neuron:
         self.effective_ltp_window = self.ltp_window
 
         # Initialise weights.
+        np.random.seed(1)
         self.current_weights = np.random.normal(0.475, 0.1, (num_afferents, 1))
         self.current_weights[self.current_weights < self.weight_min] = self.weight_min
         self.current_weights[self.current_weights > self.weight_max] = self.weight_max

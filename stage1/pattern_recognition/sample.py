@@ -27,7 +27,7 @@ class Sample:
     Generates sample input spike trains.
     """
     def __init__(self, duration, patterns=None, pattern_duration=50,
-                 num_neurons=2000, rep_ratio=0.25, filename=None,
+                 num_neurons=2000, rep_ratio=0.25, inv_ratio=0.5, filename=None,
                  description=None):
 
         self.duration = duration
@@ -55,7 +55,7 @@ class Sample:
 
         self.dt = 0.001             # Time step in seconds.
         self.rep_ratio = rep_ratio  # Ratio of pattern in the overall sample.
-        self.inv_ratio = 0.5        # Ratio of afferents in the pattern.
+        self.inv_ratio = inv_ratio  # Ratio of afferents in the pattern.
         self.noise = 10.0           # Noise in Hz.
 
         self.r_min = 0.0            # Minimum firing rate in Hz.
@@ -391,16 +391,16 @@ class Sample:
                  pattern_duration=self.pattern_duration)
 
 
-# if __name__ == '__main__':
-    # p = np.load("../dragonfly_neurons/spike_trains"
-    #                   "/custom_pattern_500_50.npz")
-    #
-    # ps = [p['spike_trains']]
-    # sg = SampleGenerator(50000, ps,
-    #                      num_neurons=500, rep_ratio=0.25,
-    #                      filename="combined_50k")
-    # sg.generate_sample()
-    # sg.save()
+if __name__ == '__main__':
+    bg = np.load("samples/5_neur_100_elecs_15000_runtime.npz")
+    st = bg['spike_trains']
+    ps = [st[:, 150:200]]
+    sg = Sample(15000, ps, num_neurons=500, rep_ratio=0.25, inv_ratio=1,
+                filename="trial_inv_100pc")
+    sg.spike_trains = st
+    sg.insert_patterns()
+    sg.add_noise()
+    sg.save()
     # sample = generate_sample(NUM_NEURONS, TOTAL_MS, PATTERN_MS)
     # spike_trains = sample['spike_trains']
     # mpl.imshow(spike_trains[0:2000, 0:2000],
