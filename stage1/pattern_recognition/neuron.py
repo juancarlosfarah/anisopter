@@ -426,7 +426,7 @@ class Neuron:
         if return_fig:
             return fig
 
-    def plot_ltd(self, show=True, return_fig = False):
+    def plot_ltd(self, show=True, return_fig=False):
         """
         Plots the values of LTD over the learning window.
         :return: Void.
@@ -481,8 +481,6 @@ class Neuron:
         bins = len(self.current_weights) / bin_size
         pylab.ylabel(label)
         fig = p.hist(self.current_weights, bins=bins)
-        
-        
 
         # Only show if plot is complete.
         if rows * cols == current_frame:
@@ -581,4 +579,3 @@ class Neuron:
         pylab.title('Effect of STDP on Synaptic Weights')
         if show:
             pylab.show()
-        
