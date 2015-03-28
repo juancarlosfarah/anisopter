@@ -267,15 +267,10 @@ class SimulationDao:
 
         return rvalue
 
-    def run_simulation(self, duration, num_neurons, num_patterns, description):
-        sg = Sample(duration, num_neurons=num_neurons)
-        sg.generate_sample()
-        sg.generate_patterns(num_patterns=num_patterns)
-        sg.insert_patterns()
-        sg.add_noise()
+    def run_simulation(self, sample, cursor, description):
         sim = Simulation(description)
-        sim.load(sg)
-        sim.add_neuron(0.03125, .905, 125)
+        sim.load_sample(sample, cursor)
+        sim.add_neuron(0.03125, .915, 125)
         sim.run()
         _id = self.save(sim)
         return _id

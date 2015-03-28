@@ -8,19 +8,15 @@
 
     <form action="/simulation/run" method="post">
         <div class="form-group">
-            <label for="duration">Duration</label>
-            <input type="number" class="form-control" id="duration"
-                   name="duration" placeholder="Duration">
-        </div>
-        <div class="form-group">
-            <label for="num_neurons">Number of Neurons</label>
-            <input type="number" class="form-control" id="num_neurons"
-                   name="num_neurons" placeholder="Number of Neurons">
-        </div>
-        <div class="form-group">
-            <label for="num_patterns">Number of Patterns</label>
-            <input type="number" class="form-control" id="num_patterns"
-                   name="num_patterns" placeholder="Number of Patterns">
+            <label for="sample">Sample</label>
+            <select class="form-control" name="sample" id="sample">
+                %for s in samples:
+                    <option value="{{s['_id']}}">
+                        Afferents: {{s['num_afferents']}}
+                        Duration: {{s['duration']}}
+                    </option>
+                %end
+            </select>
         </div>
         <div class="form-group">
             <label for="description">Description</label>

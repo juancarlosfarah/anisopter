@@ -18,6 +18,7 @@ class SampleDao:
     def __init__(self, database):
         self.db = database
         self.collection = self.db.samples
+        self.spikes = self.db.spikes
 
     def save(self, sample):
         """
@@ -90,13 +91,24 @@ class SampleDao:
     def get_sample(self, _id):
         """
         Fetches a sample by _id.
-        :param _id: _id of sampleto fetch.
+        :param _id: _id of sample to fetch.
         :return: Sample.
         """
 
         sample = self.collection.find_one({'_id': ObjectId(_id)})
 
         return sample
+
+    def get_spikes(self, _id):
+        """
+        Returns cursor with a given sample's spikes.
+        :param _id: Sample ID.
+        :return: Cursor.
+        """
+
+        spikes = self.spikes.find({'sample_id': ObjectId(_id)})\
+                            .sort([('_id', pymongo.ASCENDING)])
+        return spikes
 
     def generate_sample(self, duration, num_neurons, num_patterns, description):
         s = sample.Sample(duration,

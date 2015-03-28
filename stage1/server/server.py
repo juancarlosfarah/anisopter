@@ -36,18 +36,17 @@ def show_simulations():
 def new_simulation():
 
     obj = dict()
+    obj['samples'] = samples.get_samples(10)
     return bottle.template('new_simulation', obj)
-
 
 @bottle.post('/simulation/run')
 def run_simulation():
     form = bottle.request.forms
-    duration = int(form.get("duration"))
-    num_neurons = int(form.get("num_neurons"))
-    num_patterns = int(form.get("num_patterns"))
+    sample_id = form.get("sample")
     description = form.get("description")
-    _id = simulations.run_simulation(duration, num_neurons,
-                                     num_patterns, description)
+    sample = samples.get_sample(sample_id)
+    spikes = samples.get_spikes(sample_id)
+    _id = simulations.run_simulation(sample, spikes, description)
     bottle.redirect("/simulation/" + str(_id))
 
 @bottle.get("/simulation/<_id>")

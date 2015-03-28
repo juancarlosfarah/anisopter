@@ -42,6 +42,7 @@ class Simulation:
         self.duration = None
         self.savable = True
         self.sampling_interval = None
+        self.cursor = None
         self.description = description
 
     def load_file(self, filename, folder="samples/", extension=".npz"):
@@ -69,6 +70,20 @@ class Simulation:
         self.num_afferents = self.spike_trains.shape[0]
         self.duration = self.spike_trains.shape[1]
         self.sampling_interval = math.ceil(self.duration / 5)
+
+    def load_sample(self, sample, cursor):
+        """
+        Loads a sample from the database.
+        :param sample: Object with general sample information.
+        :param cursor: Cursor to load.
+        :return: None.
+        """
+        self.start_positions = sample['start_positions']
+        self.pattern_duration = sample['pattern_duration']
+        self.num_afferents = sample['num_afferents']
+        self.duration = sample['duration']
+        self.sampling_interval = math.ceil(self.duration / 5)
+        self.cursor = cursor
 
     def load(self, sample):
         """
@@ -126,6 +141,14 @@ class Simulation:
         # If weights are being saved, simulation is not savable.
         self.savable = not save_weights
 
+        # If simulation has a cursor. Clear spike trains
+        # as they will come from the cursor and set cursor
+        # flag to true.
+        use_cursor = False
+        if self.cursor is not None:
+            self.spike_trains = np.zeros((self.num_afferents, self.duration))
+            use_cursor = True
+
         # Reset neurons.
         for i in range(len(self.neurons)):
 
@@ -138,15 +161,22 @@ class Simulation:
         # Get membrane potential at each given point.
         for ms in range(0, self.duration - 1):
 
+            # If simulation has a cursor. Get spikes from cursor.
+            if use_cursor:
+                spikes = self.cursor.next()['spikes']
+                self.spike_trains[:, ms] = np.reshape(spikes,
+                                                      (1, self.num_afferents))
+            else:
+                spikes = deepcopy(self.spike_trains[:, ms])
+
+            # Shape spikes.
+            spikes = np.reshape(spikes, (self.num_afferents, 1))
+
             for n in self.neurons:
 
                 # Update time delta.
                 if len(n.spike_times) > 0:
                     n.time_delta = ms - n.spike_times[-1]
-
-                # Shape spikes.
-                spikes = deepcopy(self.spike_trains[:, ms])
-                spikes = np.reshape(spikes, (n.num_afferents, 1))
 
                 # Update EPSP inputs.
                 n.update_epsps(spikes)
@@ -190,6 +220,12 @@ class Simulation:
             progress = (ms / float(self.duration - 1)) * 100
             sys.stdout.write("Processing spikes: %d%% \r" % progress)
             sys.stdout.flush()
+
+        # Close cursor and reset to None.
+        if use_cursor:
+            self.cursor.close()
+            self.cursor = None
+
     """
     def plot_weights(self):
         start = self.t_min
