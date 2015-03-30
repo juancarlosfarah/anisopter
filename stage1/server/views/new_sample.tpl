@@ -13,9 +13,9 @@
                    name="duration" placeholder="Duration">
         </div>
         <div class="form-group">
-            <label for="num_neurons">Number of Neurons</label>
+            <label for="num_neurons">Number of Afferents</label>
             <input type="number" class="form-control" id="num_neurons"
-                   name="num_neurons" placeholder="Number of Neurons">
+                   name="num_neurons" placeholder="Number of Afferents">
         </div>
         <div class="form-group">
             <label for="num_patterns">Number of Patterns</label>

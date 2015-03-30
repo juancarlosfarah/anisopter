@@ -19,6 +19,12 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="sample">Number of Post-Synaptic Neurons</label>
+            <input class="form-control" type="number" max="5" min="1"
+                   id="num_neurons" name="num_neurons"
+                   placeholder="Number of Neurons (1 to 5)"/>
+        </div>
+        <div class="form-group">
             <label for="description">Description</label>
             <textarea class="form-control" rows="3" id="description"
                       placeholder="Description" name="description"></textarea>
