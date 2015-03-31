@@ -85,6 +85,14 @@
                         <td>Alpha</td>
                         <td>{{neuron['alpha']}}</td>
                     </tr>
+                    <tr>
+                        <td>A Plus</td>
+                        <td>{{neuron['a_plus']}}</td>
+                    </tr>
+                    <tr>
+                        <td>A Minus</td>
+                        <td>{{neuron['a_minus']}}</td>
+                    </tr>
                 </table>
                 <br />
                 % if i == 0:

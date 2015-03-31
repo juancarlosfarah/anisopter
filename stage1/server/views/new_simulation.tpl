@@ -25,6 +25,21 @@
                    placeholder="Number of Neurons (1 to 5)"/>
         </div>
         <div class="form-group">
+            <label for="a_plus">A Plus</label>
+            <input class="form-control" type="text" id="a_plus"
+                   name="a_plus" placeholder="A Plus"/>
+        </div>
+        <div class="form-group">
+            <label for="a_minus">A Minus</label>
+            <input class="form-control" type="text" id="a_minus"
+                   name="a_minus" placeholder="A Minus"/>
+        </div>
+        <div class="form-group">
+            <label for="theta">Theta</label>
+            <input class="form-control" type="text" id="theta"
+                   name="theta" placeholder="Theta"/>
+        </div>
+        <div class="form-group">
             <label for="description">Description</label>
             <textarea class="form-control" rows="3" id="description"
                       placeholder="Description" name="description"></textarea>

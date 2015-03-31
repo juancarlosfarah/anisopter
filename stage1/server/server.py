@@ -44,10 +44,15 @@ def run_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
     num_neurons = int(form.get("num_neurons"))
+    a_plus = float(form.get("a_plus"))
+    a_minus = float(form.get("a_minus"))
+    theta = float(form.get("theta"))
     description = form.get("description")
+    a_ratio = a_minus / a_plus
     sample = samples.get_sample(sample_id)
     spikes = samples.get_spikes(sample_id)
-    _id = simulations.run_simulation(sample, spikes, num_neurons, description)
+    _id = simulations.run_simulation(sample, spikes, num_neurons,
+                                     description, a_plus, a_ratio, theta)
     bottle.redirect("/simulation/" + str(_id))
 
 @bottle.get("/simulation/<_id>")

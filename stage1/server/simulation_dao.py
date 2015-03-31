@@ -267,14 +267,21 @@ class SimulationDao:
 
         return rvalue
 
-    def run_simulation(self, sample, cursor, num_neurons, description):
+    def run_simulation(self,
+                       sample,
+                       cursor,
+                       num_neurons,
+                       description,
+                       a_plus,
+                       a_ratio,
+                       theta):
         sim = Simulation(description)
         sim.load_sample(sample, cursor)
 
         # Add the post-synaptic neurons and connect them.
         neurons = []
         for i in range(num_neurons):
-            n = sim.add_neuron(0.03125, .915, 125)
+            n = sim.add_neuron(a_plus, a_ratio, theta)
             for neuron in neurons:
                 n.connect(neuron)
             neurons.append(n)
