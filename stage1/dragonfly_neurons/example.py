@@ -35,7 +35,7 @@ if not from_file and not no_input :
     # Create movie (tests target_animation.py)
     # ========================================
     test = Animation()
-    test.add_target(2, start=[0,300], end=[500,300], size=6, v=5)
+    test.add_target(2, start=[0,300], end=[1000,300], size=6, v=5)
     test.add_target(2, start=[0,150], end=[500,150], size=6, v=5)
     test.add_background(bg_image, bg_speed)
     test.run(out_directory)
@@ -52,14 +52,13 @@ if not from_file and not no_input :
     frame_list = []
     frame = True
     #while frame is not False:
-    for i in range(80):
+    for i in range(200):
         frame = test_estmd.get_next_frame()
         frame_list.append(frame)
-
 elif from_file :
     with open(filename, 'rb') as my_file :
         frame_list = pickle.load(my_file)
-        frame_list = frame_list[20:25]    
+        #frame_list = frame_list[20:25]    
 elif no_input :
     frame_list = []
     for i in range(10) :
@@ -67,6 +66,7 @@ elif no_input :
 
 # Load CSTMD neurons
 # ==============================
+
 neurons_no = 5
 SYNAPSES_NO = 500
 D = 30
@@ -87,7 +87,7 @@ dr.sp_trains_save()
 
 SAVE_FRAMES = False
 if SAVE_FRAMES :
-    with open("frame_targets.pkl", 'wb') as my_file :
+    with open("frame_.pkl", 'wb') as my_file :
         pickle.dump(frame_list, my_file)
 
 
