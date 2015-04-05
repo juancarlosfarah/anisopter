@@ -30,7 +30,7 @@ class CSTMD(object) :
     # Synapses
     weights = 0.01
     thresholds = 0.0
-    delays = 1.0
+    delays = 1000.0
     max_synapses = 10000 # maximum limit of synapses in case where we are very close
 
     # Stimulation
@@ -71,10 +71,10 @@ class CSTMD(object) :
     curr_time=0
 
     # Index of electrode for input
-    input_indx = 0
+    input_indx = 2#0
 
     # Index of electrode for output
-    output_indx = 323
+    output_indx = 1#323
 
     #--------------OUTPUT FOR PATTERN RECOGNITION---------
     # Start index of compartments for pattern recognition output
@@ -90,9 +90,9 @@ class CSTMD(object) :
     PLOT_ACTIVITY = True
 
 
-    PIXEL_NO = 4096#1024
-    MAX_CURRENT = 30 #10.0
-    MIN_CURRENT = 2.0 #5
+    PIXEL_NO = 1024#4096
+    MAX_CURRENT = 10.0#30 #10.0
+    MIN_CURRENT = 2.0#2.0 #5
 
     #Save spike rate to txt file
     saveSpikeRate=True    
@@ -302,7 +302,7 @@ class CSTMD(object) :
                     y = p / np.sqrt(self.PIXEL_NO)
                     Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
 
-                    weight_factor = 200
+                    weight_factor = 10.0
 
                     weight = weight_factor*self.calc_rand_weight(Dist, self.MIN, self.MAX)
                     #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
@@ -496,7 +496,7 @@ class CSTMD(object) :
                 for i in range(len(rates)) :
                     rates[i]=rates[i]/norm
             """
-            rate_factor = 100
+            rate_factor = 1000.0
             for i in range(len(rates)) :
 
                 self.stimNet[i].ib = self.MIN_CURRENT+rate_factor*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 

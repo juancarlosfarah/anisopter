@@ -20,4 +20,3 @@ bg_speed = 4
 test = Animation()
 test.add_target(2, start=[250,0], end=[250,500], size=5, v=4)
 test.run(out_directory, 10, 20)
-
