@@ -2,10 +2,11 @@ __author__ = 'juancarlosfarah'
 
 import unittest
 import math
-import os
-import sample as sg
-import numpy as np
 from copy import deepcopy
+
+import os
+from stage1.pattern_recognition.pattern_recognition import sample as sg
+import numpy as np
 
 
 class SampleGeneratorTests(unittest.TestCase):

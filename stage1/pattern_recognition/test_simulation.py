@@ -2,7 +2,8 @@ __author__ = 'juancarlosfarah'
 
 import unittest
 import math
-import simulation
+
+from stage1.pattern_recognition.pattern_recognition import simulation, sample
 import sample
 import numpy as np
 

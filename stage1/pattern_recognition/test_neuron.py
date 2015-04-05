@@ -3,10 +3,8 @@ __author__ = 'juancarlosfarah'
 import math
 import unittest
 
-import neuron
+from stage1.pattern_recognition.pattern_recognition import neuron
 import numpy as np
-import matplotlib.pyplot as plt
-import pylab
 
 
 class NeuronTests(unittest.TestCase):

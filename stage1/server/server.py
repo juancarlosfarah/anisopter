@@ -5,10 +5,11 @@ import sys
 from optparse import OptionParser
 
 import os
-
+from daemon import runner
 import bottle
 import pymongo
 import signal
+import logging
 import simulation_dao
 import sample_dao
 import bottledaemon as bottled
@@ -128,7 +129,6 @@ def jquery(filename):
 
 
 def start():
-
     # # Parse command line options.
     # parser = OptionParser()
     # parser.add_option("--host", dest="host", default='localhost',
@@ -145,10 +145,29 @@ def start():
     #     bottle.debug(True)
     #     bottle.run(host=options.host, port=options.port, reloader=True)
     # else:
+    #     print "Running as daemon"
+    #     host = "localhost" #"146.169.47.153"
+    #     port = 8082 #55080
     #     bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(
     #         os.path.dirname(__file__), "views")))
-    #     bottled.daemon_run(host="146.169.47.153", port=55080)
+    #     bottled.daemon_run(host=host, port=port,
+    #                        logfile="tmp/server.log", pidfile="tmp/server.pid")
     bottle.run(host="localhost", port=8082, reloader=True)
+
+
+class Server():
+
+    def __init__(self):
+        self.stdin_path = '/dev/null'
+        self.stdout_path = './tmp/server.log'
+        self.stderr_path = './tmp/server.log'
+        self.pidfile_path = '/tmp/server.pid'
+        self.pidfile_timeout = 5
+
+    def run(self):
+        bottle.run(host="localhost", port=8082, reloader=True)
+        # while True:
+            # logger.debug("DEBUG")
 
 
 def connect_db(db_name="anisopter"):
@@ -163,4 +182,14 @@ def connect_db(db_name="anisopter"):
 
 if __name__ == "__main__":
     connect_db("anisopter")
+    # s = Server()
+    # logger = logging.getLogger("DaemonLog")
+    # logger.setLevel(logging.INFO)
+    # formatter = logging.Formatter("%(asctime)s - %(name)s - "
+    #                               "%(levelname)s - %(message)s")
+    # handler = logging.FileHandler("./tmp/server.log")
+    # handler.setFormatter(formatter)
+    # logger.addHandler(handler)
+    # daemon_runner = runner.DaemonRunner(s)
+    # daemon_runner.do_action()
     start()

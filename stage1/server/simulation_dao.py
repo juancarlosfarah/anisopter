@@ -10,11 +10,7 @@ import sys
 import math
 from matplotlib.patches import Rectangle
 
-root = os.path.abspath(os.path.join("..", "..", "stage1"))
-sys.path.append(root)
-
 from pattern_recognition.simulation import Simulation
-from pattern_recognition.sample import Sample
 
 
 class SimulationDao:
