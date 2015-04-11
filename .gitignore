@@ -31,3 +31,5 @@ src/dragonfly_neurons/temp/*
 # Build Folders
 # =============
 src/pattern_recognition/build
+src/pattern_recognition/dist
+src/pattern_recognition/pattern_recognition.egg-info
