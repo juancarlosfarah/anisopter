@@ -26,4 +26,8 @@ venv
 
 # PNG files from ESTMD
 # ====================
-stage1/dragonfly_neurons/temp/*
+src/dragonfly_neurons/temp/*
+
+# Build Folders
+# =============
+src/pattern_recognition/build
