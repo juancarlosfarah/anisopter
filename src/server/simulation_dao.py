@@ -8,6 +8,7 @@ import pylab
 import os
 import sys
 import math
+import matplotlib
 from matplotlib.patches import Rectangle
 
 from pattern_recognition.simulation import Simulation
@@ -291,3 +292,5 @@ if __name__ == "__main__" and __package__ is None:
     print "Running!"
     # s = SimulationDao()
     # s.run_simulation()
+else:
+    matplotlib.use('Agg')
