@@ -7,6 +7,7 @@ from optparse import OptionParser
 import os
 from daemon import runner
 import bottle
+from bottle import route, post, get, template
 import pymongo
 import signal
 import logging
@@ -18,14 +19,16 @@ import bottledaemon as bottled
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
 sys.path.append(pr)
 
-@bottle.route('/')
+
+@route('/')
 def show_index():
 
     obj = dict()
 
     return bottle.template('index', obj)
 
-@bottle.route('/simulations')
+
+@route('/simulations')
 def show_simulations():
 
     obj = dict()
@@ -33,14 +36,16 @@ def show_simulations():
 
     return bottle.template('simulations', obj)
 
-@bottle.route('/simulation/new')
+
+@route('/simulation/new')
 def new_simulation():
 
     obj = dict()
     obj['samples'] = samples.get_samples(10)
     return bottle.template('new_simulation', obj)
 
-@bottle.post('/simulation/run')
+
+@post('/simulation/run')
 def run_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
@@ -56,7 +61,8 @@ def run_simulation():
                                      description, a_plus, a_ratio, theta)
     bottle.redirect("/simulation/" + str(_id))
 
-@bottle.get("/simulation/<_id>")
+
+@get("/simulation/<_id>")
 def show_simulation(_id):
 
     sim = simulations.get_simulation(_id)
@@ -68,7 +74,8 @@ def show_simulation(_id):
     obj['simulation'] = sim
     return bottle.template("simulation", obj)
 
-@bottle.route('/samples')
+
+@route('/samples')
 def show_samples():
 
     obj = dict()
@@ -76,7 +83,8 @@ def show_samples():
 
     return bottle.template('samples', obj)
 
-@bottle.get("/sample/<_id>")
+
+@get("/sample/<_id>")
 def show_sample(_id):
 
     sample = samples.get_sample(_id)
@@ -88,13 +96,15 @@ def show_sample(_id):
     obj['sample'] = sample
     return bottle.template("sample", obj)
 
-@bottle.route('/samples/new')
+
+@route('/samples/new')
 def new_sample():
 
     obj = dict()
     return bottle.template('new_sample', obj)
 
-@bottle.post('/sample/generate')
+
+@post('/sample/generate')
 def generate_sample():
     form = bottle.request.forms
     duration = int(form.get("duration"))
@@ -105,8 +115,9 @@ def generate_sample():
                                   num_patterns, description)
     bottle.redirect("/sample/" + str(_id))
 
+
 # Static Routes
-@bottle.get('/static/bootstrap/css/<filename>')
+@get('/static/bootstrap/css/<filename>')
 def bootstrap_css(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "static",
@@ -114,7 +125,8 @@ def bootstrap_css(filename):
                                         "css"))
     return bottle.static_file(filename, root=root)
 
-@bottle.get('/static/bootstrap/js/<filename>')
+
+@get('/static/bootstrap/js/<filename>')
 def bootstrap_js(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "static",
@@ -122,7 +134,8 @@ def bootstrap_js(filename):
                                         "js"))
     return bottle.static_file(filename, root=root)
 
-@bottle.get('/static/<filename>')
+
+@get('/static/<filename>')
 def jquery(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
     return bottle.static_file(filename, root=root)
@@ -152,7 +165,9 @@ def start():
     #         os.path.dirname(__file__), "views")))
     #     bottled.daemon_run(host=host, port=port,
     #                        logfile="tmp/server.log", pidfile="tmp/server.pid")
-    bottle.run(host="localhost", port=8082, reloader=True)
+    bottle.run(host="localhost",
+               port=8082,
+               reloader=True)
 
 
 class Server():
@@ -165,9 +180,9 @@ class Server():
         self.pidfile_timeout = 5
 
     def run(self):
-        bottle.run(host="localhost", port=8082, reloader=True)
-        # while True:
-            # logger.debug("DEBUG")
+        bottle.run(host="localhost",
+                   port=8082,
+                   reloader=True)
 
 
 def connect_db(db_name="anisopter"):
@@ -193,3 +208,6 @@ if __name__ == "__main__":
     # daemon_runner = runner.DaemonRunner(s)
     # daemon_runner.do_action()
     start()
+else:
+    # Run bottle in application mode.
+    app = application = bottle.default_app()
