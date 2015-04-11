@@ -1,10 +1,12 @@
 upstream _anisopter {
-    server unix:/run/uwsgi/app/anisopter/socket;
+    server unix:/run/uwsgi/ app/anisopter/socket;
 }
 
 server {
+    listen [::]:55080;
     listen 55080;
-    server_name ServerAddressOrDomainHere;
+    server_name cvm-g1453017.doc.ic.ac.uk;
+    root /var/www/anisopter/src/server;
 
     location / {
         try_files $uri @uwsgi;
