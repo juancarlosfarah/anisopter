@@ -2,14 +2,14 @@ __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
+import matplotlib
+matplotlib.use('Agg')   # Do not load the GTK. (Doesn't support show()).
 import numpy as np
 import mpld3
 import pylab
 import os
 import sys
 import math
-import matplotlib
-matplotlib.use('Agg')
 from matplotlib.patches import Rectangle
 
 from pattern_recognition.simulation import Simulation
