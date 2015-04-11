@@ -210,4 +210,5 @@ if __name__ == "__main__":
     start()
 else:
     # Run bottle in application mode.
+    connect_db("anisopter")
     app = application = bottle.default_app()
