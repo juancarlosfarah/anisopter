@@ -1,0 +1,17 @@
+upstream _anisopter {
+    server unix:/run/uwsgi/app/anisopter/socket;
+}
+
+server {
+    listen 55080;
+    server_name ServerAddressOrDomainHere;
+
+    location / {
+        try_files $uri @uwsgi;
+    }
+
+    location @uwsgi {
+        include uwsgi_params;
+        uwsgi_pass _anisopter;
+    }
+}
