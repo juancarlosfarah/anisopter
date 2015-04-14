@@ -110,7 +110,8 @@ class CstmdDao:
         sim = CSTMD(neurons_no=num_neurons,
                     SYNAPSES_NO=500,
                     D=30,      
-                    electrds= num_electrodes                 
+                    electrds= num_electrodes,
+                    runtime=duration                 
                     )
 
         for frame in frames:
