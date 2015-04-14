@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="Simulations")
+% include('head.tpl', title="Pattern Recognition Simulations")
 <body>
 % include('header.tpl')
 <div class="container">
@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <button type="button"
-                    onclick="window.location.href='/simulation/new'"
+                    onclick="window.location.href='/pattern_recognition/simulation/new'"
                     class="btn btn-primary">New Simulation</button>
         </div>
     </div>

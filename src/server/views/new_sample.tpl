@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New Sample")
+% include('head.tpl', title="New Pattern Recognition Sample")
 <body>
 % include('header.tpl')
 <div class="container">
     <h2>New Sample</h2>
 
-    <form action="/sample/generate" method="post">
+    <form action="/pattern_recognition/sample/generate" method="post">
         <div class="form-group">
             <label for="duration">Duration</label>
             <input type="number" class="form-control" id="duration"

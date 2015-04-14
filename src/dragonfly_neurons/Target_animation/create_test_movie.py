@@ -6,10 +6,10 @@ from target_animation import Animation
 import cv2
 
 
-NUMBER_OF_REPS = 40
-pat_dir = "Pattern.avi"
-ran_dir = "Random.avi"
-out_dir = "Result.avi"
+NUMBER_OF_REPS = 1
+pat_dir = "pattern.avi"
+ran_dir = "random.avi"
+out_dir = "result.avi"
 
 """
 Create animation, which is joint of several animations.

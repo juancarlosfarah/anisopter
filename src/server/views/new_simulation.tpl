@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New Simulation")
+% include('head.tpl', title="New Pattern Recognition Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
     <h2>New Simulation</h2>
 
-    <form action="/simulation/run" method="post">
+    <form action="/pattern_recognition/simulation/run" method="post">
         <div class="form-group">
             <label for="sample">Sample</label>
             <select class="form-control" name="sample" id="sample">
