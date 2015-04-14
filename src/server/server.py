@@ -5,7 +5,6 @@ import sys
 from optparse import OptionParser
 
 import os
-from daemon import runner
 import bottle
 from bottle import route, post, get, template
 import pymongo
@@ -13,7 +12,6 @@ import signal
 import logging
 import simulation_dao
 import sample_dao
-import bottledaemon as bottled
 
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
@@ -142,47 +140,9 @@ def jquery(filename):
 
 
 def start():
-    # # Parse command line options.
-    # parser = OptionParser()
-    # parser.add_option("--host", dest="host", default='localhost',
-    #                   help="specify HOST", metavar="HOST")
-    # parser.add_option("-p", "--port", dest="port", default=8082,
-    #                   help="specify PORT", metavar="PORT")
-    # parser.add_option("-d", "--debug", action="store_true", dest="debug",
-    #                   help="run locally", default=False)
-    #
-    # (options, args) = parser.parse_args()
-    #
-    # # Start the webserver running and wait for requests.
-    # if options.debug:
-    #     bottle.debug(True)
-    #     bottle.run(host=options.host, port=options.port, reloader=True)
-    # else:
-    #     print "Running as daemon"
-    #     host = "localhost" #"146.169.47.153"
-    #     port = 8082 #55080
-    #     bottle.TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(
-    #         os.path.dirname(__file__), "views")))
-    #     bottled.daemon_run(host=host, port=port,
-    #                        logfile="tmp/server.log", pidfile="tmp/server.pid")
     bottle.run(host="localhost",
                port=8082,
                reloader=True)
-
-
-class Server():
-
-    def __init__(self):
-        self.stdin_path = '/dev/null'
-        self.stdout_path = './tmp/server.log'
-        self.stderr_path = './tmp/server.log'
-        self.pidfile_path = '/tmp/server.pid'
-        self.pidfile_timeout = 5
-
-    def run(self):
-        bottle.run(host="localhost",
-                   port=8082,
-                   reloader=True)
 
 
 def connect_db(db_name="anisopter"):
@@ -197,16 +157,6 @@ def connect_db(db_name="anisopter"):
 
 if __name__ == "__main__":
     connect_db("anisopter")
-    # s = Server()
-    # logger = logging.getLogger("DaemonLog")
-    # logger.setLevel(logging.INFO)
-    # formatter = logging.Formatter("%(asctime)s - %(name)s - "
-    #                               "%(levelname)s - %(message)s")
-    # handler = logging.FileHandler("./tmp/server.log")
-    # handler.setFormatter(formatter)
-    # logger.addHandler(handler)
-    # daemon_runner = runner.DaemonRunner(s)
-    # daemon_runner.do_action()
     start()
 else:
     # Run bottle in application mode.
