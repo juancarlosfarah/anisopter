@@ -13,6 +13,8 @@ import logging
 import simulation_dao
 import sample_dao
 import animation_dao
+import estmd_dao
+import cstmd_dao
 
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
@@ -61,11 +63,51 @@ def show_animation(_id):
     return bottle.template("animation", obj)
 
 
+@route('/cstmd')
+def show_cstmd():
+
+    obj = dict()
+    return bottle.template('cstmd', obj)
+
+
+@route('/cstmd/simulation/new')
+def new_cstmd_simulation():
+
+    obj = dict()
+    obj['samples'] = estmd.get_simulations(50)
+    return bottle.template('new_cstmd_simulation', obj)
+
+@post('/cstmd/simulation/run')
+def run_cstmd_simulation():
+    form = bottle.request.forms
+    sample_id = form.get("sample")
+    num_neurons = int(form.get("num_neurons"))
+    num_electrodes = int(form.get("num_electrodes"))
+    duration = form.get("duration")
+    description = form.get("description")
+    sample = estmd.get_sample(sample_id)
+    frames = estmd.get_frames(sample_id)
+    _id = cstmd.run_simulation(sample,
+                               frames,
+                               num_neurons,
+                               num_electrodes,
+                               description,
+                               duration)
+    bottle.redirect("/cstmd/simulation/" + str(_id))
+
+
+@route('/cstmd/simulations')
+def show_cstmd_simulations():
+
+    obj = dict()
+    obj['simulations'] = cstmd.get_simulations(50)
+    return bottle.template('cstmd_simulations', obj)
+
+
 @route('/pattern_recognition')
 def show_pattern_recognition():
 
     obj = dict()
-
     return bottle.template('pattern_recognition', obj)
 
 
@@ -189,13 +231,15 @@ def start():
 
 
 def connect_db(db_name="anisopter"):
-    global db, simulations, samples, animations
+    global db, simulations, samples, animations, cstmd, estmd
     connection_string = "mongodb://localhost"
     connection = pymongo.MongoClient(connection_string)
     db = connection[db_name]
 
     # Data Access Objects.
     animations = animation_dao.AnimationDao(db)
+    estmd = estmd_dao.EstmdDao(db)
+    cstmd = cstmd_dao.CstmdDao(db)
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
 
