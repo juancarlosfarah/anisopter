@@ -26,7 +26,7 @@
         <div class="form-group">
             <label for="num_electrodes">Number of Electrodes</label>
             <input class="form-control" type="number" id="num_electrodes"
-                   name="a_plus" min="1" max="500"
+                   name="num_electrodes" min="1" max="500"
                    placeholder="Number of Electrodes (1 to 500)"/>
         </div>
         <div class="form-group">
