@@ -68,7 +68,7 @@ class SimulationDao:
             "duration": sim.duration,
             "description": sim.description
         }
-        _id = self.collection.insert(sim)
+        _id = self.collection.insert_one(sim)
         return _id
 
     def get_simulations(self, num_simulations):

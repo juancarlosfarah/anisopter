@@ -12,6 +12,7 @@ import signal
 import logging
 import simulation_dao
 import sample_dao
+import animation_dao
 
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
@@ -27,11 +28,37 @@ def show_index():
 
 
 @route('/target_animation')
-def show_pattern_recognition():
+def show_target_animation():
 
     obj = dict()
-
     return bottle.template('target_animation', obj)
+
+
+@route('/target_animation/animation/new')
+def new_animation():
+
+    obj = dict()
+    return bottle.template('new_animation', obj)
+
+
+@route('/target_animation/animations')
+def show_animations():
+
+    obj = dict()
+    obj['animations'] = animations.get_animations(50)
+    return bottle.template('animations', obj)
+
+
+@get("/target_animation/animation/<_id>")
+def show_animation(_id):
+
+    anim = animations.get_animation(_id)
+    if anim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['animation'] = anim
+    return bottle.template("animation", obj)
 
 
 @route('/pattern_recognition')
@@ -73,7 +100,7 @@ def run_simulation():
     spikes = samples.get_spikes(sample_id)
     _id = simulations.run_simulation(sample, spikes, num_neurons,
                                      description, a_plus, a_ratio, theta)
-    bottle.redirect("/simulation/" + str(_id))
+    bottle.redirect("/pattern_recognition/simulation/" + str(_id))
 
 
 @get("/pattern_recognition/simulation/<_id>")
@@ -127,7 +154,7 @@ def generate_sample():
     description = form.get("description")
     _id = samples.generate_sample(duration, num_neurons,
                                   num_patterns, description)
-    bottle.redirect("/sample/" + str(_id))
+    bottle.redirect("/pattern_recognition/sample/" + str(_id))
 
 
 # Static Routes
@@ -162,12 +189,13 @@ def start():
 
 
 def connect_db(db_name="anisopter"):
-    global db, simulations, samples
+    global db, simulations, samples, animations
     connection_string = "mongodb://localhost"
     connection = pymongo.MongoClient(connection_string)
     db = connection[db_name]
 
     # Data Access Objects.
+    animations = animation_dao.AnimationDao(db)
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
 
