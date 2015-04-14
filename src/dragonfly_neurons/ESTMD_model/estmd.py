@@ -147,7 +147,6 @@ class ESTMD(object):
             return False
             
         downsize = green
-        #cv2.imshow("Input", downsize)
         
         downsize = 1.0 * downsize / 256.0
         self.frame_history.append(downsize)
@@ -231,9 +230,16 @@ class ESTMD(object):
         downsize[downsize < 0.6] = 0
 
         # Resize image.
+<<<<<<< Updated upstream:src/dragonfly_neurons/ESTMD_model/estmd.py
         #downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         #downsize = cv2.resize(downsize, (500,500))
         cv2.imshow('Output', downsize)
+=======
+        downsize = cv2.resize(downsize, (self.image_width, self.image_height))
+        downsize = cv2.resize(downsize, (500,500))
+        #cv2.imshow('Output', downsize)
+        #cv2.waitKey()
+>>>>>>> Stashed changes:stage1/dragonfly_neurons/ESTMD_model/estmd.py
         
         self.t += self.dt
 
