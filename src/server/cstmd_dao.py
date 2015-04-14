@@ -6,7 +6,7 @@ import os
 import sys
 import numpy as np
 import pymongo
-from CSTMD import CSTMD
+import CSTMD
 
 class CstmdDao:
 
@@ -107,12 +107,12 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        cstmd = CSTMD(neurons_no=num_neurons,
-                      SYNAPSES_NO=500,
-                      D=30,
-                      electrds=num_electrodes,
-                      runtime=duration,
-                      description=description)
+        cstmd = CSTMD.CSTMD(neurons_no=num_neurons,
+                            SYNAPSES_NO=500,
+                            D=30,
+                            electrds=num_electrodes,
+                            runtime=duration,
+                            description=description)
 
         spike_trains = []
         for frame in frames:
