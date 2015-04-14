@@ -71,6 +71,7 @@ neurons_no = 5
 SYNAPSES_NO = 500
 D = 30
 electrds=50
+
 #Already have default values
 K=0.06
 Na=0.48

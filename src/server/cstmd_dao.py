@@ -106,10 +106,16 @@ class CstmdDao:
         :param description: Optional description field.
         :return: _id of simulation generated.
         """
-        sim = CSTMD()
+
+        sim = CSTMD(neurons_no=num_neurons,
+                    SYNAPSES_NO=500,
+                    D=30,      
+                    electrds= num_electrodes                 
+                    )
+
         for frame in frames:
             frame = np.array(frame)
-            sim.run()
+            times, ids,sp_trains =sim.run(rates=frame)
 
 
         _id = None
