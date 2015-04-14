@@ -8,7 +8,7 @@ for (var i = 0; i < 20; i++) {
         frame[j] = 0;
     }
     db.frames.insert({
-        "sample_id": ObjectId("552d618629750413075fde0d"),
+        "simulation_id": ObjectId("552d618629750413075fde0d"),
         "frame": frame
     });
 }

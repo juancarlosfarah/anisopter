@@ -59,6 +59,17 @@ class EstmdDao:
 
         return simulations
 
+    def get_frames(self, _id):
+        """
+        Fetches the frames of a given simulation.
+        :param _id: Simulation ID.
+        :return: Cursor containing frames.
+        """
+        cursor = self.frames.find({'simulation_id': ObjectId(_id)})\
+                            .sort([('_id', pymongo.ASCENDING)])
+
+        return cursor
+
     def get_simulation(self, _id):
         """
         Fetches an simulation by _id.
