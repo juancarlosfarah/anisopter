@@ -83,7 +83,7 @@ def run_cstmd_simulation():
     sample_id = form.get("sample")
     num_neurons = int(form.get("num_neurons"))
     num_electrodes = int(form.get("num_electrodes"))
-    duration = form.get("duration")
+    duration = int(form.get("duration"))
     description = form.get("description")
     sample = estmd.get_simulation(sample_id)
     frames = estmd.get_frames(sample_id)
