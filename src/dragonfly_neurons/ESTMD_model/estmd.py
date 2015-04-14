@@ -239,6 +239,9 @@ class ESTMD(object):
         downsize = cv2.resize(downsize, (500,500))
         #cv2.imshow('Output', downsize)
         #cv2.waitKey()
+<<<<<<< Updated upstream:src/dragonfly_neurons/ESTMD_model/estmd.py
+>>>>>>> Stashed changes:stage1/dragonfly_neurons/ESTMD_model/estmd.py
+=======
 >>>>>>> Stashed changes:stage1/dragonfly_neurons/ESTMD_model/estmd.py
         
         self.t += self.dt
