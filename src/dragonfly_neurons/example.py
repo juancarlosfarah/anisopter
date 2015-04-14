@@ -5,7 +5,7 @@
 # Description: Example of how to use target_animation.py and estmd.py together.
 ################################################################################
 
-from NEURON_code_for_CSTMD1.first_attempt.CSTMD import CSTMD
+from CSTMD.CSTMD.CSTMD import CSTMD
 from sys import argv 
 import pickle
 import numpy as np
@@ -71,18 +71,30 @@ neurons_no = 5
 SYNAPSES_NO = 500
 D = 30
 electrds=50
-dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds)
+#Already have default values
+K=0.06
+Na=0.48
+PIXEL_NO = 4096
+MAX_CURRENT = 30
+MIN_CURRENT = 2.0
+MIN = 0.000005
+MAX = 0.00005
+PLOT_ACTIVITY = True
+runtime=10
+
+dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,
+K=K,Na=Na,PIXEL_NO=PIXEL_NO,MAX_CURRENT=MAX_CURRENT,MIN_CURRENT=MIN_CURRENT,MIN=MIN,MAX=MAX,PLOT_ACTIVITY =PLOT_ACTIVITY,runtime=runtime)
 
 
 all_times = []
 all_ids = []
 for frame in frame_list :
     frame = frame.ravel()
-    times, ids = dr.run(time = 10, rates = frame)
+    times, ids = dr.run(rates = frame)
     all_times.append(times)
     all_ids.append(ids)
-#dr.plot()
-dr.sp_trains_save()
+dr.plot()
+#dr.sp_trains_save()
 
 
 SAVE_FRAMES = False
