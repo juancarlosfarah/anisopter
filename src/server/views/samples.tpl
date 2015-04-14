@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="Samples")
+% include('head.tpl', title="Pattern Recognition Samples")
 <body>
 % include('header.tpl')
 <div class="container">
@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <button type="button"
-                    onclick="window.location.href='/samples/new'"
+                    onclick="window.location.href='/pattern_recognition/samples/new'"
                     class="btn btn-primary">New Sample</button>
         </div>
     </div>
@@ -25,10 +25,10 @@
         </tr>
         %for s in samples:
         <tr>
-            <td><a href="/sample/{{s['_id']}}">{{s['date']}}</a></td>
-            <td><a href="/sample/{{s['_id']}}">{{s['description']}}</a></td>
-            <td><a href="/sample/{{s['_id']}}">{{s['num_afferents']}}</a></td>
-            <td><a href="/sample/{{s['_id']}}">{{s['duration']}}</a></td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['date']}}</a></td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['description']}}</a></td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['num_afferents']}}</a></td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['duration']}}</a></td>
         </tr>
         %end
     </table>

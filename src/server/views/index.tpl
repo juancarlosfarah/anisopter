@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="Simulations")
+% include('head.tpl', title="Home")
 <body>
 % include('header.tpl')
 <div class="container">

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="Sample")
+% include('head.tpl', title="Pattern Recognition Sample")
 <body>
 % include('header.tpl')
 <div class="container">
