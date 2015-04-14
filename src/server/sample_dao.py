@@ -60,7 +60,7 @@ class SampleDao:
                 "sample_id": _id,
                 "spikes": sample.spike_trains[:, dt].tolist()
             }
-            collection.insert(obj)
+            collection.insert_one(obj)
 
         return _id
 
