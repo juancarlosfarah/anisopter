@@ -6,7 +6,7 @@ import os
 import sys
 import numpy as np
 import pymongo
-import CSTMD
+from CSTMD.CSTMD.CSTMD import CSTMD
 
 class CstmdDao:
 
@@ -107,7 +107,7 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        cstmd = CSTMD.CSTMD.CSTMD(neurons_no=num_neurons,
+        cstmd = CSTMD(neurons_no=num_neurons,
                       SYNAPSES_NO=500,
                       D=30,
                       electrds=num_electrodes,
