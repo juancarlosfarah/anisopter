@@ -71,7 +71,8 @@ class CSTMD(object) :
                 MIN = 0.000005,
                 MAX = 0.00005,
                 PLOT_ACTIVITY = True,
-                runtime=10) :
+                runtime=10,
+                description="") :
         
         self.global_time = time.time()
         self.PRINTS = PRINT
@@ -112,6 +113,9 @@ class CSTMD(object) :
 
         #running time of the simulation
         self.time=runtime
+
+        # For website purposes
+        self.description=description
         #---------------------------------------------------------------------
 
         # THINGS THAT RUN ONLY ONCE 
