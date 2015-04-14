@@ -26,6 +26,14 @@ def show_index():
     return bottle.template('index', obj)
 
 
+@route('/target_animation')
+def show_pattern_recognition():
+
+    obj = dict()
+
+    return bottle.template('target_animation', obj)
+
+
 @route('/pattern_recognition')
 def show_pattern_recognition():
 
