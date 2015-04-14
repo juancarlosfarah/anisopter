@@ -427,8 +427,31 @@ class CSTMD(object) :
         T = list(self.t_vec)
         ID = self.id_vec
 
-        return T, ID
+        return T, ID,self.sp_trains()
 
+    def sp_trains(self):
+
+    
+
+        # Container for spike trains.
+        spike_trains = np.zeros((self.neurons_no*self.electrds, self.curr_time))
+
+        # Add spike occurences to spike train
+
+        #For each neuron
+        for n in range(self.neurons_no) :
+
+            #and each electrode
+            for i in range(self.electrds):
+                elec_index=(n+1)*(i+1)-1               
+                elec_len=len(self.t_out_vec[elec_index])
+
+                for y in range(elec_len):
+                    timestamp=round(self.t_out_vec[elec_index][y],0)
+                    spike_trains[elec_index][timestamp-1]=1
+
+
+        return spike_trains
 
     
     def sp_trains_save(self):

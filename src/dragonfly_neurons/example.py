@@ -90,11 +90,12 @@ all_times = []
 all_ids = []
 for frame in frame_list :
     frame = frame.ravel()
-    times, ids = dr.run(rates = frame)
+    times, ids,sp_trains = dr.run(rates = frame)
     all_times.append(times)
     all_ids.append(ids)
-dr.plot()
+#dr.plot()
 #dr.sp_trains_save()
+
 
 
 SAVE_FRAMES = False
