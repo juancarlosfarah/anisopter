@@ -107,19 +107,20 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        sim = CSTMD(neurons_no=num_neurons,
-                    SYNAPSES_NO=500,
-                    D=30,      
-                    electrds= num_electrodes,
-                    runtime=duration                 
-                    )
+        cstmd = CSTMD(neurons_no=num_neurons,
+                      SYNAPSES_NO=500,
+                      D=30,
+                      electrds=num_electrodes,
+                      runtime=duration,
+                      description=description)
 
+        spike_trains = []
         for frame in frames:
             frame = np.array(frame)
-            times, ids,sp_trains =sim.run(rates=frame)
+            times, ids, spike_train = cstmd.run(rates=frame)
+            spike_trains.append(spike_train)
 
-
-        _id = None
+        _id = self.save(cstmd)
         return _id
 
 if __name__ == "__main__":
