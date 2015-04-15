@@ -106,10 +106,10 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        cstmd = Cstmd(num_neurons=num_neurons,
-                      num_synapses=500,
-                      synaptic_distance=30,
-                      num_electrodes=num_electrodes,
+        cstmd = Cstmd(num_neurons,
+                      500,
+                      30,
+                      num_electrodes,
                       duration=duration,
                       description=description)
 
