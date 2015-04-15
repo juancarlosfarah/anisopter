@@ -14,42 +14,29 @@ import sys
 
 class Cstmd(object):
     PLOTS = True
-    # -- PARAMETERS ------------------------------------------------------------
     electrodes = 4      # How many points of the neuron should been recorded 
                         # (when PLOT_ACTIVITY==True) -The electrodes are equally 
                         # distributed accross the compartments of a neuron
 
     t_stop = 500
-
-    dt = 0.25       # default 0.025
-    h.celsius = 20  # Temperature of the cells
+    dt = 0.25                           # default 0.025
+    h.celsius = 20                      # Temperature of the cells
 
     # SEEDS
-    stim_seed = int(time.time())#400 
-    synapses_seed = int(time.time())#20
+    stim_seed = int(time.time())        # 400
+    synapses_seed = int(time.time())    # 20
 
     # Synapses
     weights = 0.01
     thresholds = 0.0
     delays = 1.0
-    max_synapses = 10000 # maximum limit of synapses in case where we are very close
+    max_synapses = 10000                # maximum limit of synapses
+    curr_time = 0                       # ms
+    input_indx = 0                      # Index of electrode for input
+    output_indx = 323                   # Index of electrode for output
 
-
-    # --------------------------------------------------------------------------
-    
-    # -- NEW VARIABLES ---------------------------------------------------------
-    # in miliseconds    
-    curr_time=0
-
-    # Index of electrode for input
-    input_indx = 0
-
-    # Index of electrode for output
-    output_indx = 323
-
-    #--------------OUTPUT FOR PATTERN RECOGNITION---------
     # Start index of compartments for pattern recognition output
-    start_patt_rec_indx=10
+    start_patt_rec_indx = 10
 
     # Compartment number step for pattern recognition output
     step_patt_rec_indx=10
@@ -81,22 +68,21 @@ class Cstmd(object):
         self.Na = Na
         
         # Nice combination of values for debugging because the neuron doesn't fire
-        #Na = 0.2
-        #K = 0.06
+        # Na = 0.2
+        # K = 0.06
 
-        #K = 0.02
-        #Na = 0.48
+        # K = 0.02
+        # Na = 0.48
 
         # SOS: We should leave Sodium constant and vary the Potassium
-        # The thick dendrites should be arround 5 microMeters
+        # The thick dendrites should be around 5 microMeters
         # the thin ones around 1.5...
 
         # Plot an array of electrodes for neurons 0 and 1
         self.PLOT_ACTIVITY = PLOT_ACTIVITY
-
         self.PIXEL_NO = PIXEL_NO
-        self.MAX_CURRENT = MAX_CURRENT #10.0
-        self.MIN_CURRENT = MIN_CURRENT #5
+        self.MAX_CURRENT = MAX_CURRENT  # 10.0
+        self.MIN_CURRENT = MIN_CURRENT  # 5
 
         # Save spike rate to txt file
         self.saveSpikeRate=False    
@@ -105,8 +91,8 @@ class Cstmd(object):
         self.MIN = MIN
         self.MAX = MAX
 
-        #running time of the simulation
-        self.time=runtime
+        # running time of the simulation
+        self.time = runtime
 
         # For website purposes
         self.description=description
@@ -115,8 +101,7 @@ class Cstmd(object):
     
         # Calculate the number of compartments of each neuron
         self.calc_compartments()
-        
-        
+
         # Take the coordinates of the middle of all the compartments:
         self.find_middle_coordinates()
 
@@ -127,7 +112,7 @@ class Cstmd(object):
         return MIN + np.random.rand()*(MAX-MIN)*np.exp(-((x-m)**2.0)/(2.0*sigma**2.0))
 
     # Calculate the number of compartments of each neuron and Load all neurons!
-    def calc_compartments(self) :
+    def calc_compartments(self):
         self.NSize = []
         for n in range(self.neurons_no) :
             h.load_file(1, "../RESULTED_NEURONS/neuron"+str(n)+".hoc")
@@ -177,9 +162,11 @@ class Cstmd(object):
         ssSize = 0
         nc = []
         ncSize = 0
-        for n in range(self.neurons_no-1): # Note: So we need at least two neurons for it to work!
+
+        # Note: So we need at least two neurons for it to work!
+        for n in range(self.neurons_no-1):
     
-            # -- Find intersection points ------------------------------------------
+            # -- Find intersection points --------------------------------------
             if self.PRINTS :
                 print "Searching for synapses for neurons ", n, " and ", n+1
             synapses = 0
@@ -187,7 +174,7 @@ class Cstmd(object):
             for a in range(self.NSize[n]) :
                 minimum = sys.float_info.max
                 (x1,y1,z1) = self.m_coordinates[a]
-                for b in range(self.NSize[n],self.NSize[n]+self.NSize[n+1]) :
+                for b in range(self.NSize[n],self.NSize[n]+self.NSize[n+1]):
                     (x2,y2,z2) = self.m_coordinates[b]
                     dist = math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
                     if synapses < self.max_synapses :
@@ -199,7 +186,7 @@ class Cstmd(object):
             if self.PRINTS :
                 print "Synapses found: ", synapses
     
-            # -- Reduce intersection points to number of synapses ------------------
+            # -- Reduce intersection points to number of synapses --------------
             if synapses < synapses_no or len(syn) < synapses_no :
                 sys.exit("ERROR: There are not enough intersections to create "+\
                          "synapses. Change parameter D and run again!!")
@@ -210,8 +197,7 @@ class Cstmd(object):
                 syn.pop(random_synapse)
             print "Synapses used: ", len(syn)
 
-            # ------------------------------------------------------------------- #
-            if self.PRINTS :
+            if self.PRINTS:
                 print "Generating synapses..."
             for pre, post in syn :
                 if random.random() < 0.5 :

@@ -77,6 +77,7 @@ def new_cstmd_simulation():
     obj['samples'] = estmd.get_simulations(50)
     return bottle.template('new_cstmd_simulation', obj)
 
+
 @post('/cstmd/simulation/run')
 def run_cstmd_simulation():
     form = bottle.request.forms
@@ -91,8 +92,8 @@ def run_cstmd_simulation():
                                frames,
                                num_neurons,
                                num_electrodes,
-                               description,
-                               duration)
+                               duration,
+                               description)
     bottle.redirect("/cstmd/simulation/" + str(_id))
 
 
