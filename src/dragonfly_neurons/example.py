@@ -5,10 +5,12 @@
 # Description: Example of how to use target_animation.py and estmd.py together.
 ################################################################################
 
-from CSTMD.CSTMD.CSTMD import CSTMD
-from sys import argv 
+from sys import argv
 import pickle
+
+from src.cstmd.cstmd.CSTMD import CSTMD
 import numpy as np
+
 
 filename = ""
 from_file = False

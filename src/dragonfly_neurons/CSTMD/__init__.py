@@ -1,3 +1,0 @@
-"""
-CSTMD package.
-"""

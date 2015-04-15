@@ -2,11 +2,10 @@ __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
-import os
-import sys
 import numpy as np
 import pymongo
-from CSTMD.CSTMD.CSTMD import CSTMD
+from cstmd import Cstmd
+
 
 class CstmdDao:
 
@@ -107,7 +106,7 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        cstmd = CSTMD(neurons_no=num_neurons,
+        cstmd = Cstmd(neurons_no=num_neurons,
                       SYNAPSES_NO=500,
                       D=30,
                       electrds=num_electrodes,

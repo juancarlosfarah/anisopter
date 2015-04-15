@@ -2,12 +2,12 @@ __author__ = 'ioanniskasidakis'
 
 from setuptools import setup
 
-setup(name='CSTMD',
+setup(name='cstmd',
       version='0.1',
-      description='CSTMD module.',
+      description='CSTMD Module.',
       url='',
       author='Ioannis Kasidakis',
       author_email='ioannis.kasidakis14@imperial.ac.uk',
       license='MIT',
-      packages=['CSTMD'],
+      packages=['cstmd'],
       zip_safe=False)
