@@ -106,11 +106,11 @@ class CstmdDao:
         :return: _id of simulation generated.
         """
 
-        cstmd = Cstmd(neurons_no=num_neurons,
-                      synapses_no=500,
-                      D=30,
-                      electrds=num_electrodes,
-                      runtime=duration,
+        cstmd = Cstmd(num_neurons=num_neurons,
+                      num_synapses=500,
+                      synaptic_distance=30,
+                      num_electrodes=num_electrodes,
+                      duration=duration,
                       description=description)
 
         spike_trains = []
