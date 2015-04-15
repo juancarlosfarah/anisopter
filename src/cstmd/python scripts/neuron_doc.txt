@@ -1,0 +1,208 @@
+class IClamp
+
+    Syntax:
+
+        stimobj = new IClamp(x)
+
+        del -- ms
+
+        dur -- ms
+
+        amp -- nA
+
+        i -- nA
+    Description:
+
+        See $NEURONHOME/src/nrnoc/stim.mod
+
+        Single pulse current clamp point process. This is an electrode current 
+so positive amp depolarizes the cell. i is set to amp when t is within the 
+closed interval del to del+dur. Time varying current stimuli can be simulated 
+by setting del=0, dur=1e9 and playing a vector into amp with the play() Vector 
+method.
+-------------------------------------------------------------------------------
+
+class Exp2Syn
+
+    Syntax:
+
+        syn = new Exp2Syn(x)
+
+        syn.tau1 --- ms rise time
+
+        syn.tau2 --- ms decay time
+
+        syn.e -- mV reversal potential
+
+        syn.i -- nA synaptic current
+    Description:
+
+        Two state kinetic scheme synapse described by rise time tau1, and decay 
+time constant tau2. The normalized peak condductance is 1. Decay time MUST be 
+greater than rise time.
+
+        The kinetic scheme
+
+        A    ->   G   ->   bath
+           1/tau1   1/tau2
+
+        produces a synaptic current with alpha function like conductance (if
+ tau1/tau2 is appoximately 1) defined by
+
+        i = G * (v - e)      i(nanoamps), g(micromhos);
+          G = weight * factor * (exp(-t/tau2) - exp(-t/tau1))
+
+        The weight is specified by the weight field of a NetCon object. The 
+factor is defined so that the normalized peak is 1. If tau2 is close to tau1 
+this has the property that the maximum value is weight and occurs at t = tau1.
+
+        Because the solution is a sum of exponentials, the coupled equations 
+for the kinetic scheme can be solved as a pair of independent equations by the
+ more efficient cnexp method.
+
+        This synapse summates.
+
+        See $NEURONHOME/src/nrnoc/exp2syn.mod
+-------------------------------------------------------------------------------
+ class NetStim
+
+    Syntax:
+
+        s = new NetStim(x)
+
+        s.interval ms (mean) time between spikes
+
+        s.number (average) number of spikes
+
+        s.start ms (most likely) start time of first spike
+
+        s.noise ---- range 0 to 1. Fractional randomness.
+
+        0 deterministic, 1 intervals have negexp distribution.
+    Description:
+
+        Generates a train of presynaptic stimuli. Can serve as the source for a 
+NetCon. This NetStim can also be be triggered by an input event. i.e serve as 
+the target of a NetCon. If the stimulator is in the on=0 state and receives a 
+positive weight event, then the stimulator changes to the on=1 state and goes 
+through its burst sequence before changing to the on=0 state. During that time 
+it ignores any positive weight events. If, in the on=1 state, the stimulator 
+receives a negative weight event, the stimulator will change to the off state. 
+In the off state, it will ignore negative weight events. A change to the on 
+state immediately causes the first spike.
+
+        Fractional noise, 0 <= noise <= 1, means that an interval between spikes
+ consists of a fixed interval of duration (1 - noise)*interval plus a negexp 
+interval of mean duration noise*interval. Note that the most likely negexp 
+interval has duration 0.
+
+        Since NetStim sends events, the proper idiom for specifying it as a 
+source for a NetCon is
+
+        objref ns, nc
+        nc = new NetStim(0.5)
+        ns = new NetCon(nc, target...)
+
+        That is, do not use &nc.y as the source for the netcon.
+
+        See $NEURONHOME/src/nrnoc/netstim.mod
+
+-------------------------------------------------------------------------------
+ class NetCon
+
+    Syntax:
+
+        section netcon = new NetCon(&v(x), target)
+
+        netcon = new NetCon(source, target)
+
+        section netcon = new NetCon(&v(x), target, threshold, delay, weight)
+
+        netcon = new NetCon(source, target, threshold, delay, weight)
+    Description:
+
+        Network Connection object that defines a synaptic connection between a 
+source and target. When the source variable passes threshold in the positive 
+direction at time t-delay, the target will receive an event at time t along with
+ weight information. There is no limit on delay except that it be >= 0 and there
+ is no limit on the number of events pending delivery.
+
+        If the optional threshold, delay, and weight arguments are not 
+specified, their default values are 10, 1, and 0 respectively. In any case, 
+their values can be specified after the netcon has been constructed, see 
+NetCon.threshold, NetCon.weight, and NetCon.delay .
+
+        Note that prior to 12-Jul-2006, when the first form of the constructor 
+was used, (i.e. a NetCon having a pointer to a source variable was created, but 
+having no threshold argument) the threshold was reset to the default 10 (mV) 
+even if the threshold for that source location had been explicitly set earlier. 
+That behavior caused confusion and has been changed so that if there is no 
+threshold argument and the threshold location already exists, the previous 
+threshold is retained.
+
+        The target must be a POINT_PROCESS or ARTIFICIAL_CELL that defines a 
+NET_RECEIVE procedure. The number of NET_RECEIVE procedure arguments define a 
+weight vector whose elements can be accessed with through the NetCon.weight 
+( NetCon.weight )variable but the weight argument in the above constructors 
+specify the value of the first argument, with the normal interpretation of 
+weight or maximum conductance. On initialization, all weight elements with 
+index > 0 are set to 0 unless the NET_RECEIVE block contains an INITIAL block. 
+In the latter case, that block is executed on a call to finitialize() and allows 
+non-zero initialization of netcon "states" --- args not initialized in the 
+INITIAL block would be analogous to a Parameter except that it can have a 
+different value for different NetCon instances and can be set to a desired value
+ with NetCon.weight.
+
+        The target is allowed to be nil (NULLObject) in which case the NetCon is
+ always inactive. However this can be useful for recording (see NetCon.record())
+ the spike train from an output cell.
+
+        The source is normally a reference to a membrane potential which is 
+watched during simulation for passage past threshold. The currently accessed 
+section is required by the local variable time step method in order to determine
+ the source "cell". Any range variable may be a source variable but I suspect 
+that membrane potential is the only practical one.
+
+        N.B. For the local variable time step method CVode.use_local_dt() , the 
+proper currently accessed section for the source must be correct during the 
+creation of the NetCon so that the proper cell may be associated with the 
+source. i.e, netcon = new NetCon(&obj.sec.v(.5), ...) will not work with the 
+local step method because, although the pointer is correct, the proper section 
+was popped from the section stack prior to the constructor call. Instead, the 
+proper syntax is obj.sec netcon = new NetCon(&v(.5),...)
+
+        The source may also be a PointProcess with a NET_RECEIVE block which 
+contains a call to net_event. PointProcesses like this serve as entire 
+artificial cells.
+
+        The source may also be a PointProcess which contains a "x" variable 
+which is watched for threshold crossing, but this is obsolete since NET_RECEIVE
+ blocks which explicitly call net_event are much more efficient since they avoid
+ the overhead of threshold detection at every time step.
+
+        The source may be a NULLObject. In this case events can only occur by 
+calling event() from hoc. (It is also used by NEOSIM to implement its own 
+delivery system.)
+
+        A source used by multiple NetCon instances is shared by those instances 
+to allow faster threshold detection (ie on a per source basis instead of a per 
+NetCon basis) Therefore, there is really only one threshold for all NetCon 
+objects that share a source. However, delay and weight are distinct for each 
+NetCon object.
+
+        The only way one can have multiple threshold values at the same location
+ is to create a threshold detector point process with a NET_RECEIVE block 
+implemented with a WATCH statement and calling net_event .
+
+        And I'll say it again: Note that prior to 12-Jul-2006, when the first 
+form of the constructor was used, (i.e. a NetCon having a pointer to a source 
+variable was created, but having no threshold argument) the threshold was reset 
+to the default 10 (mV) even if the threshold for that source location had been 
+explicitly set earlier. That behavior caused confusion and has been changed so 
+that if there is no threshold argument and the threshold location already 
+exists, the previous threshold is retained.
+
+        From a NetCon instance, various lists of NetCon's can be created with 
+the same target, precell, or postcell. See CVode.netconlist() for creation of 
+NetCon lists from a target, precell, or postcell pattern or object.
+
