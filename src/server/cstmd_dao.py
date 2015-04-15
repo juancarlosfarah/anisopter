@@ -4,7 +4,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 from bson.objectid import ObjectId
 import numpy as np
 import pymongo
-from cstmd import Cstmd
+from cstmd.cstmd import Cstmd
 
 
 class CstmdDao:
