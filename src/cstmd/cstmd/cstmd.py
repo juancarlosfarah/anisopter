@@ -53,27 +53,23 @@ class Cstmd(object):
 
     # Compartment number step for pattern recognition output
     step_patt_rec_indx=10
- 
-    #------------------------------------------------------
 
-
-	# IK: constructor
-    def __init__(self, 
-                neurons_no,
-                synapses_no,
-                D,
-                electrds,
-                PRINT = True,
-                K=0.06,
-                Na=0.48,
-                PIXEL_NO = 4096,
-                MAX_CURRENT = 30,
-                MIN_CURRENT = 2.0,
-                MIN = 0.000005,
-                MAX = 0.00005,
-                PLOT_ACTIVITY = True,
-                runtime=10,
-                description="") :
+    def __init__(self,
+                 neurons_no,
+                 synapses_no,
+                 D,
+                 electrds,
+                 PRINT = True,
+                 K=0.06,
+                 Na=0.48,
+                 PIXEL_NO = 4096,
+                 MAX_CURRENT = 30,
+                 MIN_CURRENT = 2.0,
+                 MIN = 0.000005,
+                 MAX = 0.00005,
+                 PLOT_ACTIVITY = True,
+                 runtime=10,
+                 description=""):
         
         self.global_time = time.time()
         self.PRINTS = PRINT
@@ -91,11 +87,9 @@ class Cstmd(object):
         #K = 0.02
         #Na = 0.48
 
-
         # SOS: We should leave Sodium constant and vary the Potassium
         # The thick dendrites should be arround 5 microMeters
-        # the thin ones arround 1.5...
-
+        # the thin ones around 1.5...
 
         # Plot an array of electrodes for neurons 0 and 1
         self.PLOT_ACTIVITY = PLOT_ACTIVITY
@@ -104,9 +98,8 @@ class Cstmd(object):
         self.MAX_CURRENT = MAX_CURRENT #10.0
         self.MIN_CURRENT = MIN_CURRENT #5
 
-        #Save spike rate to txt file
+        # Save spike rate to txt file
         self.saveSpikeRate=False    
-     
 
         # Minimum and maximum allowed weight of input neurons to CSTMDs
         self.MIN = MIN
@@ -117,7 +110,6 @@ class Cstmd(object):
 
         # For website purposes
         self.description=description
-        #---------------------------------------------------------------------
 
         # THINGS THAT RUN ONLY ONCE 
     
@@ -127,14 +119,12 @@ class Cstmd(object):
         
         # Take the coordinates of the middle of all the compartments:
         self.find_middle_coordinates()
-            
 
         self.generate_synapses(synapses_no, D, Potassium=-1)
         self.set_input_output()
 
-    # -- Helper functions ------------------------------------------------------
-    def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
-        return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
+    def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0):
+        return MIN + np.random.rand()*(MAX-MIN)*np.exp(-((x-m)**2.0)/(2.0*sigma**2.0))
 
     # Calculate the number of compartments of each neuron and Load all neurons!
     def calc_compartments(self) :
@@ -159,8 +149,7 @@ class Cstmd(object):
         for sec in h.allsec(): # All neuron's compartments together
             nAll = nAll + 1
         print "All neurons have ", nAll, " compartments!"
-    
-    
+
     # Take the coordinates of the middle of all the compartments:
     def find_middle_coordinates(self) :
         cell_list = []
@@ -177,10 +166,7 @@ class Cstmd(object):
             cell_list.append(cell)
         self.m_coordinates
     
-
-
-
-    def generate_synapses(self, synapses_no, D, Potassium=-1) :
+    def generate_synapses(self, synapses_no, D, Potassium=-1):
         if Potassium == -1 :
             Potassium = self.K
 
@@ -224,7 +210,6 @@ class Cstmd(object):
                 syn.pop(random_synapse)
             print "Synapses used: ", len(syn)
 
-                
             # ------------------------------------------------------------------- #
             if self.PRINTS :
                 print "Generating synapses..."
@@ -248,15 +233,13 @@ class Cstmd(object):
                     ncSize = ncSize + 1
                     exec "nc.append(h.NetCon(h.neuron"+str(n+1)+"_tree[post](0.5)._ref_v, ss[ssSize-1], self.thresholds, self.delays, self.weights, sec=h.neuron"+str(n+1)+"_tree[post]))"
 
-        
-        if self.PRINTS :
+        if self.PRINTS:
             print "Generating parameters..."
         h('forall {uninsert pas}')
         h('forall {insert hh}')
-        for sec in h.allsec() :
-            sec.gnabar_hh =  self.Na
-            sec.gkbar_hh =  Potassium
-        
+        for sec in h.allsec():
+            sec.gnabar_hh = self.Na
+            sec.gkbar_hh = Potassium
 
     def set_input_output(self) :
 
@@ -335,7 +318,6 @@ class Cstmd(object):
                 self.out_raster[-1].record(self.t_out_vec[-1], self.id_out_vec[-1], n)
         # ----------------------------------------------------------------------
 
-
         # -- Electrodes for observations ---------------------------------------
         if self.PLOT_ACTIVITY == True :
             #define the compartments whose activity will be recorded
@@ -361,8 +343,6 @@ class Cstmd(object):
                     exec "self.vrec1"+str(e)+".record(h.neuron1_tree["+str(self.rec1[e])+"](0.5)._ref_v)"
                     exec "self.trec1"+str(e)+".record(h._ref_t)"
 
-
-
                     self.id_input = h.Vector()
                     self.t_input = h.Vector()
                     self.raster_input = h.NetCon(self.stimNet[0], None)
@@ -375,40 +355,37 @@ class Cstmd(object):
         h.finitialize(-60)
         h.dt = self.dt
 
+    def run(self, rates, ib=0):
 
-    def run(self, rates,ib=0) :
-    
-
-        if len(rates) > self.PIXEL_NO :
-            print "Error: Not enough stimuli!\nReturning.."
+        if len(rates) > self.PIXEL_NO:
+            print "Error: Not enough stimuli!\nReturning..."
             return [], []            
 
-        count=0
+        count = 0
 
-        #normalizing pixel values
-        norm=sum(rates)            
-        if norm!=0:
-            for i in range(len(rates)) :
-                rates[i]=rates[i]/norm
+        # Normalizing pixel values.
+        norm = sum(rates)
+        if norm != 0:
+            for i in range(len(rates)):
+                rates[i] = rates[i] / norm
         
-        for i in range(len(rates)) :
+        for i in range(len(rates)):
+            diff = self.MAX_CURRENT - self.MIN_CURRENT
+            self.stimNet[i].ib = self.MIN_CURRENT + 2000 * rates[i] * diff
 
-            self.stimNet[i].ib = self.MIN_CURRENT+2000*rates[i]*(self.MAX_CURRENT-self.MIN_CURRENT) 
-
-        #print sum(rates)
+        # print sum(rates)
 
         self.curr_time += self.time
 
-        #Adjust the limit of time in the plots
-        self.t_stop=self.curr_time
+        # Adjust the limit of time in the plots.
+        self.t_stop = self.curr_time
 
-        if not self.PLOT_ACTIVITY :
-            # Delete previously recorded spikes from the vectors
-            for i in range(len(self.t_vec)) :
+        if not self.PLOT_ACTIVITY:
+            # Delete previously recorded spikes from the vectors.
+            for i in range(len(self.t_vec)):
                 self.t_vec[i].clear()
 
-
-         # Run the simulation
+        # Run the simulation.
         neuron.run(self.curr_time)
         if self.PLOT_ACTIVITY :
             print "Raster stuff:"
@@ -419,66 +396,57 @@ class Cstmd(object):
         #    print self.stimNet[0].M()
         #    print self.stimNet[0].I()
 
-
         #for i in range(len(self.t_vec)) :
         #    print i
         #    for j in range(len(self.t_vec[i])) :
         #        print "\b ", j, ":", self.t_vec[i][j], self.id_vec[i][j]
 
-
-
         #print "Result: (neuron0, neuron1) =      ", len(self.tvec0),",   ",len(self.tvec1)
         
-        T = list(self.t_vec)
-        ID = self.id_vec
+        t = list(self.t_vec)
+        id = self.id_vec
 
-        return T, ID,self.sp_trains()
+        return t, id, self.sp_trains()
 
     def sp_trains(self):
 
-    
-
         # Container for spike trains.
         spike_trains = np.zeros((self.neurons_no*self.electrds, self.curr_time))
 
-        # Add spike occurences to spike train
+        # Add spike occurrences to spike train
 
-        #For each neuron
-        for n in range(self.neurons_no) :
+        # For each neuron.
+        for n in range(self.neurons_no):
 
-            #and each electrode
+            # And each electrode.
             for i in range(self.electrds):
-                elec_index=(n+1)*(i+1)-1               
-                elec_len=len(self.t_out_vec[elec_index])
+                elec_index = (n + 1) * (i + 1) - 1
+                elec_len = len(self.t_out_vec[elec_index])
 
                 for y in range(elec_len):
-                    timestamp=round(self.t_out_vec[elec_index][y],0)
-                    spike_trains[elec_index][timestamp-1]=1
-
+                    timestamp = round(self.t_out_vec[elec_index][y], 0)
+                    spike_trains[elec_index][timestamp-1] = 1
 
         return spike_trains
 
-    
     def sp_trains_save(self):
-
-    
 
         # Container for spike trains.
         spike_trains = np.zeros((self.neurons_no*self.electrds, self.curr_time))
 
-        # Add spike occurences to spike train
+        # Add spike occurrences to spike train.
 
-        #For each neuron
-        for n in range(self.neurons_no) :
+        # For each neuron
+        for n in range(self.neurons_no):
 
-            #and each electrode
+            # And each electrode.
             for i in range(self.electrds):
-                elec_index=(n+1)*(i+1)-1               
-                elec_len=len(self.t_out_vec[elec_index])
+                elec_index = (n + 1) * (i + 1) - 1
+                elec_len = len(self.t_out_vec[elec_index])
 
                 for y in range(elec_len):
-                    timestamp=round(self.t_out_vec[elec_index][y],0)
-                    spike_trains[elec_index][timestamp-1]=1
+                    timestamp = round(self.t_out_vec[elec_index][y], 0)
+                    spike_trains[elec_index][timestamp-1] = 1
                     #print "Timestanmp" ,spike_trains[elec_index][timestamp-1]
                     #print self.t_out_vec[elec_index][y], spike_trains[elec_index][timestamp-1]  
 
@@ -486,7 +454,6 @@ class Cstmd(object):
                                                          self.electrds,"elecs",
                                                          self.curr_time,"runtime")
         np.savez(filename, spike_trains=spike_trains)
-        
 
     def plot(self) :
         # -- Plot the recordings -----------------------------------------------    
@@ -505,7 +472,7 @@ class Cstmd(object):
                 exec "plt.plot(t1"+str(e)+",v1"+str(e)+",label='Section "+str(self.rec1[e])+"', c='r')"
                 plt.legend(loc=0)
 
-            plt.subplot(2,self.electrodes+1,self.electrodes+1)
+            plt.subplot(2, self.electrodes + 1, self.electrodes + 1)
             # to change the size of the plot use: mp.figure(1, figsize=(20,20))
             # You can change the color and marker according to the pylab documentation
             a = plt.gca()
@@ -514,68 +481,58 @@ class Cstmd(object):
             plt.scatter(self.t_vec[0], self.id_vec[0], c='b', marker='+')
             plt.scatter(self.t_vec[1], self.idvec1temp, c='r', marker='+')
 
-    
-            # FIRING RATE
-            plt.subplot(2,self.electrodes+1, 2*self.electrodes+2)
+            # Firing rate.
+            plt.subplot(2, self.electrodes + 1, 2 * self.electrodes + 2)
             a = plt.gca()
-            a.set_xlim([0,self.t_stop])
-
+            a.set_xlim([0, self.t_stop])
         
-            # The following part is also used in experiment 2 where we need to calculate
-            # and then compare the firing rate of the first neuron
-            for neu in range(2) :
+            # The following part is also used in experiment 2 where we need
+            # to calculate and then compare the firing rate of the first neuron.
+            for neu in range(2):
                 spikes = [0.0]
-                my_length = 0
                 my_length = len(self.t_vec[neu])
 
-                #Save the spike occurences in a .txt file
+                # Save the spike occurences in a .txt file
                 if self.saveSpikeRate == True :             
                     exec "spikes_file=open('CSTMD_out_spikes/spikes"+str(neu+1)+".txt','w')"
-                                    
 
                 for s in range(my_length) :
                     spikes.append(self.t_vec[neu][s])                    
 
-                    #Save the spike occurences in a .txt file
+                    # Save the spike occurences in a .txt file
                     if self.saveSpikeRate == True :
                        spikes_file.write(str(self.t_vec[neu][s])+"\n") 
                 
                 fr = []
                 s = 0
 
-                for i in range(len(spikes)-1) :
+                for i in range(len(spikes) - 1):
                     t0 = spikes[i]
-                    t1 = spikes[i+1]
+                    t1 = spikes[i + 1]
                     s = t1 - t0
-                    if s == 0 :
+                    if s == 0:
                         sys.exit("ERROR: Division by zero!")
-                    else :
-                        fr.append(1000.0/s)
-                if s == 0 :
+                    else:
+                        fr.append(1000.0 / s)
+
+                if s == 0:
                     fr.append(0.0)
-                else :
+                else:
                     fr.append(1000.0/s)
-                if False :
+
+                if False:
                     print fr
                     return fr, []
+
                 if neu == 0:
                     plt.plot(spikes, fr, c='b')
                 elif neu == 1:
                     plt.plot(spikes, fr, c='r')
                 
-                if self.saveSpikeRate == True :
+                if self.saveSpikeRate:
                     spikes_file.close()
 
             plt.figure()
             plt.scatter(self.id_input, self.t_input, c='b', marker='+')
             plt.xlim(0, self.curr_time)
             plt.show()
-
-
-
-
-
-
-
-
-
