@@ -107,7 +107,7 @@ class CstmdDao:
         """
 
         cstmd = Cstmd(neurons_no=num_neurons,
-                      SYNAPSES_NO=500,
+                      synapses_no=500,
                       D=30,
                       electrds=num_electrodes,
                       runtime=duration,
