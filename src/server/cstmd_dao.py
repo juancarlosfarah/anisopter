@@ -25,18 +25,18 @@ class CstmdDao:
         # General simulation data.
         sim = {
             'description': cstmd.description,
-            'num_neurons': cstmd.neurons_no,
-            'num_synapses': cstmd.synapses_no,
-            'num_electrodes': cstmd.electrds,
-            'max_current': cstmd.MAX_CURRENT,
-            'min_current': cstmd.MIN_CURRENT,
-            'min_weight': cstmd.MIN,
-            'max_weight': cstmd.MAX,
-            'num_pixels': cstmd.PIXEL_NO,
-            'duration': cstmd.runtime,
-            'potassium': cstmd.K,
-            'sodium': cstmd.Na,
-            'synaptic_distance': cstmd.D
+            'num_neurons': cstmd.num_neurons,
+            'num_synapses': cstmd.num_synapses,
+            'num_electrodes': cstmd.num_electrodes,
+            'max_current': cstmd.max_current,
+            'min_current': cstmd.min_current,
+            'min_weight': cstmd.min_weight,
+            'max_weight': cstmd.max_weight,
+            'num_pixels': cstmd.num_pixels,
+            'duration': cstmd.duration,
+            'potassium': cstmd.potassium,
+            'sodium': cstmd.sodium,
+            'synaptic_distance': cstmd.synaptic_distance
         }
 
         _id = self.collection.insert_one(sim)
