@@ -114,9 +114,8 @@ class CstmdDao:
                       description=description)
 
         spike_trains = []
-        for frame in frames:
-            frame = np.array(frame)
-            print frame
+        for frame_object in frames:
+            frame = np.array(frame_object['frame'])
             times, ids, spike_train = cstmd.run(rates=frame)
             spike_trains.append(spike_train)
 
