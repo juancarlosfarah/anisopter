@@ -109,7 +109,7 @@ class CstmdDao:
         cstmd = Cstmd(num_neurons=num_neurons,
                       num_synapses=500,
                       synaptic_distance=30,
-                      num_electrodes,
+                      num_electrodes=num_electrodes,
                       duration=duration,
                       description=description)
 
