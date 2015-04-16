@@ -27,7 +27,10 @@
         <tr>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['date']}}</a></td>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['description']}}</a></td>
-            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['num_afferents']}}</a></td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">
+                    {{s['num_efferents']}}
+                </a>
+            </td>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['duration']}}</a></td>
         </tr>
         %end

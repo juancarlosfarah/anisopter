@@ -34,7 +34,7 @@ class SampleDao:
         # General sample data.
         s = {
             "duration": sample.duration,
-            "num_afferents": sample.num_neurons,
+            "num_efferents": sample.num_neurons,
             "description": sample.description,
             "start_positions": sample.start_positions,
             "pattern_duration": sample.pattern_duration,
@@ -82,7 +82,7 @@ class SampleDao:
                     '_id': sample['_id'],
                     'date': sample['_id'].generation_time,
                     'description': sample['description'],
-                    'num_afferents': sample['num_afferents'],
+                    'num_efferents': sample['num_efferents'],
                     'duration': sample['duration'],
                 })
 

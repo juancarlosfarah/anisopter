@@ -78,9 +78,16 @@ class Simulation:
         :param cursor: Cursor to load.
         :return: None.
         """
-        self.start_positions = sample['start_positions']
-        self.pattern_duration = sample['pattern_duration']
-        self.num_afferents = sample['num_afferents']
+        if 'start_positions' in sample:
+            self.start_positions = sample['start_positions']
+        else:
+            self.start_positions = []
+
+        if 'pattern_duration' in sample:
+            self.pattern_duration = sample['pattern_duration']
+        else:
+            self.pattern_duration = 50
+        self.num_afferents = sample['num_efferents']
         self.duration = sample['duration']
         self.sampling_interval = math.ceil(self.duration / 5)
         self.cursor = cursor

@@ -11,8 +11,8 @@
             <td>{{sample['_id']}}</td>
         </tr>
         <tr>
-            <td>Number of Afferents</td>
-            <td>{{sample['num_afferents']}}</td>
+            <td>Number of Efferents</td>
+            <td>{{sample['num_efferents']}}</td>
         </tr>
         <tr>
             <td>Number of Patterns</td>

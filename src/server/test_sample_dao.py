@@ -38,7 +38,7 @@ class SampleDaoTests(unittest.TestCase):
         doc = self.dao.get_sample(_id)
         self.failUnless(doc['_id'] == _id)
         self.failUnless(doc['duration'] == 1000)
-        self.failUnless(doc['num_afferents'] == 100)
+        self.failUnless(doc['num_efferents'] == 100)
         self.failUnless(len(doc['start_positions']) == 1)
         self.failUnless(doc['description'] == "Test_1")
 

@@ -13,14 +13,14 @@
                 <option disabled="disabled">--- Samples ---</option>
                 %for s in samples:
                     <option value="{{s['_id']}}">
-                        Afferents: {{s['num_afferents']}}
+                        Efferents: {{s['num_efferents']}}
                         Duration: {{s['duration']}}
                     </option>
                 %end
                 <option disabled="disabled">--- CSTMD ---</option>
                 %for s in cstmd:
                 <option value="{{s['_id']}}">
-                    Afferents: {{s['num_neurons'] * s['num_electrodes']}}
+                    Efferents: {{s['num_efferents']}}
                     Duration: {{s['duration']}}
                 </option>
                 %end

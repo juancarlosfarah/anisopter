@@ -19,15 +19,13 @@ class CstmdDao:
         :return: _id of simulation inserted.
         """
 
-        # Targets.
-        targets = []
-
         # General simulation data.
         sim = {
             'description': cstmd.description,
             'num_neurons': cstmd.num_neurons,
             'num_synapses': cstmd.num_synapses,
             'num_electrodes': cstmd.num_electrodes,
+            'num_efferents': cstmd.num_neurons * cstmd.num_electrodes,
             'max_current': cstmd.max_current,
             'min_current': cstmd.min_current,
             'min_weight': cstmd.min_weight,
