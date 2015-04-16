@@ -233,8 +233,9 @@ def start():
 
 def connect_db(db_name="anisopter"):
     global db, simulations, samples, animations, cstmd, estmd
-    connection_string = "mongodb://localhost"
-    connection = pymongo.MongoClient(connection_string)
+    host = "localhost"
+    port = 27017
+    connection = pymongo.MongoClient(host=host, port=port)
     db = connection[db_name]
 
     # Data Access Objects.
