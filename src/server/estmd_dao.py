@@ -25,7 +25,7 @@ class EstmdDao:
             'description': estmd.description
         }
 
-        _id = self.collection.insert_one(sim)
+        _id = self.collection.insert(sim)
 
         # Save the frames.
         collection = self.db.frames
@@ -34,7 +34,7 @@ class EstmdDao:
                 "sample_id": _id,
                 "frame": estmd.frames[frame].ravel()
             }
-            collection.insert_one(obj)
+            collection.insert(obj)
 
         return _id
 

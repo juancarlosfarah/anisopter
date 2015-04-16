@@ -39,7 +39,7 @@ class CstmdDao:
             'synaptic_distance': cstmd.synaptic_distance
         }
 
-        _id = self.collection.insert_one(sim)
+        _id = self.collection.insert(sim)
 
         return _id
 

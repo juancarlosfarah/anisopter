@@ -31,7 +31,7 @@ class AnimationDao:
             "targets": targets
         }
 
-        _id = self.collection.insert_one(a)
+        _id = self.collection.insert(a)
 
         return _id
 
