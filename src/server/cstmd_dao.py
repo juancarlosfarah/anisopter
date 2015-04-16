@@ -33,7 +33,8 @@ class CstmdDao:
             'min_weight': cstmd.min_weight,
             'max_weight': cstmd.max_weight,
             'num_pixels': cstmd.num_pixels,
-            'duration': cstmd.duration,
+            'duration': cstmd.spike_trains.shape[1],
+            'duration_per_frame': cstmd.duration,
             'potassium': cstmd.potassium,
             'sodium': cstmd.sodium,
             'synaptic_distance': cstmd.synaptic_distance
