@@ -6,7 +6,7 @@ import os
 import sys
 import pymongo
 
-from Target_animation import Animation
+from animation import Animation
 
 
 class AnimationDao:
