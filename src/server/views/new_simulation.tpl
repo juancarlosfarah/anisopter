@@ -10,11 +10,19 @@
         <div class="form-group">
             <label for="sample">Sample</label>
             <select class="form-control" name="sample" id="sample">
+                <option disabled="disabled">--- Samples ---</option>
                 %for s in samples:
                     <option value="{{s['_id']}}">
                         Afferents: {{s['num_afferents']}}
                         Duration: {{s['duration']}}
                     </option>
+                %end
+                <option disabled="disabled">--- CSTMD ---</option>
+                %for s in cstmd:
+                <option value="{{s['_id']}}">
+                    Afferents: {{s['num_neurons'] * s['num_electrodes']}}
+                    Duration: {{s['duration']}}
+                </option>
                 %end
             </select>
         </div>
