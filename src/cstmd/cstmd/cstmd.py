@@ -261,45 +261,51 @@ class Cstmd(object):
             for n in range(self.num_neurons) :
                 # This means that the maximum weight of the whole input
                 # stimulus will be from MIN to MAX
-                #MIN = 0.001
-                #MAX = 0.01
+                # MIN = 0.001
+                # MAX = 0.01
                 
-                Centre = np.sqrt(self.num_pixels)/2.0
+                centre = np.sqrt(self.num_pixels)/2.0
                 x = p % np.sqrt(self.num_pixels)
                 y = p / np.sqrt(self.num_pixels)
-                Dist = np.sqrt( (x-Centre)**2 + (y-Centre)**2 )
-
-                weight = self.calc_rand_weight(Dist, self.min_weight, self.max_weight)
-                #weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
-                #print weight
-                exec "self.syn0net.append(h.Exp2Syn(h.neuron"+str(n)+"_tree[self.input_indx](0.5)))"
+                dist = np.sqrt((x - centre) ** 2 + (y - centre) ** 2)
+                weight = self.calc_rand_weight(dist,
+                                               self.min_weight,
+                                               self.max_weight)
+                # weight=float(abs(self.PIXEL_NO-p))/float (self.PIXEL_NO)
+                # print weight
+                exec "self.syn0net.append(h.Exp2Syn(h.neuron"\
+                     + str(n) + "_tree[self.input_index](0.5)))"
                 self.nc0net.append(h.NetCon(self.stimNet[p],
                                             self.syn0net[-1],
-                                            0, # Threshold
-                                            0.025+40.0*np.random.rand(), # Delay
-                                            weight)) # Weight
-
+                                            # Threshold.
+                                            0,
+                                            # Delay.
+                                            0.025 + 40.0 * np.random.rand(),
+                                            # Weight.
+                                            weight))
 
         # -- Spiking recording -------------------------------------------------
         # Define the compartments whose activity will be recorded
-        self.rec_output = [self.output_index]*self.num_neurons
-        
+        self.rec_output = [self.output_index] * self.num_neurons
         self.t_vec = []     # time
         self.id_vec = []    # cell number
         self.raster = []
 
         # Initialize the electrodes
-        for n in range(self.num_neurons) :
+        for n in range(self.num_neurons):
             self.t_vec.append(h.Vector())
             self.id_vec.append(h.Vector())
-            exec "self.raster.append(h.NetCon(h.neuron"+str(n)+"_tree[self.rec_output[n]](.5)._ref_v, None, sec=h.neuron"+str(n)+"_tree[self.rec_output[n]]))" #(.5)
-            self.raster[-1].threshold = 0 #-10 #set threshold to a value of your choice
+            exec "self.raster.append(h.NetCon(h.neuron" \
+                 + str(n) + \
+                 "_tree[self.rec_output[n]](.5)._ref_v, None, sec=h.neuron" \
+                 + str(n) + "_tree[self.rec_output[n]]))"  # (.5)
+            # -10 set threshold to a value of your choice
+            self.raster[-1].threshold = 0
             self.raster[-1].record(self.t_vec[-1], self.id_vec[-1], n)
 
         # -- Spiking recording for pattern recognition output-------------------
-       
-        self.t_out_vec = [] #time
-        self.id_out_vec = [] #cell number
+        self.t_out_vec = []     # Time.
+        self.id_out_vec = []    # Cell number.
         self.out_raster = []
 
         # Initialize the electrodes
