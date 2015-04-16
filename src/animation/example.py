@@ -5,7 +5,7 @@ E-mail: erikgrabljevec5@gmail.com
 Doc: Example of how to use Target_animation.py          
 """
 
-from target_animation import Animation
+from src.animation.animation.target_animation import Animation
 
 
 # Set constants

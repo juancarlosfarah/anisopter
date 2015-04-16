@@ -3,7 +3,8 @@ Unit tests for module Target_animation.
 """
 
 import unittest
-from target_animation import *
+
+from src.animation.animation.target_animation import *
 
 
 class TestTarget(unittest.TestCase):
