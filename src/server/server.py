@@ -139,6 +139,7 @@ def new_simulation():
 
     obj = dict()
     obj['samples'] = samples.get_samples(10)
+    obj['cstmd'] = cstmd.get_simulations(10)
     return bottle.template('new_simulation', obj)
 
 
