@@ -9,5 +9,5 @@ setup(name='animation',
       author='Erik Grabljevec',
       author_email='ioannis.kasidakis14@imperial.ac.uk',
       license='MIT',
-      packages=['cstmd'],
+      packages=['animation'],
       zip_safe=False)
