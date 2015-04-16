@@ -19,10 +19,10 @@
                 %end
                 <option disabled="disabled">--- CSTMD ---</option>
                 %for s in cstmd:
-                <option value="{{s['_id']}}">
-                    Efferents: {{s['num_efferents']}}
-                    Duration: {{s['duration']}}
-                </option>
+                    <option value="{{s['_id']}}">
+                        Efferents: {{s['num_efferents']}}
+                        Duration: {{s['duration']}}
+                    </option>
                 %end
             </select>
         </div>

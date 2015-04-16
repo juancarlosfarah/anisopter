@@ -73,6 +73,7 @@ class CstmdDao:
                     'date': simulation['_id'].generation_time,
                     'description': simulation['description'],
                     'num_neurons': simulation['num_neurons'],
+                    'num_efferents': simulation['num_efferents'],
                     'num_synapses': simulation['num_synapses'],
                     'num_electrodes': simulation['num_electrodes'],
                     'max_current': simulation['max_current'],
