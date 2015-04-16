@@ -92,7 +92,7 @@ class Cstmd(object):
         self.max_weight = max_weight
 
         # running time of the simulation
-        self.time = duration
+        self.duration = duration
 
         # For website purposes
         self.description = description
@@ -377,7 +377,7 @@ class Cstmd(object):
 
         # print sum(rates)
 
-        self.curr_time += self.time
+        self.curr_time += self.duration
 
         # Adjust the limit of time in the plots.
         self.t_stop = self.curr_time
