@@ -153,7 +153,14 @@ def run_simulation():
     theta = float(form.get("theta"))
     description = form.get("description")
     a_ratio = a_minus / a_plus
+
+    # Get sample.
     sample = samples.get_sample(sample_id)
+
+    # If no sample is found, perhaps it's a CSTMD simulation.
+    if sample is None:
+        sample = cstmd.get_simulation(sample_id)
+
     spikes = samples.get_spikes(sample_id)
     _id = simulations.run_simulation(sample, spikes, num_neurons,
                                      description, a_plus, a_ratio, theta)
