@@ -19,10 +19,10 @@
     <table class="table">
         <tr>
             <th>Date</th>
-            <th>Description</th>
             <th>Number of Neurons</th>
             <th>Number of Electrodes</th>
             <th>Duration</th>
+            <th>Description</th>
         </tr>
         %for s in simulations:
         <tr>
