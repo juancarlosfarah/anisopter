@@ -26,11 +26,31 @@
         </tr>
         %for s in simulations:
         <tr>
-            <td><a href="/simulation/{{s['_id']}}">{{s['date']}}</a></td>
-            <td><a href="/simulation/{{s['_id']}}">{{s['description']}}</a></td>
-            <td><a href="/simulation/{{s['_id']}}">{{s['num_neurons']}}</a></td>
-            <td><a href="/simulation/{{s['_id']}}">{{s['num_electrodes']}}</a></td>
-            <td><a href="/simulation/{{s['_id']}}">{{s['duration']}}</a></td>
+            <td>
+                <a href="/cstmd/simulation/{{s['_id']}}">
+                    {{s['date']}}
+                </a>
+            </td>
+            <td>
+                <a href="/cstmd/simulation/{{s['_id']}}">
+                    {{s['num_neurons']}}
+                </a>
+            </td>
+            <td>
+                <a href="/cstmd/simulation/{{s['_id']}}">
+                    {{s['num_electrodes']}}
+                </a>
+            </td>
+            <td>
+                <a href="/cstmd/simulation/{{s['_id']}}">
+                    {{s['duration']}}
+                </a>
+            </td>
+            <td>
+                <a href="/cstmd/simulation/{{s['_id']}}">
+                    {{s['description']}}
+                </a>
+            </td>
         </tr>
         %end
     </table>
