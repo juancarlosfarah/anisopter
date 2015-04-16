@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <td>Synaptic Distance</td>
-            <td>{{len(simulation['synaptic_distance'])}}</td>
+            <td>{{simulation['synaptic_distance']}}</td>
         </tr>
         <tr>
             <td>Description</td>
