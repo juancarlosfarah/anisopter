@@ -105,6 +105,7 @@ class SimulationDao:
 
         sim = self.collection.find_one({'_id': ObjectId(_id)})
         duration = sim['duration']
+        patterns = sim["start_positions"]
         p_plots = []
 
         # Plot first second if available.
@@ -122,12 +123,13 @@ class SimulationDao:
         for i in range(len(sim['neurons'])):
             sim['neurons'][i]['weight_distribution_plot'] = wd_plots[i]
 
-        spike_info = self.get_neuron_info(sim)
+        if len(patterns) > 0:
+            spike_info = self.get_neuron_info(sim)
 
-        # Currently we only get spike-timing info
-        # for the first neuron for one pattern.
-        # TODO: Expand to all neurons.
-        sim['neurons'][0]['spike_info'] = spike_info
+            # Currently we only get spike-timing info
+            # for the first neuron for one pattern.
+            # TODO: Expand to all neurons.
+            sim['neurons'][0]['spike_info'] = spike_info
 
         return sim
 

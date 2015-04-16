@@ -95,7 +95,7 @@
                     </tr>
                 </table>
                 <br />
-                % if i == 0:
+                % if i == 0 and len(simulation['start_positions']) > 0:
                 <h3>Spike Timing Information</h3>
                 <table class="table">
                     <tr>
