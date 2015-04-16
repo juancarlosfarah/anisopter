@@ -105,6 +105,19 @@ def show_cstmd_simulations():
     return bottle.template('cstmd_simulations', obj)
 
 
+@get("/cstmd/simulation/<_id>")
+def show_cstmd_simulation(_id):
+
+    sim = cstmd.get_simulation(_id)
+
+    if sim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['simulation'] = sim
+    return bottle.template("cstmd_simulation", obj)
+
+
 @route('/pattern_recognition')
 def show_pattern_recognition():
 
