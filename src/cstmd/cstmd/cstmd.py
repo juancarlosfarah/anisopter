@@ -66,6 +66,9 @@ class Cstmd(object):
         # SOS: For Na = 0.48, K below 0.0125 is not bistable, above something as well
         self.potassium = potassium #My limit: 0.0125 # Klauss used: 0.072
         self.sodium = sodium
+
+        # Store spike trains here.
+        self.spike_trains = None
         
         # Nice combination of values for debugging because the neuron doesn't fire
         # Na = 0.2
@@ -413,7 +416,8 @@ class Cstmd(object):
     def sp_trains(self):
 
         # Container for spike trains.
-        spike_trains = np.zeros((self.num_neurons*self.num_electrodes, self.curr_time))
+        spike_trains = np.zeros((self.num_neurons * self.num_electrodes,
+                                 self.curr_time))
 
         # Add spike occurrences to spike train
 

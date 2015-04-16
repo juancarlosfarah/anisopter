@@ -39,7 +39,19 @@ class CstmdDao:
             'synaptic_distance': cstmd.synaptic_distance
         }
 
+        # Save general data.
         _id = self.collection.insert(sim)
+
+        # Spike collection.
+        collection = self.db.spikes
+
+        # Save spikes.
+        for dt in range(cstmd.spike_trains.shape[1]):
+            obj = {
+                "sample_id": _id,
+                "spikes": cstmd.spike_trains[:, dt].tolist()
+            }
+            collection.insert(obj)
 
         return _id
 
@@ -113,13 +125,13 @@ class CstmdDao:
                       duration=duration,
                       description=description)
 
-        spike_trains = []
         for frame_object in frames:
             frame = np.array(frame_object['frame'])
-            times, ids, spike_train = cstmd.run(rates=frame)
-            spike_trains.append(spike_train)
+            times, ids, cstmd.spike_trains = cstmd.run(rates=frame)
 
+        # Save CSTMD simulation.
         _id = self.save(cstmd)
+
         return _id
 
 if __name__ == "__main__":
