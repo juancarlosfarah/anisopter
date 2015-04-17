@@ -105,7 +105,7 @@ class EstmdDao:
                 break
             result_estmd.append(frame)
 
-        _id = self.save(e, estmd_result)
+        _id = self.save(e, result_estmd)
 
         return _id
 
