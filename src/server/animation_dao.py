@@ -25,11 +25,17 @@ class AnimationDao:
         # Targets.
         targets = []
 
+        # Target data.
+        # for each target:
+        # t = {
+        #     # target data
+        # }
+        # Append to targets.
+
         # General animation data.
         a = {
             "width": animation.width,
             "height": animation.height,
-            "duration": animation.duration,
             "targets": targets
         }
 
