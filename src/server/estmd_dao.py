@@ -55,6 +55,7 @@ class EstmdDao:
                 {
                     '_id': simulation['_id'],
                     'date': simulation['_id'].generation_time,
+                    'description': simulation['description']
                 })
 
         return simulations
