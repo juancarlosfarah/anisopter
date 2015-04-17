@@ -97,12 +97,12 @@ class ESTMD(object):
         self.frames = []
 
         while True:
-            frame = self.next_frame()
+            frame = self.get_next_frame()
             if frame is False:
                 break
             self.frames.append(frame)
             print len(self.frames)
-
+            
         self.num_frames = len(self.frames)
     
     def get_next_frame(self):
@@ -118,6 +118,8 @@ class ESTMD(object):
             return False
 
         frame = self.next_frame()
+        if frame is False:
+            return False
         frame = cv2.resize(frame, (self.image_width, self.image_height))
         
         return frame
