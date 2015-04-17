@@ -26,10 +26,6 @@
             <td>Height</td>
             <td>{{animation['height']}}</td>
         </tr>
-        <tr>
-            <td>Duration</td>
-            <td>{{animation['duration']}} ms</td>
-        </tr>
     </table>
     <video width="640" height="480" autoplay>
         <source src="/assets/animations/{{animation['_id']}}.avi"
