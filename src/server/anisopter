@@ -14,6 +14,7 @@ server {
 
     location @uwsgi {
         include uwsgi_params;
+        uwsgi_read_timeout 1800;
         uwsgi_pass _anisopter;
     }
 }

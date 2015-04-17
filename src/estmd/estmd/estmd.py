@@ -45,7 +45,7 @@ class ESTMD(object):
         return x
 
     def __init__(self):
-        pass
+        self.description = ""
         
     def open_movie(self, movie_dir):
         """
