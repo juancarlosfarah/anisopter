@@ -5,6 +5,7 @@ For any information on how to use this module refer to class Animation.
 """
 
 
+import Image
 from math import atan2
 from math import cos 
 from math import pi
@@ -13,10 +14,28 @@ from math import sqrt
 from random import *
 import os
 
-import pyglet
-from pyglet.gl import *
+import gizeh
+import numpy
+#import cv2
 
-import cv2
+
+class Background(object):
+    '''
+    This class store background used in animation.
+    '''
+    def __init__(self, directory, speed=0):
+        self.directory = directory
+
+        self.img = Image.open(directory)
+        self.img.load()
+        self.data = numpy.asarray(self.img, dtype="int32")
+
+        self.pos = [0,0]
+        self.speed = speed
+
+    def update(self):
+        self.pos[0] += self.speed
+        self.pos[1] += self.speed
 
 
 class Target(object):
@@ -71,65 +90,43 @@ class Target(object):
             dx = self.v * cos(deg)
             dy = self.v * sin(deg)
             self.change_position(dx, dy)
-            
-            
-class AnimationWindow(pyglet.window.Window):
+
+
+class AnimationWindow(object):
     """
-    This class is extension of class pyglet.window.Window. We make it over      
-    pyglet.window.Window so we have easier work with some functions.
+    This class keeps track of current animation frame.
     """
     
-    def __init__(self, target_list, width, height, bg_image, bg_speed):
-        super(AnimationWindow, self).__init__()
-        
-        self.bg_image = bg_image
-        if self.bg_image:
-            self.bg_speed = bg_speed
-            self.background = pyglet.image.load(self.bg_image).get_texture()
-            
+    def __init__(self, target_list, width, height, bg=False):
+        self.bg = bg
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
+        self.width = width
+        self.height = height
 
-    def circle(self, x, y, radius, color):
-        glColor3f(color[0], color[1], color[2])
-        iterations = int(2*radius*pi)+15
-        s = sin(2*pi / iterations)
-        c = cos(2*pi / iterations)
-        dx, dy = radius, 0
-        glBegin(GL_TRIANGLE_FAN)
-        glVertex2f(x, y)
-        for i in range(iterations):
-            glVertex2f(x+dx, y+dy)
-            dx, dy = (dx*c - dy*s), (dy*c + dx*s)
-        glEnd()
+    def update_frame(self):
+        if self.bg:
+            self.bg.update()
 
-    def update_frames(self, dt):
         for i in range(self.N):
             self.target_list[i].next_position()
 
-    def on_draw(self):
-        pyglet.gl.glClearColor(1, 1, 1, 1)
-        self.clear()
-        
-        if self.bg_image:
-            glColor3f(1, 1, 1)
-            bg_pos = -self.time * self.bg_speed
-            self.background.blit(bg_pos, bg_pos)
-            
-        for i in range(self.N):
-            x = self.target_list[i].pos[0]
-            y = self.target_list[i].pos[1]
-            size = self.target_list[i].size
-            color = self.target_list[i].color
-            self.circle(x, y, size, color)
-            
-        image_name = "temp/scr" + str(self.time) + ".png"
-        pyglet.image.get_buffer_manager().get_color_buffer().save(image_name)
-        self.time += 1
+    def draw(self):
+        surface = gizeh.Surface(width=self.width, height=self.height,
+                                bg_color=(1,1,1))
 
-    def stop(self, dt):
-        pyglet.app.exit()
+
+        for target in self.target_list:
+            circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
+            circle.draw(surface)
+
+        surface.get_npimage()
+
+        img_name = "temp/scr" + str(self.time) + ".png"
+        surface.write_to_png(img_name)
+
+        self.time += 1
 
 
 class Animation(object):
@@ -147,19 +144,18 @@ class Animation(object):
         self.target_list = []
         self.width = width
         self.height = height
-        self.bg_image = False
-        self.bg_speed = 0
+        self.bg = False
         
     def make_directory(self, directory):
         self.directory = directory
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-    def create_movie(self, out_directory, total_frames):
+    def create_movie(self, out_directory, fps, total_frames):
         img1 = cv2.imread("temp/scr0.png")
         height, width, layers =  img1.shape
         codec = cv2.cv.CV_FOURCC('M','J','P','G')
-        video = cv2.VideoWriter(out_directory, codec, 20.0, (width,height))
+        video = cv2.VideoWriter(out_directory, codec, fps, (width,height))
 
         for i in range(total_frames):
             img_name = "temp/scr" + str(i) + ".png"
@@ -198,10 +194,9 @@ class Animation(object):
             speed: Sets how fast the background is moving.
         """
         
-        self.bg_image = img_dir
-        self.bg_speed = speed
+        self.bg = Background(img_dir, speed)
 
-    def run(self, out_directory, fps=10, total_frames=50):
+    def run(self, out_directory, fps=20, total_frames=50):
         """
         Run animation and save it in out_directory.
         
@@ -213,11 +208,11 @@ class Animation(object):
         
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
-                                 self.bg_image, self.bg_speed)
+                                 self.bg)
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
-        pyglet.clock.schedule_interval(window.update_frames, 1.0/fps)
-        pyglet.clock.schedule_once(window.stop, total_frames/fps)
-        pyglet.app.run()
-        window.close()
-        self.create_movie(out_directory, total_frames)
+        for i in range(total_frames):
+            window.update_frame()
+            window.draw()
+
+        #self.create_movie(out_directory, fps, total_frames)
