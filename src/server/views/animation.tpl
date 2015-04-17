@@ -28,8 +28,8 @@
         </tr>
     </table>
     <video width="640" height="480" autoplay>
-        <source src="/assets/animations/{{animation['_id']}}.avi"
-                type="video/avi">
+        <source src="/assets/animations/{{animation['_id']}}.mp4"
+                type="video/mp4">
         Your browser does not support the video tag.
     </video>
 </div>

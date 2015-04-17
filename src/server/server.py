@@ -303,6 +303,13 @@ def jquery(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
     return bottle.static_file(filename, root=root)
 
+@get('/assets/animations/<filename>')
+def animations(filename):
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        "assets",
+                                        "animations"))
+    return bottle.static_file(filename, root=root)
+
 
 def start():
     bottle.run(host="localhost",
