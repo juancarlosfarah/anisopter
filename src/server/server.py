@@ -84,7 +84,9 @@ def run_cstmd_simulation():
     sample_id = form.get("sample")
     num_neurons = int(form.get("num_neurons"))
     num_electrodes = int(form.get("num_electrodes"))
-    duration = int(form.get("duration"))
+    num_synapses = int(form.get("num_synapses"))
+    synaptic_distance = int(form.get("synaptic_distance"))
+    duration_per_frame = int(form.get("duration_per_frame"))
     description = form.get("description")
     sample = estmd.get_simulation(sample_id)
     frames = estmd.get_frames(sample_id)
@@ -92,7 +94,9 @@ def run_cstmd_simulation():
                                frames,
                                num_neurons,
                                num_electrodes,
-                               duration,
+                               num_synapses,
+                               synaptic_distance,
+                               duration_per_frame,
                                description)
     bottle.redirect("/cstmd/simulation/" + str(_id))
 

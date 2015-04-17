@@ -105,7 +105,9 @@ class CstmdDao:
                        frames,
                        num_neurons,
                        num_electrodes,
-                       duration,
+                       num_synapses,
+                       synaptic_distance,
+                       duration_per_frame,
                        description):
         """
         Generates and saves a simulation.
@@ -113,16 +115,18 @@ class CstmdDao:
         :param frames: Cursor containing frames.
         :param num_neurons: Number of neurons.
         :param num_electrodes: Number of electrodes.
-        :param duration: Duration of simulation.
+        :param num_synapses: Number of synapses.
+        :param synaptic_distance: Distance between the synapses.
+        :param duration_per_frame: Duration per frame of simulation in ms.
         :param description: Optional description field.
         :return: _id of simulation generated.
         """
 
         cstmd = Cstmd(num_neurons=num_neurons,
-                      num_synapses=500,
-                      synaptic_distance=30,
+                      num_synapses=num_synapses,
+                      synaptic_distance=synaptic_distance,
                       num_electrodes=num_electrodes,
-                      duration=duration,
+                      duration=duration_per_frame,
                       description=description)
 
         for frame_object in frames:

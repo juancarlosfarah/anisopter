@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New CSTMD1 Simulation")
+% include('head.tpl', title="New CSTMD Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New CSTMD1 Simulation</h2>
+    <h2>New CSTMD Simulation</h2>
 
     <form action="/cstmd/simulation/run" method="post">
         <div class="form-group">
@@ -30,10 +30,25 @@
                    placeholder="Number of Electrodes (1 to 500)"/>
         </div>
         <div class="form-group">
-            <label for="sample">Duration</label>
-            <input class="form-control" type="number" max="5000" min="1"
-                   id="duration" name="duration"
-                   placeholder="Number of Neurons (1 to 5000)"/>
+            <label for="num_synapses">Number of Synapses</label>
+            <input class="form-control" type="number" id="num_synapses"
+                   name="num_synapses" min="1" max="500"
+                   placeholder="Number of Synapses (1 to 500)"/>
+        </div>
+        <div class="form-group">
+            <label for="synaptic_distance">Synaptic Distance</label>
+            <input class="form-control" type="number" id="synaptic_distance"
+                   name="synaptic_distance" min="1" max="50"
+                   placeholder="Synaptic Distance (1 to 50)"/>
+        </div>
+        <div class="form-group">
+            <label for="duration_per_frame">Duration per Frame</label>
+            <div class="input-group">
+                <input class="form-control" type="number" max="100" min="1"
+                       id="duration_per_frame" name="duration_per_frame"
+                       placeholder="Duration per Frame"/>
+                <span class="input-group-addon">ms</span>
+            </div>
         </div>
         <div class="form-group">
             <label for="description">Description</label>
