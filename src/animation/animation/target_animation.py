@@ -16,7 +16,7 @@ import os
 
 import gizeh
 import numpy
-#import cv2
+import cv2
 
 
 class Background(object):
@@ -218,4 +218,4 @@ class Animation(object):
             window.update_frame()
             window.draw()
 
-        #self.create_movie(out_directory, fps, total_frames)
+        self.create_movie(out_directory, fps, total_frames)
