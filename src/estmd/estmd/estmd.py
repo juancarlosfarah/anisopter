@@ -97,10 +97,11 @@ class ESTMD(object):
         self.frames = []
 
         while True:
-            frame = self.get_next_frame()
+            frame = self.next_frame()
             if frame is False:
                 break
             self.frames.append(frame)
+            print len(self.frames)
 
         self.num_frames = len(self.frames)
     
@@ -243,11 +244,9 @@ class ESTMD(object):
         # Resize image.
         #downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         #downsize = cv2.resize(downsize, (500,500))
-        cv2.imshow('Output', downsize)
 
         downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         downsize = cv2.resize(downsize, (500,500))
-        #cv2.imshow('Output', downsize)
         #cv2.waitKey()
 
         
