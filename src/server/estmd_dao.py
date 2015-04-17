@@ -96,7 +96,7 @@ class EstmdDao:
 
         e = ESTMD()
         e.open_movie(input_directory)
-        e.run(self, by_frame=True)
+        e.run(by_frame=True)
         e.create_list_of_arrays()
 
         _id = self.save(e)
