@@ -13,6 +13,7 @@ from math import sin
 from math import sqrt
 from random import *
 import os
+from subprocess import call
 
 import gizeh
 import numpy
@@ -165,6 +166,10 @@ class Animation(object):
             img_name = "temp/scr" + str(i) + ".png"
             img = cv2.imread(img_name)
             video.write(img)
+
+        dir = out_directory.strip(".avi")
+
+        call(["avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)])
 
         video.release()
         cv2.destroyAllWindows()
