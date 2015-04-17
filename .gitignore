@@ -33,3 +33,9 @@ src/dragonfly_neurons/temp/*
 # =============
 build
 dist
+
+# Generated Animations
+# ====================
+src/server/assets/animations
+src/animation/temp
+src/server/temp

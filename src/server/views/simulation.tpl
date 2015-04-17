@@ -36,7 +36,7 @@
     <div role="tabpanel">
 
         <!-- Nav Tabs -->
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-pills nav-justified" role="tablist">
             % for i in range(len(simulation['potential_plots'])):
             <li role="presentation">
                 <a href="#p{{i + 1}}" aria-controls="p{{i + 1}}" role="tab"
