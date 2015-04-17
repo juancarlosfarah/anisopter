@@ -1,6 +1,6 @@
 // Set up indexes.
 db.spikes.ensureIndex({"sample_id": -1, "_id": 1});
-db.frames.ensureIndex({"sample_id": -1, "_id": 1});
+db.frames.ensureIndex({"simulation_id": -1, "_id": 1});
 
 // Test sample for CSTMD1.
 for (var i = 0; i < 20; i++) {
