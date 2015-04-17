@@ -2,7 +2,7 @@ __author__ = 'christoskaplanis'
 
 from setuptools import setup
 
-setup(name='animation',
+setup(name='estmd',
       version='0.1',
       description='This module isolates target from movie',
       url='',
