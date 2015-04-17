@@ -170,7 +170,8 @@ class Animation(object):
         # TO-DO: change this not to be hard coded.
         dir = out_directory.strip(".avi")
         print "Animation file: " + dir
-        call(["avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)])
+        command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
+        call(command.split())
 
         video.release()
         cv2.destroyAllWindows()
