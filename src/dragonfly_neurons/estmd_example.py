@@ -1,4 +1,4 @@
-from src.estmd_model.estmd_model.estmd import ESTMD
+from src.estmd.estmd.estmd import ESTMD
 
 # Set constants
 # =============

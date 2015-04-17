@@ -9,5 +9,5 @@ setup(name='animation',
       author='Christos Kaplanis',
       author_email='christos.kaplanis@googlemail.com',
       license='MIT',
-      packages=['estmd_model'],
+      packages=['estmd'],
       zip_safe=False)

@@ -26,7 +26,7 @@ if len(argv) > 1 :
 
 if not from_file and not no_input :
     from target_animation.target_animation import Animation
-    from src.estmd_model.estmd_model.estmd import ESTMD
+    from src.estmd.estmd.estmd import ESTMD
 
     # Set constants
     # =============

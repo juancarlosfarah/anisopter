@@ -6,7 +6,7 @@ import os
 import sys
 import pymongo
 
-from ESTMD_model.ESTMD_model import ESTMD
+from estmd.estmd import ESTMD
 
 
 class EstmdDao:
