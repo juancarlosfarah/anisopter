@@ -3,6 +3,7 @@
     <script src="/static/jquery.js"></script>
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"
           media="screen">
+    <link href="/static/styles.css" rel="stylesheet" media="screen">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script>
         (function(i,s,o,g,r,a,m) {
