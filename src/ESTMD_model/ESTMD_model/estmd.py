@@ -205,7 +205,7 @@ class ESTMD(object):
         out_neg = u_neg - v_neg
 
         # Now apply yet another filter to both parts.
-        out_pos = cv2.filter2D(out_pos, -1, self.H_filter) 
+        out_pos = cv2.filter2D(out_pos, -1, self.H_filter)
         out_neg = cv2.filter2D(out_neg, -1, self.H_filter) 
         out_pos[out_pos < 0] = 0
         out_neg[out_neg < 0] = 0

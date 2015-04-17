@@ -10,7 +10,7 @@ from animation.target_animation import Animation
 
 # Set constants
 # =============
-out_directory = "result.mp4"
+out_directory = "result.avi"
 bg_speed = 4
 
 
