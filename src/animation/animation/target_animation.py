@@ -167,6 +167,7 @@ class Animation(object):
             img = cv2.imread(img_name)
             video.write(img)
 
+        # TO-DO: change this not to be hard coded.
         dir = os.path.abspath(out_directory.strip(".avi"))
 
         call(["avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)])
