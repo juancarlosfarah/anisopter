@@ -205,7 +205,7 @@ class ESTMD(object):
         out_neg = u_neg - v_neg
 
         # Now apply yet another filter to both parts.
-        out_pos = cv2.filter2D(out_pos, -1, self.H_filter) 
+        out_pos = cv2.filter2D(out_pos, -1, self.H_filter)
         out_neg = cv2.filter2D(out_neg, -1, self.H_filter) 
         out_pos[out_pos < 0] = 0
         out_neg[out_neg < 0] = 0
@@ -230,19 +230,15 @@ class ESTMD(object):
         downsize[downsize < 0.6] = 0
 
         # Resize image.
-<<<<<<< Updated upstream:src/dragonfly_neurons/ESTMD_model/estmd.py
         #downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         #downsize = cv2.resize(downsize, (500,500))
         cv2.imshow('Output', downsize)
-=======
+
         downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         downsize = cv2.resize(downsize, (500,500))
         #cv2.imshow('Output', downsize)
         #cv2.waitKey()
-<<<<<<< Updated upstream:src/dragonfly_neurons/ESTMD_model/estmd.py
->>>>>>> Stashed changes:stage1/dragonfly_neurons/ESTMD_model/estmd.py
-=======
->>>>>>> Stashed changes:stage1/dragonfly_neurons/ESTMD_model/estmd.py
+
         
         self.t += self.dt
 
