@@ -31,6 +31,11 @@
             <td>{{animation['duration']}} ms</td>
         </tr>
     </table>
+    <video width="640" height="480" autoplay>
+        <source src="/assets/animations/{{animation['_id']}}.avi"
+                type="video/avi">
+        Your browser does not support the video tag.
+    </video>
 </div>
 </body>
 </html>
