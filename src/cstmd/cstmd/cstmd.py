@@ -363,8 +363,11 @@ class Cstmd(object):
     def run(self, rates, ib=0):
 
         if len(rates) > self.num_pixels:
-            print "Error: Not enough stimuli!\nReturning..."
-            return [], []            
+            print "Error: Not enough stimuli!" + \
+                  "Rates = " + str(len(rates)) + " is greater than " + \
+                  "Number of Pixels = " + str(self.num_pixels) + \
+                  ".\nReturning..."
+            return [], [], []
 
         count = 0
 
