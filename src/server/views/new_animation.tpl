@@ -11,7 +11,8 @@
             <label for="width">Width</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="width"
-                       name="duration" placeholder="640" max="1000" />
+                       name="duration" value="640" max="1000"
+                       disabled="disabled"/>
                 <span class="input-group-addon">px</span>
             </div>
         </div>
@@ -19,7 +20,8 @@
             <label for="num_neurons">Height</label>
             <div class="input-group">
               <input type="number" class="form-control" id="height"
-                     name="height" placeholder="480" max="1000" />
+                     name="height" value="480" max="1000" />
+                     disabled="disabled"/>
               <span class="input-group-addon">px</span>
             </div>
         </div>
