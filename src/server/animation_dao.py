@@ -6,7 +6,7 @@ import os
 import sys
 import pymongo
 
-# from animation.target_animation import Animation
+from animation.target_animation import Animation
 
 
 class AnimationDao:
@@ -81,12 +81,12 @@ class AnimationDao:
         """
 
         _id = None
-        # a = Animation()
-        # a.add_target(2)
-        #
-        # _id = self.save()
-        # out_directory = "assets/animations/" + "animation" + str(_id)
-        # a.run(out_directory)
+        a = Animation()
+        a.add_target(2)
+
+        _id = self.save()
+        out_directory = "assets/animations/" + "animation" + str(_id)
+        a.run(out_directory)
 
         return _id
 
