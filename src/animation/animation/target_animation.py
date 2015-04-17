@@ -21,11 +21,16 @@ class Background(object):
     '''
     This class store background used in animation.
     '''
-    def __init__(self, directory, background):
+    def __init__(self, directory, speed=0):
         self.directory = directory
-        self.background = background
+        self.pos = [0,0]
+        self.speed = speed
 
-        
+    def update(self):
+        pos[0] += speed
+        pos[1] += speed
+
+
 class Target(object):
     """
     This class represents different targets that will move on the screen.
@@ -85,12 +90,8 @@ class AnimationWindow(object):
     This class keeps track of current animation frame.
     """
     
-    def __init__(self, target_list, width, height, bg_image, bg_speed):
-        
-        self.bg_image = bg_image
-        if self.bg_image:
-            self.bg_speed = bg_speed
-            
+    def __init__(self, target_list, width, height, bg=False):
+        self.bg = bg
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
@@ -98,12 +99,16 @@ class AnimationWindow(object):
         self.height = height
 
     def update_frame(self):
+        if self.bg:
+            self.bg.update()
+
         for i in range(self.N):
             self.target_list[i].next_position()
 
     def draw(self):
         surface = gizeh.Surface(width=self.width, height=self.height,
                                 bg_color=(1,1,1))
+
         for target in self.target_list:
             circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
             circle.draw(surface)
@@ -131,8 +136,7 @@ class Animation(object):
         self.target_list = []
         self.width = width
         self.height = height
-        self.bg_image = False
-        self.bg_speed = 0
+        self.bg = False
         
     def make_directory(self, directory):
         self.directory = directory
@@ -182,8 +186,7 @@ class Animation(object):
             speed: Sets how fast the background is moving.
         """
         
-        self.bg_image = img_dir
-        self.bg_speed = speed
+        self.bg = Background(img_dir, speed)
 
     def run(self, out_directory, fps=20, total_frames=50):
         """
@@ -197,7 +200,7 @@ class Animation(object):
         
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
-                                 self.bg_image, self.bg_speed)
+                                 self.bg)
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
         for i in range(total_frames):
