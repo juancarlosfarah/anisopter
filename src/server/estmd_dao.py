@@ -6,6 +6,8 @@ import os
 import sys
 import pymongo
 
+from ESTMD_model.ESTMD_model import ESTMD
+
 
 class EstmdDao:
 
@@ -14,7 +16,7 @@ class EstmdDao:
         self.collection = self.db.estmd
         self.frames = self.db.frames
 
-    def save(self, estmd):
+    def save(self, estmd, estmd_result):
         """
         Saves the ESTMD simulation to the database.
         :return: _id of simulation inserted.
@@ -29,10 +31,10 @@ class EstmdDao:
 
         # Save the frames.
         collection = self.db.frames
-        for frame in range(estmd.num_frames):
+        for frame in estmd_result:
             obj = {
                 "sample_id": _id,
-                "frame": estmd.frames[frame].ravel()
+                "frame": frame.ravel()
             }
             collection.insert(obj)
 
@@ -89,7 +91,22 @@ class EstmdDao:
         Runs and saves the output simulation.
         :return: _id of simulation generated.
         """
-        _id = None
+
+        input_directory = "assets/animations/" + sample_id + ".avi"
+
+        e = ESTMD()
+        e.open_movie(input_directory)
+        e.run(self, by_frame=True)
+        result_estmd = []
+
+        while True:
+            frame = e.get_next_frame()
+            if frame is False:
+                break
+            result_estmd.append(frame)
+
+        _id = self.save(e, estmd_result)
+
         return _id
 
 if __name__ == "__main__":
