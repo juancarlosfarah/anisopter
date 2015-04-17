@@ -80,11 +80,10 @@ class AnimationDao:
         :return: _id of animation generated.
         """
 
-        _id = None
         a = Animation()
         a.add_target(2)
 
-        _id = self.save()
+        _id = self.save(a)
         out_directory = "assets/animations/" + "animation" + str(_id)
         a.run(out_directory)
 
