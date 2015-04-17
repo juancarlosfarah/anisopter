@@ -36,7 +36,7 @@
     <div role="tabpanel">
 
         <!-- Nav Tabs -->
-        <ul class="nav nav-tabs nav-justified" role="tablist">
+        <ul class="nav nav-tabs" role="tablist">
             % for i in range(len(simulation['potential_plots'])):
             <li role="presentation">
                 <a href="#p{{i + 1}}" aria-controls="p{{i + 1}}" role="tab"
@@ -61,7 +61,7 @@
     <div role="tabpanel">
 
         <!-- Nav Tabs -->
-        <ul class="nav nav-tabs nav-justified" role="tablist">
+        <ul class="nav nav-pills nav-justified" role="tablist">
             % for i in range(len(simulation['neurons'])):
             <li role="presentation">
                 <a href="#n{{i + 1}}" aria-controls="n{{i + 1}}" role="tab"
@@ -141,7 +141,7 @@
 <script>
     $(document).ready(function() {
         // Activate first tab.
-        $('.nav-tabs').each(function() {
+        $('.nav-pills').each(function() {
             $(this).find('li:first').addClass("active");
         });
         $('.tab-content').each(function() {
