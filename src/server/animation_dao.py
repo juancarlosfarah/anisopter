@@ -75,6 +75,8 @@ class AnimationDao:
         """
 
         animation = self.collection.find_one({'_id': ObjectId(_id)})
+        if "description" not in animation:
+            animation['description'] = "Description"
 
         return animation
 

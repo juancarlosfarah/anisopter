@@ -24,10 +24,10 @@
         </tr>
         %for a in animations:
         <tr>
-            <td><a href="/animation/{{a['_id']}}">{{a['date']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['description']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['width']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['height']}}</a></td>
+            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['date']}}</a></td>
+            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['description']}}</a></td>
+            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['width']}}</a></td>
+            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['height']}}</a></td>
         </tr>
         %end
     </table>
