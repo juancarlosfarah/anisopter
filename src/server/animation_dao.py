@@ -91,7 +91,7 @@ class AnimationDao:
 
         # Save video file.
         print os.getcwd()
-        out_directory = "assets/animations/" + "animation" + str(_id)
+        out_directory = "animation" + str(_id) + ".avi"
         a.run(out_directory)
 
         return _id
