@@ -243,11 +243,10 @@ class ESTMD(object):
         # Resize image.
         #downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         #downsize = cv2.resize(downsize, (500,500))
-        cv2.imshow('Output', downsize)
+
 
         downsize = cv2.resize(downsize, (self.image_width, self.image_height))
         downsize = cv2.resize(downsize, (500,500))
-        #cv2.imshow('Output', downsize)
         #cv2.waitKey()
 
         
