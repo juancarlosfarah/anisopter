@@ -33,7 +33,7 @@ class EstmdDao:
         collection = self.db.frames
         for frame in estmd.frames:
             obj = {
-                "sample_id": _id,
+                "simulation_id": _id,
                 "frame": frame.ravel().tolist()
             }
             collection.insert(obj)
