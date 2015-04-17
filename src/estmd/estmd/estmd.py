@@ -101,7 +101,7 @@ class ESTMD(object):
             if frame is False:
                 break
             self.frames.append(frame)
-            print len(self.frames)
+            print "Generating ESTMD frame number " + str(len(self.frames)) + "."
 
         self.num_frames = len(self.frames)
     
