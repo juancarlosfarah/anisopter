@@ -7,9 +7,9 @@
 
 from sys import argv
 import pickle
+import numpy as np
 
 from src.cstmd.cstmd.CSTMD import CSTMD
-import numpy as np
 
 
 filename = ""
@@ -26,7 +26,7 @@ if len(argv) > 1 :
 
 if not from_file and not no_input :
     from target_animation.target_animation import Animation
-    from ESTMD_model.estmd import ESTMD
+    from src.ESTMD_model.ESTMD_model.estmd import ESTMD
 
     # Set constants
     # =============

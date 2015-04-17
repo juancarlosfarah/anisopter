@@ -1,7 +1,4 @@
-from target_animation.target_animation import Animation
-from ESTMD_model.estmd import ESTMD
-import numpy as np
-import pickle
+from src.ESTMD_model.ESTMD_model.estmd import ESTMD
 
 # Set constants
 # =============

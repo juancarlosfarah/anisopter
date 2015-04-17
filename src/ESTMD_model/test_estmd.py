@@ -2,9 +2,9 @@
 Unit tests for module ESTMD.
 """
 
-from estmd import *
-import numpy as np
 import unittest
+
+from src.ESTMD_model.ESTMD_model.estmd import *
 
 
 class TestESTMD(unittest.TestCase):
