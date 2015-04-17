@@ -116,7 +116,7 @@ class AnimationWindow(object):
         surface = gizeh.Surface(width=self.width, height=self.height,
                                 bg_color=(1,1,1))
 
-        if self.bg_data:
+        if self.bg:
             fill = gizeh.ImagePattern(self.bg.data, self.bg.pos, filter='best')
             bg_circle = gizeh.circle(r=self.width*5, fill=fill)
             bg_circle.draw(surface)
