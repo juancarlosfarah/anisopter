@@ -92,9 +92,11 @@ class AnimationDao:
         _id = self.save(a)
 
         # Save video file.
-        print os.getcwd()
+        print "Current working directory: " + os.getcwd() + "."
         relative_path = "assets/animations/"
         out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
+        print "Saving animation in: " + out_directory + "."
+
         a.run(out_directory)
 
         return _id
