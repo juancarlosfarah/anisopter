@@ -158,8 +158,8 @@ class Animation(object):
     def create_movie(self, out_directory, fps, total_frames):
         img1 = cv2.imread("temp/scr0.png")
         height, width, layers =  img1.shape
-        codec = cv2.cv.CV_FOURCC('M','J','P','G')
-        video = cv2.VideoWriter(out_directory, codec, fps, (width,height))
+        codec = cv2.cv.CV_FOURCC('D','I','V','X')
+        video = cv2.VideoWriter(out_directory, codec, fps, (width, height))
 
         for i in range(total_frames):
             img_name = "temp/scr" + str(i) + ".png"
