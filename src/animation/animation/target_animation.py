@@ -5,6 +5,7 @@ For any information on how to use this module refer to class Animation.
 """
 
 
+import Image
 from math import atan2
 from math import cos 
 from math import pi
@@ -14,6 +15,7 @@ from random import *
 import os
 
 import gizeh
+import numpy
 #import cv2
 
 
@@ -23,12 +25,17 @@ class Background(object):
     '''
     def __init__(self, directory, speed=0):
         self.directory = directory
+
+        self.img = Image.open(directory)
+        self.img.load()
+        self.data = numpy.asarray(self.img, dtype="int32")
+
         self.pos = [0,0]
         self.speed = speed
 
     def update(self):
-        pos[0] += speed
-        pos[1] += speed
+        self.pos[0] += self.speed
+        self.pos[1] += self.speed
 
 
 class Target(object):
@@ -108,6 +115,7 @@ class AnimationWindow(object):
     def draw(self):
         surface = gizeh.Surface(width=self.width, height=self.height,
                                 bg_color=(1,1,1))
+
 
         for target in self.target_list:
             circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
