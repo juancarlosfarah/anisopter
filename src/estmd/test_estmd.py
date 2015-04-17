@@ -4,7 +4,7 @@ Unit tests for module ESTMD.
 
 import unittest
 
-from src.estmd.estmd.estmd import *
+from estmd.estmd import *
 
 
 class TestESTMD(unittest.TestCase):
