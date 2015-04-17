@@ -61,10 +61,8 @@ class AnimationDao:
                     '_id': animation['_id'],
                     'date': animation['_id'].generation_time,
                     'description': animation['description'],
-                    'targets': animation['targets'],
                     'width': animation['width'],
                     'height': animation['height'],
-                    'duration': animation['duration'],
                 })
 
         return animations

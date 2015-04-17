@@ -19,19 +19,15 @@
         <tr>
             <th>Date</th>
             <th>Description</th>
-            <th>Background</th>
-            <th>Number of Targets</th>
-            <th>Duration</th>
+            <th>Width</th>
+            <th>Height</th>
         </tr>
         %for a in animations:
         <tr>
             <td><a href="/animation/{{a['_id']}}">{{a['date']}}</a></td>
             <td><a href="/animation/{{a['_id']}}">{{a['description']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['background']}}</a></td>
             <td><a href="/animation/{{a['_id']}}">{{a['width']}}</a></td>
             <td><a href="/animation/{{a['_id']}}">{{a['height']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['num_targets']}}</a></td>
-            <td><a href="/animation/{{a['_id']}}">{{a['duration']}}</a></td>
         </tr>
         %end
     </table>
