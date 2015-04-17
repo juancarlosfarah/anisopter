@@ -196,7 +196,6 @@ class SimulationDao:
         # Prepare and display plot.
         pylab.xlabel('Time (ms)')
         pylab.ylabel('Membrane Potential')
-        pylab.title('Spike Train')
 
         plot = mpld3.fig_to_html(f)
         pylab.close(f)
