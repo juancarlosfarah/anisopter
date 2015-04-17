@@ -78,6 +78,8 @@ class EstmdDao:
         """
 
         simulation = self.collection.find_one({'_id': ObjectId(_id)})
+        if "description" not in simulation:
+            simulation['description'] = "Description"
 
         return simulation
 
