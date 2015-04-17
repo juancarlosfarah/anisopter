@@ -81,9 +81,9 @@ class EstmdDao:
 
         return simulation
 
-    def generate_simulation(self):
+    def run_simulation(self, sample_id):
         """
-        Generates and saves a simulation.
+        Runs and saves the output simulation.
         :return: _id of simulation generated.
         """
         _id = None

@@ -73,6 +73,50 @@ def generate_animation():
     bottle.redirect("/pattern_recognition/sample/" + str(_id))
 
 
+@route('/estmd')
+def show_estmd():
+
+    obj = dict()
+    return bottle.template('estmd', obj)
+
+
+@route('/estmd/simulation/new')
+def new_estmd_simulation():
+
+    obj = dict()
+    obj['samples'] = animations.get_animations(50)
+    return bottle.template('new_estmd_simulation', obj)
+
+
+@post('/estmd/simulation/run')
+def run_estmd_simulation():
+    form = bottle.request.forms
+    sample_id = form.get("sample")
+    _id = estmd.run_simulation(sample_id)
+    bottle.redirect("/estmd/simulation/" + str(_id))
+
+
+@route('/estmd/simulations')
+def show_estmd_simulations():
+
+    obj = dict()
+    obj['simulations'] = estmd.get_simulations(50)
+    return bottle.template('estmd_simulations', obj)
+
+
+@get("/estmd/simulation/<_id>")
+def show_estmd_simulation(_id):
+
+    sim = estmd.get_simulation(_id)
+
+    if sim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['simulation'] = sim
+    return bottle.template("estmd_simulation", obj)
+
+
 @route('/cstmd')
 def show_cstmd():
 
