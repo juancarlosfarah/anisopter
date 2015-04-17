@@ -299,7 +299,7 @@ def bootstrap_js(filename):
 
 
 @get('/static/<filename>')
-def jquery(filename):
+def static(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
     return bottle.static_file(filename, root=root)
 
