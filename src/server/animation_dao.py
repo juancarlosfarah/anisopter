@@ -90,6 +90,9 @@ class AnimationDao:
         a.add_target(2)
 
         _id = self.save(a)
+
+        # Save video file.
+        print os.getcwd()
         out_directory = "assets/animations/" + "animation" + str(_id)
         a.run(out_directory)
 
