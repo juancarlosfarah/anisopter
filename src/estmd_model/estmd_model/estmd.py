@@ -92,6 +92,17 @@ class ESTMD(object):
         if not by_frame:
             self.create_movie(cod, out_dir)
         return True
+
+    def create_list_of_arrays(self):
+        self.frames = []
+
+        while True:
+            frame = self.get_next_frame()
+            if frame is False:
+                break
+            self.frames.append(frame)
+
+        self.num_frames = len(self.frames)
     
     def get_next_frame(self):
         """

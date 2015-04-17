@@ -16,7 +16,7 @@ class EstmdDao:
         self.collection = self.db.estmd
         self.frames = self.db.frames
 
-    def save(self, estmd, estmd_result):
+    def save(self, estmd):
         """
         Saves the ESTMD simulation to the database.
         :return: _id of simulation inserted.
@@ -31,7 +31,7 @@ class EstmdDao:
 
         # Save the frames.
         collection = self.db.frames
-        for frame in estmd_result:
+        for frame in estmd.frames:
             obj = {
                 "sample_id": _id,
                 "frame": frame.ravel()
@@ -97,15 +97,9 @@ class EstmdDao:
         e = ESTMD()
         e.open_movie(input_directory)
         e.run(self, by_frame=True)
-        result_estmd = []
+        e.create_list_of_arrays()
 
-        while True:
-            frame = e.get_next_frame()
-            if frame is False:
-                break
-            result_estmd.append(frame)
-
-        _id = self.save(e, result_estmd)
+        _id = self.save(e)
 
         return _id
 
