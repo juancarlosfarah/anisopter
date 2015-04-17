@@ -70,7 +70,7 @@ def generate_animation():
     description = form.get("description")
     num_targets = form.get("num_targets")
     _id = animations.generate_animation()
-    bottle.redirect("/pattern_recognition/sample/" + str(_id))
+    bottle.redirect("/target_animation/animation/" + str(_id))
 
 
 @route('/estmd')
