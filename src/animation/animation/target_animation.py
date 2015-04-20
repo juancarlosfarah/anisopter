@@ -163,7 +163,7 @@ class AnimationWindow(object):
 
         self.time += 1
 
-
+# TO-DO: setters and getters for dragonfly position.
 class Animation(object):
     """ 
     This class handles different possible target animations.
