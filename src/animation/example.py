@@ -23,5 +23,5 @@ test.add_target(2, start=[250,250], end=[250,500], size=5, v=6)
 print test.get_targets(5)
 
 test.add_background("images/test.jpg", 2)
-test.add_dragonfly()
+test.add_dragonfly([320, 240])
 test.run(out_directory, 10, 10)

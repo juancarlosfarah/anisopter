@@ -24,8 +24,8 @@ class Dragonfly(object):
     '''
     This class follows Targets and stuff.
     '''
-    def __init__(self):
-        pass
+    def __init__(self, position):
+        self.position = position
 
 class Background(object):
     '''
@@ -148,7 +148,7 @@ class AnimationWindow(object):
             bg_circle.draw(surface)
 
         if self.dragon:
-            xy_pos = [self.width/2, self.height/2]
+            xy_pos = self.dragon.position
             dragon_circle = gizeh.circle(r=10, xy=xy_pos, fill = (1,0,0))
             dragon_circle.draw(surface)
 
@@ -226,14 +226,14 @@ class Animation(object):
         new_target = Target(type, start, end, v, size, color)
         self.target_list.append(new_target)
 
-    def add_dragonfly(self):
+    def add_dragonfly(self, position):
         """
         Adds background to animation. It can be either stationary or moving.
 
         Args:
             path: sets path that dragonfly will follow
         """
-        self.dragonfly = Dragonfly()
+        self.dragonfly = Dragonfly(position)
         
     def add_background(self, img_dir=False, speed=0):
         """
