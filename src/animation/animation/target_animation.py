@@ -169,7 +169,7 @@ class Animation(object):
 
         # TO-DO: change this not to be hard coded.
         dir = out_directory.strip(".avi")
-        print "Animation file: " + dir
+
         command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
         call(command.split())
 
@@ -212,7 +212,7 @@ class Animation(object):
         Run animation and save it in out_directory.
         
         Args:
-            out_directory: Sets directory of output movie.
+            out_directory: Sets directory of output movie. It must end in .avi!
             fps: Sets fps used to make animation. It must be larger than 0.
             total_frames: Total frames that movie will contain.
         """
