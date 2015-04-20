@@ -9,8 +9,8 @@ N = 4
 taum = 10*ms
 taupre = 20*ms
 taupost = taupre
-tauc = 100*ms # Izhikevich paper 1s
-tauDop = 100*ms #  Izhikevich paper 200ms
+tauc = 20*ms # Izhikevich paper 1s
+tauDop = 20*ms #  Izhikevich paper 200ms
 Ee = 0*mV
 vt = -54*mV
 vr = -60*mV
@@ -20,11 +20,11 @@ F = 15*Hz
 gmax = 1
 
 dApre = 1 # 0.01
-dApost = -dApre * taupre / taupost *1.5 #* 1.05
+dApost = -dApre * taupre / taupost *1.05 #* 1.05
 dApost *= gmax
 dApre *= gmax
 
-sim_time = 1000 * ms
+sim_time = 10000 * ms
 frame_length = 10 * ms
 
 dopBoost = 0.5
@@ -65,10 +65,10 @@ S.c = 'rand() * gmax'
 
 # Monitors
 mon = StateMonitor(S, ('w', 'Dop', 'c'), record=True)
-w0_mon = StateMonitor(S, 'w', S[0,:])
-w1_mon = StateMonitor(S, 'w', S[1,:])
-w2_mon = StateMonitor(S, 'w', S[2,:])
-w3_mon = StateMonitor(S, 'w', S[3,:])
+w0_mon = StateMonitor(S, 'w', S[:,0])
+w1_mon = StateMonitor(S, 'w', S[:,1])
+w2_mon = StateMonitor(S, 'w', S[:,2])
+w3_mon = StateMonitor(S, 'w', S[:,3])
 s_mon = SpikeMonitor(neurons)
 r_mon = PopulationRateMonitor(neurons)
 
@@ -79,10 +79,9 @@ num_spikes = 0
 for i in range(sim_time / frame_length):
     run(frame_length, report='text')
     if s_mon.num_spikes > num_spikes:
-        # FIX - loop to see if neuron 0 spiked in the past 10ms
-        num_spikes = s_mon.num_spikes
-        if s_mon.i[-1] == 0:
+        if 0 in s_mon.i[range(num_spikes, s_mon.num_spikes)]:
             S.Dop += dopBoost
+        num_spikes = s_mon.num_spikes
 
 # Plots
 subplot(331)
@@ -91,22 +90,22 @@ ylabel('Weight / gmax')
 xlabel('Synapse index')
 subplot(332)
 plot(w0_mon.t/second, w0_mon.w.T)
-title('Synapses from Neuron 0')
+title('Synapses to Neuron 0')
 xlabel('Time (s)')
 ylabel('Weight / gmax')
 subplot(333)
 plot(w1_mon.t/second, w1_mon.w.T)
-title('Synapses from Neuron 1')
+title('Synapses to Neuron 1')
 xlabel('Time (s)')
 ylabel('Weight / gmax')
 subplot(334)
 plot(w2_mon.t/second, w2_mon.w.T)
-title('Synapses from Neuron 2')
+title('Synapses to Neuron 2')
 xlabel('Time (s)')
 ylabel('Weight / gmax')
 subplot(335)
 plot(w3_mon.t/second, w3_mon.w.T)
-title('Synapses from Neuron 3')
+title('Synapses to Neuron 3')
 xlabel('Time (s)')
 ylabel('Weight / gmax')
 subplot(336)
