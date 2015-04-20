@@ -99,6 +99,23 @@ class Target(object):
             dy = self.v * sin(deg)
             self.change_position(dx, dy)
 
+    def get_pos(self, frame):
+        '''
+        Returns position of target at frame "frame". It returns starting
+        position for randomly moving and stationary targets.
+        '''
+
+        if self.type != 2:
+            return self.start
+        else:
+            x_c = self.end[0] - self.start[0]
+            y_c = self.end[1] - self.start[1]
+            deg = atan2(y_c, x_c)
+            dx = frame * self.v * cos(deg)
+            dy = frame * self.v * sin(deg)
+            result = [self.start[0]+dx, self.start[1]+dy]
+            return result
+
 
 class AnimationWindow(object):
     """
@@ -130,7 +147,7 @@ class AnimationWindow(object):
             bg_circle = gizeh.circle(r=self.width*5, fill=fill)
             bg_circle.draw(surface)
 
-        if self.dragonfly:
+        if self.dragon:
             xy_pos = [self.width/2, self.height/2]
             dragon_circle = gizeh.circle(r=10, xy=xy_pos, fill = (1,0,0))
             dragon_circle.draw(surface)
@@ -241,6 +258,7 @@ class Animation(object):
         """
         
         self.make_directory("temp")
+        history = [self.target_list, self.bg, self.dragonfly] # Save to reset.
         window = AnimationWindow(self.target_list, self.width, self.height, 
                                  self.bg, self.dragonfly)
         # Next line makes window update every 1.0/fps seconds after
@@ -250,3 +268,18 @@ class Animation(object):
             window.draw()
 
         self.create_movie(out_directory, fps, total_frames)
+        [self.target_list, self.bg, self.dragonfly] = history
+
+    def get_targets(self, frame):
+        """
+        Get list of positions of target at time "time".
+        The return format is [[x1, y1], [x2, y2], ... [xn, yn]]
+
+        Args:
+            frame: at which frame you want positions of targets.
+        """
+        result = []
+        for target in self.target_list:
+            pos = target.get_pos(frame)
+            result.append(pos)
+        return result
