@@ -20,6 +20,13 @@ import numpy
 import cv2
 
 
+class Dragonfly(object):
+    '''
+    This class follows Targets and stuff.
+    '''
+    def __init__(self):
+        pass
+
 class Background(object):
     '''
     This class store background used in animation.
@@ -98,8 +105,9 @@ class AnimationWindow(object):
     This class keeps track of current animation frame.
     """
     
-    def __init__(self, target_list, width, height, bg=False):
+    def __init__(self, target_list, width, height, bg=False, dragonfly=False):
         self.bg = bg
+        self.dragonfly = dragonfly
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
@@ -121,6 +129,10 @@ class AnimationWindow(object):
             fill = gizeh.ImagePattern(self.bg.data, self.bg.pos, filter='best')
             bg_circle = gizeh.circle(r=self.width*5, fill=fill)
             bg_circle.draw(surface)
+
+        if self.dragonfly:
+            bg_circle = gizeh.circle(r=10, xy=[25, 25],
+                                     fill = (1,0,0))
 
         for target in self.target_list:
             circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
@@ -147,6 +159,7 @@ class Animation(object):
     
     def __init__(self, width=640, height=480):
         self.target_list = []
+        self.dragonfly = False
         self.width = width
         self.height = height
         self.bg = False
@@ -194,6 +207,15 @@ class Animation(object):
         
         new_target = Target(type, start, end, v, size, color)
         self.target_list.append(new_target)
+
+    def add_dragonfly(self):
+        """
+        Adds background to animation. It can be either stationary or moving.
+
+        Args:
+            path: sets path that dragonfly will follow
+        """
+        self.dragonfly = Dragonfly()
         
     def add_background(self, img_dir=False, speed=0):
         """
@@ -219,7 +241,7 @@ class Animation(object):
         
         self.make_directory("temp")
         window = AnimationWindow(self.target_list, self.width, self.height, 
-                                 self.bg)
+                                 self.bg, self.dragonfly)
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
         for i in range(total_frames):
