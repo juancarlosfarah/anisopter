@@ -24,7 +24,7 @@ dApost = -dApre * taupre / taupost *1.05 #* 1.05
 dApost *= gmax
 dApre *= gmax
 
-sim_time = 10000 * ms
+sim_time = 100 * ms
 frame_length = 10 * ms
 
 dopBoost = 0.5
@@ -63,6 +63,9 @@ S = Synapses(input, neurons,
 S.w = 'rand() * gmax'
 S.c = 'rand() * gmax'
 
+#Subgroups
+neuron0=neurons[0:1]
+
 # Monitors
 mon = StateMonitor(S, ('w', 'Dop', 'c'), record=True)
 w0_mon = StateMonitor(S, 'w', S[:,0])
@@ -70,7 +73,7 @@ w1_mon = StateMonitor(S, 'w', S[:,1])
 w2_mon = StateMonitor(S, 'w', S[:,2])
 w3_mon = StateMonitor(S, 'w', S[:,3])
 s_mon = SpikeMonitor(neurons)
-r_mon = PopulationRateMonitor(neurons)
+r_mon = PopulationRateMonitor(neuron0)
 
 #run(sim_time, report='text')
 
@@ -78,6 +81,7 @@ r_mon = PopulationRateMonitor(neurons)
 num_spikes = 0
 for i in range(sim_time / frame_length):
     run(frame_length, report='text')
+    
     if s_mon.num_spikes > num_spikes:
         if 0 in s_mon.i[range(num_spikes, s_mon.num_spikes)]:
             S.Dop += dopBoost
