@@ -283,3 +283,11 @@ class Animation(object):
             pos = target.get_pos(frame)
             result.append(pos)
         return result
+
+    def get_dragonfly(self, time):
+        # To-do
+        pass
+
+    def get_distance(self, time):
+        #To-do
+        pass
