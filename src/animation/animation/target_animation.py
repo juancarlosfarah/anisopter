@@ -107,7 +107,7 @@ class AnimationWindow(object):
     
     def __init__(self, target_list, width, height, bg=False, dragonfly=False):
         self.bg = bg
-        self.dragonfly = dragonfly
+        self.dragon = dragonfly
         self.target_list = target_list
         self.N = len(target_list)
         self.time = 0
@@ -131,8 +131,9 @@ class AnimationWindow(object):
             bg_circle.draw(surface)
 
         if self.dragonfly:
-            bg_circle = gizeh.circle(r=10, xy=[25, 25],
-                                     fill = (1,0,0))
+            xy_pos = [self.width/2, self.height/2]
+            dragon_circle = gizeh.circle(r=10, xy=xy_pos, fill = (1,0,0))
+            dragon_circle.draw(surface)
 
         for target in self.target_list:
             circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
