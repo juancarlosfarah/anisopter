@@ -306,9 +306,23 @@ class Animation(object):
         return result
 
     def get_dragonfly(self, time):
+        """
+        Get position of dragonfly at time "time".
+
+        Args:
+            time: at which time in interval [0, 1] do you want to know
+                  the distance.
+        """
         return self.dragonfly.get_position(time)
 
-    def get_distance(self, time):
+    def get_distance_dragonfly_targets(self, time):
+        """
+        Get distance of dragonfly to closest target.
+
+        Args:
+            time: at which time in interval [0, 1] do you want to know
+                  the distance.
+        """
         dragon = self.get_dragonfly(time)
         targets = self.get_targets(time)
         print dragon
