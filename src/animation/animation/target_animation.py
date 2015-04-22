@@ -290,7 +290,7 @@ class Animation(object):
         self.create_movie(out_directory, fps, total_frames)
         [self.target_list, self.bg, self.dragonfly] = history
 
-    def get_targets(self, time):
+    def get_targets_positions(self, time):
         """
         Get list of positions of target at time "time".
         The return format is [[x1, y1], [x2, y2], ... [xn, yn]]
@@ -305,7 +305,7 @@ class Animation(object):
             result.append(pos)
         return result
 
-    def get_dragonfly(self, time):
+    def get_dragonfly_position(self, time):
         """
         Get position of dragonfly at time "time".
 
@@ -315,7 +315,7 @@ class Animation(object):
         """
         return self.dragonfly.get_position(time)
 
-    def get_distance_dragonfly_targets(self, time):
+    def get_distance_dragonfly_to_closest_target(self, time):
         """
         Get distance of dragonfly to closest target.
 
@@ -323,8 +323,8 @@ class Animation(object):
             time: at which time in interval [0, 1] do you want to know
                   the distance.
         """
-        dragon = self.get_dragonfly(time)
-        targets = self.get_targets(time)
+        dragon = self.get_dragonfly_position(time)
+        targets = self.get_targets_positions(time)
         print dragon
         print targets
         best_result = 1001001001
