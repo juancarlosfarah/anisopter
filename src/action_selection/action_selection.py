@@ -24,7 +24,7 @@ dApost = -dApre * taupre / taupost *1.05 #* 1.05
 dApost *= gmax
 dApre *= gmax
 
-sim_time = 100 * ms
+sim_time = 1000 * ms
 frame_length = 10 * ms
 
 dopBoost = 0.5
@@ -65,6 +65,9 @@ S.c = 'rand() * gmax'
 
 #Subgroups
 neuron0=neurons[0:1]
+neuron1=neurons[1:2]
+neuron2=neurons[2:3]
+neuron3=neurons[3:4]
 
 # Monitors
 mon = StateMonitor(S, ('w', 'Dop', 'c'), record=True)
@@ -73,7 +76,10 @@ w1_mon = StateMonitor(S, 'w', S[:,1])
 w2_mon = StateMonitor(S, 'w', S[:,2])
 w3_mon = StateMonitor(S, 'w', S[:,3])
 s_mon = SpikeMonitor(neurons)
-r_mon = PopulationRateMonitor(neuron0)
+r0_mon = PopulationRateMonitor(neuron0)
+r1_mon = PopulationRateMonitor(neuron1)
+r2_mon = PopulationRateMonitor(neuron2)
+r3_mon = PopulationRateMonitor(neuron3)
 
 #run(sim_time, report='text')
 
@@ -87,7 +93,10 @@ for i in range(sim_time / frame_length):
             S.Dop += dopBoost
         num_spikes = s_mon.num_spikes
 
+print r3_mon.rate/Hz
+
 # Plots
+figure(1)
 subplot(331)
 plot(S.w / gmax, '.k')
 ylabel('Weight / gmax')
@@ -123,8 +132,31 @@ subplot(338)
 plot(mon.t/second, mon.c[0])
 ylabel('c')
 subplot(339)
-plot(r_mon.t/second, r_mon.rate/Hz)
+plot(r0_mon.t/second, r0_mon.rate/Hz)
 xlabel('Time/s')
 ylabel('Firing rate / Hz')
 tight_layout()
+
+figure(2)
+subplot(221)
+plot(r0_mon.t/second, r0_mon.rate/Hz)
+title('Neuron 0 firing rate')
+xlabel('Time/s')
+ylabel('Firing rate / Hz')
+subplot(222)
+plot(r1_mon.t/second, r1_mon.rate/Hz)
+title('Neuron 1 firing rate')
+xlabel('Time/s')
+ylabel('Firing rate / Hz')
+subplot(223)
+plot(r2_mon.t/second, r2_mon.rate/Hz)
+title('Neuron 2 firing rate')
+xlabel('Time/s')
+ylabel('Firing rate / Hz')
+subplot(224)
+plot(r3_mon.t/second, r3_mon.rate/Hz)
+title('Neuron 3 firing rate')
+xlabel('Time/s')
+ylabel('Firing rate / Hz')
+
 show()
