@@ -25,17 +25,17 @@ class Dragonfly(object):
     This class follows Targets and stuff.
     '''
     def __init__(self, path):
-        self.pos = path[0][0:1]
+        self.pos = path[0][0:2]
         self.path = path
 
     def get_position(self, time):
         index = 0
-        while (index < len(self.path)) and (self.path[index][2] > time):
+        while (index < len(self.path)) and (self.path[index][2] < time):
             index += 1
-        return self.path[index][0:1]
+        return self.path[index][0:2]
 
     def update(self, time):
-        self.path = self.get_position(time)
+        self.pos = self.get_position(time)
 
 
 class Background(object):
@@ -147,7 +147,7 @@ class AnimationWindow(object):
             self.bg.update()
 
         if self.dragon:
-            self.dragon.update()
+            self.dragon.update(time)
 
         for i in range(self.N):
             self.target_list[i].next_position()
@@ -162,7 +162,7 @@ class AnimationWindow(object):
             bg_circle.draw(surface)
 
         if self.dragon:
-            xy_pos = self.dragon.position
+            xy_pos = self.dragon.pos
             dragon_circle = gizeh.circle(r=10, xy=xy_pos, fill = (1,0,0))
             dragon_circle.draw(surface)
 
@@ -176,6 +176,7 @@ class AnimationWindow(object):
         surface.write_to_png(img_name)
 
         self.time += 1
+
 
 # TO-DO: setters and getters for dragonfly position.
 class Animation(object):
@@ -272,7 +273,9 @@ class Animation(object):
             fps: Sets fps used to make animation. It must be larger than 0.
             total_frames: Total frames that movie will contain.
         """
-        
+
+        self.fps = fps
+        self.total_frames = total_frames
         self.make_directory("temp")
         history = [self.target_list, self.bg, self.dragonfly] # Save to reset.
         window = AnimationWindow(self.target_list, self.width, self.height, 
@@ -280,7 +283,8 @@ class Animation(object):
         # Next line makes window update every 1.0/fps seconds after
         # running method update_frames on window.
         for i in range(total_frames):
-            window.update_frame()
+            time = 1.0 * i / total_frames
+            window.update_frame(time)
             window.draw()
 
         self.create_movie(out_directory, fps, total_frames)
@@ -307,6 +311,8 @@ class Animation(object):
     def get_distance(self, time):
         dragon = self.get_dragonfly(time)
         targets = self.get_targets(time)
+        print dragon
+        print targets
         best_result = 1001001001
         for target in targets:
             dx = dragon[0] - target[0]
