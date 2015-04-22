@@ -24,8 +24,19 @@ class Dragonfly(object):
     '''
     This class follows Targets and stuff.
     '''
-    def __init__(self, position):
-        self.position = position
+    def __init__(self, path):
+        self.pos = path[0][0:1]
+        self.path = path
+
+    def get_position(self, time):
+        index = 0
+        while (index < len(self.path)) and (self.path[index][2] > time):
+            index += 1
+        return self.path[index][0:1]
+
+    def update(self, time):
+        self.path = self.get_position(time)
+
 
 class Background(object):
     '''
@@ -131,9 +142,12 @@ class AnimationWindow(object):
         self.width = width
         self.height = height
 
-    def update_frame(self):
+    def update_frame(self, time):
         if self.bg:
             self.bg.update()
+
+        if self.dragon:
+            self.dragon.update()
 
         for i in range(self.N):
             self.target_list[i].next_position()
@@ -181,6 +195,8 @@ class Animation(object):
         self.width = width
         self.height = height
         self.bg = False
+        self.total_frames = 50
+        self.fps = 20
         
     def make_directory(self, directory):
         self.directory = directory
@@ -270,7 +286,7 @@ class Animation(object):
         self.create_movie(out_directory, fps, total_frames)
         [self.target_list, self.bg, self.dragonfly] = history
 
-    def get_targets(self, frame):
+    def get_targets(self, time):
         """
         Get list of positions of target at time "time".
         The return format is [[x1, y1], [x2, y2], ... [xn, yn]]
@@ -280,14 +296,21 @@ class Animation(object):
         """
         result = []
         for target in self.target_list:
+            frame = int(time * self.total_frames)
             pos = target.get_pos(frame)
             result.append(pos)
         return result
 
     def get_dragonfly(self, time):
-        # To-do
-        pass
+        return self.dragonfly.get_position(time)
 
     def get_distance(self, time):
-        #To-do
-        pass
+        dragon = self.get_dragonfly(time)
+        targets = self.get_targets(time)
+        best_result = 1001001001
+        for target in targets:
+            dx = dragon[0] - target[0]
+            dy = dragon[1] - target[1]
+            d = sqrt(dx * dx + dy * dy)
+            best_result = min(best_result, d)
+        return best_result
