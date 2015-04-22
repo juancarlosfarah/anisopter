@@ -243,14 +243,14 @@ class Animation(object):
         new_target = Target(type, start, end, v, size, color)
         self.target_list.append(new_target)
 
-    def add_dragonfly(self, position):
+    def add_dragonfly(self, path):
         """
         Adds background to animation. It can be either stationary or moving.
 
         Args:
             path: sets path that dragonfly will follow
         """
-        self.dragonfly = Dragonfly(position)
+        self.dragonfly = Dragonfly(path)
         
     def add_background(self, img_dir=False, speed=0):
         """
