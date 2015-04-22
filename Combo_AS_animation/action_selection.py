@@ -36,7 +36,7 @@ dopBoost = 0.5
 
 fromAnim = False
 
-dragon_speed_mult = 1 * second
+SPEED_FACTOR = 2 * second
 
 # Neuron equations.
 eqs_neurons = '''
@@ -101,6 +101,10 @@ rate3 = []
 rates_t = range(0, sim_time/(1*ms), frame_length/(1*ms))
 
 
+######################### CONSTANTS TO CHANGE!
+dragon_path = [[300, 300, 0.0]]
+##########################
+
 # Simulation loop
 num_spikes = 0
 rate_window = int(frame_length / (0.1 * ms))
@@ -119,6 +123,20 @@ for i in range(sim_time / frame_length):
     mean3 = np.mean(r3_mon.rate[-rate_window:])
     rate3.append(mean3)
 
+    ##### Dragonfly stuff
+    up = mean0
+    down = mean2
+    left = mean1
+    right = mean3
+    vy = (up - down) * SPEED_FACTOR
+    vx = (right - left) * SPEED_FACTOR
+
+    x = dragon_path[-1][0] + vx / 10.0
+    y = dragon_path[-1][1] + vy / 10.0
+    t = 1.0 * i / (sim_time / frame_length)
+    dragon_path.append([x, y, t])
+    #####
+
 
     if fromAnim:
         # TO-DO
@@ -129,6 +147,15 @@ for i in range(sim_time / frame_length):
             if 0 in s_mon.i[range(num_spikes, s_mon.num_spikes)]:
                 S.Dop += dopBoost
             num_spikes = s_mon.num_spikes
+
+
+######## Animation stuff
+test = Animation()
+test.add_target(2, start=[250,0], end=[250,500], size=5, v=4)
+test.add_dragonfly(dragon_path)
+test.run("test.avi", 10, 10)
+print dragon_path
+########
 
 # Plots
 figure(1)
