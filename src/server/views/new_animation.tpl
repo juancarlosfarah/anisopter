@@ -38,8 +38,17 @@
         <hr>
         <div id="targets">
             <h3>Targets</h3>
-            <fieldset>
-                <legend class="h4">Target 1</legend>
+            <fieldset class="target">
+                <div class="row">
+                    <div class="col-md-10">
+                        <legend class="h4">
+                            Target <span class="target_num">1</span>
+                        </legend>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
@@ -134,15 +143,25 @@
 <script src="/static/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js">
 </script>
 <script>
+    function removeTargetOnClick($element) {
+        $element.click(function() {
+            if ($targets.children('fieldset.target').length > 1) {
+                $(this).closest('fieldset.target').remove();
+            }
+        });
+    }
+
     $(document).ready(function() {
         $('.color-picker').colorpicker();
         $("#addTargets").click(function() {
             // Add form for targets.
             var $targets = $('#targets');
-            var html = $targets.children('fieldset').last().html();
+            var html = $targets.children('fieldset.target').last().html();
             $targets.append(html);
             $('.color-picker').last().colorpicker();
+            removeTargetOnClick($('.glyphicon-remove').last());
         });
+        removeTargetOnClick($('.glyphicon-remove')); 
     });
 </script>
 </body>
