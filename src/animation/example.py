@@ -17,7 +17,8 @@ bg_speed = 4
 # Create simple movie.
 # ====================
 test = Animation()
-test.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+test.add_target(2, start=[250,0], velocity=[1,1], size=5,
+                v=4, color=[0.7, 0.2, 0.1])
 test.add_target(2, start=[250,250], velocity=[1,1], size=5, v=6)
 
 test.add_background("images/test.jpg", 2)
