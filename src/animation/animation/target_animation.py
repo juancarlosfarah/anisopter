@@ -218,7 +218,7 @@ class Animation(object):
         video.release()
         cv2.destroyAllWindows()
 
-    def add_target(self, type, start=[0, 0], velocity=[100, 100],
+    def add_target(self, type, start=[0, 0], velocity=[1, 1],
                    v=5, size=10, color=[0, 0, 0]):
         """
         Adds target in animation with several different options.
