@@ -9,7 +9,7 @@ import pymongo
 from estmd.estmd import ESTMD
 
 
-class EstmdDao:
+class EstmdDao(object):
 
     def __init__(self, database):
         self.db = database
