@@ -9,6 +9,7 @@
 *.orig
 \#*
 .\#*
+stage1
 
 # LaTeX Files
 # ===========
