@@ -163,7 +163,8 @@ class AnimationWindow(object):
             dragon_circle.draw(surface)
 
         for target in self.target_list:
-            circle = gizeh.circle(r=target.size, xy=target.pos, fill= (0,0,0))
+            circle = gizeh.circle(r=target.size, xy=target.pos,
+                                  fill=target.color)
             circle.draw(surface)
 
         surface.get_npimage()

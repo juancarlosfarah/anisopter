@@ -80,7 +80,7 @@ class AnimationDao:
 
         return animation
 
-    def generate_animation(self, width, height, description, targets):
+    def generate_animation(self, width, height, description, targets, frames):
         """
         Generates and saves an animation.
 
@@ -93,6 +93,7 @@ class AnimationDao:
                           'velocity_vector': ['1', '2'],
                           'type': '1',
                           'start_pos': ['1', '2'],
+                          'frames': '50',
                           'size': '1' }
         :return: _id of animation generated.
         """
@@ -115,7 +116,7 @@ class AnimationDao:
         out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
         print "Saving animation in: " + out_directory
 
-        ani.run(out_directory)
+        ani.run(out_directory, total_frames=frames)
 
         return _id
 

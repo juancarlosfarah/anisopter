@@ -127,7 +127,8 @@ class CstmdDao:
                       synaptic_distance=synaptic_distance,
                       num_electrodes=num_electrodes,
                       duration=duration_per_frame,
-                      description=description)
+                      description=description,
+                      input=frames)
 
         for frame_object in frames:
             frame = np.array(frame_object['frame'])
