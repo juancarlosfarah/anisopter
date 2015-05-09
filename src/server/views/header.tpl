@@ -11,7 +11,9 @@
                 <a class="navbar-brand" href="/pattern_recognition">
                     Pattern Recognition
                 </a>
-                <a class="navbar-brand" href="#">Action Selection</a>
+                <a class="navbar-brand" href="/action_selection">
+                    Action Selection
+                </a>
             </div>
         </div>
     </nav>
