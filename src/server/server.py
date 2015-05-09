@@ -67,7 +67,9 @@ def generate_animation():
     height = int(request.json['height'])
     description = request.json['description']
     targets = request.json['targets']
-    _id = animations.generate_animation(width, height, description, targets)
+    frames = int(request.json['frames'])
+    _id = animations.generate_animation(width, height, description,
+                                        targets, frames)
     rvalue = {"url": "/target_animation/animation/" + str(_id)}
     return rvalue
 
