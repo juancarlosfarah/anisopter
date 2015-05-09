@@ -17,13 +17,10 @@ bg_speed = 4
 # Create simple movie.
 # ====================
 test = Animation()
-test.add_target(2, start=[250,0], end=[250,500], size=5, v=4)
-test.add_target(2, start=[250,250], end=[250,500], size=5, v=6)
-
+test.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+test.add_target(2, start=[250,250], velocity=[1,1], size=5, v=6)
 
 test.add_background("images/test.jpg", 2)
 test.add_dragonfly([[320, 240, 0.0], [300, 220, 0.5], [250, 200, 1.0]])
-
-print test.get_distance_dragonfly_to_closest_target(0.5)
 
 test.run(out_directory, 10, 10)
