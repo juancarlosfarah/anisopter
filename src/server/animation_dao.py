@@ -89,7 +89,8 @@ class AnimationDao:
         :param description:
         :param targets: Array of target dictionaries of the form:
                         { 'color': 'rgb(20,97,107)',
-                          'velocity': ['1', '2'],
+                          'velocity': '5',
+                          'velocity_vector': ['1', '2'],
                           'type': '1',
                           'start_pos': ['1', '2'],
                           'size': '1' }
@@ -99,14 +100,14 @@ class AnimationDao:
         ani = Animation(width, height, description)
         for target in targets:
             start = [int(i) for i in target['start_pos']]
-            velocity = [int(i) for i in target['velocity']]
+            velocity = int(target['velocity'])
+            velocity_vector = [int(i) for i in target['velocity_vector']]
             type = int(target['type'])
             size = int(target['size'])
-            color = [int(i) for i in target['color'][4:-1].split(", ")]
-            ani.add_target(type, start, velocity, v, size, color)
+            color = [float(i) / 255.0 for i in target['color'][4:-1].split(",")]
+            ani.add_target(type, start, velocity_vector, velocity, size, color)
 
-
-        _id = self.save(a)
+        _id = self.save(ani)
 
         # Save video file.
         print "Current working directory: " + os.getcwd()
@@ -114,7 +115,7 @@ class AnimationDao:
         out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
         print "Saving animation in: " + out_directory
 
-        a.run(out_directory)
+        ani.run(out_directory)
 
         return _id
 

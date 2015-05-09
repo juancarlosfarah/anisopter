@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label>Type</label>
                             <select class="target-type form-control">
@@ -55,7 +55,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label>Size</label>
                             <div class="input-group">
@@ -66,7 +66,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label>Velocity</label>
+                            <div class="input-group">
+                                <input type="text"
+                                       class="target-velocity form-control"
+                                       value="5" />
+                                <span class="input-group-addon">px/frame</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label>Colour</label>
                             <div class="input-group color-picker">
@@ -143,11 +154,12 @@
                 "type": $(this).find('.target-type').val(),
                 "color": $(this).find('.target-color').val(),
                 "size": $(this).find('.target-size').val(),
+                "velocity": $(this).find('.target-velocity').val(),
                 "start_pos": [
                     $(this).find('.target-start-pos-x').val(),
                     $(this).find('.target-start-pos-y').val()
                 ],
-                "velocity": [
+                "velocity_vector": [
                     $(this).find('.target-velocity-x').val(),
                     $(this).find('.target-velocity-y').val()
                 ]

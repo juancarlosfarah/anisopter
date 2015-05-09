@@ -92,7 +92,7 @@ def run_estmd_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
     description = form.get("description")
-    _id = estmd.run_simgit ulation(sample_id, description)
+    _id = estmd.run_simulation(sample_id, description)
     bottle.redirect("/estmd/simulation/" + str(_id))
 
 
@@ -305,11 +305,11 @@ def static_one_level(filename):
     return bottle.static_file(filename, root=root)
 
 
-@get('/assets/animations/<filename>')
-def animations(filename):
+@get('/assets/<folder>/<filename>')
+def assets(filename, folder):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "assets",
-                                        "animations"))
+                                        folder))
     return bottle.static_file(filename, root=root)
 
 

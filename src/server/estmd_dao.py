@@ -102,11 +102,17 @@ class EstmdDao(object):
         e.create_list_of_arrays()
         _id = self.save(e)
 
-        output_directory = "assets/estmd/" + str(_id) + ".avi"
+        # Save video file.
+        print "Current working directory: " + os.getcwd()
+        relative_path = "assets/estmd/"
+        out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
+        print "Saving animation in: " + out_directory
+
         e2 = ESTMD()
         e2.open_movie(input_directory)
-        e2.run(out_dir=output_directory)
-        dir = output_directory.strip(".avi")
+        e2.run(out_dir=out_directory)
+
+        dir = out_directory.strip(".avi")
         command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
         call(command.split())
 
