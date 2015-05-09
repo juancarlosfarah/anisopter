@@ -9,7 +9,7 @@ from animation.target_animation import Animation
 from brian2 import *
 
 
-# Variables.
+# Neuron Variables.
 N = 4
 taum = 10*ms
 taupre = 20*ms
@@ -29,15 +29,18 @@ dApost = -dApre * taupre / taupost *1.05 #* 1.05
 dApost *= gmax
 dApre *= gmax
 
-sim_time = 100 * ms
-frame_length = 10 * ms
+# Simulation variables
+sim_time = 100.0 * ms
+frame_length = 10.0 * ms
 
+# Reward variables
 dopBoost = 0.5
+reward_distance = 400
 
-fromAnim = False
-
+# Animation variables
+fromAnim = True
 SPEED_FACTOR = 2 * second
-
+dragonfly_start = [300, 300, 0.0]
 # Neuron equations.
 eqs_neurons = '''
 dv/dt = (ge * (Ee-vr) + El - v) / taum : volt
@@ -102,7 +105,7 @@ rates_t = range(0, sim_time/(1*ms), frame_length/(1*ms))
 
 
 ######################### CONSTANTS TO CHANGE!
-dragon_path = [[300, 300, 0.0]]
+dragon_path = [dragonfly_start]
 ##########################
 
 # Animation
@@ -139,13 +142,21 @@ for i in range(sim_time / frame_length):
     y = dragon_path[-1][1] + vy / 10.0
     t = 1.0 * i / (sim_time / frame_length)
     dragon_path.append([x, y, t])
-
+    
+    # Find distance of closest target
+    norm_time = i / (sim_time / frame_length)
+    targets = test.get_targets_positions(norm_time)
+    min_dist = np.sqrt((dragon_path[-1][0] - targets[0][0])**2 + (dragon_path[-1][1] - targets[0][1])**2)
+    for i in range(1, len(targets)):
+        dist = np.sqrt((dragon_path[-1][0] - targets[i][0])**2 + (dragon_path[-1][1] - targets[i][1])**2)
+        if dist < min_dist:
+            min_dist = dist
     #####
 
-
+    # Apply dopamine if dragonfly close to a target
     if fromAnim:
-        # TO-DO
-        pass
+        if min_dist < reward_distance:
+            S.Dop += dopBoost
 
     else:
         if s_mon.num_spikes > num_spikes:
