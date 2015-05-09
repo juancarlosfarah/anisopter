@@ -10,7 +10,7 @@ from brian2 import *
 
 class ActionSelection(object):
 
-    def __init__(self, N = 4, taum = 10*ms, taupre = 20*ms, taupost = 20*ms, tauc = 20*ms, tauDop = 20*ms
+    def __init__(self, N = 4, taum = 10*ms, taupre = 20*ms, taupost = 20*ms, tauc = 20*ms, tauDop = 20*ms,
                  Ee = 0*mV, vt = -54*mV, vr = -60*mV, El = -74*mV, taue = 5*ms, F = 15*Hz, gmax = 1,
                  dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
                  reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
@@ -51,6 +51,38 @@ class ActionSelection(object):
         
 
     def run(self):
+        
+        # Neuron Variables
+        N = self.N
+        taum = self.taum
+        taupre = self.taupre
+        taupost = self.taupost
+        tauc = self.tauc # Izhikevich paper 1s
+        tauDop = self.tauDop #  Izhikevich paper 200ms
+        Ee = self.Ee
+        vt = self.vt
+        vr = self.vr
+        El = self.El
+        taue = self.taue
+        F = self.F
+        gmax = self.gmax
+
+        dApre = self.dApre 
+        dApost = self.dApost 
+
+        # Simulation variables
+        sim_time = self.sim_time
+        frame_length = self.frame_length
+
+        # Reward variables
+        dopBoost = self.dopBoost
+        reward_distance = self.reward_distance
+
+        # Animation variables
+        fromAnim = self.fromAnim
+        SPEED_FACTOR = self.SPEED_FACTOR
+        dragonfly_start = self.dragonfly_start
+
         '''
         # Neuron Variables 
         N = 4
@@ -96,7 +128,7 @@ class ActionSelection(object):
         input = PoissonGroup(N, rates=F)
 
         # Action selection neurons.
-        neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v = vr')
+        neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v=vr')
 
         # Synapses.
         S = Synapses(input, neurons,
