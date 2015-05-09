@@ -185,7 +185,7 @@ class Animation(object):
     For more information on these methods refer to their doc.
     """
     
-    def __init__(self, width=640, height=480, description):
+    def __init__(self, width=640, height=480, description="Target_animation"):
         self.target_list = []
         self.dragonfly = False
         self.width = width
