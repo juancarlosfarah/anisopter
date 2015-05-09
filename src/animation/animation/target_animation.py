@@ -185,7 +185,7 @@ class Animation(object):
     For more information on these methods refer to their doc.
     """
     
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=640, height=480, description):
         self.target_list = []
         self.dragonfly = False
         self.width = width
@@ -193,6 +193,7 @@ class Animation(object):
         self.bg = False
         self.total_frames = 50
         self.fps = 20
+        self.description = description
         
     def make_directory(self, directory):
         self.directory = directory

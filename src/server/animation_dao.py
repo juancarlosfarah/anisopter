@@ -96,8 +96,15 @@ class AnimationDao:
         :return: _id of animation generated.
         """
 
-        a = Animation()
-        a.add_target(2)
+        ani = Animation(width, heigh, description)
+        for target in targets:
+            start = [int(i) for i in target['start_pos']]
+            velocity = [int(i) for i in target['velocity']]
+            type = int(target['type'])
+            size = int(target['size'])
+            color = [int(i) for i in target['color'][4:-1].split(", ")]
+            ani.add_target(type, start, velocity, v, size, color)
+
 
         _id = self.save(a)
 
