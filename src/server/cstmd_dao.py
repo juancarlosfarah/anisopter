@@ -130,9 +130,7 @@ class CstmdDao:
                       description=description,
                       input=frames)
 
-        for frame_object in frames:
-            frame = np.array(frame_object['frame'])
-            times, ids, cstmd.spike_trains = cstmd.run(rates=frame)
+        times, ids, cstmd.spike_trains = cstmd.run()
 
         # Save CSTMD simulation.
         _id = self.save(cstmd)

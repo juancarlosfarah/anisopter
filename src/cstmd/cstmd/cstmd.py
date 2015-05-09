@@ -322,26 +322,25 @@ class Cstmd(object) :
         h.finitialize(-60)
         h.dt = self.dt
 
-        print "sim starting running!"
+
         # Run the simulation
-        frames=len(self.input)
         pixels=len(self.input[0])	
-        print "frames",len(self.input)
         #print "pix",len(self.input[0]),self.num_pixels
         duration=self.duration
 
-        for i in range(frames):
+        for frame_object in self.input:
+            frame = np.array(frame_object['frame'])
 	        for n in range(pixels) :
-	            self.stimNet[n].ib = self.min_current+100*self.input[i][n]*(self.max_current-self.min_current)
+	            self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
 	
 	        neuron.run(duration)
 	        duration+=self.duration
 	
 	        print "Raster stuff:"
 	        for i in range(len(self.t_vec)) :
-		    print "Spikes of neuron",str(i)+":", len(self.t_vec[i])
+		        print "Spikes of neuron",str(i)+":", len(self.t_vec[i])
 
-        return list(self.t_vec)
+        return t, id, self.sp_trains()
 
     def sp_trains(self):
 
