@@ -13,6 +13,7 @@ import sample_dao
 import animation_dao
 import estmd_dao
 import cstmd_dao
+import action_selection_dao
 
 # Import simulation module.
 pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
@@ -280,8 +281,65 @@ def generate_sample():
                                   num_patterns, description)
     bottle.redirect("/pattern_recognition/sample/" + str(_id))
 
+# Action Selection
+# ================
+@route('/action_selection')
+def show_as():
+    obj = dict()
+    return bottle.template('action_selection', obj)
+
+
+@route('/action_selection/simulation/new')
+def new_as_simulation():
+    obj = dict()
+    obj['input'] = simulations.get_simulations(50)
+    return bottle.template('new_action_selection_simulation', obj)
+
+
+@post('/action_selection/simulation/run')
+def run_action_selection_simulation():
+    form = bottle.request.forms
+    sample_id = form.get("sample")
+    num_neurons = int(form.get("num_neurons"))
+    num_electrodes = int(form.get("num_electrodes"))
+    num_synapses = int(form.get("num_synapses"))
+    synaptic_distance = int(form.get("synaptic_distance"))
+    duration_per_frame = int(form.get("duration_per_frame"))
+    description = form.get("description")
+    sample = estmd.get_simulation(sample_id)
+    frames = estmd.get_frames(sample_id)
+    _id = a_s.run_simulation(sample,
+                               frames,
+                               num_neurons,
+                               num_electrodes,
+                               num_synapses,
+                               synaptic_distance,
+                               duration_per_frame,
+                               description)
+    bottle.redirect("/action_selection/simulation/" + str(_id))
+
+
+@route('/action_selection/simulations')
+def show_action_selection_simulations():
+    obj = dict()
+    obj['simulations'] = a_s.get_simulations(50)
+    return bottle.template('action_selection_simulations', obj)
+
+
+@get("/action_selection/simulation/<_id>")
+def show_action_selection_simulation(_id):
+
+    sim = a_s.get_simulation(_id)
+
+    if sim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['simulation'] = sim
+    return bottle.template("action_selection_simulation", obj)
 
 # Static Routes
+# =============
 @get('/static/<tool>/<folder>/<filename>')
 def static_three_level(filename, folder, tool):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
@@ -322,7 +380,7 @@ def start():
 
 
 def connect_db(db_name="anisopter"):
-    global db, simulations, samples, animations, cstmd, estmd
+    global db, simulations, samples, animations, cstmd, estmd, a_s
     host = "localhost"
     port = 27017
     connection = pymongo.MongoClient(host=host, port=port)
@@ -332,6 +390,7 @@ def connect_db(db_name="anisopter"):
     animations = animation_dao.AnimationDao(db)
     estmd = estmd_dao.EstmdDao(db)
     cstmd = cstmd_dao.CstmdDao(db)
+    a_s = action_selection_dao.ActionSelectionDao(db)
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
 
