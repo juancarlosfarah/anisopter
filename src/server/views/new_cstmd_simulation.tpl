@@ -18,7 +18,7 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="sample">Number of Neurons</label>
+            <label for="num_neurons">Number of Neurons</label>
             <input class="form-control" type="number" max="5" min="1"
                    id="num_neurons" name="num_neurons"
                    placeholder="Number of Neurons (1 to 5)"/>

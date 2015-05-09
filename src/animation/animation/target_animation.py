@@ -84,7 +84,8 @@ class Target(object):
         result &= self.type == other.type
         result &= self.start == other.start 
         result &= self.pos == other.pos
-        result &= self.velocity == other.velocity
+        for i in range(2):
+            result &= abs(self.velocity[i] - other.velocity[i]) < 0.0001
         result &= self.v == other.v
         result &= self.size == other.size
         result &= self.color == other.color

@@ -4,7 +4,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 from bson.objectid import ObjectId
 import numpy as np
 import pymongo
-from action_selection.action_selection import ActionSelection
+from action_selection import ActionSelection
 from brian2 import *
 
 class ActionSelectionDao:
@@ -27,19 +27,19 @@ class ActionSelectionDao:
             'tau_pre':  a_s.taum,
             'tau_post': a_s.taupost,
             'tau_c': a_s.tauc,
-            'tau_Dop': a_s.tauDop,
+            'tau_dop': a_s.tauDop,
+            'tau_e': a_s.taue,
             'Ee': a_s.Ee,
             'vt': a_s.vt,
             'vr': a_s.vr,
             'El': a_s.El,
-            'tau_e': a_s.taue,
             'F': a_s.F,
             'gmax': a_s.gmax,
-            'dApre': a_s.dApre,
-            'dApost': a_s.dApost,
-            'sim_time': a_s.sim_time,
+            'dA_pre': a_s.dApre,
+            'dA_post': a_s.dApost,
+            'duration': a_s.sim_time,
             'frame_length': a_s.frame_length,
-            'dopBoost': a_s.dopBoost,
+            'dop_boost': a_s.dopBoost,
             'reward_distance': a_s.reward_distance,
             'speed_factor': a_s.SPEED_FACTOR,
             'dragonfly_start': a_s.dragonfly_start,
