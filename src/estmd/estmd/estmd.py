@@ -25,6 +25,7 @@ class ESTMD(object):
     For more information refer to method run.
     """
 
+
     # Constants.
     T0 = 0.001  # Starting time.
     LMC_rec_depth = 8   # Sets how smoothly we want to apply "signal.lfilter".
@@ -44,9 +45,10 @@ class ESTMD(object):
         x[x > 0] = np.exp(-T_s * x[x > 0])
         return x
 
-    def __init__(self):
-        self.description = ""
-        
+    def __init__(self, input_id='', description=''):
+        self.input_id = input_id
+        self.description = description
+
     def open_movie(self, movie_dir):
         """
         This method sets movie that we'll try to modify.
@@ -61,7 +63,7 @@ class ESTMD(object):
         self.cap = cv2.VideoCapture(movie_dir)
                                     
     def run(self, by_frame=False, cod="PIM1", out_dir="result.avi", 
-            image_width = 64, image_height = 64):
+            image_width=64, image_height=64):
         """
         This method runs modification on the movie that we previously added
         using "open_movie" method.
@@ -127,7 +129,7 @@ class ESTMD(object):
         
     def create_movie(self, cod, out_dir):
         img = self.next_frame()
-        height, width =  img.shape
+        height, width = img.shape
         codec = cv2.cv.CV_FOURCC(cod[0], cod[1], cod[2], cod[3])
         self.video = cv2.VideoWriter(out_dir, codec, 20.0, 
                                     (width, height), 

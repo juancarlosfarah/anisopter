@@ -14,7 +14,8 @@ class ActionSelection(object):
                  Ee = 0*mV, vt = -54*mV, vr = -60*mV, El = -74*mV, taue = 5*ms, F = 15*Hz, gmax = 1,
                  dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
                  reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
-                 dragonfly_start = [300, 300, 0.0], description = "", output_dir = "output.avi"):
+                 dragonfly_start = [300, 300, 0.0], description = "", output_dir = "output.avi",
+                 spike_input = []):
         
         # Neuron Variables
         self.N = N
@@ -51,6 +52,9 @@ class ActionSelection(object):
         
         # Description
         self.description = description
+
+        # Input
+        self.spike_input = spike_input
 
     def run(self):
         
@@ -92,7 +96,8 @@ class ActionSelection(object):
        	'''
 
         # Poisson input.
-        input = PoissonGroup(N, rates=F)
+        if len(self.spike_input) == 0:
+            input = PoissonGroup(N, rates=F)
 
         # Action selection neurons.
         neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v=vr')
