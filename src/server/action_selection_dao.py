@@ -42,7 +42,17 @@ class ActionSelectionDao:
             'reward_distance': a_s.reward_distance,
             'speed_factor': a_s.SPEED_FACTOR,
             'dragonfly_start': a_s.dragonfly_start,
-            'output_dir': a_s.output_dir
+            'output_dir': a_s.output_dir,
+            'synapse_mon': a_s.synapse_mon,
+            'w0_mon': a_s.w0_mon,
+            'w1_mon': a_s.w1_mon,
+            'w2_mon': a_s.w2_mon,
+            'w3_mon': a_s.w3_mon,
+            'spike_mon': a_s.spike_mon,
+            'r0_mon': a_s.r0_mon,
+            'r1_mon': a_s.r1_mon,
+            'r2_mon': a_s.r2_mon,
+            'r3_mon': a_s.r3_mon,
         }
 
         # Save general data.
@@ -127,6 +137,8 @@ class ActionSelectionDao:
                        dragonfly_start = dragonfly_start, 
                        description = description,
                        output_dir = "output.avi")
+
+        a_s.run()
 
         # Save video to filesystem.
 

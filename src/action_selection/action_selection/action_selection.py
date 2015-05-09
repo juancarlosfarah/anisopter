@@ -15,7 +15,7 @@ class ActionSelection(object):
                  dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
                  reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
                  dragonfly_start = [300, 300, 0.0], description = "", output_dir = "output.avi",
-                 spike_input = []):
+                 spike_input = None):
         
         # Neuron Variables
         self.N = N
@@ -52,6 +52,9 @@ class ActionSelection(object):
         
         # Description
         self.description = description
+
+        # Video output directory
+        self.output_dir = output_dir
 
         # Input
         self.spike_input = spike_input
@@ -96,7 +99,7 @@ class ActionSelection(object):
        	'''
 
         # Poisson input.
-        if len(self.spike_input) == 0:
+        if self.spike_input is None:
             input = PoissonGroup(N, rates=F)
 
         # Action selection neurons.
@@ -120,7 +123,7 @@ class ActionSelection(object):
                      c = c + Apre''',
                      connect=True,
                     )
-        # S.w = 0.5 * gmax.
+        # S.w = 0.5 * gmax
         S.w = 'rand() * gmax'
         S.c = 'rand() * gmax'
 
@@ -207,9 +210,28 @@ class ActionSelection(object):
 
         ######## Animation run
         test.add_dragonfly(dragon_path)
-        test.run(output_dir, 10, 10)
+        test.run(self.output_dir, 10, 10)
         ########
 	
+        # Save rates
+        self.rates = []
+        (self.rates).append(rate0)
+        (self.rates).append(rate1)
+        (self.rates).append(rate2)
+        (self.rates).append(rate3)
+
+        # Save monitors
+        self.synapse_mon = mon
+        self.w0_mon = w0_mon
+        self.w1_mon = w1_mon
+        self.w2_mon = w2_mon
+        self.w3_mon = w3_mon
+        self.spike_mon = s_mon
+        self.r0_mon = r0_mon
+        self.r1_mon = r1_mon
+        self.r2_mon = r2_mon
+        self.r3_mon = r3_mon
+        
         # Plots
         figure(1)
         subplot(331)
