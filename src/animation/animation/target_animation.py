@@ -62,23 +62,28 @@ class Target(object):
     This class represents different targets that will move on the screen.
     """
     
-    def __init__(self, type, start, end, v, size, color):
+    def __init__(self, type, start, velocity, v, size, color):
         self.type = type
         self.start = start
         self.pos = start
-        self.end = end
         self.v = v
         self.size = size
         self.color = color
-        
+        self.velocity = velocity
+
+        # Normalise velocity vector.
+        sum_square = velocity[0] * velocity[0] + velocity[1] * velocity[1]
+        factor = sqrt(sum_square)
+        velocity[0] = 1.0 * velocity[0] / factor
+        velocity[1] = 1.0 * velocity[1] / factor
+
     def __eq__(self, other):
         result = True
         
         result &= self.type == other.type
-        
         result &= self.start == other.start 
         result &= self.pos == other.pos
-        result &= self.end == other.end
+        result &= self.velocity == other.velocity
         result &= self.v == other.v
         result &= self.size == other.size
         result &= self.color == other.color
@@ -93,21 +98,14 @@ class Target(object):
         """
         Moves Target's position according to its type.
         """
-        
-        if self.type == 0:
-            self.change_position(0, 0)
-        elif self.type == 1:
+
+        if self.type == 1:
             dx = randint(-self.v, self.v)
             dy = randint(-self.v, self.v)
             self.change_position(dx, dy)
         elif self.type == 2:
-            # Find direction in which we are moving.
-            x_c = self.end[0] - self.start[0]
-            y_c = self.end[1] - self.start[1]
-            deg = atan2(y_c, x_c)
-            # And move in that direction, making length of move "self.v".
-            dx = self.v * cos(deg)
-            dy = self.v * sin(deg)
+            dx = self.v * self.velocity[0]
+            dy = self.v * self.velocity[1]
             self.change_position(dx, dy)
 
     def get_pos(self, frame):
@@ -116,14 +114,11 @@ class Target(object):
         position for randomly moving and stationary targets.
         '''
 
-        if self.type != 2:
+        if self.type == 1:
             return self.start
         else:
-            x_c = self.end[0] - self.start[0]
-            y_c = self.end[1] - self.start[1]
-            deg = atan2(y_c, x_c)
-            dx = frame * self.v * cos(deg)
-            dy = frame * self.v * sin(deg)
+            dx = frame * self.v * self.velocity[0]
+            dy = frame * self.v * self.velocity[1]
             result = [self.start[0]+dx, self.start[1]+dy]
             return result
 
@@ -178,7 +173,6 @@ class AnimationWindow(object):
         self.time += 1
 
 
-# TO-DO: setters and getters for dragonfly position.
 class Animation(object):
     """ 
     This class handles different possible target animations.
@@ -224,23 +218,24 @@ class Animation(object):
         video.release()
         cv2.destroyAllWindows()
 
-    def add_target(self, type, start=[0, 0], end=[100, 100], 
+    def add_target(self, type, start=[0, 0], velocity=[100, 100],
                    v=5, size=10, color=[0, 0, 0]):
         """
         Adds target in animation with several different options.
         
         Args:
-            type: It is either 0 for stationary target,
-                1 for randomly moving target or 2 for target
-                moving from start to end position in straight line.
+            type: 1 for randomly moving target or 2 for target
+                moving from start position in straight line with velocity
+                vector "velocity".
             start: Starting position.
-            end: Ending position, only relavant for type 2.
+            velocity: Velocity vector, only relevant for type 2. Only direction
+                 matters as it will be normalised.
             v: Sets velocity of target.
             size: Sets size of target.
             color: Sets color of target.
         """      
         
-        new_target = Target(type, start, end, v, size, color)
+        new_target = Target(type, start, velocity, v, size, color)
         self.target_list.append(new_target)
 
     def add_dragonfly(self, path):
@@ -261,7 +256,6 @@ class Animation(object):
                 If it stays False background is white.
             speed: Sets how fast the background is moving.
         """
-        
         self.bg = Background(img_dir, speed)
 
     def run(self, out_directory, fps=20, total_frames=50):
@@ -325,8 +319,7 @@ class Animation(object):
         """
         dragon = self.get_dragonfly_position(time)
         targets = self.get_targets_positions(time)
-        print dragon
-        print targets
+
         best_result = 1001001001
         for target in targets:
             dx = dragon[0] - target[0]
