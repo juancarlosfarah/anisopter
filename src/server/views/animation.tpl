@@ -30,7 +30,7 @@
     <h2>Animation</h2>
     <div class="row">
         <div class="col-md-12 text-center">
-            <video width="640" height="480" autoplay>
+            <video width="640" height="480" autoplay loop>
                 <source src="/assets/animations/{{animation['_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.

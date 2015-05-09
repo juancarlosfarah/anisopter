@@ -17,12 +17,20 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="num_neurons">Height</label>
+            <label for="height">Height</label>
             <div class="input-group">
               <input type="number" class="form-control" id="height"
                      name="height" value="480" max="1000"
                      disabled="disabled" />
               <span class="input-group-addon">px</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="frames">Number Frames</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="frames"
+                       name="frames" value="50" min="10" max="500" />
+                <span class="input-group-addon">frames</span>
             </div>
         </div>
         <div class="form-group">
@@ -176,11 +184,12 @@
                 "width": $('#width').val(),
                 "height": $('#height').val(),
                 "description": $('#description').val(),
+                "frames": $('#frames').val(),
                 "targets": targets
             })
         }).done(function(data) {
             window.location.href = data.url;
-        });git
+        });
     }
 
     function submitFormOnClick($element) {
