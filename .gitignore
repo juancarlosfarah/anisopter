@@ -39,5 +39,6 @@ dist
 # ====================
 src/server/assets/animations
 src/server/assets/estmd
+src/server/assets/backgrounds
 src/animation/temp
 src/server/temp

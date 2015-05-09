@@ -60,7 +60,8 @@ class Cstmd(object) :
                  duration=10,
                  description=""):
 
-        self.input=input
+        self.runtime = 0
+        self.input = input
         self.global_time = time.time()
         self.verbose = verbose
         self.num_neurons = num_neurons
@@ -327,29 +328,29 @@ class Cstmd(object) :
         # Run the simulation
         pixels=len(self.input[0])	
         #print "pix",len(self.input[0]),self.num_pixels
-        duration=self.duration
+        self.runtime = self.duration
 
         for frame_object in self.input:
             frame = np.array(frame_object['frame'])
             for n in range(pixels) :
                 self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
-	
-            neuron.run(duration)
-            duration += self.duration
+
+            neuron.run(self.runtime)
+            self.runtime += self.duration
 
             print "Raster stuff:"
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
         t = list(self.t_vec)
--       id = self.id_vec
+        id = self.id_vec
         return t, id, self.sp_trains()
 
     def sp_trains(self):
 
         # Container for spike trains.
         spike_trains = np.zeros((self.num_neurons * self.num_electrodes,
-                                 duration))
+                                 self.runtime))
 
         # Add spike occurrences to spike train
 
