@@ -46,17 +46,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label>Type</label>
                             <select class="target-type form-control">
-                                <option value="0">Stationary</option>
                                 <option value="1">Random Movement</option>
                                 <option value="2">Straight Movement</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label>Size</label>
+                            <div class="input-group">
+                                <input type="text"
+                                       class="target-size form-control"
+                                       value="" placeholder="10" />
+                                <span class="input-group-addon">px</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label>Colour</label>
                             <div class="input-group color-picker">
@@ -88,42 +98,18 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="form-group">
-                            <label>End Position</label>
+                            <label>Velocity Vector</label>
                             <div class="input-group">
                                 <input type="text"
-                                       class="target-end-pos-x form-control"
+                                       class="target-velocity-x form-control"
                                        value="" placeholder="" />
                                 <span class="input-group-addon">x</span>
                             </div>
                             <div class="input-group">
                                 <input type="text"
-                                       class="target-end-pos-y form-control"
+                                       class="target-velocity-y form-control"
                                        value="" placeholder="" />
                                 <span class="input-group-addon">y</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label>Size</label>
-                            <div class="input-group">
-                                <input type="text"
-                                       class="target-size form-control"
-                                       value="" placeholder="10" />
-                                <span class="input-group-addon">px</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label>Velocity</label>
-                            <div class="input-group">
-                                <input type="text"
-                                       class="target-velocity form-control"
-                                       value="" placeholder="" />
-                                <span class="input-group-addon">px/s</span>
                             </div>
                         </div>
                     </div>
@@ -156,32 +142,33 @@
             var target = {
                 "type": $(this).find('.target-type').val(),
                 "color": $(this).find('.target-color').val(),
+                "size": $(this).find('.target-size').val(),
                 "start_pos": [
                     $(this).find('.target-start-pos-x').val(),
                     $(this).find('.target-start-pos-y').val()
                 ],
-                "end_pos": [
-                    $(this).find('.target-end-pos-x').val(),
-                    $(this).find('.target-end-pos-y').val()
-                ],
-                "size": $(this).find('.target-size').val(),
-                "velocity": $(this).find('.target-velocity').val()
+                "velocity": [
+                    $(this).find('.target-velocity-x').val(),
+                    $(this).find('.target-velocity-y').val()
+                ]
             };
-            targets.append(target);
+            targets.push(target);
         });
 
         $.ajax({
             method: "POST",
             url: "/target_animation/animation/generate",
-            data: {
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
                 "width": $('#width').val(),
                 "height": $('#height').val(),
                 "description": $('#description').val(),
-                "target": targets
-            }
-        }).done(function(msg) {
-            console.log( "Data Saved: " + msg );
-        });
+                "targets": targets
+            })
+        }).done(function(data) {
+            window.location.href = data.url;
+        });git
     }
 
     function submitFormOnClick($element) {

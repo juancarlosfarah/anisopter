@@ -80,9 +80,19 @@ class AnimationDao:
 
         return animation
 
-    def generate_animation(self):
+    def generate_animation(self, width, height, description, targets):
         """
         Generates and saves an animation.
+
+        :param width:
+        :param height:
+        :param description:
+        :param targets: Array of target dictionaries of the form:
+                        { 'color': 'rgb(20,97,107)',
+                          'velocity': ['1', '2'],
+                          'type': '1',
+                          'start_pos': ['1', '2'],
+                          'size': '1' }
         :return: _id of animation generated.
         """
 

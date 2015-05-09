@@ -6,10 +6,8 @@ from optparse import OptionParser
 
 import os
 import bottle
-from bottle import route, post, get, template
+from bottle import route, post, get, template, request
 import pymongo
-import signal
-import logging
 import simulation_dao
 import sample_dao
 import animation_dao
@@ -62,16 +60,16 @@ def show_animation(_id):
     obj['animation'] = anim
     return bottle.template("animation", obj)
 
+
 @post('/target_animation/animation/generate')
 def generate_animation():
-    form = bottle.request.forms
-    print form.get("data")
-    # width = form.get("width")
-    # height = form.get("height")
-    # description = form.get("description")
-    # num_targets = form.get("num_targets")
-    _id = animations.generate_animation()
-    bottle.redirect("/target_animation/animation/" + str(_id))
+    width = request.json['width']
+    height = request.json['height']
+    description = request.json['description']
+    targets = request.json['targets']
+    _id = animations.generate_animation(width, height, description, targets)
+    rvalue = {"url": "/target_animation/animation/" + str(_id)}
+    return rvalue
 
 
 @route('/estmd')
