@@ -73,9 +73,10 @@ class Target(object):
 
         # Normalise velocity vector.
         sum_square = velocity[0] * velocity[0] + velocity[1] * velocity[1]
-        factor = sqrt(sum_square)
-        velocity[0] = 1.0 * velocity[0] / factor
-        velocity[1] = 1.0 * velocity[1] / factor
+        if sum_square != 0.0:
+            factor = sqrt(sum_square)
+            velocity[0] = 1.0 * velocity[0] / factor
+            velocity[1] = 1.0 * velocity[1] / factor
 
     def __eq__(self, other):
         result = True
@@ -184,7 +185,7 @@ class Animation(object):
     For more information on these methods refer to their doc.
     """
     
-    def __init__(self, width=640, height=480):
+    def __init__(self, width=640, height=480, description):
         self.target_list = []
         self.dragonfly = False
         self.width = width
@@ -192,6 +193,7 @@ class Animation(object):
         self.bg = False
         self.total_frames = 50
         self.fps = 20
+        self.description = description
         
     def make_directory(self, directory):
         self.directory = directory

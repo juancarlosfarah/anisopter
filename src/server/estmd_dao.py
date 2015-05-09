@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 import os
 import sys
 import pymongo
+from subprocess import call
 
 from estmd.estmd import ESTMD
 
@@ -105,6 +106,9 @@ class EstmdDao(object):
         e2 = ESTMD()
         e2.open_movie(input_directory)
         e2.run(out_dir=output_directory)
+        dir = output_directory.strip(".avi")
+        command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
+        call(command.split())
 
         return _id
 

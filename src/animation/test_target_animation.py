@@ -30,8 +30,24 @@ class TestDragonfly(unittest.TestCase):
     def update(self):
         time = 0.6
         self.dragon.update(time)
-
         self.assertEqual(self.dragon.pos, [15, 15])
+
+
+class TestBackground(unittest.TestCase):
+    """
+    This class represents sequence of tests for class Background.
+    """
+
+    def setUp(self):
+        bg_dir = "images/test.jpg"
+        self.bg = Background(bg_dir, 5)
+
+    def test_init(self):
+        self.assertEqual(self.bg.pos, [0, 0])
+
+    def test_update(self):
+        self.bg.update()
+        self.assertEqual(self.bg.pos, [5, 5])
 
 
 class TestTarget(unittest.TestCase):
@@ -120,158 +136,40 @@ class TestTarget(unittest.TestCase):
         target5.next_position()
         self.assertTrue(abs(target5.pos[0] - sqrt(25.0/2)) < eps)
         self.assertTrue(abs(target5.pos[1] - sqrt(25.0/2)) < eps)
-'''
+
 
 class TestAnimationWindow(unittest.TestCase):
     """
     This class represents sequence of tests for class AnimationWindow.
     """
-            
-    def make_window1(self):
-        self.window = AnimationWindow(self.target_list, self.width, self.height, 
-                                      self.bg_image, self.bg_speed)
-    
-    def make_window2(self):
-        self.window2 = AnimationWindow(self.target_list, self.width, 
-                                       self.height, False, 0)
-    
+
     def setUp(self):
         """
-        Method that runs at the start of each test.
+        Method that runs at start of each test.
         """
-        
-        self.N = 3
-        self.pos = [[0, 0], [20, 20], [50, 50]]
-        self.target0 = Target(0, self.pos[0], [100, 100], 5, 5, [0, 0, 0])
-        self.target1 = Target(1, self.pos[1], [100, 100], 5, 5, [0, 0, 0])
-        self.target2 = Target(2, self.pos[2], [0, 100], 5, 5, [0, 0, 0])
-        
-        self.target_list = [self.target0, self.target1, self.target2]
-        self.width = 640
-        self.height = 480
-        self.bg_image = "images/test.jpg"
-        self.bg_speed = 5
-        
-        self.make_window1()
-        self.make_window2()
-                                       
-    def tearDown(self):
-        """
-        Method that runs at the end of each test.
-        """
-        
-        self.window.close()
-        self.window2.close()
-            
-    def test_init(self):
-        """
-        Tests constructor of class AnimationWindow constructor.
-        It tests that all attributes were set as expected.
-        """
+        target1 = Target(1, [150, 150], [1, 1], 5, 5, [0, 0, 0])
+        target2 = Target(2, [250, 250], [1, 1], 5, 5, [0, 0, 0])
+        bg_dir = "images/test.jpg"
+        path = [[5, 5, 0.0], [10, 10, 0.5], [15, 15, 1.0]]
 
-        self.assertEqual(self.window.bg_image, self.bg_image)
-        self.assertEqual(self.window.bg_speed, self.bg_speed)
-        self.assertEqual(self.window.target_list, self.target_list)
-        self.assertEqual(self.window.N, self.N)
-        self.assertEqual(self.window.time, 0)
-        self.assertTrue(self.window.background)
-        
-        self.assertEqual(self.window2.bg_image, False)
-        with self.assertRaises(AttributeError):
-             self.window2.background
-        
+        self.targets = [target1, target2]
+        self.bg = Background(bg_dir)
+        self.d_fly = Dragonfly(path)
+
+        self.aw = AnimationWindow(self.targets, 640, 480, self.bg, self.d_fly)
+
+    def test_init(self):
+        self.assertEqual(self.aw.N, 2)
+        self.assertEqual(self.aw.time, 0)
+
     def test_update_frame(self):
         """
-        Tests if AnimationWindow's method update_frames works correctly.
-        Assumption is made that Target's method next_position works correctly.
+        TO DO!
         """
-        
-        self.window.update_frame(0)
-        self.target0.next_position()
-        self.target1.next_position()
-        self.target2.next_position()
-        
-        self.assertEqual(self.target_list, self.window.target_list)
+        pass
 
 
-class TestOnDraw(unittest.TestCase):
-    """
-    Separate class to test AnimationWindow's on_draw method.
-    """
-       
-    def make_directory(self, directory):
-        self.directory = directory
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-    
-    def setUp(self):
-        """
-        Method that runs at the start of each test.
-        """
-        
-        self.N = 3
-        self.pos = [[0, 0], [20, 20], [50, 50]]
-        self.target0 = Target(0, self.pos[0], [100, 100], 5, 5, [0, 0, 0])
-        self.target1 = Target(1, self.pos[1], [100, 100], 5, 5, [0, 0, 0])
-        self.target2 = Target(2, self.pos[2], [0, 100], 5, 5, [0, 0, 0])
-        
-        self.target_list = [self.target0, self.target1, self.target2]
-        self.width = 640
-        self.height = 480
-        self.bg_image = "images/test.jpg"
-        self.bg_speed = 5
-        
-        self.window = AnimationWindow(self.target_list, self.width, 
-                                       self.height, False, 0)
-        
-    def test_on_draw(self):
-        """
-        Tests if AnimationsWindows' method on_draw works correctly. It also
-        implicitly checks correctness of method circle.
-        This function works by drawing one image and saving it. It than checks
-        if there are circles at those points as expected and that self.time
-        was updated.
-        TO DO(ask): Is implicit testing ok? How to improve this part?
-        """
-
-        # First run animation without background.
-        self.make_directory("temp")
-        
-        pyglet.clock.schedule_once(self.window.update_frames, 0.001)
-        pyglet.clock.schedule_once(self.window.stop, 0.001)
-        pyglet.app.run()
-
-        self.assertEqual(self.window.time, 2)
-        
-        img1 = cv2.imread("temp/scr0.png")
-        for i in range(1):
-            x = self.height - self.pos[i][0] - 1
-            y = self.pos[i][1]
-
-            self.assertTrue(img1[x][y][0] == 0)
-
-        self.assertTrue(img1[100][150][0] > 0)
-        self.assertTrue(img1[200][150][0] > 0)
-
-        # Second run animation with background.
-        self.window.close()
-
-        self.window2 = AnimationWindow(self.target_list, self.width,
-                                       self.height, self.bg_image,
-                                       self.bg_speed)
-
-        pyglet.clock.schedule_once(self.window2.update_frames, 0.001)
-        pyglet.clock.schedule_once(self.window2.stop, 0.001)
-        pyglet.app.run()
-
-        img1 = cv2.imread("temp/scr0.png")
-        for i in range(1):
-            x = self.height - self.pos[i][0] - 1
-            y = self.pos[i][1]
-
-            self.assertTrue(img1[x][y][0] == 0)
-        
-
+'''
 class TestAnimation(unittest.TestCase):
     """
     This class represents sequence of tests for class Animation.
@@ -340,6 +238,6 @@ class TestAnimation(unittest.TestCase):
         self.animation.run(out_directory, 10, 10)
         self.assertTrue(os.path.exists(out_directory))
 '''
-    
+
 if __name__ == '__main__':
     unittest.main()

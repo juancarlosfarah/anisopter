@@ -63,8 +63,8 @@ def show_animation(_id):
 
 @post('/target_animation/animation/generate')
 def generate_animation():
-    width = request.json['width']
-    height = request.json['height']
+    width = int(request.json['width'])
+    height = int(request.json['height'])
     description = request.json['description']
     targets = request.json['targets']
     _id = animations.generate_animation(width, height, description, targets)

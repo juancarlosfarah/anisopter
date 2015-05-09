@@ -14,7 +14,8 @@ class ActionSelection(object):
                  Ee = 0*mV, vt = -54*mV, vr = -60*mV, El = -74*mV, taue = 5*ms, F = 15*Hz, gmax = 1,
                  dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
                  reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
-                 dragonfly_start = [300, 300, 0.0]):
+                 dragonfly_start = [300, 300, 0.0], description = "", output_dir = "output.avi",
+                 spike_input = []):
         
         # Neuron Variables
         self.N = N
@@ -49,6 +50,11 @@ class ActionSelection(object):
         self.SPEED_FACTOR = SPEED_FACTOR
         self.dragonfly_start = dragonfly_start
         
+        # Description
+        self.description = description
+
+        # Input
+        self.spike_input = spike_input
 
     def run(self):
         
@@ -83,41 +89,6 @@ class ActionSelection(object):
         SPEED_FACTOR = self.SPEED_FACTOR
         dragonfly_start = self.dragonfly_start
 
-        '''
-        # Neuron Variables 
-        N = 4
-        taum = 10*ms
-        taupre = 20*ms
-        taupost = taupre
-        tauc = 20*ms # Izhikevich paper 1s
-        tauDop = 20*ms #  Izhikevich paper 200ms
-        Ee = 0*mV
-        vt = -54*mV
-        vr = -60*mV
-        El = -74*mV
-        taue = 5*ms
-        F = 15*Hz
-        gmax = 1
-
-        dApre = 1 # 0.01
-        dApost = -dApre * taupre / taupost *1.05 #* 1.05
-        dApost *= gmax
-        dApre *= gmax
-
-        # Simulation variables
-        sim_time = 100.0 * ms
-        frame_length = 10.0 * ms
-
-        # Reward variables
-        dopBoost = 0.5
-        reward_distance = 40
-
-        # Animation variables
-        fromAnim = True
-        SPEED_FACTOR = 2 * second
-        dragonfly_start = [300, 300, 0.0]
-        '''
-
         # Neuron equations.
         eqs_neurons = '''
        	dv/dt = (ge * (Ee-vr) + El - v) / taum : volt
@@ -125,7 +96,8 @@ class ActionSelection(object):
        	'''
 
         # Poisson input.
-        input = PoissonGroup(N, rates=F)
+        if len(self.spike_input) == 0:
+            input = PoissonGroup(N, rates=F)
 
         # Action selection neurons.
         neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v=vr')
@@ -235,7 +207,7 @@ class ActionSelection(object):
 
         ######## Animation run
         test.add_dragonfly(dragon_path)
-        test.run("test.avi", 10, 10)
+        test.run(output_dir, 10, 10)
         ########
 	
         # Plots
