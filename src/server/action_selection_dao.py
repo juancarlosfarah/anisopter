@@ -5,7 +5,7 @@ from bson.objectid import ObjectId
 import numpy as np
 import pymongo
 from action_selection.action_selection import ActionSelection
-
+from brian2 import *
 
 class ActionSelectionDao:
 
@@ -106,7 +106,7 @@ class ActionSelectionDao:
                        SPEED_FACTOR = 2*second,
                        dragonfly_start = [300, 300, 0.0], 
                        description = "",
-                       output_dir = "output.avi"):
+                       output_dir = "assets/action_selection/output.avi"):
         """
         Generates and saves a simulation.
         """
@@ -141,7 +141,7 @@ class ActionSelectionDao:
         a_s.run()
 
         # Save video to filesystem.
-
+        
         # Save action selection simulation.
         _id = self.save(a_s)
 
