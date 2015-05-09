@@ -73,9 +73,10 @@ class Target(object):
 
         # Normalise velocity vector.
         sum_square = velocity[0] * velocity[0] + velocity[1] * velocity[1]
-        factor = sqrt(sum_square)
-        velocity[0] = 1.0 * velocity[0] / factor
-        velocity[1] = 1.0 * velocity[1] / factor
+        if sum_square != 0.0:
+            factor = sqrt(sum_square)
+            velocity[0] = 1.0 * velocity[0] / factor
+            velocity[1] = 1.0 * velocity[1] / factor
 
     def __eq__(self, other):
         result = True
