@@ -166,8 +166,8 @@ class TestAnimationWindow(unittest.TestCase):
         """
         TO DO!
         """
-        pass
-
+        self.aw.update_frame(0.0)
+        
 
 '''
 class TestAnimation(unittest.TestCase):
