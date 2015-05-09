@@ -23,6 +23,14 @@
                    id="num_neurons" name="num_neurons"
                    placeholder="Number of Neurons (1 to 5)"/>
         </div>
+	<div class="form-group">
+            <label for="frame_length">Frame Length</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="frame_length"
+                       name="frame_length" value="10.0" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
         <div class="form-group">
             <label for="tau_m">Tau M</label>
             <div class="input-group">
@@ -56,7 +64,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="tau_dop">Tau C</label>
+            <label for="tau_dop">Tau Dop</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_dop"
                        name="tau_dop" value="20" />
@@ -64,10 +72,34 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="tau_dop">Tau C</label>
+            <label for="Ee">Ee</label>
             <div class="input-group">
-                <input class="form-control" type="text" id="tau_dop"
-                       name="tau_dop" value="20" />
+                <input class="form-control" type="text" id="Ee"
+                       name="Ee" value="0" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="vt">vt</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="vt"
+                       name="vt" value="-54" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="vr">vr</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="vr"
+                       name="vr" value="-60" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="El">El</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="El"
+                       name="El" value="-74" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -79,19 +111,43 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
-            <label for="duration">Duration</label>
+	<div class="form-group">
+            <label for="taue">Tau e</label>
             <div class="input-group">
-                <input class="form-control" type="text" id="duration"
-                       name="duration" value="100.0" />
+                <input class="form-control" type="text" id="taue"
+                       name="taue" value="5" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="F">F</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="F"
+                       name="F" value="15" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="gmax">Max Weight</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="gmax"
+                       name="gmax" value="1" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="dApre">dApre</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="dApre"
+                       name="dApre" value="1" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
         <div class="form-group">
-            <label for="frame_length">Frame Length</label>
+            <label for="sim_time">Duration</label>
             <div class="input-group">
-                <input class="form-control" type="text" id="frame_length"
-                       name="frame_length" value="10.0" />
+                <input class="form-control" type="text" id="sim_time"
+                       name="sim_time" value="100.0" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -104,7 +160,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="frame_length">From Animation</label>
+            <label for="fromAnim">From Animation</label>
             <select class="form-control"
                     name="from_animation"
                     id="from_animation">
@@ -118,6 +174,22 @@
                 <input class="form-control" type="text" id="speed_factor"
                        name="speed_factor" value="2" />
                 <span class="input-group-addon">s</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="dragonfly_x">Dragonfly x coordinate</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="dragonfly_x"
+                       name="dragonfly_x" value="300" />
+                <span class="input-group-addon">ms</span>
+            </div>
+        </div>
+	<div class="form-group">
+            <label for="dragonfly_y">Dragonfly x coordinate</label>
+            <div class="input-group">
+                <input class="form-control" type="text" id="dragonfly_y"
+                       name="dragonfly_y" value="300" />
+                <span class="input-group-addon">ms</span>
             </div>
         </div>
         <div class="form-group">

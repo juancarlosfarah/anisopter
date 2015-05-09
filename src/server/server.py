@@ -14,6 +14,8 @@ import animation_dao
 import estmd_dao
 import cstmd_dao
 import action_selection_dao
+from brian2 import *
+
 
 @route('/')
 def show_index():
@@ -295,22 +297,51 @@ def new_as_simulation():
 def run_action_selection_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
-    num_neurons = int(form.get("num_neurons"))
-    num_electrodes = int(form.get("num_electrodes"))
-    num_synapses = int(form.get("num_synapses"))
-    synaptic_distance = int(form.get("synaptic_distance"))
-    duration_per_frame = int(form.get("duration_per_frame"))
+    N = int(form.get("num_neurons"))
+    taum = float(form.get("tau_m"))
+    taupre = float(form.get("tau_pre"))
+    tauc = float(form.get("tau_c"))
+    tauDop = float(form.get("tau_Dop"))
+    Ee = float(form.get("Ee"))
+    vt = float(form.get("vt"))
+    vr = float(form.get("vr"))
+    El = float(form.get("El"))
+    taue = float(form.get("tau_e"))
+    F = float(form.get("F"))
+    gmax = float(form.get("gmax"))
+    dApre = float(form.get("dApre"))
+    sim_time = float(form.get("sim_time"))
+    frame_length = float(form.get("frame_length"))
+    dopBoost = float(form.get("dopBoost"))
+    reward_distance = float(form.get("reward_distance"))
+    speed_factor = float(form.get("speed_factor"))
+    dragonfly_x = int(form.get("dragonfly_x"))
+    dragonfly_y = int(form.get("dragonfly_x"))
     description = form.get("description")
     sample = estmd.get_simulation(sample_id)
     frames = estmd.get_frames(sample_id)
-    _id = a_s.run_simulation(sample,
-                               frames,
-                               num_neurons,
-                               num_electrodes,
-                               num_synapses,
-                               synaptic_distance,
-                               duration_per_frame,
-                               description)
+    _id = a_s.run_simulation(N = N, 
+                       taum = taum*ms, 
+                       taupre = taupre*ms, 
+                       taupost = taupost*ms, 
+                       tauc = tauc*ms, 
+                       tauDop = tauDop*ms,
+                       Ee = Ee*mV, 
+                       vt = vt*mV, 
+                       vr = vr*mV, 
+                       El = El*mV, 
+                       taue = taue*mV, 
+                       F = F*Hz, 
+                       gmax = gmax,
+                       dApre = dApre, 
+                       sim_time = sim_time*ms, 
+                       frame_length = frame_length*ms, 
+                       dopBoost = dopBoost,
+                       reward_distance = reward_distance, 
+                       fromAnim = fromAnim, 
+                       SPEED_FACTOR = speed_factor*second,
+                       dragonfly_start = [dragonfly_x, dragonfly_y, 0.0], 
+                       description = description)
     bottle.redirect("/action_selection/simulation/" + str(_id))
 
 
