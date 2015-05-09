@@ -40,7 +40,7 @@ class Dragonfly(object):
 
 class Background(object):
     '''
-    This class store background used in animation.
+    This class stores background used in animations.
     '''
     def __init__(self, directory, speed=0):
         self.directory = directory
@@ -290,7 +290,7 @@ class Animation(object):
         The return format is [[x1, y1], [x2, y2], ... [xn, yn]]
 
         Args:
-            frame: at which frame you want positions of targets.
+            time: at which time you want positions of targets.
         """
         result = []
         for target in self.target_list:
