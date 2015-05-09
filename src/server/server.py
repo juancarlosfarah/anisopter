@@ -15,11 +15,6 @@ import estmd_dao
 import cstmd_dao
 import action_selection_dao
 
-# Import simulation module.
-pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
-sys.path.append(pr)
-
-
 @route('/')
 def show_index():
 

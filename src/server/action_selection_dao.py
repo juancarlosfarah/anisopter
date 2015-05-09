@@ -4,8 +4,9 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 from bson.objectid import ObjectId
 import numpy as np
 import pymongo
-from action_selection import ActionSelection
+from action_selection.action_selection import ActionSelection
 from brian2 import *
+
 
 class ActionSelectionDao:
 
@@ -68,7 +69,7 @@ class ActionSelectionDao:
         """
         c = self.collection
         cursor = c.find().sort('_id', direction=-1).limit(num_simulations)
-        simulations = cursor.toArray()
+        simulations = list(cursor)
 
         return simulations
 
@@ -113,7 +114,7 @@ class ActionSelectionDao:
 
         # Get the input.
 
-        # Instatiate an ActionSelection object.
+        # Instantiate an ActionSelection object.
         a_s = ActionSelection(N = N, 
                        taum = taum, 
                        taupre = taupre, 
