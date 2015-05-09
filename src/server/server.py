@@ -65,10 +65,11 @@ def show_animation(_id):
 @post('/target_animation/animation/generate')
 def generate_animation():
     form = bottle.request.forms
-    width = form.get("width")
-    height = form.get("height")
-    description = form.get("description")
-    num_targets = form.get("num_targets")
+    print form.get("data")
+    # width = form.get("width")
+    # height = form.get("height")
+    # description = form.get("description")
+    # num_targets = form.get("num_targets")
     _id = animations.generate_animation()
     bottle.redirect("/target_animation/animation/" + str(_id))
 

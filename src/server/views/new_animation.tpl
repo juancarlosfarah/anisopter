@@ -30,23 +30,19 @@
             <textarea class="form-control" rows="3" id="description"
                       placeholder="Description" name="description"></textarea>
         </div>
-        <div class="form-group">
-            <label for="num_targets">Number of Targets</label>
-            <input type="number" class="form-control"
-                   name="num_targets" placeholder="1" id="num_targets" />
-        </div>
         <hr>
         <div id="targets">
             <h3>Targets</h3>
             <fieldset class="target">
                 <div class="row">
-                    <div class="col-md-10">
-                        <legend class="h4">
-                            Target <span class="target_num">1</span>
-                        </legend>
+                    <div class="col-md-11">
+                        <h4>Target <span class="target_num">1</span></h4>
                     </div>
-                    <div class="col-md-2">
-                        <span class="glyphicon glyphicon-remove"></span>
+                    <div class="col-md-1">
+                        <button type="button"
+                                class="btn btn-xs btn-danger removeTarget">
+                            Remove
+                        </button>
                     </div>
                 </div>
                 <div class="row">
@@ -136,14 +132,17 @@
         </div>
         <button type="button"
                 id="addTargets"
-                class="btn btn-primary">Add Targets</button>
-        <button type="submit" class="btn btn-default">Submit</button>
+                class="btn btn-primary">Add Target</button>
+        <button type="button"
+                class="btn btn-success btn-default"
+                id="submit">Submit</button>
     </form>
 </div>
 <script src="/static/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js">
 </script>
 <script>
     function removeTargetOnClick($element) {
+        var $targets = $('#targets');
         $element.click(function() {
             if ($targets.children('fieldset.target').length > 1) {
                 $(this).closest('fieldset.target').remove();
@@ -151,17 +150,64 @@
         });
     }
 
+    function submitForm() {
+        var targets = [];
+        $('fieldset.target').each(function() {
+            var target = {
+                "type": $(this).find('.target-type').val(),
+                "color": $(this).find('.target-color').val(),
+                "start_pos": [
+                    $(this).find('.target-start-pos-x').val(),
+                    $(this).find('.target-start-pos-y').val()
+                ],
+                "end_pos": [
+                    $(this).find('.target-end-pos-x').val(),
+                    $(this).find('.target-end-pos-y').val()
+                ],
+                "size": $(this).find('.target-size').val(),
+                "velocity": $(this).find('.target-velocity').val()
+            };
+            targets.append(target);
+        });
+
+        $.ajax({
+            method: "POST",
+            url: "/target_animation/animation/generate",
+            data: {
+                "width": $('#width').val(),
+                "height": $('#height').val(),
+                "description": $('#description').val(),
+                "target": targets
+            }
+        }).done(function(msg) {
+            console.log( "Data Saved: " + msg );
+        });
+    }
+
+    function submitFormOnClick($element) {
+        $element.click(function() {
+            console.log("Submitting form...");
+            submitForm();
+        });
+    }
+
     $(document).ready(function() {
         $('.color-picker').colorpicker();
+        $('.removeTarget').first().hide();
         $("#addTargets").click(function() {
             // Add form for targets.
             var $targets = $('#targets');
             var html = $targets.children('fieldset.target').last().html();
-            $targets.append(html);
+            var $new_target = $('<fieldset class="target"></fieldset>');
+            $targets.append($new_target.html(html));
+            var len = $targets.children('fieldset.target').length;
+            $('.target_num').last().text(len);
             $('.color-picker').last().colorpicker();
-            removeTargetOnClick($('.glyphicon-remove').last());
+            $('.removeTarget').last().show();
+            removeTargetOnClick($('.removeTarget').last());
         });
-        removeTargetOnClick($('.glyphicon-remove')); 
+        removeTargetOnClick($('.removeTarget'));
+        submitFormOnClick($('#submit'));
     });
 </script>
 </body>
