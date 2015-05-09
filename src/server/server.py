@@ -313,7 +313,6 @@ def run_action_selection_simulation():
     F = float(form.get("F"))
     gmax = float(form.get("gmax"))
     dApre = float(form.get("dApre"))
-    dApost = float(form.get("dApost"))
     sim_time = float(form.get("sim_time"))
     frame_length = float(form.get("frame_length"))
     dopBoost = float(form.get("dopBoost"))
