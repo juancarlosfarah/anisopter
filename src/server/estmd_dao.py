@@ -9,7 +9,7 @@ import pymongo
 from estmd.estmd import ESTMD
 
 
-class EstmdDao:
+class EstmdDao(object):
 
     def __init__(self, database):
         self.db = database
@@ -92,16 +92,21 @@ class EstmdDao:
         :return: _id of simulation generated.
         """
 
-        input_directory = "assets/animations/" + sample_id + ".avi"
+        input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
         e = ESTMD()
         e.open_movie(input_directory)
         e.run(by_frame=True)
         e.create_list_of_arrays()
-
         _id = self.save(e)
 
+        output_directory = "assets/estmd/" + str(_id) + ".avi"
+        e2 = ESTMD()
+        e2.open_movie(input_directory)
+        e2.run(out_dir=output_directory)
+
         return _id
+
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"

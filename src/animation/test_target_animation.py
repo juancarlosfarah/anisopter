@@ -3,8 +3,35 @@ Unit tests for module Target_animation.
 """
 
 import unittest
+from animation.target_animation import *
 
-from src.animation.animation.target_animation import *
+
+class TestDragonfly(unittest.TestCase):
+    """
+    This class represents sequence of tests for class Dragonfly.
+    """
+    def setUp(self):
+        """
+        Method that runs at start of each test.
+        """
+
+        self.path = [[5, 5, 0.0], [10, 10, 0.5], [15, 15, 1.0]]
+        self.dragon = Dragonfly(self.path)
+
+    def test_init(self):
+        self.assertEqual(self.dragon.pos, [5, 5])
+        self.assertEqual(self.dragon.path, self.path)
+
+    def test_get_position(self):
+        time = 0.6
+        loc = self.dragon.get_position(time)
+        self.assertEqual(loc, [15, 15])
+
+    def update(self):
+        time = 0.6
+        self.dragon.update(time)
+
+        self.assertEqual(self.dragon.pos, [15, 15])
 
 
 class TestTarget(unittest.TestCase):
@@ -18,7 +45,7 @@ class TestTarget(unittest.TestCase):
         """
         pass
         
-    def test_Target_init(self):
+    def test_init(self):
         """
         Tests constructor of class Target.
         It tests that all attributes were set as expected.
@@ -26,22 +53,22 @@ class TestTarget(unittest.TestCase):
         
         type = 1
         start = [0, 0]
-        end = [10, 10]
+        vel = [1, 1]
         v = 5
         size = 10
         color = [0, 1, 2]
         
-        target = Target(type, start, end, v, size, color)
+        target = Target(type, start, vel, v, size, color)
         
         self.assertEqual(target.type, type)
         self.assertEqual(target.start, start)
         self.assertEqual(target.pos, start)
-        self.assertEqual(target.end, end)
+        self.assertEqual(target.velocity, vel)
         self.assertEqual(target.v, v)
         self.assertEqual(target.size, size)
         self.assertEqual(target.color, color)
     
-    def test_Target_change_position(self):
+    def test_change_position(self):
         """
         Tests Target's method change_position.
         """
@@ -58,7 +85,7 @@ class TestTarget(unittest.TestCase):
         self.target1.change_position(10, 5)
         self.assertEqual(self.target1.pos, [25, 20])
         
-    def test_Target_next_position(self):
+    def test_next_position(self):
         """
         Tests Target's method next_position.
         It tests 5 different movements:
@@ -93,8 +120,8 @@ class TestTarget(unittest.TestCase):
         target5.next_position()
         self.assertTrue(abs(target5.pos[0] - sqrt(25.0/2)) < eps)
         self.assertTrue(abs(target5.pos[1] - sqrt(25.0/2)) < eps)
-       
-        
+'''
+
 class TestAnimationWindow(unittest.TestCase):
     """
     This class represents sequence of tests for class AnimationWindow.
@@ -136,7 +163,7 @@ class TestAnimationWindow(unittest.TestCase):
         self.window.close()
         self.window2.close()
             
-    def test_AnimationWindow_init(self):
+    def test_init(self):
         """
         Tests constructor of class AnimationWindow constructor.
         It tests that all attributes were set as expected.
@@ -153,13 +180,13 @@ class TestAnimationWindow(unittest.TestCase):
         with self.assertRaises(AttributeError):
              self.window2.background
         
-    def test_update_frames(self):
+    def test_update_frame(self):
         """
         Tests if AnimationWindow's method update_frames works correctly.
         Assumption is made that Target's method next_position works correctly.
         """
         
-        self.window.update_frames(0)
+        self.window.update_frame(0)
         self.target0.next_position()
         self.target1.next_position()
         self.target2.next_position()
@@ -312,7 +339,7 @@ class TestAnimation(unittest.TestCase):
         out_directory = "result.test1.avi"
         self.animation.run(out_directory, 10, 10)
         self.assertTrue(os.path.exists(out_directory))
-    
+'''
     
 if __name__ == '__main__':
     unittest.main()
