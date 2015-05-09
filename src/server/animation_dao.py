@@ -96,7 +96,7 @@ class AnimationDao:
         :return: _id of animation generated.
         """
 
-        ani = Animation(width, heigh, description)
+        ani = Animation(width, height, description)
         for target in targets:
             start = [int(i) for i in target['start_pos']]
             velocity = [int(i) for i in target['velocity']]
