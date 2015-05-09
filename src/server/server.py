@@ -280,26 +280,27 @@ def generate_sample():
 
 
 # Static Routes
-@get('/static/bootstrap/css/<filename>')
-def bootstrap_css(filename):
+@get('/static/<tool>/<folder>/<filename>')
+def static_three_level(filename, folder, tool):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "static",
-                                        "bootstrap",
-                                        "css"))
+                                        tool,
+                                        folder))
     return bottle.static_file(filename, root=root)
 
 
-@get('/static/bootstrap/js/<filename>')
-def bootstrap_js(filename):
+@get('/static/<tool>/<folder>/<subfolder>/<filename>')
+def static_four_level(filename, subfolder, folder, tool):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "static",
-                                        "bootstrap",
-                                        "js"))
+                                        tool,
+                                        folder,
+                                        subfolder))
     return bottle.static_file(filename, root=root)
 
 
 @get('/static/<filename>')
-def static(filename):
+def static_one_level(filename):
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), "static"))
     return bottle.static_file(filename, root=root)
 
