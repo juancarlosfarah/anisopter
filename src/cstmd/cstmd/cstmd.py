@@ -349,7 +349,7 @@ class Cstmd(object) :
 
         # Container for spike trains.
         spike_trains = np.zeros((self.num_neurons * self.num_electrodes,
-                                 self.curr_time))
+                                 duration))
 
         # Add spike occurrences to spike train
 
