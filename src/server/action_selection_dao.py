@@ -22,6 +22,7 @@ class ActionSelectionDao:
         # General action data.
         a_s = {
             'description': a_s.description,
+            'N': a_s.N,
             'tau_m': a_s.taum,
             'tau_pre':  a_s.taum,
             'tau_post': a_s.taupost,
