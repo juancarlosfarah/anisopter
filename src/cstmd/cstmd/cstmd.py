@@ -341,6 +341,8 @@ class Cstmd(object) :
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
+        t = list(self.t_vec)
+-       id = self.id_vec
         return t, id, self.sp_trains()
 
     def sp_trains(self):
