@@ -10,8 +10,49 @@ from brian2 import *
 
 class ActionSelection(object):
 
+    def __init__(self, N = 4, taum = 10*ms, taupre = 20*ms, taupost = 20*ms, tauc = 20*ms, tauDop = 20*ms
+                 Ee = 0*mV, vt = -54*mV, vr = -60*mV, El = -74*mV, taue = 5*ms, F = 15*Hz, gmax = 1,
+                 dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
+                 reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
+                 dragonfly_start = [300, 300, 0.0]):
+        
+        # Neuron Variables
+        self.N = N
+        self.taum = taum
+        self.taupre = taupre
+        self.taupost = taupost
+        self.tauc = tauc # Izhikevich paper 1s
+        self.tauDop = tauDop #  Izhikevich paper 200ms
+        self.Ee = Ee
+        self.vt = vt
+        self.vr = vr
+        self.El = El
+        self.taue = taue
+        self.F = F
+        self.gmax = gmax
+
+        self.dApre = dApre # 0.01
+        self.dApost = -dApre * taupre / taupost *1.05 #* 1.05
+        self.dApost *= gmax
+        self.dApre *= gmax
+
+        # Simulation variables
+        self.sim_time = sim_time
+        self.frame_length = frame_length
+
+        # Reward variables
+        self.dopBoost = dopBoost
+        self.reward_distance = reward_distance
+
+        # Animation variables
+        self.fromAnim = fromAnim
+        self.SPEED_FACTOR = SPEED_FACTOR
+        self.dragonfly_start = dragonfly_start
+        
+
     def run(self):
-        # Neuron Variables.
+        '''
+        # Neuron Variables 
         N = 4
         taum = 10*ms
         taupre = 20*ms
@@ -43,6 +84,8 @@ class ActionSelection(object):
         fromAnim = True
         SPEED_FACTOR = 2 * second
         dragonfly_start = [300, 300, 0.0]
+        '''
+
         # Neuron equations.
         eqs_neurons = '''
        	dv/dt = (ge * (Ee-vr) + El - v) / taum : volt
