@@ -115,7 +115,7 @@ class Cstmd(object) :
            
     # -- Helper functions ------------------------------------------------------
     def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
-    	return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
+        return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
 
 
 
@@ -309,15 +309,16 @@ class Cstmd(object) :
                 for i in range(self.electrodes) :
                     self.rec[n].append(recsize[n]*i)
 
-        # Initialize the electrodes
- 
-	    for e in range(self.electrodes) :
-	        for n in range(self.num_neurons) :
-		    exec "self.vrec"+str(n)+str(e)+" = h.Vector()"
-		    exec "self.trec"+str(n)+str(e)+" = h.Vector()"
-		    exec "self.vrec"+str(n)+str(e)+".record(h.neuron"+str(n)+"_tree["+str(self.rec[n][e])+"](0.5)._ref_v)"
-		    exec "self.trec"+str(n)+str(e)+".record(h._ref_t)"
-    	
+            # Initialize the electrodes
+            for e in range(self.electrodes):
+                for n in range(self.num_neurons):
+                    exec "self.vrec" + str(n) + str(e) + " = h.Vector()"
+                    exec "self.trec" + str(n) + str(e) + " = h.Vector()"
+                    exec "self.vrec" + str(n) + str(
+                        e) + ".record(h.neuron" + str(
+                        n) + "_tree[" + str(self.rec[n][e]) + "](0.5)._ref_v)"
+                    exec "self.trec" + str(n) + str(e) + ".record(h._ref_t)"
+
         # Finalize initialization
         h.finitialize(-60)
         h.dt = self.dt
@@ -330,15 +331,15 @@ class Cstmd(object) :
 
         for frame_object in self.input:
             frame = np.array(frame_object['frame'])
-	        for n in range(pixels) :
-	            self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
+            for n in range(pixels) :
+                self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
 	
-	        neuron.run(duration)
-	        duration+=self.duration
-	
-	        print "Raster stuff:"
-	        for i in range(len(self.t_vec)) :
-		        print "Spikes of neuron",str(i)+":", len(self.t_vec[i])
+            neuron.run(duration)
+            duration += self.duration
+
+            print "Raster stuff:"
+            for i in range(len(self.t_vec)):
+                print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
         return t, id, self.sp_trains()
 
