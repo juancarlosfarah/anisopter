@@ -85,6 +85,9 @@ class ActionSelectionDao:
 
         return simulation
 
+    def run(self, n, tau_m):
+        pass
+
     def run_simulation(self, 
                        N = 4, 
                        taum = 10*ms, 
