@@ -23,7 +23,26 @@ class ActionSelectionDao:
         a_s = {
             'description': a_s.description,
             'tau_m': a_s.taum,
-            'tau_pre':  a_s.taum
+            'tau_pre':  a_s.taum,
+            'tau_post': a_s.taupost,
+            'tau_c': a_s.tauc,
+            'tau_Dop': a_s.tauDop,
+            'Ee': a_s.Ee,
+            'vt': a_s.vt,
+            'vr': a_s.vr,
+            'El': a_s.El,
+            'tau_e': a_s.taue,
+            'F': a_s.F,
+            'gmax': a_s.gmax,
+            'dApre': a_s.dApre,
+            'dApost': a_s.dApost,
+            'sim_time': a_s.sim_time,
+            'frame_length': a_s.frame_length,
+            'dopBoost': a_s.dopBoost,
+            'reward_distance': a_s.reward_distance,
+            'speed_factor': a_s.SPEED_FACTOR,
+            'dragonfly_start': a_s.dragonfly_start,
+            'output_dir': a_s.output_dir
         }
 
         # Save general data.
@@ -54,15 +73,30 @@ class ActionSelectionDao:
 
         return simulation
 
-    def run_simulation(self,
-                       sample,
-                       frames,
-                       num_neurons,
-                       num_electrodes,
-                       num_synapses,
-                       synaptic_distance,
-                       duration_per_frame,
-                       description):
+    def run_simulation(self, 
+                       N = 4, 
+                       taum = 10*ms, 
+                       taupre = 20*ms, 
+                       taupost = 20*ms, 
+                       tauc = 20*ms, 
+                       tauDop = 20*ms,
+                       Ee = 0*mV, 
+                       vt = -54*mV, 
+                       vr = -60*mV, 
+                       El = -74*mV, 
+                       taue = 5*ms, 
+                       F = 15*Hz, 
+                       gmax = 1,
+                       dApre = 1, 
+                       sim_time = 100.0*ms, 
+                       frame_length = 10.0*ms, 
+                       dopBoost = 0.5,
+                       reward_distance = 40, 
+                       fromAnim = True, 
+                       SPEED_FACTOR = 2*second,
+                       dragonfly_start = [300, 300, 0.0], 
+                       description = "",
+                       output_dir = "output.avi"):
         """
         Generates and saves a simulation.
         """
@@ -70,7 +104,29 @@ class ActionSelectionDao:
         # Get the input.
 
         # Instatiate an ActionSelection object.
-        a_s = ActionSelection()
+        a_s = ActionSelection(N = N, 
+                       taum = taum, 
+                       taupre = taupre, 
+                       taupost = taupost, 
+                       tauc = tauc, 
+                       tauDop = tauDop,
+                       Ee = Ee, 
+                       vt = vt, 
+                       vr = vr, 
+                       El = El, 
+                       taue = taue, 
+                       F = F, 
+                       gmax = gmax,
+                       dApre = dApre, 
+                       sim_time = sim_time, 
+                       frame_length = frame_length, 
+                       dopBoost = dopBoost,
+                       reward_distance = reward_distance, 
+                       fromAnim = fromAnim, 
+                       SPEED_FACTOR = SPEED_FACTOR,
+                       dragonfly_start = dragonfly_start, 
+                       description = description,
+                       output_dir = "output.avi")
 
         # Save video to filesystem.
 
