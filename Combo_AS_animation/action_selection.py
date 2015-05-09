@@ -105,6 +105,10 @@ rates_t = range(0, sim_time/(1*ms), frame_length/(1*ms))
 dragon_path = [[300, 300, 0.0]]
 ##########################
 
+# Animation
+test = Animation()
+test.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+
 # Simulation loop
 num_spikes = 0
 rate_window = int(frame_length / (0.1 * ms))
@@ -135,6 +139,7 @@ for i in range(sim_time / frame_length):
     y = dragon_path[-1][1] + vy / 10.0
     t = 1.0 * i / (sim_time / frame_length)
     dragon_path.append([x, y, t])
+
     #####
 
 
@@ -150,8 +155,6 @@ for i in range(sim_time / frame_length):
 
 
 ######## Animation stuff
-test = Animation()
-test.add_target(2, start=[250,0], end=[250,500], size=5, v=4)
 test.add_dragonfly(dragon_path)
 test.run("test.avi", 10, 10)
 print dragon_path
