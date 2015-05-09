@@ -166,10 +166,9 @@ class TestAnimationWindow(unittest.TestCase):
         """
         TO DO!
         """
-        pass
+        self.aw.update_frame(0.0)
 
 
-'''
 class TestAnimation(unittest.TestCase):
     """
     This class represents sequence of tests for class Animation.
@@ -192,9 +191,8 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(self.animation.target_list, [])
         self.assertEqual(self.animation.width, self.width)
         self.assertEqual(self.animation.height, self.height)
-        self.assertEqual(self.animation.bg_image, False)
-        self.assertEqual(self.animation.bg_speed, 0)
-        
+        self.assertEqual(self.animation.bg, False)
+
     def test_make_directory(self):
         """
         Tests if make_directory actually creates directory.
@@ -210,34 +208,33 @@ class TestAnimation(unittest.TestCase):
         """
         Tests if target is added.
         """
-    
-        self.animation.add_target(0)
-        target1 = Target(0, [0, 0], [100, 100], 5, 10, [0, 0, 0])
-        self.animation.add_target(1, start=[10, 10])
-        target2 = Target(1, [10, 10], [100, 100], 5, 10, [0, 0, 0])
+
+        self.animation.add_target(1)
+        target1 = Target(1, [0, 0], [1, 1], 5, 10, [0, 0, 0])
+
+        self.animation.add_target(2, [10, 10])
+        target2 = Target(2, [10, 10], [1, 1], 5, 10, [0, 0, 0])
         
         target_list = [target1, target2]
         target_list2 = self.animation.target_list
         
         self.assertEqual(self.animation.target_list, target_list)
-        
+
     def test_add_background(self):
         """
         Tests if background is added.
         """
         
-        bg_image = "random_test"
-        bg_speed = 123
+        bg_image = "images/test.jpg"
     
-        self.animation.add_background(bg_image, bg_speed)
-        self.assertEqual(self.animation.bg_image, bg_image)
-        self.assertEqual(self.animation.bg_speed, bg_speed)
-        
+        self.animation.add_background(bg_image)
+        self.assertTrue(self.animation.bg)
+
     def test_run(self):
         out_directory = "result.test1.avi"
         self.animation.run(out_directory, 10, 10)
         self.assertTrue(os.path.exists(out_directory))
-'''
+
 
 if __name__ == '__main__':
     unittest.main()
