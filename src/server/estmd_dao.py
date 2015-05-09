@@ -24,7 +24,8 @@ class EstmdDao(object):
 
         # General simulation data.
         sim = {
-            'description': estmd.description
+            'description': estmd.description,
+            'input_id': estmd.input_id
         }
 
         _id = self.collection.insert(sim)
@@ -86,7 +87,7 @@ class EstmdDao(object):
         simulation['date'] = simulation['_id'].generation_time
         return simulation
 
-    def run_simulation(self, sample_id):
+    def run_simulation(self, sample_id, description):
         """
         Runs and saves the output simulation.
         :return: _id of simulation generated.
@@ -94,7 +95,7 @@ class EstmdDao(object):
 
         input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
-        e = ESTMD()
+        e = ESTMD(input_id=sample_id, description=description)
         e.open_movie(input_directory)
         e.run(by_frame=True)
         e.create_list_of_arrays()

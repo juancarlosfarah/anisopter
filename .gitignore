@@ -38,5 +38,6 @@ dist
 # Generated Animations
 # ====================
 src/server/assets/animations
+src/server/assets/estmd
 src/animation/temp
 src/server/temp

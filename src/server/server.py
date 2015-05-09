@@ -91,7 +91,8 @@ def new_estmd_simulation():
 def run_estmd_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
-    _id = estmd.run_simulation(sample_id)
+    description = form.get("description")
+    _id = estmd.run_simgit ulation(sample_id, description)
     bottle.redirect("/estmd/simulation/" + str(_id))
 
 
