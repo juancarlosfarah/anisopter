@@ -53,14 +53,15 @@ K=0.06
 Na=0.48
 PIXEL_NO = len(frame_list[0])
 MAX_CURRENT = 30
-MIN_CURRENT = 2.0
+MIN_CURRENT = 5.0
 MIN = 0.000005
 MAX = 0.00005
 PLOT_ACTIVITY = False
 runtime=10
+prints=False
 
-dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,
-K=K,Na=Na,PIXEL_NO=PIXEL_NO,MAX_CURRENT=MAX_CURRENT,MIN_CURRENT=MIN_CURRENT,MIN=MIN,MAX=MAX,PLOT_ACTIVITY =PLOT_ACTIVITY,runtime=runtime,input=frame_list)
+dr = CSTMD(num_neurons=neurons_no, num_synapses=SYNAPSES_NO, synaptic_distance=D,num_electrodes=electrds,
+potassium=K,sodium=Na,num_pixels=PIXEL_NO,max_current=MAX_CURRENT,min_current=MIN_CURRENT,min_weight=MIN,max_weight=MAX,plot_activity =PLOT_ACTIVITY,duration=runtime,input=frame_list,verbose=prints)
 
 times=dr.run()
 if PLOT_ACTIVITY:
