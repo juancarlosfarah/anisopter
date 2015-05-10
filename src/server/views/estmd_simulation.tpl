@@ -23,7 +23,7 @@
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Input</h3>
             <video width="640" height="480" autoplay loop>
-                <source src="/assets/animations/{{simulation['input_id']}}.mp4"
+                <source src="/assets/animations/{{simulation['animation_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.
             </video>
