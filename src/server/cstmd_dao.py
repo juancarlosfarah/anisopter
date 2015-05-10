@@ -138,10 +138,14 @@ class CstmdDao:
                       description=description,
                       input=frames)
 
-        times, ids, cstmd.spike_trains = cstmd.run()
+        times, cstmd.spike_trains = cstmd.run()
 
         # Save CSTMD simulation.
         _id = self.save(cstmd, sample['_id'], sample['animation_id'])
+
+        # Save Plots.
+        cstmd.plot_fir_rate(str(_id))
+        cstmd.plot_compart_act(str(_id))
 
         return _id
 
