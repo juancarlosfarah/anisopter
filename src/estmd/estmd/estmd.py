@@ -151,10 +151,7 @@ class ESTMD(object):
                 break
             self.frames.append(frame)
 
-            print "Generating ESTMD frame number " + str(len(self.frames)) + "."
-
         self.num_frames = len(self.frames)
-        print self.num_frames
 
         return self.frames
 

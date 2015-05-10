@@ -19,6 +19,31 @@ class TestESTMD(unittest.TestCase):
 
         self.estmd = ESTMD()
 
+    def test_init(self):
+        """
+        Method that tests if ESTMD class initiates correctly.
+        """
+        estmd2 = ESTMD(input_id='',
+                       description='',
+                       H_filter=np.array([[-1, -1, -1, -1, -1],
+                                          [-1,  0,  0,  0, -1],
+                                          [-1,  0,  2,  0, -1],
+                                          [-1,  0,  0,  0, -1],
+                                          [-1, -1, -1, -1, -1]]),
+                       b=[0.0, 0.00006, -0.00076, 0.0044,
+                          -0.016, 0.043, -0.057, 0.1789, -0.1524],
+                       a=[0.0, 0.00006, -0.00076, 0.0044,
+                          -0.016, 0.043, -0.057, 0.1789, -0.1524],
+                       CSKernel=np.array([[-1, -1, -1, -1, -1],
+                                          [-1,  0,  0,  0, -1],
+                                          [-1,  0,  2,  0, -1],
+                                          [-1,  0,  0,  0, -1],
+                                          [-1, -1, -1, -1, -1]]),
+                       b1=[1,1],
+                       a1=[1,1])
+
+        self.assertTrue(estmd2)
+
     def test_RTC_exp(self):
         input = [0, 1, 0.001, 2]
         expected_result = [0, np.exp(-1), 0, np.exp(-0.5)]
