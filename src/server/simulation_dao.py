@@ -22,7 +22,7 @@ class SimulationDao:
         self.db = database
         self.collection = self.db.simulations
 
-    def save(self, sim):
+    def save(self, sim, animation_id, estmd_id, cstmd_id):
         """
         Saves the simulation to the database.
         :return: None.
@@ -67,9 +67,9 @@ class SimulationDao:
             "pattern_duration": sim.pattern_duration,
             "duration": sim.duration,
             "description": sim.description,
-            "animation_id": sim.animation_id,
-            "cstmd_id": sim.cstmd_id,
-            "estmd_id": sim.estmd_id
+            "animation_id": animation_id,
+            "cstmd_id": cstmd_id,
+            "estmd_id": estmd_id
         }
         _id = self.collection.insert(sim)
         return _id
@@ -289,7 +289,10 @@ class SimulationDao:
             neurons.append(n)
 
         sim.run()
-        _id = self.save(sim)
+        _id = self.save(sim,
+                        sample['animation_id'],
+                        sample['estmd_id'],
+                        sample['_id'])
         return _id
 
 

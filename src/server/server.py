@@ -478,6 +478,15 @@ def assets(filename, folder):
     return bottle.static_file(filename, root=root)
 
 
+@get('/assets/<folder>/<subfolder>/<filename>')
+def assets_two_level(filename, subfolder, folder):
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        "assets",
+                                        folder,
+                                        subfolder))
+    return bottle.static_file(filename, root=root)
+
+
 def start():
     bottle.run(host="localhost",
                port=8082,

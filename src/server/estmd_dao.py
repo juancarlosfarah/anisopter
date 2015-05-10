@@ -26,7 +26,7 @@ class EstmdDao(object):
         # General simulation data.
         sim = {
             'description': estmd.description,
-            'input_id': estmd.input_id
+            'animation_id': estmd.input_id
         }
 
         _id = self.collection.insert(sim)
