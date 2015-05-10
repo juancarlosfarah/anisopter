@@ -115,12 +115,12 @@ class TestTarget(unittest.TestCase):
         """
         
         eps = 1e-8
-        
-        target1 = Target(0, [0, 0], [100, 100], 5, 5, [0, 1, 2])
-        target2 = Target(1, [0, 0], [100, 100], 5, 5, [0, 1, 2])
-        target3 = Target(2, [0, 0], [0, 100], 5, 5, [0, 1, 2])
-        target4 = Target(2, [0, 0], [100, 0], 5, 5, [0, 1, 2])
-        target5 = Target(2, [0, 0], [100, 100], 5, 5, [0, 1, 2])
+
+        target1 = Target(2, [0, 0], [0, 0], 5, 5, [0, 1, 2])
+        target2 = Target(1, [0, 0], [1, 1], 5, 5, [0, 1, 2])
+        target3 = Target(2, [0, 0], [0, 1], 5, 5, [0, 1, 2])
+        target4 = Target(2, [0, 0], [1, 0], 5, 5, [0, 1, 2])
+        target5 = Target(2, [0, 0], [1, 1], 5, 5, [0, 1, 2])
         
         target1.next_position()
         self.assertEqual(target1.pos, [0, 0])
@@ -136,6 +136,16 @@ class TestTarget(unittest.TestCase):
         target5.next_position()
         self.assertTrue(abs(target5.pos[0] - sqrt(25.0/2)) < eps)
         self.assertTrue(abs(target5.pos[1] - sqrt(25.0/2)) < eps)
+
+    def test_get_pos(self):
+        target1 = Target(2, [0, 0], [0, 0], 5, 5, [0, 1, 2])
+        target2 = Target(2, [0, 0], [1, 0], 5, 5, [0, 1, 2])
+
+        pos1 = target1.get_pos(5)
+        pos2 = target2.get_pos(5)
+
+        self.assertEqual(pos1, [0, 0])
+        self.assertEqual(pos2, [25, 0])
 
 
 class TestAnimationWindow(unittest.TestCase):
@@ -173,6 +183,8 @@ class TestAnimationWindow(unittest.TestCase):
         TO DO!
         """
         self.aw.draw()
+        img_name = "temp/scr" + str(self.aw.time) + ".png"
+        self.assertTrue(os.path.exists(img_name))
 
 
 class TestAnimation(unittest.TestCase):
