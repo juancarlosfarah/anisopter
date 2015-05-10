@@ -8,6 +8,19 @@
 
     <form action="/target_animation/animation/generate" method="post">
         <div class="form-group">
+            <label for="background">Background</label>
+            <select class="target-type form-control"
+                    name="background"
+                    id="background">
+                <option value="">None</option>
+                %for bg in bgs:
+                <option value="{{bg}}">
+                    {{bg}}
+                </option>
+                %end
+            </select>
+        </div>
+        <div class="form-group">
             <label for="width">Width</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="width"
@@ -69,7 +82,7 @@
                             <div class="input-group">
                                 <input type="text"
                                        class="target-size form-control"
-                                       value="" placeholder="10" />
+                                       value="10" />
                                 <span class="input-group-addon">px</span>
                             </div>
                         </div>
@@ -181,6 +194,7 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify({
+                "background": $('#background').val(),
                 "width": $('#width').val(),
                 "height": $('#height').val(),
                 "description": $('#description').val(),

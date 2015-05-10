@@ -10,13 +10,31 @@ from animation.target_animation import Animation
 from brian2 import *
 
 class ActionSelection(object):
-
-    def __init__(self, N = 4, taum = 10*ms, taupre = 20*ms, taupost = 20*ms, tauc = 20*ms, tauDop = 20*ms,
-                 Ee = 0*mV, vt = -54*mV, vr = -60*mV, El = -74*mV, taue = 5*ms, F = 15*Hz, gmax = 1,
-                 dApre = 1, sim_time = 100.0*ms, frame_length = 10.0*ms, dopBoost = 0.5,
-                 reward_distance = 40, fromAnim = True, SPEED_FACTOR = 2*second,
-                 dragonfly_start = [300, 300, 0.0], description = "", output_dir = "output.avi",
-                 spike_input = None):
+    def __init__(self,
+                 N=4,
+                 taum=10*ms,
+                 taupre=20*ms,
+                 taupost=20*ms,
+                 tauc=20*ms,
+                 tauDop=20*ms,
+                 Ee=0*mV,
+                 vt=-54*mV,
+                 vr=-60*mV,
+                 El=-74*mV,
+                 taue=5*ms,
+                 F=15*Hz,
+                 gmax=1,
+                 dApre=1,
+                 sim_time=100.0*ms,
+                 frame_length=10.0*ms,
+                 dopBoost=0.5,
+                 reward_distance=40,
+                 fromAnim=True,
+                 SPEED_FACTOR=2*second,
+                 dragonfly_start=[300, 300, 0.0],
+                 description="",
+                 output_dir="output.avi",
+                 spike_input=None):
         
         # Neuron Variables
         self.N = N
@@ -296,8 +314,9 @@ class ActionSelection(object):
         title('Neuron 3 firing rate')
         xlabel('Time/s')
         ylabel('Firing rate / Hz')
-	
         show()
 
-action = ActionSelection()
-action.run()
+
+if __name__ == "__main__":
+    action = ActionSelection()
+    action.run()

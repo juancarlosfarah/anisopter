@@ -35,7 +35,7 @@
             <label for="tau_m">Tau M</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_m"
-                       name="num_electrodes" value="10" />
+                       name="tau_m" value="10" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -43,7 +43,7 @@
             <label for="tau_pre">Tau Pre</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_pre"
-                       name="tau_post" value="20" />
+                       name="tau_pre" value="20" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -112,10 +112,10 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="taue">Tau e</label>
+            <label for="tau_e">Tau E</label>
             <div class="input-group">
-                <input class="form-control" type="text" id="taue"
-                       name="taue" value="5" />
+                <input class="form-control" type="text" id="tau_e"
+                       name="tau_e" value="5" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -144,10 +144,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="sim_time">Duration</label>
+            <label for="duration">Duration</label>
             <div class="input-group">
-                <input class="form-control" type="text" id="sim_time"
-                       name="sim_time" value="100.0" />
+                <input class="form-control" type="text" id="duration"
+                       name="duration" value="100.0" />
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
@@ -160,7 +160,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="fromAnim">From Animation</label>
+            <label for="from_animation">From Animation</label>
             <select class="form-control"
                     name="from_animation"
                     id="from_animation">

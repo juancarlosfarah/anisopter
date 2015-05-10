@@ -80,7 +80,8 @@ class AnimationDao:
 
         return animation
 
-    def generate_animation(self, width, height, description, targets, frames):
+    def generate_animation(self, width, height,
+                           description, targets, frames, background):
         """
         Generates and saves an animation.
 
@@ -107,6 +108,13 @@ class AnimationDao:
             size = int(target['size'])
             color = [float(i) / 255.0 for i in target['color'][4:-1].split(",")]
             ani.add_target(type, start, velocity_vector, velocity, size, color)
+
+        if background != "":
+            path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                "assets",
+                                                "backgrounds"))
+            file_path = "{path}/{file}".format(path=path, file=background)
+            ani.add_background(img_dir=file_path)
 
         _id = self.save(ani)
 

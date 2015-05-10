@@ -14,11 +14,7 @@ import animation_dao
 import estmd_dao
 import cstmd_dao
 import action_selection_dao
-from brian2 import *
-# Import simulation module.
-pr = os.path.abspath(os.path.join("..", "stage1", "pattern_recognition"))
-sys.path.append(pr)
-
+from bson.objectid import ObjectId
 
 @route('/')
 def show_index():
@@ -30,15 +26,18 @@ def show_index():
 
 @route('/target_animation')
 def show_target_animation():
-
     obj = dict()
     return bottle.template('target_animation', obj)
 
 
 @route('/target_animation/animation/new')
 def new_animation():
-
+    bg_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                           "assets",
+                                           "backgrounds"))
+    bgs = os.listdir(bg_path)
     obj = dict()
+    obj['bgs'] = bgs
     return bottle.template('new_animation', obj)
 
 
@@ -64,15 +63,54 @@ def show_animation(_id):
 
 @post('/target_animation/animation/generate')
 def generate_animation():
+    background = request.json['background']
     width = int(request.json['width'])
     height = int(request.json['height'])
     description = request.json['description']
     targets = request.json['targets']
     frames = int(request.json['frames'])
     _id = animations.generate_animation(width, height, description,
-                                        targets, frames)
+                                        targets, frames, background)
     rvalue = {"url": "/target_animation/animation/" + str(_id)}
     return rvalue
+
+
+@route('/target_animation/background/new')
+def new_animation_background():
+
+    obj = dict()
+    return bottle.template('new_animation_background', obj)
+
+
+@post('/target_animation/background/upload')
+def upload_animation_background():
+    upload = request.files.get('upload')
+    name, ext = os.path.splitext(upload.filename)
+    if ext not in ('.png', '.jpg', '.jpeg'):
+        return "File extension not allowed."
+
+    filename = str(ObjectId()) + ext
+    save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                             "assets",
+                                             "backgrounds"))
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    file_path = "{path}/{file}".format(path=save_path, file=filename)
+    upload.save(file_path)
+
+    bottle.redirect("/target_animation/backgrounds")
+
+
+@route('/target_animation/backgrounds')
+def show_backgrounds():
+    bg_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                           "assets",
+                                           "backgrounds"))
+    bgs = os.listdir(bg_path)
+    obj = dict()
+    obj['bgs'] = bgs
+    return template('backgrounds', obj)
 
 
 @route('/estmd')
@@ -299,12 +337,13 @@ def new_as_simulation():
 @post('/action_selection/simulation/run')
 def run_action_selection_simulation():
     form = bottle.request.forms
-    sample_id = form.get("sample")
+    input_id = form.get("sample")
     N = int(form.get("num_neurons"))
     taum = float(form.get("tau_m"))
     taupre = float(form.get("tau_pre"))
+    taupost = float(form.get("tau_post"))
     tauc = float(form.get("tau_c"))
-    tauDop = float(form.get("tau_Dop"))
+    tauDop = float(form.get("tau_dop"))
     Ee = float(form.get("Ee"))
     vt = float(form.get("vt"))
     vr = float(form.get("vr"))
@@ -313,38 +352,38 @@ def run_action_selection_simulation():
     F = float(form.get("F"))
     gmax = float(form.get("gmax"))
     dApre = float(form.get("dApre"))
-    sim_time = float(form.get("sim_time"))
+    sim_time = float(form.get("duration"))
     frame_length = float(form.get("frame_length"))
-    dopBoost = float(form.get("dopBoost"))
+    dopBoost = float(form.get("dop_boost"))
     reward_distance = float(form.get("reward_distance"))
     speed_factor = float(form.get("speed_factor"))
     dragonfly_x = int(form.get("dragonfly_x"))
     dragonfly_y = int(form.get("dragonfly_x"))
+    fromAnim = bool(form.get("from_animation"))
     description = form.get("description")
-    sample = estmd.get_simulation(sample_id)
-    frames = estmd.get_frames(sample_id)
-    _id = a_s.run_simulation(N = N, 
-                       taum = taum*ms, 
-                       taupre = taupre*ms, 
-                       taupost = taupost*ms, 
-                       tauc = tauc*ms, 
-                       tauDop = tauDop*ms,
-                       Ee = Ee*mV, 
-                       vt = vt*mV, 
-                       vr = vr*mV, 
-                       El = El*mV, 
-                       taue = taue*mV, 
-                       F = F*Hz, 
-                       gmax = gmax,
-                       dApre = dApre, 
-                       sim_time = sim_time*ms, 
-                       frame_length = frame_length*ms, 
-                       dopBoost = dopBoost,
-                       reward_distance = reward_distance, 
-                       fromAnim = fromAnim, 
-                       SPEED_FACTOR = speed_factor*second,
-                       dragonfly_start = [dragonfly_x, dragonfly_y, 0.0], 
-                       description = description)
+    _id = a_s.run_simulation_preprocessor(N=N,
+                                          taum=taum,
+                                          taupre=taupre,
+                                          taupost=taupost,
+                                          tauc=tauc,
+                                          tauDop=tauDop,
+                                          Ee=Ee,
+                                          vt=vt,
+                                          vr=vr,
+                                          El=El,
+                                          taue=taue,
+                                          F=F,
+                                          gmax=gmax,
+                                          dApre=dApre,
+                                          sim_time=sim_time,
+                                          frame_length=frame_length,
+                                          dopBoost=dopBoost,
+                                          reward_distance=reward_distance,
+                                          fromAnim=fromAnim,
+                                          SPEED_FACTOR=speed_factor,
+                                          dragonfly_start=[dragonfly_x,
+                                                           dragonfly_y, 0.0],
+                                          description=description)
     bottle.redirect("/action_selection/simulation/" + str(_id))
 
 

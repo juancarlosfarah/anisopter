@@ -4,7 +4,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 from bson.objectid import ObjectId
 import numpy as np
 import pymongo
-from action_selection import ActionSelection
+from action_selection.action_selection import ActionSelection
 from brian2 import *
 import pickle
 
@@ -45,6 +45,16 @@ class ActionSelectionDao:
             'speed_factor': a_s.SPEED_FACTOR,
             'dragonfly_start': a_s.dragonfly_start,
             'output_dir': a_s.output_dir,
+            'synapse_mon': a_s.synapse_mon,
+            'w0_mon': a_s.w0_mon,
+            'w1_mon': a_s.w1_mon,
+            'w2_mon': a_s.w2_mon,
+            'w3_mon': a_s.w3_mon,
+            'spike_mon': a_s.spike_mon,
+            'r0_mon': a_s.r0_mon,
+            'r1_mon': a_s.r1_mon,
+            'r2_mon': a_s.r2_mon,
+            'r3_mon': a_s.r3_mon,
         }
 
         # Save general data.
@@ -60,7 +70,7 @@ class ActionSelectionDao:
         """
         c = self.collection
         cursor = c.find().sort('_id', direction=-1).limit(num_simulations)
-        simulations = cursor.toArray()
+        simulations = list(cursor)
 
         return simulations
 
@@ -75,60 +85,111 @@ class ActionSelectionDao:
 
         return simulation
 
+    def run_simulation_preprocessor(self,
+                                    N=4,
+                                    taum=10,
+                                    taupre=20,
+                                    taupost=20,
+                                    tauc=20,
+                                    tauDop=20,
+                                    Ee=0,
+                                    vt=-54,
+                                    vr=-60,
+                                    El=-74,
+                                    taue=5,
+                                    F=15,
+                                    gmax=1,
+                                    dApre=1,
+                                    sim_time=100.0,
+                                    frame_length=10.0,
+                                    dopBoost=0.5,
+                                    reward_distance=40,
+                                    fromAnim=True,
+                                    SPEED_FACTOR=2,
+                                    dragonfly_start=[300, 300, 0.0],
+                                    description="",
+                                    output_dir="assets/action_selection/output.avi"):
+
+        _id = self.run_simulation(N,
+                                   taum*ms,
+                                   taupre*ms,
+                                   taupost*ms,
+                                   tauc*ms,
+                                   tauDop*ms,
+                                   Ee*mV,
+                                   vt*mV,
+                                   vr*mV,
+                                   El*mV,
+                                   taue*ms,
+                                   F*Hz,
+                                   gmax,
+                                   dApre,
+                                   sim_time*ms,
+                                   frame_length*ms,
+                                   dopBoost,
+                                   reward_distance,
+                                   fromAnim,
+                                   SPEED_FACTOR*second,
+                                   dragonfly_start,
+                                   description,
+                                   output_dir)
+
+        return _id
+
     def run_simulation(self, 
-                       N = 4, 
-                       taum = 10*ms, 
-                       taupre = 20*ms, 
-                       taupost = 20*ms, 
-                       tauc = 20*ms, 
-                       tauDop = 20*ms,
-                       Ee = 0*mV, 
-                       vt = -54*mV, 
-                       vr = -60*mV, 
-                       El = -74*mV, 
-                       taue = 5*ms, 
-                       F = 15*Hz, 
-                       gmax = 1,
-                       dApre = 1, 
-                       sim_time = 100.0*ms, 
-                       frame_length = 10.0*ms, 
-                       dopBoost = 0.5,
-                       reward_distance = 40, 
-                       fromAnim = True, 
-                       SPEED_FACTOR = 2*second,
-                       dragonfly_start = [300, 300, 0.0], 
-                       description = "",
-                       output_dir = "assets/action_selection/output.avi"):
+                       N=4,
+                       taum=10*ms,
+                       taupre=20*ms,
+                       taupost=20*ms,
+                       tauc=20*ms,
+                       tauDop=20*ms,
+                       Ee=0*mV,
+                       vt=-54*mV,
+                       vr=-60*mV,
+                       El=-74*mV,
+                       taue=5*ms,
+                       F=15*Hz,
+                       gmax=1,
+                       dApre=1,
+                       sim_time=100.0*ms,
+                       frame_length=10.0*ms,
+                       dopBoost=0.5,
+                       reward_distance=40,
+                       fromAnim=True,
+                       SPEED_FACTOR=2*second,
+                       dragonfly_start=[300, 300, 0.0],
+                       description="",
+                       output_dir="assets/action_selection/output.avi"):
         """
         Generates and saves a simulation.
         """
 
         # Get the input.
 
-        # Instatiate an ActionSelection object.
-        a_s = ActionSelection(N = N, 
-                       taum = taum, 
-                       taupre = taupre, 
-                       taupost = taupost, 
-                       tauc = tauc, 
-                       tauDop = tauDop,
-                       Ee = Ee, 
-                       vt = vt, 
-                       vr = vr, 
-                       El = El, 
-                       taue = taue, 
-                       F = F, 
-                       gmax = gmax,
-                       dApre = dApre, 
-                       sim_time = sim_time, 
-                       frame_length = frame_length, 
-                       dopBoost = dopBoost,
-                       reward_distance = reward_distance, 
-                       fromAnim = fromAnim, 
-                       SPEED_FACTOR = SPEED_FACTOR,
-                       dragonfly_start = dragonfly_start, 
-                       description = description,
-                       output_dir = "assets/action_selection/output.avi")
+        # Instantiate an ActionSelection object.
+        a_s = ActionSelection(N=N,
+                              taum=taum,
+                              taupre=taupre,
+                              taupost=taupost,
+                              tauc=tauc,
+                              tauDop=tauDop,
+                              Ee=Ee,
+                              vt=vt,
+                              vr=vr,
+                              El=El,
+                              taue=taue,
+                              F=F,
+                              gmax=gmax,
+                              dApre=dApre,
+                              sim_time=sim_time,
+                              frame_length=frame_length,
+                              dopBoost=dopBoost,
+                              reward_distance=reward_distance,
+                              fromAnim=fromAnim,
+                              SPEED_FACTOR=SPEED_FACTOR,
+                              dragonfly_start=dragonfly_start,
+                              description=description,
+                              output_dir="output.avi")
 
         a_s.run()
 

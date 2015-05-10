@@ -30,11 +30,6 @@ class ESTMD(object):
     T0 = 0.001  # Starting time.
     LMC_rec_depth = 8   # Sets how smoothly we want to apply "signal.lfilter".
     dt = 0.001  # Time step.
-    H_filter = np.array ([[-1, -1, -1, -1, -1],
-                          [-1,  0,  0,  0, -1],
-                          [-1,  0,  2,  0, -1],
-                          [-1,  0,  0,  0, -1],
-                          [-1, -1, -1, -1, -1]])
     cap = False  # Movie that we are capturing - "cap" - is set to false
                  # before we run "open_movie" method.
     by_frame = None
@@ -45,9 +40,32 @@ class ESTMD(object):
         x[x > 0] = np.exp(-T_s * x[x > 0])
         return x
 
-    def __init__(self, input_id='', description=''):
+    def __init__(self,
+                 input_id='',
+                 description='',
+                 H_filter = np.array([[-1, -1, -1, -1, -1],
+                                      [-1,  0,  0,  0, -1],
+                                      [-1,  0,  2,  0, -1],
+                                      [-1,  0,  0,  0, -1],
+                                      [-1, -1, -1, -1, -1]]),
+                 b = [0.0, 0.00006, -0.00076, 0.0044,
+                      -0.016, 0.043, -0.057, 0.1789, -0.1524],
+                 a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306,
+                      2.145, -0.5418, 0.0651],
+                 CSKernel = np.array([[-1.0/9.0, -1.0/9.0, -1.0/9.0],
+                                      [-1.0/9.0,  8.0/9.0, -1.0/9.0],
+                                      [-1.0/9.0, -1.0/9.0, -1.0/9.0]]),
+                 b1 = [1.0, 1.0],
+                 a1 = [51.0, -49.0]
+                 ):
         self.input_id = input_id
         self.description = description
+        self.H_filter = H_filter
+        self.b = b
+        self.a = a
+        self.CSKernel = CSKernel
+        self.b1 = b1
+        self.a1 = a1
 
     def open_movie(self, movie_dir):
         """
@@ -168,20 +186,14 @@ class ESTMD(object):
         downsize = 1.0 * downsize / 256.0
         self.frame_history.append(downsize)
 
-        b = [0.0, 0.00006, -0.00076, 0.0044, 
-             -0.016, 0.043, -0.057, 0.1789, -0.1524]
-        a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
         n = self.LMC_rec_depth
 
-        downsize = signal.lfilter(b, a, self.frame_history[-n:], 
+        downsize = signal.lfilter(self.b, self.a, self.frame_history[-n:],
                                   axis = 0)[-1]
 
         # Center surround antagonism kernel applied.
-        CSscale = -1.0 / 9.0
-        CSKernel = CSscale * np.ones((3,3))
-        CSKernel[1][1] = 8.0 / 9.0
 
-        downsize = cv2.filter2D(downsize, -1, CSKernel) 
+        downsize = cv2.filter2D(downsize, -1, self.CSKernel)
 
         # RTC filter.
         u_pos = deepcopy(downsize)
@@ -231,10 +243,7 @@ class ESTMD(object):
             self.out_neg_prev = deepcopy(out_neg)
 
         # Delay off channel.
-        b1 = [1.0, 1.0]
-        a1 = [51.0, -49.0]
-        
-        out_neg = signal.lfilter(b1, a1, [self.out_neg_prev, out_neg], 
+        out_neg = signal.lfilter(self.b1, self.a1, [self.out_neg_prev, out_neg],
                                  axis = 0)[-1]
         out_neg_prev = out_neg
         downsize = out_neg * out_pos
@@ -254,7 +263,6 @@ class ESTMD(object):
         downsize = cv2.resize(downsize, (500,500))
         #cv2.waitKey()
 
-        
         self.t += self.dt
 
         return downsize

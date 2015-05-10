@@ -199,7 +199,7 @@ class SimulationDao:
 
         plot = mpld3.fig_to_html(f)
         pylab.close(f)
-        return plot
+        return plot 
 
     def get_neuron_info(self, simulation):
         """
