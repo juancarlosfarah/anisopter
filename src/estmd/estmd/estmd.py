@@ -47,11 +47,21 @@ class ESTMD(object):
                                       [-1,  0,  0,  0, -1],
                                       [-1,  0,  2,  0, -1],
                                       [-1,  0,  0,  0, -1],
-                                      [-1, -1, -1, -1, -1]])
+                                      [-1, -1, -1, -1, -1]]),
+                 b = [0.0, 0.00006, -0.00076, 0.0044,
+                      -0.016, 0.043, -0.057, 0.1789, -0.1524],
+                 a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306,
+                      2.145, -0.5418, 0.0651],
+                 CSKernel = np.array([[-1.0/9.0, -1.0/9.0, -1.0/9.0],
+                                      [-1.0/9.0,  8.0/9.0, -1.0/9.0],
+                                      [-1.0/9.0, -1.0/9.0, -1.0/9.0]])
                  ):
         self.input_id = input_id
         self.description = description
         self.H_filter = H_filter
+        self.b = b
+        self.a = a
+        self.CSKernel = CSKernel
 
     def open_movie(self, movie_dir):
         """
@@ -172,20 +182,14 @@ class ESTMD(object):
         downsize = 1.0 * downsize / 256.0
         self.frame_history.append(downsize)
 
-        b = [0.0, 0.00006, -0.00076, 0.0044, 
-             -0.016, 0.043, -0.057, 0.1789, -0.1524]
-        a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
         n = self.LMC_rec_depth
 
-        downsize = signal.lfilter(b, a, self.frame_history[-n:], 
+        downsize = signal.lfilter(self.b, self.a, self.frame_history[-n:],
                                   axis = 0)[-1]
 
         # Center surround antagonism kernel applied.
-        CSscale = -1.0 / 9.0
-        CSKernel = CSscale * np.ones((3,3))
-        CSKernel[1][1] = 8.0 / 9.0
 
-        downsize = cv2.filter2D(downsize, -1, CSKernel) 
+        downsize = cv2.filter2D(downsize, -1, self.CSKernel)
 
         # RTC filter.
         u_pos = deepcopy(downsize)
