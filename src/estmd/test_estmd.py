@@ -60,7 +60,16 @@ class TestESTMD(unittest.TestCase):
         self.estmd.open_movie(input_dir)
         result = self.estmd.run(out_dir = "test_result.avi")
         self.assertTrue(result)
-        
+
+    def test_create_list_of_arrays(self):
+        input_dir = "test_movies/test.avi"
+
+        self.estmd = ESTMD()
+        self.estmd.open_movie(input_dir)
+        self.estmd.run(by_frame=True)
+        result = self.estmd.create_list_of_arrays()
+        self.assertTrue(result)
+
 
 if __name__ == '__main__':
     unittest.main()

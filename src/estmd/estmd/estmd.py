@@ -128,7 +128,7 @@ class ESTMD(object):
         """
 
         if not self.cap:
-            "You need to run 'open_movie' method first!"
+            print "You need to run 'open_movie' method first!"
             return False
 
         self.by_frame = by_frame
@@ -154,6 +154,9 @@ class ESTMD(object):
             print "Generating ESTMD frame number " + str(len(self.frames)) + "."
 
         self.num_frames = len(self.frames)
+        print self.num_frames
+
+        return self.frames
 
     def get_next_frame(self):
         """
@@ -164,10 +167,11 @@ class ESTMD(object):
 
         # You can extract next frame only in by_frame mode.
         if not self.by_frame:
-            "Run video in by_frame method! (refer to doc)"
+            print "Run video in by_frame method! (refer to doc)"
             return False
 
         frame = self.next_frame()
+
         if frame is False:
             return False
         frame = cv2.resize(frame, (self.image_width, self.image_height))
