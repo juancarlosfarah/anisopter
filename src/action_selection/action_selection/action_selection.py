@@ -148,6 +148,9 @@ class ActionSelection(object):
             combined = zip(input_times, input_indices)
             input_times, input_indices = sorted(combined)
 
+            input_times = np.asarray(input_times)
+            input_indices = np.asarray(input_indices)
+
             input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 
         # Action selection neurons.
