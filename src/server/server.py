@@ -8,6 +8,7 @@ import os
 import bottle
 from bottle import route, post, get, template, request
 import pymongo
+import pickle
 import simulation_dao
 import sample_dao
 import animation_dao
@@ -330,15 +331,20 @@ def show_as():
 @route('/action_selection/simulation/new')
 def new_as_simulation():
     obj = dict()
-    obj['input'] = simulations.get_simulations(50)
+    obj['inputs'] = simulations.get_simulations(50)
+    obj['animations'] = animations.get_animations(50)
     return bottle.template('new_action_selection_simulation', obj)
 
 
 @post('/action_selection/simulation/run')
 def run_action_selection_simulation():
+
+    # Number of neurons fixed at 4.
+    N = 4
+
+    # Retrieve form and values.
     form = bottle.request.forms
-    input_id = form.get("sample")
-    N = int(form.get("num_neurons"))
+    input_id = form.get("input")
     taum = float(form.get("tau_m"))
     taupre = float(form.get("tau_pre"))
     taupost = float(form.get("tau_post"))
@@ -359,8 +365,28 @@ def run_action_selection_simulation():
     speed_factor = float(form.get("speed_factor"))
     dragonfly_x = int(form.get("dragonfly_x"))
     dragonfly_y = int(form.get("dragonfly_x"))
-    fromAnim = bool(form.get("from_animation"))
+    animation_id = form.get("animation")
     description = form.get("description")
+
+    if animation_id != "0":
+        relative_path = "assets/animations/"
+        filename = os.path.abspath(relative_path + str(animation_id) + ".pkl")
+        animation = pickle.load(open(filename, "r"))
+    else:
+        animation = None
+
+    if input_id != "random":
+        sim = simulations.get_simulation(input_id)
+        pattern_input = []
+        pattern_duration = sim['duration']
+
+        for neuron in sim['neurons']:
+            pattern_input.append(neuron['spike_times'])
+
+    else:
+        pattern_input = None
+        pattern_duration = None
+
     _id = a_s.run_simulation_preprocessor(N=N,
                                           taum=taum,
                                           taupre=taupre,
@@ -379,7 +405,9 @@ def run_action_selection_simulation():
                                           frame_length=frame_length,
                                           dopBoost=dopBoost,
                                           reward_distance=reward_distance,
-                                          fromAnim=fromAnim,
+                                          animation=animation,
+                                          pattern_input=pattern_input,
+                                          pattern_duration=pattern_duration,
                                           SPEED_FACTOR=speed_factor,
                                           dragonfly_start=[dragonfly_x,
                                                            dragonfly_y, 0.0],

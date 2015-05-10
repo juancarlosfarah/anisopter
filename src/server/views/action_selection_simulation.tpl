@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <td>Reward Distance</td>
-            <td>{{simulation['reward_disctance']}}</td>
+            <td>{{simulation['reward_distance']}}</td>
         </tr>
         <tr>
             <td>Speed Factor</td>
@@ -63,6 +63,16 @@
             <td>{{simulation['frame_length']}}</td>
         </tr>
     </table>
+    <h2>Animation</h2>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <video width="640" height="480" autoplay loop>
+                <source src="/assets/action_selection/{{simulation['_id']}}/{{simulation['_id']}}.mp4"
+                        type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -3,7 +3,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
 import os
-import sys
+import pickle
 import pymongo
 
 from animation.target_animation import Animation
@@ -121,10 +121,14 @@ class AnimationDao:
         # Save video file.
         print "Current working directory: " + os.getcwd()
         relative_path = "assets/animations/"
-        out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
-        print "Saving animation in: " + out_directory
+        out_directory = os.path.abspath(relative_path + str(_id))
+        filename = out_directory + ".avi"
+        print "Saving animation in: " + filename
 
-        ani.run(out_directory, total_frames=frames)
+        ani.run(filename, total_frames=frames)
+
+        # Save pickle of Animation object.
+        pickle.dump(ani, open(out_directory + ".pkl", "w"))
 
         return _id
 

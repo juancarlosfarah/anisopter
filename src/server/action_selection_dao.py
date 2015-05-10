@@ -24,7 +24,7 @@ class ActionSelectionDao:
         # General action data.
         a_s = {
             'description': a_s.description,
-            'N': a_s.N,
+            'num_neurons': a_s.N,
             'tau_m': (a_s.taum/ms).tolist(),
             'tau_pre':  (a_s.taum/ms).tolist(),
             'tau_post': (a_s.taupost/ms).tolist(),
@@ -60,7 +60,11 @@ class ActionSelectionDao:
         """
         c = self.collection
         cursor = c.find().sort('_id', direction=-1).limit(num_simulations)
-        simulations = list(cursor)
+        simulations = []
+
+        for s in cursor:
+            s['date'] = s['_id'].generation_time
+            simulations.append(s)
 
         return simulations
 
@@ -94,7 +98,9 @@ class ActionSelectionDao:
                                     frame_length=10.0,
                                     dopBoost=0.5,
                                     reward_distance=40,
-                                    fromAnim=True,
+                                    animation=None,
+                                    pattern_input=None,
+                                    pattern_duration=None,
                                     SPEED_FACTOR=2,
                                     dragonfly_start=[300, 300, 0.0],
                                     description=""):
@@ -117,10 +123,12 @@ class ActionSelectionDao:
                                    frame_length*ms,
                                    dopBoost,
                                    reward_distance,
-                                   fromAnim,
                                    SPEED_FACTOR*second,
                                    dragonfly_start,
-                                   description)
+                                   description,
+                                   pattern_duration,
+                                   pattern_input,
+                                   animation)
 
         return _id
 
@@ -143,10 +151,12 @@ class ActionSelectionDao:
                        frame_length=10.0*ms,
                        dopBoost=0.5,
                        reward_distance=40,
-                       fromAnim=True,
                        SPEED_FACTOR=2*second,
                        dragonfly_start=[300, 300, 0.0],
-                       description=""):
+                       description="",
+                       pattern_duration=None,
+                       pattern_input=None,
+                       animation=None):
         """
         Generates and saves a simulation.
         """
@@ -172,19 +182,17 @@ class ActionSelectionDao:
                               frame_length=frame_length,
                               dopBoost=dopBoost,
                               reward_distance=reward_distance,
-                              fromAnim=fromAnim,
                               SPEED_FACTOR=SPEED_FACTOR,
                               dragonfly_start=dragonfly_start,
                               description=description,
-                              output_dir="output.avi")
+                              animation=animation,
+                              pattern_duration=pattern_duration,
+                              pattern_input=pattern_input)
 
         a_s.run()
 
         # Save action selection simulation.
         _id = self.save(a_s)
-
-        # Save pickles to filesystem.
-        self.save_pickles(a_s, str(_id))
 
         # Save video to filesystem.
         self.save_video(a_s, str(_id))
@@ -200,27 +208,6 @@ class ActionSelectionDao:
         print "Saving animation in: " + out_directory
 
         a_s.run_animation(out_directory)
-
-    def save_pickles(self, a_s, _id):
-
-        save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                                 "assets",
-                                                 "action_selection",
-                                                 _id))
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
-
-        pickle.dump(a_s.rates, open(save_path + "/rates.pkl", "wb"))
-        pickle.dump(a_s.synapse_mon, open(save_path+"/synapse.pkl", "wb"))
-        pickle.dump(a_s.w0_mon, open(save_path+"/w0.pkl", "wb"))
-        pickle.dump(a_s.w1_mon, open(save_path+"/w1.pkl", "wb"))
-        pickle.dump(a_s.w2_mon, open(save_path+"/w2.pkl", "wb"))
-        pickle.dump(a_s.w3_mon, open(save_path+"/w3.pkl", "wb"))
-        pickle.dump(a_s.spike_mon, open(save_path+"/spike.pkl", "wb"))
-        pickle.dump(a_s.r0_mon, open(save_path+"/r0.pkl", "wb"))
-        pickle.dump(a_s.r1_mon, open(save_path+"/r1.pkl", "wb"))
-        pickle.dump(a_s.r2_mon, open(save_path+"/r2.pkl", "wb"))
-        pickle.dump(a_s.r3_mon, open(save_path+"/r3.pkl", "wb"))
 
     def plot_graphs(self, input_dir):
         pass

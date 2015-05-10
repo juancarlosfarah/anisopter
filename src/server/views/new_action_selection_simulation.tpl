@@ -8,9 +8,10 @@
 
     <form action="/action_selection/simulation/run" method="post">
         <div class="form-group">
-            <label for="sample">Input</label>
+            <label for="input">Input</label>
             <select class="form-control" name="input" id="input">
-                %for s in input:
+                <option value="random" selected>Random</option>
+                %for s in inputs:
                     <option value="{{s['_id']}}">
                         ID: {{s['_id']}}
                     </option>
@@ -18,10 +19,21 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="animation">Animation</label>
+            <select class="form-control" name="animation" id="animation">
+                <option value="0" selected>None</option>
+                %for a in animations:
+                <option value="{{a['id']}}">
+                    {{a['id']}}
+                </option>
+                %end
+            </select>
+        </div>
+        <div class="form-group">
             <label for="num_neurons">Number of Neurons</label>
             <input class="form-control" type="number" max="5" min="1"
                    id="num_neurons" name="num_neurons"
-                   placeholder="Number of Neurons (1 to 5)"/>
+                   value="4" disabled/>
         </div>
 	<div class="form-group">
             <label for="frame_length">Frame Length</label>
@@ -158,15 +170,6 @@
                        name="reward_distance" value="40" />
                 <span class="input-group-addon">ms</span>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="from_animation">From Animation</label>
-            <select class="form-control"
-                    name="from_animation"
-                    id="from_animation">
-                <option value="1" selected>True</option>
-                <option value="0">False</option>
-            </select>
         </div>
         <div class="form-group">
             <label for="speed_factor">Speed Factor</label>

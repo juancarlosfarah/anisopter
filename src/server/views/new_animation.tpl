@@ -117,13 +117,13 @@
                             <div class="input-group">
                                 <input type="text"
                                        class="target-start-pos-x form-control"
-                                       value="" placeholder="" />
+                                       value="320" placeholder="" />
                                 <span class="input-group-addon">x</span>
                             </div>
                             <div class="input-group">
                                 <input type="text"
                                        class="target-start-pos-y form-control"
-                                       value="" placeholder="" />
+                                       value="240" />
                                 <span class="input-group-addon">y</span>
                             </div>
                         </div>
@@ -134,13 +134,13 @@
                             <div class="input-group">
                                 <input type="text"
                                        class="target-velocity-x form-control"
-                                       value="" placeholder="" />
+                                       value="1" />
                                 <span class="input-group-addon">x</span>
                             </div>
                             <div class="input-group">
                                 <input type="text"
                                        class="target-velocity-y form-control"
-                                       value="" placeholder="" />
+                                       value="1" />
                                 <span class="input-group-addon">y</span>
                             </div>
                         </div>
