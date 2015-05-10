@@ -44,17 +44,7 @@ class ActionSelectionDao:
             'reward_distance': a_s.reward_distance,
             'speed_factor': a_s.SPEED_FACTOR,
             'dragonfly_start': a_s.dragonfly_start,
-            'output_dir': a_s.output_dir,
-            'synapse_mon': a_s.synapse_mon,
-            'w0_mon': a_s.w0_mon,
-            'w1_mon': a_s.w1_mon,
-            'w2_mon': a_s.w2_mon,
-            'w3_mon': a_s.w3_mon,
-            'spike_mon': a_s.spike_mon,
-            'r0_mon': a_s.r0_mon,
-            'r1_mon': a_s.r1_mon,
-            'r2_mon': a_s.r2_mon,
-            'r3_mon': a_s.r3_mon,
+            'output_dir': a_s.output_dir
         }
 
         # Save general data.
@@ -200,7 +190,7 @@ class ActionSelectionDao:
 
         return _id
 
-    def save_pickles(self, a_s, output_dir):
+    def save_pickles(self, a_s, _id):
         
         pickle.dump(a_s.synapse_mon, open(output_dir+"/synapse_mon.pkl", "wb"))
         pickle.dump(a_s.w0_mon, open(output_dir+"/w0_mon.pkl", "wb"))
@@ -212,6 +202,9 @@ class ActionSelectionDao:
         pickle.dump(a_s.r1_mon, open(output_dir+"/r1_mon.pkl", "wb"))
         pickle.dump(a_s.r2_mon, open(output_dir+"/r2_mon.pkl", "wb"))
         pickle.dump(a_s.r3_mon, open(output_dir+"/r3_mon.pkl", "wb"))
+
+    def plot_graphs(self, input_dir):
+        synapse
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
