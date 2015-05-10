@@ -55,7 +55,7 @@ class SimulationDao:
                 "a_plus": n.a_plus,
                 "a_minus": n.a_minus,
                 "weights": n.current_weights.flatten().tolist(),
-                "weight_distributions": n.weight_distributions
+                "weight_distributions": n.weight_distributions,
             }
 
             neurons.append(obj)
@@ -66,7 +66,10 @@ class SimulationDao:
             "neurons": neurons,
             "pattern_duration": sim.pattern_duration,
             "duration": sim.duration,
-            "description": sim.description
+            "description": sim.description,
+            "animation_id": sim.animation_id,
+            "cstmd_id": sim.cstmd_id,
+            "estmd_id": sim.estmd_id
         }
         _id = self.collection.insert(sim)
         return _id

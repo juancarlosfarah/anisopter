@@ -373,27 +373,28 @@ def run_action_selection_simulation():
     speed_factor = float(form.get("speed_factor"))
     dragonfly_x = int(form.get("dragonfly_x"))
     dragonfly_y = int(form.get("dragonfly_x"))
-    animation_id = form.get("animation")
     description = form.get("description")
-
-    if animation_id != "0":
-        relative_path = "assets/animations/"
-        filename = os.path.abspath(relative_path + str(animation_id) + ".pkl")
-        animation = pickle.load(open(filename, "r"))
-    else:
-        animation = None
 
     if input_id != "random":
         sim = simulations.get_simulation(input_id)
         pattern_input = []
         pattern_duration = sim['duration']
+        animation_id = sim['animation_id']
 
         for neuron in sim['neurons']:
             pattern_input.append(neuron['spike_times'])
 
     else:
+        animation_id = None
         pattern_input = None
         pattern_duration = None
+
+    if animation_id is not None:
+        relative_path = "assets/animations/"
+        filename = os.path.abspath(relative_path + str(animation_id) + ".pkl")
+        animation = pickle.load(open(filename, "r"))
+    else:
+        animation = None
 
     _id = a_s.run_simulation_preprocessor(N=N,
                                           taum=taum,
