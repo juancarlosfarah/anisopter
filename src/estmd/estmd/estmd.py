@@ -54,7 +54,9 @@ class ESTMD(object):
                       2.145, -0.5418, 0.0651],
                  CSKernel = np.array([[-1.0/9.0, -1.0/9.0, -1.0/9.0],
                                       [-1.0/9.0,  8.0/9.0, -1.0/9.0],
-                                      [-1.0/9.0, -1.0/9.0, -1.0/9.0]])
+                                      [-1.0/9.0, -1.0/9.0, -1.0/9.0]]),
+                 b1 = [1.0, 1.0],
+                 a1 = [51.0, -49.0]
                  ):
         self.input_id = input_id
         self.description = description
@@ -62,6 +64,8 @@ class ESTMD(object):
         self.b = b
         self.a = a
         self.CSKernel = CSKernel
+        self.b1 = b1
+        self.a1 = a1
 
     def open_movie(self, movie_dir):
         """
@@ -239,10 +243,7 @@ class ESTMD(object):
             self.out_neg_prev = deepcopy(out_neg)
 
         # Delay off channel.
-        b1 = [1.0, 1.0]
-        a1 = [51.0, -49.0]
-        
-        out_neg = signal.lfilter(b1, a1, [self.out_neg_prev, out_neg], 
+        out_neg = signal.lfilter(self.b1, self.a1, [self.out_neg_prev, out_neg],
                                  axis = 0)[-1]
         out_neg_prev = out_neg
         downsize = out_neg * out_pos
@@ -262,7 +263,6 @@ class ESTMD(object):
         downsize = cv2.resize(downsize, (500,500))
         #cv2.waitKey()
 
-        
         self.t += self.dt
 
         return downsize
