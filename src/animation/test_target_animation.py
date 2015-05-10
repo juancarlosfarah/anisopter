@@ -140,12 +140,15 @@ class TestTarget(unittest.TestCase):
     def test_get_pos(self):
         target1 = Target(2, [0, 0], [0, 0], 5, 5, [0, 1, 2])
         target2 = Target(2, [0, 0], [1, 0], 5, 5, [0, 1, 2])
+        target3 = Target(1, [5, 5])
 
         pos1 = target1.get_pos(5)
         pos2 = target2.get_pos(5)
+        pos3 = target3.get_pos(5)
 
         self.assertEqual(pos1, [0, 0])
         self.assertEqual(pos2, [25, 0])
+        self.assertEqual(pos3, [5, 5])
 
 
 class TestAnimationWindow(unittest.TestCase):
@@ -238,6 +241,16 @@ class TestAnimation(unittest.TestCase):
         
         self.assertEqual(self.animation.target_list, target_list)
 
+    def test_add_dragonfly(self):
+        """
+        Tests if dragonfly is added.
+        """
+
+        path = [[5, 5, 0.5], [1, 1, 1.0]]
+
+        self.animation.add_dragonfly(path)
+        self.assertTrue(self.animation.dragonfly)
+
     def test_add_background(self):
         """
         Tests if background is added.
@@ -248,7 +261,25 @@ class TestAnimation(unittest.TestCase):
         self.animation.add_background(bg_image)
         self.assertTrue(self.animation.bg)
 
+    def test_get_target_position(self):
+        """
+        Tests if get target positions returns correct positions.
+        """
+
+        pos1 = [1, 1]
+        pos2 = [3, 5]
+        real_positions = [pos1, pos2]
+
+        self.animation.add_target(2, pos1)
+        self.animation.add_target(2, pos2)
+        calc_positions = self.animation.get_targets_positions(0)
+        
+        self.assertEqual(real_positions, calc_positions)
+
     def test_run(self):
+        """
+        Tests if program runs and if it produces output.
+        """
         out_directory = "result.test1.avi"
         self.animation.run(out_directory, 10, 10)
         self.assertTrue(os.path.exists(out_directory))

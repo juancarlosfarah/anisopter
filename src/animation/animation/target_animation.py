@@ -62,7 +62,8 @@ class Target(object):
     This class represents different targets that will move on the screen.
     """
     
-    def __init__(self, type, start, velocity, v, size, color):
+    def __init__(self, type, start=[0, 0], velocity=[1, 1],
+                 v=5, size=10, color=[0, 0, 0]):
         self.type = type
         self.start = start
         self.pos = start
