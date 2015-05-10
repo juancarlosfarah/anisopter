@@ -44,7 +44,9 @@ class ActionSelectionDao:
             'dop_boost': a_s.dopBoost,
             'reward_distance': a_s.reward_distance,
             'speed_factor': (a_s.SPEED_FACTOR/second).tolist(),
-            'dragonfly_start': a_s.dragonfly_start
+            'dragonfly_start': a_s.dragonfly_start,
+            'animation_id': a_s.animation_id,
+            'pattern_recognition_id': a_s.pattern_recognition_id
         }
 
         # Save general data.
@@ -103,7 +105,9 @@ class ActionSelectionDao:
                                     pattern_duration=None,
                                     SPEED_FACTOR=2,
                                     dragonfly_start=[300, 300, 0.0],
-                                    description=""):
+                                    description="",
+                                    animation_id=None,
+                                    pattern_recognition_id=None):
 
         _id = self.run_simulation(N,
                                    taum*ms,
@@ -128,7 +132,9 @@ class ActionSelectionDao:
                                    description,
                                    pattern_duration,
                                    pattern_input,
-                                   animation)
+                                   animation,
+                                   animation_id,
+                                   pattern_recognition_id)
 
         return _id
 
@@ -156,7 +162,9 @@ class ActionSelectionDao:
                        description="",
                        pattern_duration=None,
                        pattern_input=None,
-                       animation=None):
+                       animation=None,
+                       animation_id=None,
+                       pattern_recognition_id=None):
         """
         Generates and saves a simulation.
         """
@@ -187,7 +195,9 @@ class ActionSelectionDao:
                               description=description,
                               animation=animation,
                               pattern_duration=pattern_duration,
-                              pattern_input=pattern_input)
+                              pattern_input=pattern_input,
+                              animation_id=animation_id,
+                              pattern_recognition_id=pattern_recognition_id)
 
         a_s.run()
 
@@ -201,10 +211,16 @@ class ActionSelectionDao:
 
     def save_video(self, a_s, _id):
 
+        save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "assets",
+                                                 "action_selection",
+                                                 _id))
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
         # Save video file.
         print "Current working directory: " + os.getcwd()
-        relative_path = "assets/action_selection/" + _id
-        out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
+        out_directory = os.path.abspath(save_path + str(_id) + ".avi")
         print "Saving animation in: " + out_directory
 
         a_s.run_animation(out_directory)
