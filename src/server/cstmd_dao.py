@@ -14,7 +14,7 @@ class CstmdDao:
         self.collection = self.db.cstmd
         self.spikes = self.db.spikes
 
-    def save(self, cstmd):
+    def save(self, cstmd, estmd_id, animation_id):
         """
         Saves the CSTMD1 simulation to the database.
         :return: _id of simulation inserted.
@@ -36,7 +36,9 @@ class CstmdDao:
             'duration_per_frame': cstmd.duration,
             'potassium': cstmd.potassium,
             'sodium': cstmd.sodium,
-            'synaptic_distance': cstmd.synaptic_distance
+            'synaptic_distance': cstmd.synaptic_distance,
+            'animation_id': animation_id,
+            'estmd_id': estmd_id
         }
 
         # Save general data.
@@ -139,7 +141,7 @@ class CstmdDao:
         times, ids, cstmd.spike_trains = cstmd.run()
 
         # Save CSTMD simulation.
-        _id = self.save(cstmd)
+        _id = self.save(cstmd, sample['_id'], sample['animation_id'])
 
         return _id
 

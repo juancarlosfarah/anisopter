@@ -19,17 +19,6 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="animation">Animation</label>
-            <select class="form-control" name="animation" id="animation">
-                <option value="0" selected>None</option>
-                %for a in animations:
-                <option value="{{a['id']}}">
-                    {{a['id']}}
-                </option>
-                %end
-            </select>
-        </div>
-        <div class="form-group">
             <label for="num_neurons">Number of Neurons</label>
             <input class="form-control" type="number" max="5" min="1"
                    id="num_neurons" name="num_neurons"

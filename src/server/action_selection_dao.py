@@ -220,7 +220,7 @@ class ActionSelectionDao:
 
         # Save video file.
         print "Current working directory: " + os.getcwd()
-        out_directory = os.path.abspath(save_path + str(_id) + ".avi")
+        out_directory = os.path.abspath(save_path + "/" + str(_id) + ".avi")
         print "Saving animation in: " + out_directory
 
         a_s.run_animation(out_directory)
