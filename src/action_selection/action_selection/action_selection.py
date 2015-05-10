@@ -3,6 +3,7 @@
 
 
 import math
+import os
 import numpy as np
 import pickle
 
@@ -65,6 +66,7 @@ class ActionSelection(object):
         self.reward_distance = reward_distance
 
         # Animation variables
+        self.animation = Animation()
         self.fromAnim = fromAnim
         self.SPEED_FACTOR = SPEED_FACTOR
         self.dragonfly_start = dragonfly_start
@@ -78,7 +80,7 @@ class ActionSelection(object):
         # Input
         self.spike_input = spike_input
 
-    def run(self):
+    def run(self, show_plots=True):
         
         # Neuron Variables
         N = self.N
@@ -175,8 +177,7 @@ class ActionSelection(object):
 
         # Animation
         dragon_path = [dragonfly_start]
-        test = Animation()
-        test.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+        self.animation.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
 
         # Simulation loop
         num_spikes = 0
@@ -200,7 +201,6 @@ class ActionSelection(object):
             right = mean3
             vy = (up - down) * SPEED_FACTOR
             vx = (right - left) * SPEED_FACTOR
-	
             x = dragon_path[-1][0] + vx / 10.0
             y = dragon_path[-1][1] + vy / 10.0
             t = 1.0 * i / (sim_time / frame_length)
@@ -208,7 +208,7 @@ class ActionSelection(object):
 
             # Find distance of closest target
             norm_time = i / (sim_time / frame_length)
-            targets = test.get_targets_positions(norm_time)
+            targets = self.animation.get_targets_positions(norm_time)
             min_dist = np.sqrt((dragon_path[-1][0] - targets[0][0])**2 + (dragon_path[-1][1] - targets[0][1])**2)
             for i in range(1, len(targets)):
                 dist = np.sqrt((dragon_path[-1][0] - targets[i][0])**2 + (dragon_path[-1][1] - targets[i][1])**2)
@@ -226,12 +226,9 @@ class ActionSelection(object):
                         S.Dop += dopBoost
                         num_spikes = s_mon.num_spikes
 
+        # Add dragon path.
+        self.animation.add_dragonfly(dragon_path)
 
-        ######## Animation run
-        test.add_dragonfly(dragon_path)
-        test.run(self.output_dir, 10, 10)
-        ########
-	
         # Save rates
         self.rates = []
         (self.rates).append(rate0)
@@ -252,69 +249,82 @@ class ActionSelection(object):
         self.r3_mon = r3_mon
 
         # Plots
-        figure(1)
-        subplot(331)
-        plot(S.w / gmax, '.k')
-        ylabel('Weight / gmax')
-        xlabel('Synapse index')
-        subplot(332)
-        plot(w0_mon.t/second, w0_mon.w.T)
-        title('Synapses to Neuron 0')
-        xlabel('Time (s)')
-        ylabel('Weight / gmax')
-        subplot(333)
-        plot(w1_mon.t/second, w1_mon.w.T)
-        title('Synapses to Neuron 1')
-        xlabel('Time (s)')
-        ylabel('Weight / gmax')
-        subplot(334)
-        plot(w2_mon.t/second, w2_mon.w.T)
-        title('Synapses to Neuron 2')
-        xlabel('Time (s)')
-        ylabel('Weight / gmax')
-        subplot(335)
-        plot(w3_mon.t/second, w3_mon.w.T)
-        title('Synapses to Neuron 3')
-        xlabel('Time (s)')
-        ylabel('Weight / gmax')
-        subplot(336)
-        plot(s_mon.t/second, s_mon.i, '.')
-        xlabel('Time (s)')
-        ylabel('Neuron number')
-        subplot(337)
-        plot(mon.t/second, mon.Dop[0])
-        ylabel('Dopamine')
-        subplot(338)
-        plot(mon.t/second, mon.c[0])
-        ylabel('c')
-        subplot(339)
-        plot(r0_mon.t/second, r0_mon.rate/Hz)
-        xlabel('Time/s')
-        ylabel('Firing rate / Hz')
-        tight_layout()
-	
-        figure(2)
-        subplot(221)
-        plot(rates_t, rate0/Hz)
-        title('Neuron 0 firing rate')
-        xlabel('Time/s')
-        ylabel('Firing rate / Hz')
-        subplot(222)
-        plot(rates_t, rate1/Hz)
-        title('Neuron 1 firing rate')
-        xlabel('Time/s')
-        ylabel('Firing rate / Hz')
-        subplot(223)
-        plot(rates_t, rate2/Hz)
-        title('Neuron 2 firing rate')
-        xlabel('Time/s')
-        ylabel('Firing rate / Hz')
-        subplot(224)
-        plot(rates_t, rate3/Hz)
-        title('Neuron 3 firing rate')
-        xlabel('Time/s')
-        ylabel('Firing rate / Hz')
-        show()
+        if show_plots is True:
+            figure(1)
+            subplot(331)
+            plot(S.w / gmax, '.k')
+            ylabel('Weight / gmax')
+            xlabel('Synapse index')
+            subplot(332)
+            plot(w0_mon.t/second, w0_mon.w.T)
+            title('Synapses to Neuron 0')
+            xlabel('Time (s)')
+            ylabel('Weight / gmax')
+            subplot(333)
+            plot(w1_mon.t/second, w1_mon.w.T)
+            title('Synapses to Neuron 1')
+            xlabel('Time (s)')
+            ylabel('Weight / gmax')
+            subplot(334)
+            plot(w2_mon.t/second, w2_mon.w.T)
+            title('Synapses to Neuron 2')
+            xlabel('Time (s)')
+            ylabel('Weight / gmax')
+            subplot(335)
+            plot(w3_mon.t/second, w3_mon.w.T)
+            title('Synapses to Neuron 3')
+            xlabel('Time (s)')
+            ylabel('Weight / gmax')
+            subplot(336)
+            plot(s_mon.t/second, s_mon.i, '.')
+            xlabel('Time (s)')
+            ylabel('Neuron number')
+            subplot(337)
+            plot(mon.t/second, mon.Dop[0])
+            ylabel('Dopamine')
+            subplot(338)
+            plot(mon.t/second, mon.c[0])
+            ylabel('c')
+            subplot(339)
+            plot(r0_mon.t/second, r0_mon.rate/Hz)
+            xlabel('Time/s')
+            ylabel('Firing rate / Hz')
+            tight_layout()
+
+            figure(2)
+            subplot(221)
+            plot(rates_t, rate0/Hz)
+            title('Neuron 0 firing rate')
+            xlabel('Time/s')
+            ylabel('Firing rate / Hz')
+            subplot(222)
+            plot(rates_t, rate1/Hz)
+            title('Neuron 1 firing rate')
+            xlabel('Time/s')
+            ylabel('Firing rate / Hz')
+            subplot(223)
+            plot(rates_t, rate2/Hz)
+            title('Neuron 2 firing rate')
+            xlabel('Time/s')
+            ylabel('Firing rate / Hz')
+            subplot(224)
+            plot(rates_t, rate3/Hz)
+            title('Neuron 3 firing rate')
+            xlabel('Time/s')
+            ylabel('Firing rate / Hz')
+            show()
+
+    def run_animation(self, _id):
+        """
+        Runs animation for target selection.
+        :param _id:
+        :return: None.
+        """
+        save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "assets",
+                                                 "action_selection",
+                                                 _id))
+        self.animation.run(save_path, 10, 10)
 
 
 if __name__ == "__main__":

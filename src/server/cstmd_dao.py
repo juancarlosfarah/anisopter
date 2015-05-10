@@ -12,6 +12,7 @@ class CstmdDao:
     def __init__(self, database):
         self.db = database
         self.collection = self.db.cstmd
+        self.spikes = self.db.spikes
 
     def save(self, cstmd):
         """
@@ -99,6 +100,11 @@ class CstmdDao:
         simulation = self.collection.find_one({'_id': ObjectId(_id)})
 
         return simulation
+
+    def get_spikes(self, _id):
+        cursor = self.spikes.find({'sample_id': ObjectId(_id)})
+        cursor.sort('_id', direction=1)
+        return cursor
 
     def run_simulation(self,
                        sample,

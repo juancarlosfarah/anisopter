@@ -3,6 +3,7 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
 import numpy as np
+import os
 import pymongo
 from action_selection.action_selection import ActionSelection
 from brian2 import *
@@ -97,8 +98,7 @@ class ActionSelectionDao:
                                     fromAnim=True,
                                     SPEED_FACTOR=2,
                                     dragonfly_start=[300, 300, 0.0],
-                                    description="",
-                                    output_dir="assets/action_selection/output.avi"):
+                                    description=""):
 
         _id = self.run_simulation(N,
                                    taum*ms,
@@ -121,8 +121,7 @@ class ActionSelectionDao:
                                    fromAnim,
                                    SPEED_FACTOR*second,
                                    dragonfly_start,
-                                   description,
-                                   output_dir)
+                                   description)
 
         return _id
 
@@ -148,8 +147,7 @@ class ActionSelectionDao:
                        fromAnim=True,
                        SPEED_FACTOR=2*second,
                        dragonfly_start=[300, 300, 0.0],
-                       description="",
-                       output_dir="assets/action_selection/output.avi"):
+                       description=""):
         """
         Generates and saves a simulation.
         """
@@ -183,28 +181,50 @@ class ActionSelectionDao:
 
         a_s.run()
 
-        # Save video to filesystem.
-        
         # Save action selection simulation.
         _id = self.save(a_s)
 
+        # Save pickles to filesystem.
+        self.save_pickles(a_s, _id)
+
+        # Save video to filesystem.
+        self.save_video(a_s, _id)
+
         return _id
 
+    def save_video(self, a_s, _id):
+
+        # Save video file.
+        print "Current working directory: " + os.getcwd()
+        relative_path = "assets/action_selection/" + _id
+        out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
+        print "Saving animation in: " + out_directory
+
+        a_s.run_animation(out_directory)
+
     def save_pickles(self, a_s, _id):
-        
-        pickle.dump(a_s.synapse_mon, open(output_dir+"/synapse_mon.pkl", "wb"))
-        pickle.dump(a_s.w0_mon, open(output_dir+"/w0_mon.pkl", "wb"))
-        pickle.dump(a_s.w1_mon, open(output_dir+"/w1_mon.pkl", "wb"))
-        pickle.dump(a_s.w2_mon, open(output_dir+"/w2_mon.pkl", "wb"))
-        pickle.dump(a_s.w3_mon, open(output_dir+"/w3_mon.pkl", "wb"))
-        pickle.dump(a_s.spike_mon, open(output_dir+"/spike_mon.pkl", "wb"))
-        pickle.dump(a_s.r0_mon, open(output_dir+"/r0_mon.pkl", "wb"))
-        pickle.dump(a_s.r1_mon, open(output_dir+"/r1_mon.pkl", "wb"))
-        pickle.dump(a_s.r2_mon, open(output_dir+"/r2_mon.pkl", "wb"))
-        pickle.dump(a_s.r3_mon, open(output_dir+"/r3_mon.pkl", "wb"))
+
+        save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "assets",
+                                                 "action_selection",
+                                                 _id))
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
+        pickle.dump(a_s.rates, open(save_path + "rates.pkl", "wb"))
+        pickle.dump(a_s.synapse_mon, open(save_path+"/synapse.pkl", "wb"))
+        pickle.dump(a_s.w0_mon, open(save_path+"/w0.pkl", "wb"))
+        pickle.dump(a_s.w1_mon, open(save_path+"/w1.pkl", "wb"))
+        pickle.dump(a_s.w2_mon, open(save_path+"/w2.pkl", "wb"))
+        pickle.dump(a_s.w3_mon, open(save_path+"/w3.pkl", "wb"))
+        pickle.dump(a_s.spike_mon, open(save_path+"/spike.pkl", "wb"))
+        pickle.dump(a_s.r0_mon, open(save_path+"/r0.pkl", "wb"))
+        pickle.dump(a_s.r1_mon, open(save_path+"/r1.pkl", "wb"))
+        pickle.dump(a_s.r2_mon, open(save_path+"/r2.pkl", "wb"))
+        pickle.dump(a_s.r3_mon, open(save_path+"/r3.pkl", "wb"))
 
     def plot_graphs(self, input_dir):
-        synapse
+        pass
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
