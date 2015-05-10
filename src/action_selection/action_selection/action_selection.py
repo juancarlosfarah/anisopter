@@ -130,7 +130,21 @@ class ActionSelection(object):
         if self.pattern_input is None:
             input = PoissonGroup(N, rates=F)
         else:
-            pass
+            # Pattern recognition input
+            pattern = self.pattern_input
+            num_input = len(pattern)
+
+            input_indices = []
+            input_times = []
+            for i in range(num_input):
+                for j in range(len(pattern[i])):
+                    input_indices.append(i)
+                    input_times.append(j)
+
+            combined = zip(input_times, input_indices)
+            input_times, input_indices = sorted(combined)
+
+            input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 
         # Action selection neurons.
         neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v=vr')
