@@ -6,7 +6,7 @@ import numpy as np
 import pymongo
 from action_selection.action_selection import ActionSelection
 from brian2 import *
-
+import pickle
 
 class ActionSelectionDao:
 
@@ -80,7 +80,9 @@ class ActionSelectionDao:
         :param _id: _id of simulation to fetch.
         :return: Simulation.
         """
+
         simulation = self.collection.find_one({'_id': ObjectId(_id)})
+
         return simulation
 
     def run_simulation_preprocessor(self,
@@ -197,6 +199,19 @@ class ActionSelectionDao:
         _id = self.save(a_s)
 
         return _id
+
+    def save_pickles(self, a_s, output_dir):
+        
+        pickle.dump(a_s.synapse_mon, open(output_dir+"/synapse_mon.pkl", "wb"))
+        pickle.dump(a_s.w0_mon, open(output_dir+"/w0_mon.pkl", "wb"))
+        pickle.dump(a_s.w1_mon, open(output_dir+"/w1_mon.pkl", "wb"))
+        pickle.dump(a_s.w2_mon, open(output_dir+"/w2_mon.pkl", "wb"))
+        pickle.dump(a_s.w3_mon, open(output_dir+"/w3_mon.pkl", "wb"))
+        pickle.dump(a_s.spike_mon, open(output_dir+"/spike_mon.pkl", "wb"))
+        pickle.dump(a_s.r0_mon, open(output_dir+"/r0_mon.pkl", "wb"))
+        pickle.dump(a_s.r1_mon, open(output_dir+"/r1_mon.pkl", "wb"))
+        pickle.dump(a_s.r2_mon, open(output_dir+"/r2_mon.pkl", "wb"))
+        pickle.dump(a_s.r3_mon, open(output_dir+"/r3_mon.pkl", "wb"))
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
