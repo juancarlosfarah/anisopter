@@ -168,6 +168,12 @@ class TestAnimationWindow(unittest.TestCase):
         """
         self.aw.update_frame(0.0)
 
+    def test_draw(self):
+        """
+        TO DO!
+        """
+        self.aw.draw()
+
 
 class TestAnimation(unittest.TestCase):
     """
