@@ -30,11 +30,6 @@ class ESTMD(object):
     T0 = 0.001  # Starting time.
     LMC_rec_depth = 8   # Sets how smoothly we want to apply "signal.lfilter".
     dt = 0.001  # Time step.
-    H_filter = np.array ([[-1, -1, -1, -1, -1],
-                          [-1,  0,  0,  0, -1],
-                          [-1,  0,  2,  0, -1],
-                          [-1,  0,  0,  0, -1],
-                          [-1, -1, -1, -1, -1]])
     cap = False  # Movie that we are capturing - "cap" - is set to false
                  # before we run "open_movie" method.
     by_frame = None
@@ -45,9 +40,18 @@ class ESTMD(object):
         x[x > 0] = np.exp(-T_s * x[x > 0])
         return x
 
-    def __init__(self, input_id='', description=''):
+    def __init__(self,
+                 input_id='',
+                 description='',
+                 H_filter = np.array([[-1, -1, -1, -1, -1],
+                                      [-1,  0,  0,  0, -1],
+                                      [-1,  0,  2,  0, -1],
+                                      [-1,  0,  0,  0, -1],
+                                      [-1, -1, -1, -1, -1]])
+                 ):
         self.input_id = input_id
         self.description = description
+        self.H_filter = H_filter
 
     def open_movie(self, movie_dir):
         """
