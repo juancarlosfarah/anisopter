@@ -36,7 +36,8 @@ class ActionSelection(object):
                  output_dir="output.avi",
                  animation = None,
                  total_anim_frames = None,
-                 pattern_input=None):
+                 pattern_input=None,
+                 pattern_duration=None):
         
         # Neuron Variables
         self.N = N
@@ -79,6 +80,8 @@ class ActionSelection(object):
 
         # Input
         self.pattern_input = pattern_input
+        if pattern_duration is not None:
+            self.sim_time = np.min(sim_time/ms, pattern_duration)*ms
         self.animation = animation
 
         if total_anim_frames is None:
