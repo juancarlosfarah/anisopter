@@ -1,7 +1,6 @@
 # Action selection system
 # Author: Christos Kaplanis
 
-
 import math
 import os
 import numpy as np
@@ -35,7 +34,9 @@ class ActionSelection(object):
                  dragonfly_start=[300, 300, 0.0],
                  description="",
                  output_dir="output.avi",
-                 spike_input=None):
+                 animation = None,
+                 total_anim_frames = None,
+                 pattern_input=None):
         
         # Neuron Variables
         self.N = N
@@ -66,7 +67,6 @@ class ActionSelection(object):
         self.reward_distance = reward_distance
 
         # Animation variables
-        self.animation = Animation()
         self.fromAnim = fromAnim
         self.SPEED_FACTOR = SPEED_FACTOR
         self.dragonfly_start = dragonfly_start
@@ -78,7 +78,11 @@ class ActionSelection(object):
         self.output_dir = output_dir
 
         # Input
-        self.spike_input = spike_input
+        self.pattern_input = pattern_input
+        self.animation = animation
+
+        if total_anim_frames is None:
+            self.total_anim_frames = int(sim_time / frame_length)
 
     def run(self, show_plots=True):
         
@@ -120,12 +124,14 @@ class ActionSelection(object):
        	'''
 
         # Poisson input.
-        if self.spike_input is None:
+        if self.pattern_input is None:
             input = PoissonGroup(N, rates=F)
+        else:
+            pass
 
         # Action selection neurons.
         neurons = NeuronGroup(N, eqs_neurons, threshold='v>vt', reset='v=vr')
-
+        
         # Synapses.
         S = Synapses(input, neurons,
                      '''
@@ -144,6 +150,8 @@ class ActionSelection(object):
                      c = c + Apre''',
                      connect=True,
                     )
+
+        self.synapses = S
         # S.w = 0.5 * gmax
         S.w = 'rand() * gmax'
         S.c = 'rand() * gmax'
@@ -173,11 +181,17 @@ class ActionSelection(object):
         rate2 = []
         rate3 = []
 
-        rates_t = range(0, sim_time/(1*ms), frame_length/(1*ms))
+        rates_t = range(0, sim_time/ms, frame_length/ms)
+        rates_t = [x / 1000.0 for x in rates_t]
 
         # Animation
         dragon_path = [dragonfly_start]
-        self.animation.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+        if self.animation is None:
+            self.animation = Animation()
+            self.animation.add_target(2, start=[250,0], velocity=[1,1], size=5, v=4)
+        else:
+            pass
+
 
         # Simulation loop
         num_spikes = 0
@@ -235,6 +249,8 @@ class ActionSelection(object):
         (self.rates).append(rate1)
         (self.rates).append(rate2)
         (self.rates).append(rate3)
+        
+        self.rates_t = rates_t
 
         # Save monitors
         self.synapse_mon = mon
@@ -248,71 +264,81 @@ class ActionSelection(object):
         self.r2_mon = r2_mon
         self.r3_mon = r3_mon
 
+    def save_plots(self, graph_dir):
         # Plots
-        if show_plots is True:
-            figure(1)
-            subplot(331)
-            plot(S.w / gmax, '.k')
-            ylabel('Weight / gmax')
-            xlabel('Synapse index')
-            subplot(332)
-            plot(w0_mon.t/second, w0_mon.w.T)
-            title('Synapses to Neuron 0')
-            xlabel('Time (s)')
-            ylabel('Weight / gmax')
-            subplot(333)
-            plot(w1_mon.t/second, w1_mon.w.T)
-            title('Synapses to Neuron 1')
-            xlabel('Time (s)')
-            ylabel('Weight / gmax')
-            subplot(334)
-            plot(w2_mon.t/second, w2_mon.w.T)
-            title('Synapses to Neuron 2')
-            xlabel('Time (s)')
-            ylabel('Weight / gmax')
-            subplot(335)
-            plot(w3_mon.t/second, w3_mon.w.T)
-            title('Synapses to Neuron 3')
-            xlabel('Time (s)')
-            ylabel('Weight / gmax')
-            subplot(336)
-            plot(s_mon.t/second, s_mon.i, '.')
-            xlabel('Time (s)')
-            ylabel('Neuron number')
-            subplot(337)
-            plot(mon.t/second, mon.Dop[0])
-            ylabel('Dopamine')
-            subplot(338)
-            plot(mon.t/second, mon.c[0])
-            ylabel('c')
-            subplot(339)
-            plot(r0_mon.t/second, r0_mon.rate/Hz)
-            xlabel('Time/s')
-            ylabel('Firing rate / Hz')
-            tight_layout()
-
-            figure(2)
-            subplot(221)
-            plot(rates_t, rate0/Hz)
-            title('Neuron 0 firing rate')
-            xlabel('Time/s')
-            ylabel('Firing rate / Hz')
-            subplot(222)
-            plot(rates_t, rate1/Hz)
-            title('Neuron 1 firing rate')
-            xlabel('Time/s')
-            ylabel('Firing rate / Hz')
-            subplot(223)
-            plot(rates_t, rate2/Hz)
-            title('Neuron 2 firing rate')
-            xlabel('Time/s')
-            ylabel('Firing rate / Hz')
-            subplot(224)
-            plot(rates_t, rate3/Hz)
-            title('Neuron 3 firing rate')
-            xlabel('Time/s')
-            ylabel('Firing rate / Hz')
-            show()
+        figure(1)
+        plot(self.synapses.w / self.gmax, '.k')
+        title('Weights of synapses')
+        ylabel('Weight / gmax')
+        xlabel('Synapse index')
+        savefig(graph_dir+'fig1.png')
+        figure(2)
+        plot(self.w0_mon.t/second, self.w0_mon.w.T)
+        title('Weights of synapses to Up Neuron')
+        xlabel('Time (s)')
+        ylabel('Weight / gmax')
+        savefig(graph_dir+'fig2.png')
+        figure(3)
+        plot(self.w1_mon.t/second, self.w1_mon.w.T)
+        title('Weights of synapses to Left Neuron')
+        xlabel('Time (s)')
+        ylabel('Weight / gmax')
+        savefig(graph_dir+'fig3.png')
+        figure(4)
+        plot(self.w2_mon.t/second, self.w2_mon.w.T)
+        title('Weights of synapses to Down Neuron')
+        xlabel('Time (s)')
+        ylabel('Weight / gmax')
+        savefig(graph_dir+'fig4.png')
+        figure(5)
+        plot(self.w3_mon.t/second, self.w3_mon.w.T)
+        title('Weights of synapses to Right Neuron')
+        xlabel('Time (s)')
+        ylabel('Weight / gmax')
+        savefig(graph_dir+'fig5.png')
+        figure(6)
+        plot(self.spike_mon.t/second, self.spike_mon.i, '.')
+        title('Raster plot')
+        xlabel('Time (s)')
+        ylabel('Neuron number')
+        savefig(graph_dir+'fig6.png')
+        figure(7)
+        plot(self.synapse_mon.t/second, self.synapse_mon.Dop[0])
+        title('Dopamine level')
+        ylabel('Dopamine')
+        savefig(graph_dir+'fig7.png')
+        figure(8)
+        title('Eligibility trace of Up Neuron')
+        plot(self.synapse_mon.t/second, self.synapse_mon.c[0])
+        ylabel('c')
+        savefig(graph_dir+'fig8.png')
+        
+        # Firing rates
+        figure(9)
+        plot(self.rates_t, self.rates[0]/Hz)
+        title('Up Neuron firing rate')
+        xlabel('Time/s')
+        ylabel('Firing rate / Hz')
+        savefig(graph_dir+'fig9.png')
+        figure(10)
+        plot(self.rates_t, self.rates[1]/Hz)
+        title('Left Neuron firing rate')
+        xlabel('Time/s')
+        ylabel('Firing rate / Hz')
+        savefig(graph_dir+'fig10.png')
+        figure(11)
+        plot(self.rates_t, self.rates[2]/Hz)
+        title('Down Neuron firing rate')
+        xlabel('Time/s')
+        ylabel('Firing rate / Hz')
+        savefig(graph_dir+'fig11.png')
+        figure(12)
+        plot(self.rates_t, self.rates[3]/Hz)
+        title('Right Neuron firing rate')
+        xlabel('Time/s')
+        ylabel('Firing rate / Hz')
+        savefig(graph_dir+'fig12.png')
+            
 
     def run_animation(self, _id):
         """
@@ -324,9 +350,11 @@ class ActionSelection(object):
                                                  "assets",
                                                  "action_selection",
                                                  _id))
-        self.animation.run(save_path, 10, 10)
+        self.animation.run(save_path, 10, self.total_anim_frames)
 
 
 if __name__ == "__main__":
     action = ActionSelection()
     action.run()
+    action.save_plots("")
+    show()
