@@ -4,6 +4,7 @@
 
 import math
 import numpy as np
+import pickle
 
 from animation.target_animation import Animation
 from brian2 import *
@@ -231,7 +232,7 @@ class ActionSelection(object):
         self.r1_mon = r1_mon
         self.r2_mon = r2_mon
         self.r3_mon = r3_mon
-        
+
         # Plots
         figure(1)
         subplot(331)
