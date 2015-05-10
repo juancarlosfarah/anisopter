@@ -237,7 +237,6 @@ class TestAnimation(unittest.TestCase):
         target2 = Target(2, [10, 10], [1, 1], 5, 10, [0, 0, 0])
         
         target_list = [target1, target2]
-        target_list2 = self.animation.target_list
         
         self.assertEqual(self.animation.target_list, target_list)
 
@@ -286,16 +285,6 @@ class TestAnimation(unittest.TestCase):
         pos = self.animation.get_dragonfly_position(0.6)
         self.assertEqual(pos, [1, 1])
 
-    def get_dragonfly_position(self, time):
-        """
-        Get position of dragonfly at time "time".
-
-        Args:
-            time: at which time in interval [0, 1] do you want to know
-                  the distance.
-        """
-        return self.dragonfly.get_position(time)
-
     def test_run(self):
         """
         Tests if program runs and if it produces output.
@@ -307,13 +296,10 @@ class TestAnimation(unittest.TestCase):
     def test_get_distance_dragonfly_to_closest_target(self):
 
         path = [[0, 0, 0.5], [1, 1, 1.0]]
-        self.animation.add_dragonfly(path)
-        pos = self.animation.get_dragonfly_position(0.0)
-
         pos1 = [5, 5]
         pos2 = [3, 4]
-        real_positions = [pos1, pos2]
 
+        self.animation.add_dragonfly(path)
         self.animation.add_target(2, pos1)
         self.animation.add_target(2, pos2)
 
