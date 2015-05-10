@@ -25,13 +25,13 @@ class TestESTMD(unittest.TestCase):
 
         T_s = 1
         x = np.array(input)
-        result = [i for i in self.estmd.RTC_exp(T_s, x)]
+        result = [i for i in self.estmd.rtc_exp(T_s, x)]
 
         self.assertEqual(result, expected_result)
 
     def test_open_movie(self):
-        wrong_dir = "Random12345.avii"
-        correct_dir = "test.avi"
+        wrong_dir = "Random12345.avi"
+        correct_dir = "test_movies/test.avi"
 
         with self.assertRaises(NameError):
             self.estmd.open_movie(wrong_dir)
@@ -39,7 +39,7 @@ class TestESTMD(unittest.TestCase):
         self.estmd.open_movie(correct_dir)
 
     def test_get_next_frame(self):
-        input_dir = "test.avi"
+        input_dir = "test_movies/test.avi"
 
         result = self.estmd.get_next_frame()
         self.assertEqual(result, False)
@@ -52,13 +52,22 @@ class TestESTMD(unittest.TestCase):
         self.assertEqual(y, 64)
 
     def test_run(self):
-        input_dir = "test.avi"
+        input_dir = "test_movies/test.avi"
 
         result = self.estmd.run(out_dir = "test_result.avi")
         self.assertEqual(result, False)
 
         self.estmd.open_movie(input_dir)
         result = self.estmd.run(out_dir = "test_result.avi")
+        self.assertTrue(result)
+
+    def test_create_list_of_arrays(self):
+        input_dir = "test_movies/test.avi"
+
+        self.estmd = ESTMD()
+        self.estmd.open_movie(input_dir)
+        self.estmd.run(by_frame=True)
+        result = self.estmd.create_list_of_arrays()
         self.assertTrue(result)
 
 
