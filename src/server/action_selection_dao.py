@@ -13,7 +13,7 @@ class ActionSelectionDao:
 
     def __init__(self, database):
         self.db = database
-        self.collection = self.db.action_selections
+        self.collection = self.db.action_selection
 
     def save(self, a_s):
         """
@@ -25,27 +25,26 @@ class ActionSelectionDao:
         a_s = {
             'description': a_s.description,
             'N': a_s.N,
-            'tau_m': a_s.taum,
-            'tau_pre':  a_s.taum,
-            'tau_post': a_s.taupost,
-            'tau_c': a_s.tauc,
-            'tau_dop': a_s.tauDop,
-            'tau_e': a_s.taue,
-            'Ee': a_s.Ee,
-            'vt': a_s.vt,
-            'vr': a_s.vr,
-            'El': a_s.El,
-            'F': a_s.F,
+            'tau_m': (a_s.taum/ms).tolist(),
+            'tau_pre':  (a_s.taum/ms).tolist(),
+            'tau_post': (a_s.taupost/ms).tolist(),
+            'tau_c': (a_s.tauc/ms).tolist(),
+            'tau_dop': (a_s.tauDop/ms).tolist(),
+            'tau_e': (a_s.taue/ms).tolist(),
+            'Ee': (a_s.Ee/mV).tolist(),
+            'vt': (a_s.vt/mV).tolist(),
+            'vr': (a_s.vr/mV).tolist(),
+            'El': (a_s.El/mV).tolist(),
+            'F': (a_s.F/Hz).tolist(),
             'gmax': a_s.gmax,
             'dA_pre': a_s.dApre,
             'dA_post': a_s.dApost,
-            'duration': a_s.sim_time,
-            'frame_length': a_s.frame_length,
+            'duration': (a_s.sim_time/ms).tolist(),
+            'frame_length': (a_s.frame_length/ms).tolist(),
             'dop_boost': a_s.dopBoost,
             'reward_distance': a_s.reward_distance,
-            'speed_factor': a_s.SPEED_FACTOR,
-            'dragonfly_start': a_s.dragonfly_start,
-            'output_dir': a_s.output_dir
+            'speed_factor': (a_s.SPEED_FACTOR/second).tolist(),
+            'dragonfly_start': a_s.dragonfly_start
         }
 
         # Save general data.
@@ -185,10 +184,10 @@ class ActionSelectionDao:
         _id = self.save(a_s)
 
         # Save pickles to filesystem.
-        self.save_pickles(a_s, _id)
+        self.save_pickles(a_s, str(_id))
 
         # Save video to filesystem.
-        self.save_video(a_s, _id)
+        self.save_video(a_s, str(_id))
 
         return _id
 
@@ -211,7 +210,7 @@ class ActionSelectionDao:
         if not os.path.exists(save_path):
             os.makedirs(save_path)
 
-        pickle.dump(a_s.rates, open(save_path + "rates.pkl", "wb"))
+        pickle.dump(a_s.rates, open(save_path + "/rates.pkl", "wb"))
         pickle.dump(a_s.synapse_mon, open(save_path+"/synapse.pkl", "wb"))
         pickle.dump(a_s.w0_mon, open(save_path+"/w0.pkl", "wb"))
         pickle.dump(a_s.w1_mon, open(save_path+"/w1.pkl", "wb"))
