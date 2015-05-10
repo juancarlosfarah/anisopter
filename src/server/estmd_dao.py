@@ -1,12 +1,12 @@
 __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
-from bson.objectid import ObjectId
+import numpy as np
 import os
-import sys
-import pymongo
 from subprocess import call
 
+from bson.objectid import ObjectId
+import pymongo
 from estmd.estmd import ESTMD
 
 
@@ -88,7 +88,8 @@ class EstmdDao(object):
         simulation['date'] = simulation['_id'].generation_time
         return simulation
 
-    def run_simulation(self, sample_id, description):
+    def run_simulation(self, sample_id, description, H_filter, b, a,
+                       CSKernel, b1, a1):
         """
         Runs and saves the output simulation.
         :return: _id of simulation generated.
@@ -96,7 +97,14 @@ class EstmdDao(object):
 
         input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
-        e = ESTMD(input_id=sample_id, description=description)
+        H_filter = np.array(eval(H_filter))
+        b = eval(b)
+        a = eval(a)
+        CSKernel = np.array(eval(CSKernel))
+        b1 = eval(b1)
+        a1 = eval(a1)
+
+        e = ESTMD(sample_id, description, H_filter, b, a, CSKernel, b1, a1)
         e.open_movie(input_directory)
         e.run(by_frame=True)
         e.create_list_of_arrays()
@@ -108,9 +116,8 @@ class EstmdDao(object):
         out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
         print "Saving animation in: " + out_directory
 
-        e2 = ESTMD()
-        e2.open_movie(input_directory)
-        e2.run(out_dir=out_directory)
+        e.open_movie(input_directory)
+        e.run(out_dir=out_directory)
 
         dir = out_directory.strip(".avi")
         command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
