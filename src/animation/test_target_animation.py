@@ -273,8 +273,28 @@ class TestAnimation(unittest.TestCase):
         self.animation.add_target(2, pos1)
         self.animation.add_target(2, pos2)
         calc_positions = self.animation.get_targets_positions(0)
-        
+
         self.assertEqual(real_positions, calc_positions)
+
+    def test_get_dragonfly_position(self):
+        """
+        Tests get dragonfly position.
+        """
+
+        path = [[0, 0, 0.5], [1, 1, 1.0]]
+        self.animation.add_dragonfly(path)
+        pos = self.animation.get_dragonfly_position(0.6)
+        self.assertEqual(pos, [1, 1])
+
+    def get_dragonfly_position(self, time):
+        """
+        Get position of dragonfly at time "time".
+
+        Args:
+            time: at which time in interval [0, 1] do you want to know
+                  the distance.
+        """
+        return self.dragonfly.get_position(time)
 
     def test_run(self):
         """
@@ -283,6 +303,23 @@ class TestAnimation(unittest.TestCase):
         out_directory = "result.test1.avi"
         self.animation.run(out_directory, 10, 10)
         self.assertTrue(os.path.exists(out_directory))
+
+    def test_get_distance_dragonfly_to_closest_target(self):
+
+        path = [[0, 0, 0.5], [1, 1, 1.0]]
+        self.animation.add_dragonfly(path)
+        pos = self.animation.get_dragonfly_position(0.0)
+
+        pos1 = [5, 5]
+        pos2 = [3, 4]
+        real_positions = [pos1, pos2]
+
+        self.animation.add_target(2, pos1)
+        self.animation.add_target(2, pos2)
+
+        dist = self.animation.get_distance_dragonfly_to_closest_target(0.0)
+
+        self.assertEqual(dist, 5.0)
 
 
 if __name__ == '__main__':
