@@ -37,7 +37,9 @@ class ActionSelection(object):
                  animation = None,
                  total_anim_frames = None,
                  pattern_input=None,
-                 pattern_duration=None):
+                 pattern_duration=None,
+                 animation_id=None,
+                 pattern_recognition_id=None):
         
         # Neuron Variables
         self.N = N
@@ -83,6 +85,8 @@ class ActionSelection(object):
         if pattern_duration is not None:
             self.sim_time = np.min(sim_time/ms, pattern_duration)*ms
         self.animation = animation
+        self.animation_id = animation_id
+        self.pattern_recognition_id = pattern_recognition_id
 
         if total_anim_frames is None:
             self.total_anim_frames = int(sim_time / frame_length)
@@ -374,4 +378,5 @@ if __name__ == "__main__":
     action = ActionSelection()
     action.run()
     action.save_plots("")
+    action.animation.run("test1.avi", 10, 10)
     show()
