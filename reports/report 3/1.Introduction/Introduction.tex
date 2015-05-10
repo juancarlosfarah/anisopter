@@ -1,0 +1,74 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[nodayofweek]{datetime}
+\usepackage{cite}
+\usepackage{graphicx}
+\longdate
+
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{M.Sc.\ Group Project Report}}
+\rhead{\fancyplain{}{\today}}
+\cfoot{\fancyplain{}{\thepage}}
+
+
+\title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Final Report ---}}
+\author{Juan Carlos Farah, Panagiotis Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
+       \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
+       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Mediano}\\
+       \small{Course: CO530/533, Imperial College London}
+}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Dragonflies are insects of the order Odonata, suborder Anisoptera \cite{dfwiki}. They are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate.  The goal of this project was to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent.
+
+\subsection{Main Modules} 
+There are three main components this project comprises  of that were first investigated in depth and then developed.\\
+
+\noindent
+1. ESTMD:\\
+Write about ESTMD\\
+
+\noindent
+2. CSTMD:\\
+The centrifugal small target motion detector neuron 1 (CSTMD1) is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present; this is presumably an attentional selection mechanism \cite{w13}. At Professor Murray Shanahan's lab, researchers have simulated the large contralateral dendritic field of the CSTMD1 neuron with a biophysical multi-compartmental Hodgkin-Huxley model. Along with Klaus Stiefel \cite{ne13}, they found that with certain numbers of inhibitory synapses and potassium conductance densities, two mutually-coupled CSTMD1 neurons are capable of a bistable switching process between two input patterns. This bistability can serve as a mechanism for the observed attentional selection.\\
+
+\noindent
+3. STDP:\\
+Findings of experimental studies suggest that Long Term synaptic Potentiation (LTP) occurs when a presynaptic neuron fires shortly before a postsynaptic neuron, and Long Term Depression (LTD) occurs in the case that the presynaptic neuron fires shortly after. This phenomenon is commonly known as Spike Timing Dependant Plasticity (STDP)\cite{stdp1}. Masquellier et al. showed that it is possible, by exploiting the effect of STDP, to adjust the weights of a layer of presynaptic afferents in an unsupervised manner so that the post synaptic neuron can be trained to fire only when the afferents fire at a specific pattern. This phenomenon, if modeled properly, it can be used as an incredibly accurate pattern recognition mechanism. What is more, the pattern recognition is not limited to a single pattern. Masquellier et al. also showed that it is possible to train a layer of post synaptic neurons to identify several firing patterns of the pre-synaptic layer\cite{stdp2}.\\ 
+
+
+
+The high-level idea of this project was to initially develop and test the aforementioned modules independently and then - as soon as the accuracy and robustness of each component was guaranteed – to connect them together and essentially create an agent that simulates the visual cortex of a dragonfly. The visual input is initially pre-processed using the ESTMD neuron so that small targets can be identified and isolated from the background. The CSTMD then takes over and (if multiple targets do exist) selects only one target, translating its movement around the visual field to a spiketrain that acts as input for the STDP neurons. Each set of STDP neurons is originally trained to identify movement in a single direction (up, down, left, right). Given the input from the CSTMD, only one set of neurons fires while inhibiting the other sets. With proper training the set of neurons that fires can stimulate a movement of the dragonfly towards the direction of the target. This three step process is a good a approximation of the actual neural processes that take place when the dragonfly preys.
+
+
+\subsection{Report Structure}
+
+The parts that this report includes are the following:
+
+
+Specification: The original goals of the project and how they were adjusted according to the challenges that were encountered during the project. Additional goals were also set to ensure a balanced workload of all the members and to achieve the best possible result given the high level of complexity and the time constraints of the project.
+Design: A more detailed presentation of the components that this project comprises of. The way they function as independent units as well as how they were connected to each other to collaborate and provide the end result.
+
+Methodology: The methods used to meet the goals set in the specification. The problems and challenges that were faced during the project. The choices made and the software development techniques used to address those issues.
+
+Group work: The division of the project into smaller tasks. The division of the group into sub-groups and the tasks that each sub-group or individual had to complete to lead to the success of this project.
+
+Final product: The overall result of the work conducted throughout the project. The goals that were met as well as the goals that were infeasible given the constraints of the project. Motivation for future further development of this project.
+
+Appendix: A log of the summary of the minutes of the meetings that were scheduled from the beginning till the completion of the project. Tasks of each member and overall contribution.
+
+
+
+\bibliography{Introduction}{}
+\bibliographystyle{plain}
+
+\end{document}
+
