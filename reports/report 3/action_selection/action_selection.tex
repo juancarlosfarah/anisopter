@@ -1,0 +1,39 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[titletoc,toc,title,page]{appendix}
+\usepackage[nodayofweek]{datetime}
+\usepackage{cite}
+\usepackage{graphicx}
+\longdate
+
+\usepackage{minted}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{M.Sc.\ Group Project Report}}
+\rhead{\fancyplain{}{\today}}
+\cfoot{\fancyplain{}{\thepage}}
+
+
+\title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Final Report ---}}
+\author{Juan Carlos Farah, Panagiotis Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
+       \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
+       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Mediano}\\
+       \small{Course: CO530/533, Imperial College London}
+}
+
+\begin{document}
+\section{Action Selection}
+\subsection{Methodology}
+The function of this module is to convert the output of the pattern recognition neurons into an action for the dragonfly to take in order for it to pursue insects in its visual field.
+The main aspects we needed to consider were:
+\begin{enumerate}
+	\item The simulation environment of the dragonfly
+	\item The embodiment of the dragonfly
+	\item The actions available to the dragonfly within its environment
+	\item How to convert the output of the pattern recognition neurons into actions
+\end{enumerate}
+\end{document}
