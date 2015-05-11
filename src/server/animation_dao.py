@@ -16,26 +16,20 @@ class AnimationDao:
         self.db = database
         self.collection = self.db.animations
 
-    def save(self, animation):
+    def save(self, animation, targets, background_id):
         """
         Saves the animation to the database.
         :return: _id of animation inserted.
         """
 
-        # Targets.
-        targets = []
-
-        # Target data.
-        # for each target:
-        # t = {
-        #     # target data
-        # }
-        # Append to targets.
-
         # General animation data.
         a = {
             "width": animation.width,
             "height": animation.height,
+            "num_frames": animation.total_frames,
+            "background_id": background_id,
+            "description": animation.description,
+            "frames_per_second": animation.fps,
             "targets": targets
         }
 
@@ -81,7 +75,8 @@ class AnimationDao:
         return animation
 
     def generate_animation(self, width, height,
-                           description, targets, frames, background):
+                           description, targets, frames, background,
+                           return_object=False):
         """
         Generates and saves an animation.
 
@@ -116,7 +111,13 @@ class AnimationDao:
             file_path = "{path}/{file}".format(path=path, file=background)
             ani.add_background(img_dir=file_path)
 
-        _id = self.save(ani)
+
+        ani.run(filename, total_frames=frames)
+
+        if return_object:
+            return ani
+
+        _id = self.save(ani, targets, background)
 
         # Save video file.
         print "Current working directory: " + os.getcwd()
@@ -124,11 +125,6 @@ class AnimationDao:
         out_directory = os.path.abspath(relative_path + str(_id))
         filename = out_directory + ".avi"
         print "Saving animation in: " + filename
-
-        ani.run(filename, total_frames=frames)
-
-        # Save pickle of Animation object.
-        pickle.dump(ani, open(out_directory + ".pkl", "w"))
 
         return _id
 
