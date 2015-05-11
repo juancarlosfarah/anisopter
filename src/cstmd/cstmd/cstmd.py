@@ -406,7 +406,7 @@ class Cstmd(object) :
                    exec "plt.legend(loc=0)"
 
         # Save Plots.
-        relative_path = "../../server/assets/cstmd/" + str(_id)
+        relative_path = "../server/assets/cstmd/" + str(_id)
 
         # Create the path for the plots
         if not os.path.exists(relative_path):
@@ -452,7 +452,7 @@ class Cstmd(object) :
                 plt.plot(spikes, fr, c='k')
 
         # Save Plots.
-        relative_path = "../../server/assets/cstmd/" + str(_id)
+        relative_path = "../server/assets/cstmd/" + str(_id)
 
         # Create the path for the plots
         if not os.path.exists(relative_path):
