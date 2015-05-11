@@ -26,62 +26,38 @@
 }
 
 \begin{document}
-\section{Action Selection}
+\section{Centrifugal Small Target
+Motion Detector Neuron 1 (CSTMD1)}
 \subsection{Methodology}
-The function of this module is to convert the output of the pattern recognition neurons into an action for the dragonfly to take in order for it to pursue insects in its visual field.
-The main aspects we needed to consider were:
+The function of this module is to create inhibitory effects to the output received from the point neurons of the ESTMD module  with the aim to create a meaningful output for the pattern recognition module which is then identifying spiking patterns. The main aspects we needed to consider were:
 \begin{enumerate}
-	\item The simulation environment of the dragonfly
-	\item The embodiment of the dragonfly
-	\item The actions available to the dragonfly within its environment
-	\item How to convert the output of the pattern recognition neurons into actions
+	\item The complicated nature of the morphologically-modelled CSTMD1
+	\item The simulation environment of the CSTMD1 neurons (NEURON simulation environment)
+	\item How to efficiently connect this module with both the ESTMD and the pattern recognition module
+	\item Key Performance Indicators to measure the performance and the plausibility of the module
+ 
 \end{enumerate}
-Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the action selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 1.
 
-\begin{figure}[hb]
+Given that the CSTMD1 is multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order be aware of all the plausible values that should be tried for each of the parameters.
+
+Moreover, we had to consider what would be the best way to provide stimuli to the CSTMD1 neurons as an input from the ESTMD module. The NEURON simulation environment provides many classes as a connection to a model from an external input. After examining all the different possibilities we decided to use a leaky integrator (IntFire2() point process) 
+\emph{\color{red}EXPLAIN MORE ABOUT INTFIRE2???}. More specifically, the ESTMD module provides a time series of neuron spikes which is essentially an array of values each of which corresponds to a spiking rate per retina pixel. Thus, we initiated one leaky integrator for each pixel and provided the spiking rate as its total current. We then connected these point processes to each of the CSTMD neurons used for the simulation. In order to make our model as much biologically plausible as possible, we added some randomized delays to the connections of the leaky integrators with the neurons with the aim to ensure that the desired inhibitory effect will be achieved while neurons are provided with some stimuli. We also applied a Gaussian bell to the weights of these connections, with which we achieved to have more weight to the connections corresponding to pixels of the central retinal field while these weights fade out as we move along to the peripheral area of the visual field.
+
+With regards to the output, since the pattern recognition module requires a considerable amount of spike trains as an input, we had to find a way to connect the 2 modules without severely affecting the speed and performance of the CSTMD1 module. Hence, given the morphologically large axon of the CSTMD1 neuron (GEURTEN 2007) we decided instead of using as many neurons as the inputs required by the pattern recognition module, to apply a large number of electrodes to different compartments of the neurons and thus provide the adequate amount of spike trains without limiting the biological plausibility of our model.
+
+After successfully connecting the different modules, our next goal was to define key performance indicators for the CSTMD1 module in order to measure as accurately as possible its performance and also be able to modify the several parameters of the given model and observe their effect to the simulation. For this purpose, we created several plots which recorded the activity of different compartments of the neurons as well as their spiking rates. 
+\newpage
+\begin{figure}
 \centering
-\includegraphics[scale = 0.3]{as_example}
-\caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
+\includegraphics[scale = 0.3]{compartments}
+\caption{Compartmental activity in a CSTMD1 neuron simulation showing inhibitory effects}
 \end{figure}
 
-In the original proposal for the project, it was suggested that we use reward-modulated reinforcement learning to train the action selection mechanism. The idea of this is to have a mechanism that can be used to train the dragonfly to choose the actions that maximize its reward, which is administered when it catches a target. 
-\newline
-\newline
-We decided to implement a network of four action selection neurons, each representing one direction of movement (up, down, left and right). These neurons would take as input the spike train output of the pattern recognition neurons, via synapses with all-to-all connections between the two groups of neurons. The weights of the synapses would be initially randomised and the changes in weights would be dynamically governed by spike-timing-dependent plasticity (STDP, the same mechanism as the pattern recognition neurons) but modulated by a reward-modulator, which we label as dopamine. The way this works is that the change in weights determined by STDP is replaced with an eligibility trace that decays over time and the weights only change when dopamine is present in the system, by multiplying the eligibility trace of each synapse with the level of dopamine present. The dopamine is given a boost whenever the dragonfly focal point is within a certain distance of a target. The conceptual idea is that the synapses that contribute to catching the target are strengthened. The actual model used for the neurons is integrate-and-fire, which is a relatively simplistic but efficient model. The equations that govern the behaviour of the neurons and synapses are shown below: 
-\newline
-\newline
-Integrate-and-fire neurons:
-$$\frac{dv}{dt}=\frac{g _{e} (E_{e}-v _{r}) + E_{l} -v}{ \tau_{m}}$$
-$$\frac{dg_{e}}{dt}= -\frac{g_{e}}{\tau_{e}}$$
-where $v$ is the membrane potential, $g_{e}$ is the synaptic conductance, $E|{e}$ and $E_{l}$ are reverse potentials, $v_{r}$ is the resting potential and $\tau _{m}$ is a time constant.
-\newline
-Reward-modulated Synapses with STDP:
-$$\frac{dw}{dt} = c \cdot Dop$$
-$$\frac{dDop}{dt}=-\frac{Dop}{\tau _{Dop}}$$
-$$\frac{dc}{dt} = -\frac{c}{\tau _{c}}$$
-$$\frac{dApre}{dt}=-\frac{Apre}{\tau_{pre}}$$
-$$\frac{dApost}{dt}=-\frac{Apost}{\tau_{post}}$$
-where $w$ is the weight of the synapse, $c$ is the eligibility trace, $Dop$ is the level of dopamine, $dApre$ and $dApost$ are variables that govern the STDP and the $\tau$s are time constants.
-When the pre-synaptic neuron fires, the following updates are executed:
-$$ge = ge + w$$
-$$Apre = Apre + Apre _{step}$$
-$$c =c+Apost$$
-When the post-synaptic neuron fires, the following updates are executed:
-$$Apost = Apost + Apost _{step}$$
-$$c =c+Apre$$
-where $Apre_{step}$ and $Apost_{step}$ are constants.
 
-Finally, at each time step, the distance between dragonfly's focal point (which is initialised to some position at the start) and the nearest target is calculated. If the distance is within a preset distance, a dopamine boost is administered to the system. The movement of the dragonfly is calculated by translating the firing rate of each of the four neurons into the velocity of the focal point in the corresponding direction. The overall velocity and hence distance travelled for the time step was averaged between the four and the dragonfly position updated. 
 
-It is possible to run the action selection part in training mode, where the weights can change, or in fixed mode where you give it trained, fixed weights to simply run a simulation. 
+We also extended the module to be able to run several simulations while given different inputs from the ESTMD module so as to observe if there is any evidence that our CSTMD1 module, when presented with two targets in the visual receptive field, would select one of them as we expected. However, after modifying all the possible parameters and trying different inputs, we observed that the CSTMD1 model is not
+displaying this selectivity.
 
-The model was implemented in Python using a neuron simulator package called Brian 2 (CITATION). We used this as it is a flexible simulator and easier to use than NEURON (which was used for the CSTMD), since we are only modelling point neurons in this module, not a multi-compartmental model. 
-
-The output of the action-selection module is twofold:
-\begin{enumerate}
-\item A video of the original animation with the dragonfly focal point position superimposed to each frame. This way you can see if the dragonfly is 'chasing' the targets or not.
-\item Several graphs displaying the behaviour of variables of the model during the simulation, including weights, firing rates, the dopamine level and a raster plot.
-\end{enumerate}
-In the web client, the user is able to change the parameters of the model and observe how the resulting dragonfly's behaviour, as well as the behaviour of variables in the model.
+The web client \emph{\color{red}(MULTI SIMULATIONS????????????)} that we introduced supports running simulations of the CSTMD1 module. We transferred all the functionality as described above and thus the user is able to change all the significant parameters of the model and observe the resulting CSTMD1 neurons' behaviour as well as the behaviour of KPIs in the model.
 
 \end{document}
