@@ -72,6 +72,9 @@ class Target(object):
         self.color = color
         self.velocity = velocity
 
+        # Always set seed to 1 to be able to reproduce behaviour.
+        seed(1)
+
         # Normalise velocity vector.
         sum_square = velocity[0] * velocity[0] + velocity[1] * velocity[1]
         if sum_square != 0.0:
