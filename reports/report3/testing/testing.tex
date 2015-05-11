@@ -30,10 +30,12 @@ Given that all of our code is written in Python, we use Python's unittest framew
 \subsection{Results - we need to redo tests}
 Our current test coverage is 81\%. Detailed results from our latest test run covering all of our modules can be found in Appendix C.
 
-\subsection{Challenges - final challanges}
-At this stage, some of the functionalities we are developing have not been factored out optimally, which causes some methods to be very tightly interlinked. This in turn requires more complex tests, some of which will need extensive modification as we restructure the code. We have thus decided to omit some of these methods from our current tests. As we gain more experience with unit testing and refine our design, these methods will be covered.
+\subsection{Challenges}
+As expected much of our code has changed when we added additional modules. Accordingly our tests had to be changed. Furthermore since modules are now completed, we have also added tests for code that was not tested before. Our knowledge of testing has significantly improved since the start of the project.
 
-We also found it difficult to test the graphical output that our modules produce. While testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. One solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand. This approach becomes more complicated when random elements are involved and when the result can vary. We currently handle this by setting specific seeds for the pseudorandom number generators and allowing some error in the test calculations. However, we are still working to make these tests more resilient.
+We found it difficult to test the graphical output that our modules produce. While testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. Solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
+
+The lines that are missing are for one of the reasons. Either we are missing one of if-else branches that is almost irrelevant to the execution of the module or the person working on that module ran out of time - only created main tests. 
 
 
 
