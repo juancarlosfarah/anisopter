@@ -390,9 +390,14 @@ def run_action_selection_simulation():
         pattern_duration = None
 
     if animation_id is not None:
-        relative_path = "assets/animations/"
-        filename = os.path.abspath(relative_path + str(animation_id) + ".pkl")
-        animation = pickle.load(open(filename, "r"))
+        a = animations.get_animation(animation_id)
+        animation = animations.generate_animation(a['width'],
+                                                  a['height'],
+                                                  a['description'],
+                                                  a['targets'],
+                                                  a['num_frames'],
+                                                  a['background_id'],
+                                                  True)
     else:
         animation = None
 
