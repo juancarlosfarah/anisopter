@@ -36,28 +36,9 @@ Dragonflies are insects of the order Odonata, suborder Anisoptera \cite{dfwiki}.
 \end{enumerate}
 
 
-\subsection{Main Modules} 
-There are three main components this project comprises  of that were first investigated in depth and then developed.\\
-
 \noindent
-1. ESTMD:\\
-Write about ESTMD\\
-
+\textbf{Report Structure}\\
 \noindent
-2. CSTMD:\\
-The centrifugal small target motion detector neuron 1 (CSTMD1) is a higher order visual neuron in the brain of the dragonfly.  This bistability can serve as a mechanism for the observed attentional selection.\\
-
-\noindent
-3. STDP:\\
-Findings of experimental studies suggest that Long Term synaptic Potentiation (LTP) occurs when a presynaptic neuron fires shortly before a postsynaptic neuron, and Long Term Depression (LTD) occurs in the case that the presynaptic neuron fires shortly after. This phenomenon is commonly known as Spike Timing Dependant Plasticity (STDP)\cite{stdp1}. Masquellier et al. showed that it is possible, by exploiting the effect of STDP, to adjust the weights of a layer of presynaptic afferents in an unsupervised manner so that the post synaptic neuron can be trained to fire only when the afferents fire at a specific pattern. This phenomenon, if modeled properly, it can be used as an incredibly accurate pattern recognition mechanism. What is more, the pattern recognition is not limited to a single pattern. Masquellier et al. also showed that it is possible to train a layer of post synaptic neurons to identify several firing patterns of the pre-synaptic layer\cite{stdp2}.\\ 
-
-
-
-The high-level idea of this project was to initially develop and test the aforementioned modules independently and then - as soon as the accuracy and robustness of each component was guaranteed – to connect them together and essentially create an agent that simulates the visual cortex of a dragonfly. The visual input is initially pre-processed using the ESTMD neuron so that small targets can be identified and isolated from the background. The CSTMD then takes over and (if multiple targets do exist) selects only one target, translating its movement around the visual field to a spiketrain that acts as input for the STDP neurons. Each set of STDP neurons is originally trained to identify movement in a single direction (up, down, left, right). Given the input from the CSTMD, only one set of neurons fires while inhibiting the other sets. With proper training the set of neurons that fires can stimulate a movement of the dragonfly towards the direction of the target. This three step process is a good a approximation of the actual neural processes that take place when the dragonfly preys.
-
-
-\subsection{Report Structure}
-
 The parts that this report includes are the following:
 
 
