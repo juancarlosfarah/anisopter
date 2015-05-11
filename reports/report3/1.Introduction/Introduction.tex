@@ -27,7 +27,13 @@
 
 \section{Introduction}
 
-Dragonflies are insects of the order Odonata, suborder Anisoptera \cite{dfwiki}. They are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate.  The goal of this project was to model the target selection mechanism of the dragonfly and implement it in a biomimetic agent.
+Dragonflies are insects of the order Odonata, suborder Anisoptera \cite{dfwiki}. They are notoriously effective at prey capture, making the neural processes that underlie this ability particularly interesting to investigate. There has been substantial research into the visual system of dragonflies but what seems to be lacking is an effective tool that links models of the various layers of processing together, which could help us better understand the function of each layer. For example, there is a particular neuron discovered in the dragonfly, the Central Small Target Motion Detector (CSTMD), that seems to be responsible for the ability of a dragonfly to select one target out of many in its visual field. In order to confirm this, it would be useful to be able to model the CSTMD as part of a whole visual system. Our goal is to create such a tool that could hopefully serve the following purposes:
+\begin{enumerate}
+\item Provide a connected model of dragonfly target selection, starting from the visual input to the retina and ending with the motion of the dragonfly.
+\item Provide a user-friendly interface for changing the parameters of the parts of the model and viewing useful information on the processing done by each layer.
+\item Provide a platform for potentially replicating the behaviour of a real dragonfly during prey capture.
+\end{enumerate}
+
 
 \subsection{Main Modules} 
 There are three main components this project comprises  of that were first investigated in depth and then developed.\\
