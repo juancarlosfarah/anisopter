@@ -148,7 +148,13 @@ class ActionSelection(object):
                     input_indices.append(i)
                     input_times.append(j)
 
+            print input_indices
+            print input_times
+
             combined = zip(input_times, input_indices)
+
+            print combined
+
             sort_combined = [list(t) for t in zip(*sorted(combined))]
 
             print sort_combined
