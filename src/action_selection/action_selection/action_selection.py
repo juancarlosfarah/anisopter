@@ -83,6 +83,9 @@ class ActionSelection(object):
         # Input
         self.pattern_input = pattern_input
         if pattern_duration is not None:
+            print "Selecting minimum duration of simulation."
+            print sim_time, pattern_duration
+            print sim_time/ms
             self.sim_time = np.min(sim_time/ms, pattern_duration)*ms
         self.animation = animation
         self.animation_id = animation_id
