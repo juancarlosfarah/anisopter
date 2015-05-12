@@ -16,15 +16,14 @@ class TestActionSelection(unittest.TestCase):
         """
         self.dummy_as = ActionSelection()
 
-    def test_run(self):
+    def test_general(self):
         """
-        This method tests ActionSelection's run.
+        This method covers most of ActionSelection code.
         """
 
         self.dummy_as.run()
-
-        # Dummy test.
-        self.assertTrue(True)
+        self.dummy_as.save_plots("")
+        self.dummy_as.animation.run("test1.avi", 10, 10)
 
 
 if __name__ == '__main__':
