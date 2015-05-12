@@ -1,0 +1,19 @@
+Name                                                                                          Stmts   Miss Branch BrMiss  Cover   Missing
+-----------------------------------------------------------------------------------------------------------------------------------------
+/homes/ik311/anisopter/src/estmd/estmd/estmd                                                    114      0     16      1    99%   
+/homes/ik311/anisopter/src/cstmd/cstmd                                                          380     84    130     44    75%   213, 218, 317-401, 487-488, 513-514, 600-603, 638, 642, 647-648, 662
+/homes/ik311/anisopter/src/animation/animation/target_animation                                 125      0     20      1    99%   
+/homes/ik311/anisopter/src/pattern_recognition/neuron                                           248     59     72     32    72%   170-179, 197, 209-212, 216, 230-233, 237, 261, 300, 331, 357, 368-381, 388-393, 417-420, 447-450, 488, 562-563, 570-579
+/homes/ik311/anisopter/src/pattern_recognition/sample                                           127      0     32      0   100%   
+/homes/ik311/anisopter/src/pattern_recognition/simulation                                       109     35     30     18    62%   88-103, 133, 144-146, 159-162, 175, 202-232
+/homes/ik311/anisopter/src/server/sample_dao                                                     52      8     10      2    84%   78, 113-120
+/homes/ik311/anisopter/src/server/server                                                         80     19      6      3    74%   44-51, 59, 79, 93-100, 146, 160-161
+/homes/ik311/anisopter/src/server/simulation_dao                                                154     18     46     14    84%   34-35, 88, 118, 160-161, 239-247, 259-260, 285
+
+/homes/ik311/anisopter/src/action_selection/action_selection
+/homes/ik311/anisopter/src/server/action_selection_dao
+/homes/ik311/anisopter/src/server/animation_dao
+/homes/ik311/anisopter/src/server/cstmd_dao
+/homes/ik311/anisopter/src/server/estmd_dao
+-----------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                          1389    223    362    115    81%  
