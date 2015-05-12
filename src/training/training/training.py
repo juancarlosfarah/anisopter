@@ -21,7 +21,7 @@ class Training(object):
         pass
 
     @staticmethod
-    def make_temp_directory(self, name):
+    def make_temp_directory(name):
         """
         Create empty directory with name "name".
         :param name: Name of empty directory we want to create.
