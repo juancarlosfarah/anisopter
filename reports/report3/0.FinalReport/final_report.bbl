@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{python}
+Python~Software Foundation.
+\newblock {\em {Python Language}}.
+
+\bibitem{ne13}
+Zafeirios Fountas and Klaus Stiefel.
+\newblock {Neuromorphic Engineering Workshop}, 2013.
+
+\bibitem{stdp2}
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
+\newblock {Spike timing dependent plasticity finds the start of repeating
+  patterns in continuous spike trains}.
+\newblock {\em PLoS One}, 2008.
+
+\bibitem{stdp1}
+T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
+\newblock {Competitive STDP-based spike pattern learning}.
+\newblock {\em Neural Comput.}, 2009.
+
+\bibitem{matlab}
+Mathworks.
+\newblock {\em {Matlab \& Simulink}}.
+
+\bibitem{dfwiki}
+Misc.
+\newblock {Dragonfly}.
+\newblock \url{http://en.wikipedia.org/wiki/Dragonfly}.
+
+\bibitem{w13}
+Steven Wiederman and David O'Carroll.
+\newblock {Selective Attention in an Insect Visual Neuron}.
+\newblock {\em Current Biology}, 2013.
+
+\end{thebibliography}
