@@ -138,6 +138,8 @@ class ActionSelection(object):
             input = PoissonGroup(N, rates=F)
         else:
             # Pattern recognition input
+            print self.pattern_input
+
             pattern = self.pattern_input
             num_input = len(pattern)
 
