@@ -1,0 +1,34 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {2}Specification}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Final Specifications}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Challenges and Motivation for Updated Specifications}{5}{subsection.2.2}
+\contentsline {section}{\numberline {3}Design}{6}{section.3}
+\contentsline {subsection}{\numberline {3.1}Components}{6}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}User Interface}{6}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Design diagram}{7}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Programming language}{7}{subsection.3.4}
+\contentsline {section}{\numberline {4}Methodology}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Target Animation}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Elementary Small Target Motion Detector (ESTMD)}{9}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Centrifugal Small Target Motion Detector Neuron (CSTMD)}{11}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Pattern Recognition}{11}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Action Selection}{12}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Web Client}{14}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Problems To Bo Solved}{17}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}Software Engineering Techniques}{17}{subsection.4.8}
+\contentsline {subsection}{\numberline {4.9}Division of Tasks}{17}{subsection.4.9}
+\contentsline {section}{\numberline {5}Group Work}{18}{section.5}
+\contentsline {subsection}{\numberline {5.1}Initial Division}{18}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Reorganising to meet targets}{18}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Reports and Testing}{18}{subsection.5.3}
+\contentsline {section}{\numberline {6}Final Product}{19}{section.6}
+\contentsline {subsection}{\numberline {6.1}Goals Met}{19}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Partially completed tasks}{19}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Non-implemented tasks}{20}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Future Development}{20}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Project Evaluation}{20}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}Testing \& Results}{20}{subsection.6.6}
+\contentsline {section}{\numberline {A}Logbook}{22}{appendix.A}
+\contentsline {section}{\numberline {B}Minutes of Group Meetings}{23}{appendix.B}
+\contentsline {section}{\numberline {C}References}{27}{appendix.C}
+\contentsline {section}{\numberline {D}Detailed Work Breakdown}{30}{appendix.D}
