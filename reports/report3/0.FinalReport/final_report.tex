@@ -1,23 +1,34 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage[margin=2cm]{geometry}
 
+\usepackage[titletoc,toc,title,page]{appendix}
 \usepackage[nodayofweek]{datetime}
 \usepackage{cite}
 \usepackage{graphicx}
 \longdate
 
-\usepackage{hyperref}
-\usepackage{fancyhdr}
+
+
 \usepackage{paralist}
 \usepackage{mathcomp}
-\usepackage{fullpage}
+%\usepackage{fullpage} DON'T USE IT! COMPILE TO SEE WHAT IS WRONG!
 \usepackage{bm}
 \usepackage{amsmath,amssymb,amsthm,enumitem}
+
+
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{minted}
 \pagestyle{fancyplain}
 \fancyhf{}
 \lhead{\fancyplain{}{M.Sc.\ Group Project Report}}
 \rhead{\fancyplain{}{\today}}
 \cfoot{\fancyplain{}{\thepage}}
+
+\usepackage{minted}
+
+
 
 
 
@@ -206,7 +217,7 @@ In our initial specification, one of our tasks was to connect the retina of our 
 \newline
 Our research revealed that the ESTMDs actually consist of several layers of neurons required to perform their function, namely photoreceptors, large monopolar cells (LMCs) and rectifying transient cells (RTCs) (WIED 2008). It was immediately obvious to us that implementing all these stages in a multi-compartmental model (the method used for the CSTMD) would be extremely complicated and computationally expensive. Our initial thought was to attempt to use simplified point neuron models (such as Integrate-and-fire) to achieve the ESTMD function, but with a little more research we discovered that it would be possible to do it in a simpler and more computationally efficient way using a series of spatial and temporal transforms on the retina input (WIEDERMAN 2009, HALUPKA 2013). It is important to note that these transforms are intended to directly approximate the layers of biological neurons mentioned above - there are other techniques from computer vision that could be used for small target motion detection, but our priority is to represent the true function of the dragonfly's brain within realistic bounds of computational complexity. The overview of the model we implemented is summarised in Figure 1 and the details of the transforms were taken from (HALUPKA 2013). 
 
-\begin{figure}[hb]
+\begin{figure}[h]
 \centering
 \includegraphics[scale = 0.5]{wiederman09}
 \caption{CITE WIEDERMAN 2009}
@@ -221,6 +232,33 @@ One significant challenge was understanding the transforms and implementing them
 Once we had programmed the transforms, some tinkering with parameters was required to achieve the small target motion detection we were expecting. In any case, the user of the web client will have the capability of changing these parameters for their own model.
 
 \subsection{Centrifugal Small Target Motion Detector Neuron (CSTMD)}
+
+The function of this module is to implement a multi-compartmental model of the actual CSTMD neuron that exists in dragonflies, with the hope that it will create an effect of selecting one target from many in the visual field. It takes input from the ESTMD and gives output to the pattern recognition module. The initial code was given to us by our supervisors, who had already shown that there is mutual inhibition of CSTMD1 neurons that could indicate target selection, but it was our job to connect it to the rest of the system and also, as a secondary goal, see if we could replicate the target selection effect observed in real dragonflies. The main issues in tackling this model were:
+\begin{enumerate}
+	\item Understanding he complicated nature of the morphologically-modelled CSTMD1
+	\item Learning how to use the simulation environment of the CSTMD1 neurons (NEURON simulation environment)\emph{\color{red}CITATION}
+	\item Efficiently connecting this module with both the ESTMD and the pattern recognition module
+	\item Generating key indicators to measure the performance and the plausibility of the module, in order to assist the user in assessing the function of this neuron
+\end{enumerate}
+
+Given that the CSTMD1 is multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order be aware of all the plausible values that should be tried for each of the parameters.
+
+Moreover, we had to consider what would be the best way to provide stimuli to the CSTMD1 neurons as an input from the ESTMD module. The NEURON simulation environment provides many classes as a connection to a model from an external input. After examining all the different possibilities we decided to use a leaky integrator (IntFire2() point process) 
+\emph{\color{red}EXPLAIN MORE ABOUT INTFIRE2???}. More specifically, the ESTMD module provides a time series of neuron spikes which is essentially an array of values each of which corresponds to a spiking rate per retina pixel. Thus, we initiated one leaky integrator for each pixel and provided the spiking rate as its total current. We then connected these point processes to each of the CSTMD neurons used for the simulation. In order to make our model as much biologically plausible as possible, we added some randomized delays to the connections of the leaky integrators with the CSTMD1 neurons with the aim of ensuring that the desired inhibitory effect will be achieved while neurons are provided with some stimuli. We also applied a spatial Gaussian distribution to the weights of these connections, increasing the relative weights of the pixels in the centre of the visual field compared to those on the edges, as this is the case with real dragonflies (\emph{\color{red}CITE PAPER WIEDERMAN)}.
+
+With regards to the output, since the pattern recognition module requires a considerable number of spike trains as an input, we had to find a way to connect the 2 modules without severely affecting the speed and performance of the CSTMD1 module. Hence, given the morphologically large axon of the CSTMD1 neuron (GEURTEN 2007) we decided that, instead of using as many neurons as the inputs required by the pattern recognition module, to apply a large number of electrodes to different compartments of the neurons and thus provide the adequate number of spike trains without limiting the biological plausibility of our model.
+
+After successfully connecting the different modules, our next goal was to define key performance indicators for the CSTMD1 module in order to measure as accurately as possible its performance and also be able to modify the several parameters of the given model and observe their effect to the simulation. For this purpose, we created several plots which recorded the activity of different compartments of the neurons as well as their spiking rates. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.3]{compartments}
+\caption{Compartmental activity in a CSTMD1 neuron simulation showing inhibitory effects}
+\end{figure}
+
+We also extended the module to be able to run several simulations while given different inputs from the ESTMD module so as to observe if there is any evidence that our CSTMD1 module, when presented with two targets in the visual receptive field, would select one of them as we expected. However, after modifying all the possible parameters and trying different inputs, we observed that the CSTMD1 model is not displaying this selectivity. \emph{\color{red}TALK ABOUT GRAPH FROM WIEDERMAN PAPER}
+
+The web client \emph{\color{red}(MULTI SIMULATIONS????????????)} that we introduced supports running simulations of the CSTMD1 module. We transferred all the functionality as described above and thus the user is able to change all the significant parameters of the model and observe the resulting CSTMD1 neurons' behaviour as well as the behaviour of KPIs in the model.
 
 \subsection{Pattern Recognition}
 
@@ -246,7 +284,7 @@ The main aspects we needed to consider were:
 \end{enumerate}
 Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the action selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 1.
 
-\begin{figure}[hb]
+\begin{figure}[h]
 \centering
 \includegraphics[scale = 0.3]{as_example}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
@@ -293,6 +331,130 @@ The output of the action-selection module is twofold:
 In the web client, the user is able to change the parameters of the model and observe how the resulting dragonfly's behaviour, as well as the behaviour of variables in the model.
 
 \subsection{Web Client}
+The web client is designed to be a simple interface through which simulations for each of the modules can be run and automated, both separately and jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment.
+
+In order to maintain consistency with the rest of the project, we decided to use a web framework for Python that could easily connect with each of our modules. The basic requirements were that the client could be easily deployed on a local environment for testing purposes, but also able to serve multiple users concurrently when deployed in production. We chose Bottle (http://bottlepy.org) as it is a lightweight web framework with a built-in HTTP development server that would address the first requirement out-of-the-box. It can also be paired with Nginx (http://wiki.nginx.org/) through uWSGI (https://uwsgi-docs.readthedocs.org/en/latest/). By using Nginx, a high-performance HTTP server on top of uWSGI, a full stack interface between web frameworks and web servers, our web client can be deployed in production, providing load-balanced high-availability.
+
+Given that running our modules' simulations is computationally expensive, it was imperative that the output and results of each run be saved in a persistent store. As shown in figure X, our project consists of five modules connected sequentially, with the output of the each module in the sequence serving as input to the next module. By saving the output of each module during a simulation, we would be able to perform multiple runs of the next module in the sequence without rerunning the previous modules. Additionally, by saving the data generated by each run, the web client can provide a view of the results for analysis by simply querying the database instead of generating them from scratch.
+
+We chose MongoDB, a documented-oriented database, as a data store as it provides a fast, scalable solution that does not require strict design decisions in advance. As we developed our product, MongoDB's dynamic schemas allowed us to modify our objects without having to spend considerable time fixing compatibility issues. Additionally, MongoDB documents follow a JavaScript Object Notation (JSON)-like structure, which mirrors the structure of our Python objects, making it straight forward to understand what fields in our stored documents correspond to what properties of our Python classes.
+\noindent
+[DOCUMENT] [OBJECT]
+
+
+ \begin{minipage}[t]{0.5\textwidth}
+  \centering  
+  Animation Object as stored in MongoDB
+  \begin{minted}{python}
+  
+{
+
+  "width": 640,
+  "height": 480,
+  "num_frames": 50,
+  "background_id": 552d618629750413075fde0d,
+  "description": "Sample animation.",
+  "frames_per_second": 5,
+  "targets": [
+             { 'color': 'rgb(20,97,107)',
+               'velocity': '5',
+               'velocity_vector': ['1', '2'],
+               'type': '1',
+               'start_pos': ['1', '2'],
+               'frames': '50',
+               'size': '1' },
+                  
+             { 'color': 'rgb(45,86,55)',
+               'velocity': '2',
+               'velocity_vector': ['2', '5'],
+               'type': '2',
+               'start_pos': ['10', '3'],
+               'frames': '40',
+               'size': '3' }
+    ]
+}
+  \end{minted}
+ \end{minipage} 
+ \begin{minipage}[t]{0.5\textwidth}
+  \centering  
+  Animation Object constructor in Python
+  \begin{minted}{python}	
+    def __init__(self,
+
+    width= 640,
+    height= 480,    
+    num_frames= 50,
+    background_id= "552d618629750413075fde0d",
+    description= "Sample animation.",
+    frames_per_second= 5,
+    targets=[
+             a.Target(color=rgb(20,97,107),
+                     velocity=5,
+                     velocity_vector=[1,2],
+                     type=1,
+                     start_pos=[1,2],
+                     frames=50,
+                     size=1),
+                     
+             b.Target(color=rgb(45,86,55),
+                     velocity=2,
+                     velocity_vector=[2,5],
+                     type=2,
+                     start_pos=[10,3],
+                     frames=40,
+                     size=3)]):
+
+    self.targets = targets
+    self.width = width
+    self.height = height
+    self.background_id = background_id
+    self.num_frames = num_frames
+    self.frames_per_second = frames_per_second
+    self.description = description
+  \end{minted}
+ \end{minipage}
+\\
+\\
+\\ 
+Bottle has a built-in templating engine that enhances HTML with a thin layer of Python that can be inserted as both as inline and embedded snippets. These templates also allow the server to pass an object to the view, which can then be accessed using straightforward Python dictionary syntax.
+
+\begin{minted}{html}
+<!DOCTYPE html>
+<html>
+% include('head.tpl', title="Pattern Recognition Simulation")
+<body>
+% include('header.tpl')
+<div class="container">
+\end{minted}
+\textit{Separate the templates into reusable sections/blocks of HTML code that can be included dynamically in other templates.}    
+\newpage 
+
+
+\begin{minted}{html}
+<!-- Tab Panes -->
+<div class="tab-content">
+    % for i in range(len(simulation['potential_plots'])):
+    % p_plot = simulation['potential_plots'][i]
+    <div role="tabpanel" class="tab-pane" id="p{{i + 1}}">
+        {{!p_plot}}
+    </div>
+    %end
+</div>
+\end{minted}
+\textit{Iterate through an array passed to the view and access the relevant} fields in each iteration.
+\\
+\\
+
+\begin{minted}{html}
+<tr>
+    <td>True Positives</td>
+    <td>{{'%.2f' % neuron['spike_info'][0][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][1][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][2][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][3][0]}}%</td>
+</tr>
+  \end{minted}
+\textit{Format and access the field of an object passed to the view.}
 
 
 
@@ -608,7 +770,7 @@ This meeting was mainly focused on the web client and the ESTMD neuron. The acti
 \maketitle
 \section*{1 April 2015}
 \subsection*{Attendance}
-\begin{compactenum}\section{References}
+\begin{compactenum}
 \item Juan Carlos Farah (JCF)
 \item Christos Kaplanis (CK)
 \item Erik Grabljevec (EG)

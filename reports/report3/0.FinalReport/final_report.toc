@@ -10,25 +10,24 @@
 \contentsline {section}{\numberline {4}Methodology}{8}{section.4}
 \contentsline {subsection}{\numberline {4.1}Target Animation}{8}{subsection.4.1}
 \contentsline {subsection}{\numberline {4.2}Elementary Small Target Motion Detector (ESTMD)}{9}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Centrifugal Small Target Motion Detector Neuron (CSTMD)}{11}{subsection.4.3}
-\contentsline {subsection}{\numberline {4.4}Pattern Recognition}{11}{subsection.4.4}
-\contentsline {subsection}{\numberline {4.5}Action Selection}{12}{subsection.4.5}
-\contentsline {subsection}{\numberline {4.6}Web Client}{14}{subsection.4.6}
-\contentsline {subsection}{\numberline {4.7}Problems To Bo Solved}{15}{subsection.4.7}
-\contentsline {subsection}{\numberline {4.8}Software Engineering Techniques}{15}{subsection.4.8}
-\contentsline {subsection}{\numberline {4.9}Division of Tasks}{15}{subsection.4.9}
-\contentsline {section}{\numberline {5}Group Work}{16}{section.5}
-\contentsline {subsection}{\numberline {5.1}Initial Division}{16}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Reorganising to meet targets}{16}{subsection.5.2}
-\contentsline {subsection}{\numberline {5.3}Reports and Testing}{16}{subsection.5.3}
-\contentsline {section}{\numberline {6}Final Product}{17}{section.6}
-\contentsline {subsection}{\numberline {6.1}Goals Met}{17}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Partially completed tasks}{17}{subsection.6.2}
-\contentsline {subsection}{\numberline {6.3}Non-implemented tasks}{18}{subsection.6.3}
-\contentsline {subsection}{\numberline {6.4}Future Development}{18}{subsection.6.4}
-\contentsline {subsection}{\numberline {6.5}Project Evaluation}{18}{subsection.6.5}
-\contentsline {subsection}{\numberline {6.6}Testing \& Results}{18}{subsection.6.6}
-\contentsline {section}{\numberline {A}Logbook}{20}{appendix.A}
-\contentsline {section}{\numberline {B}Minutes of Group Meetings}{21}{appendix.B}
-\contentsline {section}{\numberline {C}References}{25}{appendix.C}
-\contentsline {section}{\numberline {D}Detailed Work Breakdown}{28}{appendix.D}
+\contentsline {subsection}{\numberline {4.3}Centrifugal Small Target Motion Detector Neuron (CSTMD)}{10}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Pattern Recognition}{12}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Action Selection}{13}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Web Client}{15}{subsection.4.6}
+\contentsline {subsection}{\numberline {4.7}Problems To Bo Solved}{18}{subsection.4.7}
+\contentsline {subsection}{\numberline {4.8}Software Engineering Techniques}{18}{subsection.4.8}
+\contentsline {subsection}{\numberline {4.9}Division of Tasks}{18}{subsection.4.9}
+\contentsline {section}{\numberline {5}Group Work}{19}{section.5}
+\contentsline {subsection}{\numberline {5.1}Initial Division}{19}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Reorganising to meet targets}{19}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}Reports and Testing}{19}{subsection.5.3}
+\contentsline {section}{\numberline {6}Final Product}{20}{section.6}
+\contentsline {subsection}{\numberline {6.1}Goals Met}{20}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Partially completed tasks}{20}{subsection.6.2}
+\contentsline {subsection}{\numberline {6.3}Non-implemented tasks}{21}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Future Development}{21}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Project Evaluation}{21}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}Testing \& Results}{21}{subsection.6.6}
+\contentsline {section}{\numberline {A}Logbook}{23}{appendix.A}
+\contentsline {section}{\numberline {B}Minutes of Group Meetings}{24}{appendix.B}
+\contentsline {section}{\numberline {C}Detailed Work Breakdown}{31}{appendix.C}
