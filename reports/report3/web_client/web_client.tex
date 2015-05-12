@@ -31,7 +31,82 @@ We chose MongoDB, a documented-oriented database, as a data store as it provides
 
 [DOCUMENT] [OBJECT]
 
+Animation Object as stored in MongoDB
+
+        {
+            "width": 640,
+            "height": 480,
+            "num_frames": 50,
+            "background_id": 552d618629750413075fde0d,
+            "description": "Sample animation.",
+            "frames_per_second": 5,
+            "targets": [
+            	{ 'color': 'rgb(20,97,107)',
+                          'velocity': '5',
+                          'velocity_vector': ['1', '2'],
+                          'type': '1',
+                          'start_pos': ['1', '2'],
+                          'frames': '50',
+                          'size': '1' },
+                          
+                          { 'color': 'rgb(20,97,107)',
+                          'velocity': '5',
+                          'velocity_vector': ['1', '2'],
+                          'type': '1',
+                          'start_pos': ['1', '2'],
+                          'frames': '50',
+                          'size': '1' }
+            ]
+        }
+
+Animation Object
+
+    def __init__(self,
+    			 width=640, height=480,
+    			 background_id=None,
+    			 description="Sample animation."):
+        self.targets = []
+        self.width = width
+        self.height = height
+        self.background_id = background_id
+        self.num_frames = 50
+        self.frames_per_second = 20
+        self.description = description
+
+
 Bottle has a built-in templating engine that enhances HTML with a thin layer of Python that can be inserted as both as inline and embedded snippets. These templates also allow the server to pass an object to the view, which can then be accessed using straightforward Python dictionary syntax.
 
+
+Separate the templates into reusable sections/blocks of HTML code that can be included dynamically in other templates.
+
+<!DOCTYPE html>
+<html>
+% include('head.tpl', title="Pattern Recognition Simulation")
+<body>
+% include('header.tpl')
+<div class="container">
+
+    
+Iterate through an array passed to the view and access the relevant fields in each iteration.
+        <!-- Tab Panes -->
+        <div class="tab-content">
+            % for i in range(len(simulation['potential_plots'])):
+            % p_plot = simulation['potential_plots'][i]
+            <div role="tabpanel" class="tab-pane" id="p{{i + 1}}">
+                {{!p_plot}}
+            </div>
+            %end
+        </div>
+
+
+
+Format and access the field of an object passed to the view.
+                    <tr>
+                        <td>True Positives</td>
+                        <td>{{'%.2f' % neuron['spike_info'][0][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][1][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][2][0]}}%</td>
+                        <td>{{'%.2f' % neuron['spike_info'][3][0]}}%</td>
+                    </tr>
 
 \end{document}
