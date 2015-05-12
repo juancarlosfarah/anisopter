@@ -213,6 +213,7 @@ class Animation(object):
         video = cv2.VideoWriter(out_directory, codec, fps, (width, height))
 
         for i in range(total_frames):
+            print "Printing frame " + str(i) + " of " + str(total_frames)
             img_name = "temp/scr" + str(i) + ".png"
             img = cv2.imread(img_name)
             video.write(img)
