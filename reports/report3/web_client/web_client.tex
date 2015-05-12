@@ -17,6 +17,7 @@
 \rhead{\fancyplain{}{\today}}
 \cfoot{\fancyplain{}{\thepage}}
 
+\usepackage{minted}
 \begin{document}
 
 \subsection{Web Client}
@@ -31,82 +32,121 @@ We chose MongoDB, a documented-oriented database, as a data store as it provides
 
 [DOCUMENT] [OBJECT]
 
-Animation Object as stored in MongoDB
 
-        {
-            "width": 640,
-            "height": 480,
-            "num_frames": 50,
-            "background_id": 552d618629750413075fde0d,
-            "description": "Sample animation.",
-            "frames_per_second": 5,
-            "targets": [
-            	{ 'color': 'rgb(20,97,107)',
-                          'velocity': '5',
-                          'velocity_vector': ['1', '2'],
-                          'type': '1',
-                          'start_pos': ['1', '2'],
-                          'frames': '50',
-                          'size': '1' },
-                          
-                          { 'color': 'rgb(20,97,107)',
-                          'velocity': '5',
-                          'velocity_vector': ['1', '2'],
-                          'type': '1',
-                          'start_pos': ['1', '2'],
-                          'frames': '50',
-                          'size': '1' }
-            ]
-        }
+ \begin{minipage}[t]{0.5\textwidth}
+  \centering  
+  Animation Object as stored in MongoDB
+  \begin{minted}{python}
+  
+{
 
-Animation Object
-
+  "width": 640,
+  "height": 480,
+  "num_frames": 50,
+  "background_id": 552d618629750413075fde0d,
+  "description": "Sample animation.",
+  "frames_per_second": 5,
+  "targets": [
+             { 'color': 'rgb(20,97,107)',
+               'velocity': '5',
+               'velocity_vector': ['1', '2'],
+               'type': '1',
+               'start_pos': ['1', '2'],
+               'frames': '50',
+               'size': '1' },
+                  
+             { 'color': 'rgb(45,86,55)',
+               'velocity': '2',
+               'velocity_vector': ['2', '5'],
+               'type': '2',
+               'start_pos': ['10', '3'],
+               'frames': '40',
+               'size': '3' }
+    ]
+}
+  \end{minted}
+ \end{minipage} 
+ \begin{minipage}[t]{0.5\textwidth}
+  \centering  
+  Animation Object constructor in Python
+  \begin{minted}{python}	
     def __init__(self,
-    			 width=640, height=480,
-    			 background_id=None,
-    			 description="Sample animation."):
-        self.targets = []
-        self.width = width
-        self.height = height
-        self.background_id = background_id
-        self.num_frames = 50
-        self.frames_per_second = 20
-        self.description = description
 
+    width= 640,
+    height= 480,    
+    num_frames= 50,
+    background_id= "552d618629750413075fde0d",
+    description= "Sample animation.",
+    frames_per_second= 5,
+    targets=[
+             a.Target(color=rgb(20,97,107),
+                     velocity=5,
+                     velocity_vector=[1,2],
+                     type=1,
+                     start_pos=[1,2],
+                     frames=50,
+                     size=1),
+                     
+             b.Target(color=rgb(45,86,55),
+                     velocity=2,
+                     velocity_vector=[2,5],
+                     type=2,
+                     start_pos=[10,3],
+                     frames=40,
+                     size=3)]):
 
+    self.targets = targets
+    self.width = width
+    self.height = height
+    self.background_id = background_id
+    self.num_frames = num_frames
+    self.frames_per_second = frames_per_second
+    self.description = description
+  \end{minted}
+ \end{minipage}
+\\
+\\
+\\ 
 Bottle has a built-in templating engine that enhances HTML with a thin layer of Python that can be inserted as both as inline and embedded snippets. These templates also allow the server to pass an object to the view, which can then be accessed using straightforward Python dictionary syntax.
 
-
-Separate the templates into reusable sections/blocks of HTML code that can be included dynamically in other templates.
-
+\begin{minted}{html}
 <!DOCTYPE html>
 <html>
 % include('head.tpl', title="Pattern Recognition Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
-
-    
-Iterate through an array passed to the view and access the relevant fields in each iteration.
-        <!-- Tab Panes -->
-        <div class="tab-content">
-            % for i in range(len(simulation['potential_plots'])):
-            % p_plot = simulation['potential_plots'][i]
-            <div role="tabpanel" class="tab-pane" id="p{{i + 1}}">
-                {{!p_plot}}
-            </div>
-            %end
-        </div>
+\end{minted}
+\textit{Separate the templates into reusable sections/blocks of HTML code that can be included dynamically in other templates.}    
+\newpage 
 
 
+\begin{minted}{html}
+<!-- Tab Panes -->
+<div class="tab-content">
+    % for i in range(len(simulation['potential_plots'])):
+    % p_plot = simulation['potential_plots'][i]
+    <div role="tabpanel" class="tab-pane" id="p{{i + 1}}">
+        {{!p_plot}}
+    </div>
+    %end
+</div>
+\end{minted}
+\textit{Iterate through an array passed to the view and access the relevant} fields in each iteration.
+\\
+\\
 
-Format and access the field of an object passed to the view.
-                    <tr>
-                        <td>True Positives</td>
-                        <td>{{'%.2f' % neuron['spike_info'][0][0]}}%</td>
-                        <td>{{'%.2f' % neuron['spike_info'][1][0]}}%</td>
-                        <td>{{'%.2f' % neuron['spike_info'][2][0]}}%</td>
-                        <td>{{'%.2f' % neuron['spike_info'][3][0]}}%</td>
-                    </tr>
+\begin{minted}{html}
+<tr>
+    <td>True Positives</td>
+    <td>{{'%.2f' % neuron['spike_info'][0][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][1][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][2][0]}}%</td>
+    <td>{{'%.2f' % neuron['spike_info'][3][0]}}%</td>
+</tr>
+  \end{minted}
+\textit{Format and access the field of an object passed to the view.}
+
+
 
 \end{document}

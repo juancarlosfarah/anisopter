@@ -1,5 +1,12 @@
 __author__ = 'eg1114'
 
+
+import shutil
+import os
+
+from animation.target_animation import *
+
+
 class Training(object):
     """
     Main class to execute training of other modules.
@@ -10,15 +17,23 @@ class Training(object):
         Constructor.
         :return:
         """
+        print "Here1"
         pass
 
-    def only_function(self):
+    @staticmethod
+    def make_temp_directory(self, name):
         """
-        Dummy function.
+        Create empty directory with name "name".
+        :param name: Name of empty directory we want to create.
         :return:
         """
+        print "Here2"
+        if os.path.exists(name):
+            print "Inside"
+            shutil.rmtree(name)
 
-        print "Working!"
+        os.makedirs(name)
+
 
 
 if __name__ == '__main__':
