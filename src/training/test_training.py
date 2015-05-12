@@ -43,7 +43,7 @@ class TestTraining(unittest.TestCase):
         Training.make_temp_directory(name)
         content = os.listdir(name)
 
-        self.assertTrue(os._exists(name))
+        self.assertTrue(os.path.exists(name))
         self.assertEqual(content, [])
 
 
