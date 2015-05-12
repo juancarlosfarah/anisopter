@@ -118,10 +118,12 @@ class AnimationDao:
 
         # Save video file.
         print "Current working directory: " + os.getcwd()
-        relative_path = "assets/animations/"
-        out_directory = os.path.abspath(relative_path + str(_id))
-        filename = out_directory + ".avi"
-        print "Saving animation in: " + filename
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            "assets",
+                                            "animations"))
+        filename = str(_id) + ".avi"
+        file_path = "{path}/{file}".format(path=path, file=filename)
+        print "Saving animation in: " + file_path
 
         ani.run(filename, total_frames=frames)
 
