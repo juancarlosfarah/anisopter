@@ -86,7 +86,7 @@ class ActionSelection(object):
             print "Selecting minimum duration of simulation."
             print sim_time, pattern_duration
             print sim_time/ms
-            self.sim_time = np.min(sim_time/ms, pattern_duration)*ms
+            self.sim_time = min(sim_time/ms, pattern_duration)*ms
         self.animation = animation
         self.animation_id = animation_id
         self.pattern_recognition_id = pattern_recognition_id
