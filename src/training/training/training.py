@@ -51,6 +51,8 @@ class Training(object):
         path = local_dir + "/" + name
         Training.make_temp_directory(local_dir)
 
+        print "---------------------------------------------"
+        print path
         test.run(path, 10, 20)
 
     def test_sequence_videos(self):
