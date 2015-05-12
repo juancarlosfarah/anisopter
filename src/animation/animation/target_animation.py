@@ -213,13 +213,15 @@ class Animation(object):
         video = cv2.VideoWriter(out_directory, codec, fps, (width, height))
 
         for i in range(total_frames):
-            print "Printing frame " + str(i) + " of " + str(total_frames)
+            print "Printing frame " + str(i + 1) + " of " + str(total_frames)
             img_name = "temp/scr" + str(i) + ".png"
             img = cv2.imread(img_name)
             video.write(img)
 
         # TO-DO: change this not to be hard coded.
         dir = out_directory.strip(".avi")
+
+        print "Converting from avi to mp4 at " + dir
 
         command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
         call(command.split())
