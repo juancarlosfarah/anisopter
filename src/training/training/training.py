@@ -17,7 +17,7 @@ class Training(object):
         Constructor.
         :return:
         """
-        print "Here1"
+
         pass
 
     @staticmethod
@@ -27,13 +27,11 @@ class Training(object):
         :param name: Name of empty directory we want to create.
         :return:
         """
-        print "Here2"
+
         if os.path.exists(name):
-            print "Inside"
             shutil.rmtree(name)
 
         os.makedirs(name)
-
 
 
 if __name__ == '__main__':
