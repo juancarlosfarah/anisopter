@@ -48,14 +48,3 @@
 	title = "{Dragonfly}"
 }
 
-@manual{python,
-	author = "Foundation, Python Software",
-	howpublished = "\url{http://www.python.org}",
-	title = "{Python Language}"
-}
-
-@manual{matlab,
-	author = "Mathworks",
-	title = "{Matlab \& Simulink}"
-}
-
