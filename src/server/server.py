@@ -500,7 +500,7 @@ def start():
 
 def connect_db(db_name="anisopter"):
     global db, simulations, samples, animations, cstmd, estmd, a_s
-    host = "localhost"
+    host = "146.169.47.184"
     port = 27017
     connection = pymongo.MongoClient(host=host, port=port)
     db = connection[db_name]
