@@ -40,7 +40,7 @@ class TestTraining(unittest.TestCase):
             os.makedirs(name)
         open(name+"dummy.txt", 'a').close()
 
-        self.t.make_temp_directory()
+        self.t.make_temp_directory(name)
         content = os.listdir(name)
 
         self.assertTrue(os._exists(name))

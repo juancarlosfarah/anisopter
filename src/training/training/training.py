@@ -32,8 +32,3 @@ class Training(object):
             shutil.rmtree(name)
 
         os.makedirs(name)
-
-
-if __name__ == '__main__':
-    test = Training()
-    test.only_function()
