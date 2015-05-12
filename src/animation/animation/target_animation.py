@@ -5,7 +5,7 @@ For any information on how to use this module refer to class Animation.
 """
 
 
-import Image
+from PIL import Image
 from math import atan2
 from math import cos 
 from math import pi
