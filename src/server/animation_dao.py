@@ -125,7 +125,7 @@ class AnimationDao:
         file_path = "{path}/{file}".format(path=path, file=filename)
         print "Saving animation in: " + file_path
 
-        ani.run(filename, total_frames=frames)
+        ani.run(file_path, total_frames=frames)
 
         return _id
 
