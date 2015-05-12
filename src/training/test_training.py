@@ -2,6 +2,7 @@ __author__ = 'eg1114'
 
 
 import unittest
+import os
 
 from training.training import *
 
