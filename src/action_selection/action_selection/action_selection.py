@@ -151,8 +151,8 @@ class ActionSelection(object):
             combined = zip(input_times, input_indices)
             sort_combined = [list(t) for t in zip(*sorted(combined))]
 
-            print sort_combined.shape[0]
-            print sort_combined.shape[1]
+            print sort_combined
+
 
             input_times = np.asarray(sort_combined[0])
             input_indices = np.asarray(sort_combined[1])
