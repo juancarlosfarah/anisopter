@@ -111,9 +111,6 @@ class AnimationDao:
             file_path = "{path}/{file}".format(path=path, file=background)
             ani.add_background(img_dir=file_path)
 
-
-        ani.run(filename, total_frames=frames)
-
         if return_object:
             return ani
 
@@ -125,6 +122,8 @@ class AnimationDao:
         out_directory = os.path.abspath(relative_path + str(_id))
         filename = out_directory + ".avi"
         print "Saving animation in: " + filename
+
+        ani.run(filename, total_frames=frames)
 
         return _id
 
