@@ -494,7 +494,7 @@ def assets_two_level(filename, subfolder, folder):
 
 def start():
     bottle.run(host="localhost",
-               port=8082,
+               port=8084,
                reloader=True)
 
 
