@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{python}
 Python~Software Foundation.
@@ -7,6 +7,12 @@ Python~Software Foundation.
 \bibitem{ne13}
 Zafeirios Fountas and Klaus Stiefel.
 \newblock {Neuromorphic Engineering Workshop}, 2013.
+
+\bibitem{hal11}
+K.J. Halupka, S.D. Wiederman, B.S. Cazzolato, and D.C. O'Carroll.
+\newblock { Discrete implementation of biologically inspired image processing
+  for target detection }.
+\newblock In {\em {ISSNIP}}, 2011.
 
 \bibitem{stdp2}
 T.~Masquelier, R.~Guyonneau, and S.J. Thorpe.
