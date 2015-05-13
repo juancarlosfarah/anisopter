@@ -366,80 +366,58 @@ Given that running our modules' simulations is computationally expensive, it was
 
 We chose MongoDB, a documented-oriented database, as a data store as it provides a fast, scalable solution that does not require strict design decisions in advance. As we developed our product, MongoDB's dynamic schemas allowed us to modify our objects without having to spend considerable time fixing compatibility issues. Additionally, MongoDB documents follow a JavaScript Object Notation (JSON)-like structure, which mirrors the structure of our Python objects, making it straight forward to understand what fields in our stored documents correspond to what properties of our Python classes.
 \noindent
-[DOCUMENT] [OBJECT]
 
-
- \begin{minipage}[t]{0.5\textwidth}
-  \centering  
-  Animation Object as stored in MongoDB
-  \begin{minted}{python}
+\begin{minipage}[t]{0.5\textwidth}
+\centering  
+Animation Object as stored in MongoDB
+\begin{minted}{python}
   
 {
-
-  "width": 640,
-  "height": 480,
-  "num_frames": 50,
-  "background_id": 552d618629750413075fde0d,
-  "description": "Sample animation.",
-  "frames_per_second": 5,
-  "targets": [
-             { 'color': 'rgb(20,97,107)',
-               'velocity': '5',
-               'velocity_vector': ['1', '2'],
-               'type': '1',
-               'start_pos': ['1', '2'],
-               'frames': '50',
-               'size': '1' },
-                  
-             { 'color': 'rgb(45,86,55)',
-               'velocity': '2',
-               'velocity_vector': ['2', '5'],
-               'type': '2',
-               'start_pos': ['10', '3'],
-               'frames': '40',
-               'size': '3' }
-    ]
+"width": 640,
+"height": 480,
+"num_frames": 50,
+"background_id": "5fde0d",
+"description": "Sample.",
+"frames_per_second": 5,
+"targets":
+	[
+	{ "color": "rgb(20,97,107)",
+	  "velocity": "5",
+	  "velocity_vector": [1, 2],
+	  "type": 1,
+	  "start_pos": [1,2],
+	  "frames": 50,
+	  "size": 1 },
+	  ...
+	]
 }
-  \end{minted}
- \end{minipage} 
- \begin{minipage}[t]{0.5\textwidth}
-  \centering  
-  Animation Object constructor in Python
-  \begin{minted}{python}	
-    def __init__(self,
-
-    width= 640,
-    height= 480,    
-    num_frames= 50,
-    background_id= "552d618629750413075fde0d",
-    description= "Sample animation.",
-    frames_per_second= 5,
-    targets=[
-             a.Target(color=rgb(20,97,107),
-                     velocity=5,
-                     velocity_vector=[1,2],
-                     type=1,
-                     start_pos=[1,2],
-                     frames=50,
-                     size=1),
-                     
-             b.Target(color=rgb(45,86,55),
-                     velocity=2,
-                     velocity_vector=[2,5],
-                     type=2,
-                     start_pos=[10,3],
-                     frames=40,
-                     size=3)]):
-
-    self.targets = targets
-    self.width = width
-    self.height = height
-    self.background_id = background_id
-    self.num_frames = num_frames
-    self.frames_per_second = frames_per_second
-    self.description = description
-  \end{minted}
- \end{minipage}
+\end{minted}
+\end{minipage} 
+\begin{minipage}[t]{0.5\textwidth}
+\centering  
+Animation Object constructor in Python
+\begin{minted}{python}	
+def __init__(self,
+  	   width=640,
+  	   height=480,    
+  	   num_frames=50,
+  	   background_id="5fde0d",
+  	   description="Sample.",
+  	   frames_per_second=5,
+  	   targets=[
+  	     Target(
+	         color="rgb(20,97,107)",
+	         velocity=5,
+	         velocity_vector=[1,2],
+	         type=1,
+	         start_pos=[1,2],
+	         frames=50,
+	         size=1),
+	...
+	]
+):
+\end{minted}
+\end{minipage}
 \\
 \\
 \\ 
