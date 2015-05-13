@@ -15,10 +15,10 @@ from_file = False
 no_input = False
 
 i = 1
-K = -1
-Na= -1
-SYNAPSES_NO = -1
-save=dat.pkl
+K = 0.06
+Na= 0.48
+SYNAPSES_NO = 500
+save="dat.pkl"
 while i < len(argv) :
     if argv[i] == "-K" and len(argv) > i+1 :
         i += 1
@@ -70,7 +70,7 @@ MAX_CURRENT = 30
 MIN_CURRENT = 3.0
 MIN = 0.000005
 MAX = 0.00005
-PLOT_ACTIVITY = True
+PLOT_ACTIVITY = False
 runtime=10
 prints=True
 
@@ -88,6 +88,7 @@ for i in times[neuron_idx] :
 
 with open(save, 'wb') as my_file :
     pickle.dump(FINAL_THING, my_file)
+
 
 
 

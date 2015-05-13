@@ -17,6 +17,9 @@ stage1
 *.aux
 *.log
 *.synctex.gz
+*.pdf
+*.toc
+*.blg
 
 # IDEA files
 # ==========

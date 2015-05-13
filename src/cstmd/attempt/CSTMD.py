@@ -462,5 +462,5 @@ class CSTMD(object) :
                     plt.plot(spikes, fr, c='k')
             #plt.savefig('screenshots/raster_plot.png') #this will save the plot - comment out if this is not needed
             #plt.draw() 
-            #plt.show() #this allows you to view the plot - comment out if this not needed
-            figsave(plot.svg)
+            plt.show() #this allows you to view the plot - comment out if this not needed
+            plt.savefig("plot.svg", format="svg")		
