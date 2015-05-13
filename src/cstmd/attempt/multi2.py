@@ -120,7 +120,7 @@ def myFunction(k):
     for s in range(0, 3000, 100) : # Synapses
         fl="{:.2f}".format(k) 
         res = run(k, Na, s, DATA_NAME="data_"+fl+".pkl")
-        print s*k/(10*30)" % COMPLETE"
+        print s*k/(10*30)," % COMPLETE"
         runs_here.append(res)
     return runs_here
 

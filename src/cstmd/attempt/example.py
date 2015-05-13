@@ -72,7 +72,7 @@ MIN = 0.000005
 MAX = 0.00005
 PLOT_ACTIVITY = False
 runtime=10
-prints=True
+prints=False
 
 print "K ",K," Na ",Na," Syn ",SYNAPSES_NO
 dr = CSTMD(num_neurons=neurons_no, num_synapses=SYNAPSES_NO, synaptic_distance=D,num_electrodes=electrds,
