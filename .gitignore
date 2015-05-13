@@ -11,6 +11,10 @@
 .\#*
 .DS_Store
 stage1
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
 
 # LaTeX Files
 # ===========
