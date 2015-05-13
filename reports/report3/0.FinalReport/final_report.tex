@@ -517,6 +517,28 @@ All of our information exchange is conducted using \href{http://slack.com}{Slack
 
 \subsubsection{Version Control}
 We are using Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab}, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
+
+\subsection{Testing}
+
+\subsubsection{Methodology}
+Our testing strategy has evolved from simple ``on the run manual testing'' to full systematic unit testing of our entire codebase. We followed our project's modular and class-based architecture while designing our testing structure. Each class has a corresponding test class, whose test methods aim to mirror the methods of the class it is testing. However, it is possible that several test methods cover different parts of the same method, or that in turn one test method covers several methods.
+
+Following the white-box testing strategy, each test class is designed by the team members who wrote the original code and who therefore have the best insight regarding the expected behaviour of the original class. Currently we have focused our testing on covering as many branches as possible, each of which is analysed for the different possible behaviours it may have. We are measuring our code coverage by the percentage of statements covered. We are aiming for 90%+ statement coverage.
+
+As we progress with our development we aim to augment our testing strategy to include component, integration and system tests. Component tests will cover end-to-end cases for each of our modules, while integration tests will cover the connections between each of these components. Finally, system tests will cover the complete project, when all modules have been connected between themselves and the web client.
+
+\subsubsection{Implementation}
+Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we are using Python's coverage library, which allows us to run tests on each file separately and combine results to create comprehensive reports.
+
+\subsubsection{Results - we need to redo tests}
+Our current test coverage is 81\%. Detailed results from our latest test run covering all of our modules can be found in Appendix C.
+
+\subsubsection{Challenges}
+As expected much of our code has changed when we added additional modules. Accordingly our tests had to be changed. Furthermore since modules are now completed, we have also added tests for code that was not tested before. Our knowledge of testing has significantly improved since the start of the project.
+
+We found it difficult to test the graphical output that our modules produce. While testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. Solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
+
+The lines that are missing are for one of the reasons. Either we are missing one of if-else branches that is almost irrelevant to the execution of the module or the person working on that module ran out of time - only created main tests. 
 \clearpage
 \section{Group Work}
 
@@ -637,8 +659,6 @@ with several tools that have both generic and specific(???) applications. Team w
 success of this project and we are very satisfied that we managed to properly cooperate in a flexible 
 and efficient way.
 
-
-\subsection{Testing \& Results}
 
 
 
