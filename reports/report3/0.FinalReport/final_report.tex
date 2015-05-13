@@ -11,7 +11,6 @@
 
 \usepackage{paralist}
 \usepackage{mathcomp}
-%\usepackage{fullpage} DON'T USE IT! COMPILE TO SEE WHAT IS WRONG!
 \usepackage{bm}
 \usepackage{amsmath,amssymb,amsthm,enumitem}
 
@@ -500,8 +499,11 @@ With the reports and testing a general strategy was decided early on. Each membe
 \clearpage
 \section{Final Product}
 
-As our final product, we have succeeded in creating a flexible, cohesive and portable tool for modelling dragonfly vision and target selection. Overall, we succeeded in completing all of the minimum and expected requirements of our specification, but not without a lot of hard work from the group and many challenges along the way. In the figure below we show some screenshots of the tool in use:
+As our final product, we have succeeded in creating a flexible, cohesive and portable tool for modelling dragonfly vision and target selection. Overall, we succeeded in completing all of the minimum and expected requirements of our specification, but not without a lot of hard work from the group and many challenges along the way. In the figure below we show some screenshots of our web client.
 
+[HOMEPAGE]
+[FORMS]
+[RESULTS]
 
 
 From beginning till completion of this project a lot of hard work was put on it. The complex nature of 
@@ -582,23 +584,35 @@ expensive that made it impossible to implement a real time system with the exist
 Therefore this goal could not be met.
 
 \subsection{Future Development}
+Our project's modular architecture and design allows for future development on each of the components to be feasible both by the members of our team as well as the community. We will release our source code via a public repository and welcome contributions as we continue to improve our tool. Given our use of Git as a source version control system, users will be able to easily clone and fork the repository for their own deployments, as well as submit pull requests to contribute to the development of the original tool. We have also made a public-facing website available at (WEBSITE) so that potential users or contributors can easily test the web client.
 
-This project can definitely motivate future development.  Even as an individual module, the CSTMD 
-neuron could prove very useful to the science community. We may have not been able to model its 
-behaviour properly, we did however observe that the existing tools regarding this module are 
-insufficient and allow for plenty of space for improvement. What is more, if the system gets fully 
-implemented, integrating it to a quadcopter with powerful processors could lead to numerous 
-interesting applications.
+Specific areas where our system can be potentially improved include the following:
+
+\begin{enumerate}
+\item Neuron Models Adjustable
+\item Custom Modules
+\item Improve Data Visualisation in the Web Client
+\item Improve usability of the web client (multiple users)
+\item Implement 3D simulation for target animation and action selection
+\item Option to export code for testing in a quadcopter drone
+\end{enumerate}
 
 \subsection{Project Evaluation}
 
-All in all, we feel that we can consider this project a successful one. That is not only because we 
-manage to meet most of the goals that we set despite their high level of difficulty but also because it 
-was a great experience that every member of this team regards as valuable. There was a steep 
-learning curve throughout the project and every member got the chance to familiarise themselves 
-with several tools that have both generic and specific(???) applications. Team work was key to the 
-success of this project and we are very satisfied that we managed to properly cooperate in a flexible 
-and efficient way.
+Given the positive results that we achieved with the current implementation of our initial specifications,
+we are confident that this project has been a success. As a team, it was for us an introduction to the field of
+computational neuroscience and even though we were faced with a steep learning curve, we are all satisfied
+with the skills we have acquired in the process. We are also encouraged by the fact that we were able to implement
+a wide variety of technologies. This breadth has exposed us to the advantages, limitations and uses of various tools,
+some of which can be valuable assets for future pursuits in an extensive range of fields. The fact that we were able
+to familiarise ourselves with these and integrate them into a system that could be further developed in the
+future is an extremely gratifying experience.
+
+We also recognise that teamwork is an important aspect of software engineering and this endeavour has
+introduced us to an array of useful development techniques that allowed us to properly cooperate in a flexible
+and efficient way. Finally, the contributions and insights from our supervisors were paramount to the success of
+this project and we have acquired invaluable insights from this collaboration.
+
 
 
 \subsection{Testing \& Results}
