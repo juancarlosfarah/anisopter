@@ -276,18 +276,30 @@ The purpose of the pattern recognition module is to discern recurring spike patt
 	
 	Once the pattern recognition neuron becomes selective to the pattern it continuously reinforces the connections of the afferents that fired slightly before it discharged. Hence with every manifestation of the pattern, the neuron is more likely to fire earlier within it, effectively signalling its beginning. In order to allow for different pattern recognition neurons to become selective to different patterns, we followed Masquelier et al. (2009), connecting a network of pattern recognition neurons to the sample inputs, introducing inhibitory connections amongst the post-synaptic neurons. This allows for a single postsynaptic neuron to become selective to one pattern and to inhibit other postsynaptic neurons from becoming selective to that pattern, thus allowing them to bind to other patterns in the input.\par
 
-Anticipating that the CSTMD1 module would output approximately 250 spike trains, we tuned the pattern recognition neurons from Masquelier et al. to be sensitive to patterns produced by a subset of this number of neurons. 
+Anticipating that the CSTMD1 module would output approximately 500 spike trains, we tuned the pattern recognition neurons from Masquelier et al. to be sensitive to patterns produced by a subset of this number of neurons. As shown in figures [XXX] one pattern recognition neuron becomes sensitive to a recurring pattern produced by 50\% of its afferents, with the synaptic weights to certain afferents involved in the pattern becoming fully potentiated, while the rest are completely depressed. In a 50 second simulation, during the fourth quarter the neuron fires consistently when the pattern manifests itself, with a false-positive and false-negative rate of 0\%.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.35]{pr1}
+\caption{Neuron fires only when pattern manifests itself.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.35]{pr2}
+\caption{Weights}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale = 0.35]{pr3}
+\caption{Rates}
+\end{figure}
 
 
+We produced a similar result with five neurons exposed to three different patterns.
 
-
-
-
-
-	
-	In a more extended model, post-synaptic neurons can become selective to part of a specific pattern. Masquelier et al. (2009) showed that given a 50ms spike pattern, up to 3 different neurons can fire within a single pattern thus identifying the beginning, middle and end of it. By adjusting the level of the mutual inhibition the number of the firing post-synaptic neurons can be increased or reduced depending the goal of the simulation. This extended model, although not used in our end product, it initiated long discussions about its potential in this project. During the time that the action selection module was not progressing as expected, we considered the alternative of using the aforementioned model to create a multiple level pattern recognition mechanism. The goal would be to investigate the extent of information regarding the velocity of the target (encoded in the visual input) that could be properly decoded by this multilevel pattern recognition mechanism. Despite the fact that we could have obtained results valuable to the research community, we were well aware that such a decision would result in a significant deviation from our original goals. Therefore, we kept our focus on the action selection module instead.\par
-
-	Once the pattern recognition module was built, we extended it so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency of pattern appearance, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and measures the effectiveness of the pattern recognition neurons by tracking key information such as true-positive, false-positive and true-negative spike incidences.
+	Once the pattern recognition module was built, we extended it so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency of pattern appearance, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and is described in section X.X.
 
 \subsection{Action Selection}
 
