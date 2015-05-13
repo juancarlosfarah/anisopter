@@ -9,6 +9,7 @@
 *.orig
 \#*
 .\#*
+.DS_Store
 stage1
 
 # LaTeX Files
