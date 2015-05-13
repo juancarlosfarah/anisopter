@@ -51,6 +51,20 @@ class Training(object):
 
         test.run(path, 10, 20)
 
+    def create_tests(self, type, dif, n):
+        """
+
+        :param type: Type of test 0-3:
+                  [0, 1, 2, 3] = [vertical, horizontal, diagonal, anty-diagonal]
+        :param dif: Number of different tests.
+        :param n: Number of test repetitions
+        :return:
+        """
+
+        for i in range(dif):
+            # TO DO: adjust
+            start = []
+            # Run single test.
 
     def run_tests(self, types=[1, 1, 1, 1], reps=1):
         """
@@ -63,7 +77,9 @@ class Training(object):
         :return:
         """
 
-        pass
+        for i in range(4):
+            # Run one for each type.
+            pass
 
 
 if __name__ == '__main__':
