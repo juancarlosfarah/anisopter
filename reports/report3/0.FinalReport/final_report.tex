@@ -14,8 +14,9 @@
 %\usepackage{fullpage} DON'T USE IT! COMPILE TO SEE WHAT IS WRONG!
 \usepackage{bm}
 \usepackage{amsmath,amssymb,amsthm,enumitem}
-
-
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
@@ -194,6 +195,42 @@ Having decided upon a number of specific modules required for the biomimetic age
 This module represents the input to the dragonfly's retina. Our goal was to create an animation tool that would allow a user to flexibly create videos of moving targets against a custom and potentially moving background. Our initial specifications aimed to create a 3D animation, where the dragonfly's view would change dynamically depending on the dragonfly's position and orientation. As a first step, we implemented a 2D animation, with coloured circles representing targets against a moving or stationary background that could be defined by the user.
 
 The design of this module was approached from the user's perspective. Our priorities were to provide flexibility through a simple interface through which to define the duration and size of the video, specify a background, and add targets, each with potentially different properties and behaviours. We supported two types of targets, the first displaying random movement across the viewport and the second moving in a straight line. For the former, the user could simply specify the starting position and speed. For the latter, the user was required to set the target's direction of travel. Additionally, the background could be provided as a PNG or JPG file and would be automatically cropped to fit the viewport.
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{ran0}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{ran1}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{ran2}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{ran3}}
+\end{minipage}
+\caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
+\label{target_animation_example}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{str0}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{str1}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{str2}}
+\end{minipage}
+\begin{minipage}{0.2\textwidth}
+\fbox{\includegraphics[scale = 0.14]{str3}}
+\end{minipage}
+\caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
+\label{target_animation_example}
+\end{figure}
 
 The challenge was to turn this information into an animation. Our approach was to first create a sequence of images given the input from the user which could then be sequenced into a video. We decided to build our implementation using Gizeh (https://github.com/Zulko/gizeh), a Python library for vector graphics written on top of cairocffi (https://github.com/SimonSapin/cairocffi) the Python binding for Cairo (http://cairographics.org), a 2D graphics library written in C. Gizeh allowed us to perform image creation and manipulation efficiently, as it offers function calls for some of our key requirements, such as drawing circles, adding background images, scaling and transforming graphics. Hence the core of the target animation module processes the user-generated input, calculates the position of each target and of background at each frame and computes the location where each target should be drawn and how the background image should be rendered. At each step, we save the generated image to a temporary file. The generated sequence of images is then combined into a video using OpenCV (http://opencv.org), an an open source computer vision library, and exported as an AVI file. Additionally, the module outputs the series of images in matrix format consisting of greyscale pixel values, which are passed as input to the ESTMD module, and converts the AVI file MP4 format so that it can be easily rendered in a browser using HTML5.
 
