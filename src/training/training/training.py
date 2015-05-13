@@ -58,7 +58,7 @@ class Training(object):
         dirs = [[0, 1], [-1, 1], [-1, 0]]
 
         for s, d, i in zip(starts, dirs, range(len(starts))):
-            name = "test" + str(id) + ".avi"
+            name = "test" + str(i) + ".avi"
             path = local_dir + "/" + name
             self.create_video(s, d, path)
 
