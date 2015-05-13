@@ -11,4 +11,6 @@ command4 = 'git push'
 commands = [command1, command2, command3, command4]
 
 for c in commands:
+    print c
+    print "======================="
     subprocess.call(c.split(" "))
