@@ -151,9 +151,9 @@ Having consulted academic research on the subject of dragonfly vision and discus
 
 \begin{enumerate}
 \item{Target Animation:} An animated video that provides the visual input to the system, emulating the retina of the dragonfly. User should be able to specify movements of multiple targets within the visual field and choose the background.
-\item{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background (WIEDERMAN 2008). They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
-\item{Centrifugal Small Target Motion Detector (CSTMD):} The CSTMD neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
-\item{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP) \cite{stdp1}\cite{stdp2}. It outputs spike trains to the Action Selection module.
+\item{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background \cite{Wiederman2008}. They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
+\item{Centrifugal Small Target Motion Detector (CSTMD1):} The CSTMD1 neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD1 takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
+\item{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD1 in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP) \cite{stdp1}\cite{stdp2}. It outputs spike trains to the Action Selection module.
 \item{Action Selection:} This model converts the output of the pattern recognition neurons into movement of the dragonfly, emulating the connection between the visual processing to the motor neurons. It can be trained using STDP combined with reward modulation so that the dragonfly learns to maximise target capture based on the patterns in its visual field. The final output is the original animation with the position of the dragonfly superimposed onto each frame for observation of how effectively it chases targets.
 \end{enumerate}
 
@@ -168,7 +168,7 @@ The following figure provides a graphical representation of the system as whole.
 
 \begin{figure}[hb]
 \centering
-\includegraphics[scale = 0.35]{designblockdiagram2}
+\includegraphics[scale = 0.4]{designblockdiagram2}
 \caption{Project Structure Diagram.}
 \end{figure}
 
