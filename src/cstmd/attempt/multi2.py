@@ -28,16 +28,16 @@ def real_firing_rates(data) :
     return fr
 
 
-def run(K,Na,SYN,DATA_NAME="data.pkl"):
-    call(["python", "example.py", "-file", "frame_target_strong.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN)])
+def run(K,Na,SYN,DATA_NAME):
+    call(["python", "example.py", "-file", "frame_target_strong.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN),"d",DATA_NAME])
     with open(DATA_NAME, 'rb') as my_file :
         data1 = pickle.load(my_file)
 
-    call(["python", "example.py", "-file", "frame_target_weak.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN)])
+    call(["python", "example.py", "-file", "frame_target_weak.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN),"d",DATA_NAME])
     with open(DATA_NAME, 'rb') as my_file :
         data2 = pickle.load(my_file)
 
-    call(["python", "example.py", "-file", "frame_target_both.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN)])
+    call(["python", "example.py", "-file", "frame_target_both.pkl", "-K", str(K), "-Na", str(Na), "-SYN", str(SYN),"d",DATA_NAME])
     with open(DATA_NAME, 'rb') as my_file :
         databoth = pickle.load(my_file)
 
@@ -55,7 +55,7 @@ def run(K,Na,SYN,DATA_NAME="data.pkl"):
         score.append(min(dist1,dist2))
     avgscore=np.mean(score)
 
-    
+    """
     fig = plt.figure()
     graph = fig.add_subplot(111)
     graph.set_title("Firing rates of CSTMD1, Avg Score= "+str(avgscore))
@@ -70,7 +70,7 @@ def run(K,Na,SYN,DATA_NAME="data.pkl"):
     plt.legend([target1, target2,targetboth])
     fig.savefig("multi.png")
     plt.show()
-
+    """
 
     returned_data = dict()
     returned_data['K'] = K
@@ -111,11 +111,16 @@ if os.path.isfile(FILENAME)  :
 else :
     SAVED_DATA = []
 
+
+results=[]
+
 def myFunction(k):
     #s = 500
     runs_here = []
     for s in range(0, 3000, 100) : # Synapses
-        res = run(k, Na, s, DATA_NAME="data_"+str(k)+".pkl")
+        fl="{:.2f}".format(k) 
+        res = run(k, Na, s, DATA_NAME="data_"+fl+".pkl")
+        print s*k/(10*30)" % COMPLETE"
         runs_here.append(res)
     return runs_here
 
@@ -133,20 +138,15 @@ results = myPool.map(myFunction, np.arange(START_K, END_K, 0.01))
 #    results.append(run(k,Na,s))
 
 
-results=[]
-for k in np.arange(START_K, END_K, 0.01) : # K level
-    s = 500
-    #for s in range(0, 3000, 250) : # Synapses
-    results.append(run(k,Na,s))
-
 SAVED_DATA = SAVED_DATA + results
 
 with open(FILENAME, 'wb') as my_file :
     pickle.dump(results, my_file)
 
 
-for i in range(len(data)):
-    print data[i]
+#for i in range(len(data)):
+#    print data[i]
+
 
 
 
