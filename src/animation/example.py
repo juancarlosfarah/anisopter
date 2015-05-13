@@ -17,8 +17,8 @@ bg_speed = 4
 # Create simple movie.
 # ====================
 test = Animation()
-test.add_target(1, start=[0,0], velocity=[1,1], size=5, v=10)
-test.add_target(1, start=[250,250], velocity=[-1,0], size=7, v=10)
+test.add_target(2, start=[0,0], velocity=[1,1], size=5, v=10)
+test.add_target(2, start=[250,250], velocity=[-1,0], size=7, v=10)
 
 # test.add_background("images/test.jpg", 2)
 # test.add_dragonfly([[300, 300, 0.0], [300, 300, 0.5], [250, 200, 1.1]])
