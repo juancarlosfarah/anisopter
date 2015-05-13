@@ -10,6 +10,9 @@ from animation.target_animation import *
 class Training(object):
     """
     Main class to execute training of other modules.
+    User interacts with only two functions:
+     - set_stuff: TO DO !!!!!!!!!!!!!!!                   ########### TO DO
+     - run_tests: which sets types and frequency of tests
     """
 
     def __init__(self):
@@ -33,35 +36,34 @@ class Training(object):
 
         os.makedirs(name)
 
-    def create_video(self, start, vel, id):
+    def run_test(self, start, vel, path, n):
         """
 
         :param start: Starting position.
         :param vel: Velocity vector.
         :param id: Id of video.
+        :param n: how many times should you run this test.
         :return:
         """
 
         test = Animation()
-        test.add_target(2)
         test.add_target(2, start=start, velocity=vel, size=5, v=8)
 
-        local_dir = "out_directories"
-        name = "test" + str(id) + ".avi"
-        path = local_dir + "/" + name
-        Training.make_temp_directory(local_dir)
-
-        print "---------------------------------------------"
-        print path
         test.run(path, 10, 20)
 
-    def test_sequence_videos(self):
 
-        starts = [[200, 10], [400, 10], [400, 300]]
-        dirs = [[0, 1], [-1, 1], [-1, 0]]
+    def run_tests(self, types=[1, 1, 1, 1], reps=1):
+        """
+        Function that runs selected tests on our modules.
 
-        for s, d, i in zip(starts, dirs, range(len(starts))):
-            self.create_video(s, d, i)
+        :param types: Corresponds to how many tests of each type should we run.
+                      They correspond to:
+                       [vertical, horizontal, diagonal, anty-diagonal]
+        :param reps: How many times should we run each test case.
+        :return:
+        """
+
+        pass
 
 
 if __name__ == '__main__':
