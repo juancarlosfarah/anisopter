@@ -143,21 +143,31 @@ The challenge of designing a tool that could satisfy the overall functionality o
 \item Deciding on the user interface and specifying an API for the system.
 \end{enumerate}
 
-\subsection{Components}
+\subsection{System Components}
 
-Having consulted academic research on the subject of dragonfly vision and discussed with our supervisors, we managed to identify five key components we would need to model in order to implement a coherent system. 
+Building on research done at Professor Murray Shanahan's laboratory on the CSTMD1 neuron \cite{?}, our first design challenge was to specify the structure of the system that we would build around the CSTMD1. We identified four key components that we would need to model and connect in order to implement a coherent system. Along with the CSTMD1, they make up the main modules in our project.
 
 \begin{enumerate}
-\item{Target Animation:} An animated video that provides the visual input to the system, emulating the retina of the dragonfly. User should be able to specify movements of multiple targets within the visual field and choose the background.
-\item{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background \cite{Wiederman2008}. They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
-\item{Centrifugal Small Target Motion Detector (CSTMD1):} The CSTMD1 neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD1 takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
-\item{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD1 in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP) \cite{stdp1}\cite{stdp2}. It outputs spike trains to the Action Selection module.
-\item{Action Selection:} This model converts the output of the pattern recognition neurons into movement of the dragonfly, emulating the connection between the visual processing to the motor neurons. It can be trained using STDP combined with reward modulation so that the dragonfly learns to maximise target capture based on the patterns in its visual field. The final output is the original animation with the position of the dragonfly superimposed onto each frame for observation of how effectively it chases targets.
+\item \textbf{Target Animation:} This module's purpose is to provide sample ``prey'' that our biomimetic agent can identify and ``capture''. Our implementation allows the user to specify movements of multiple targets within the visual field and choose the background, resulting in an animated video that provides the visual input to the system. Biologically this emulates the retina of the dragonfly.
+
+\item \textbf{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background \cite{Wiederman2008}. They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
+
+\item \textbf{Centrifugal Small Target Motion Detector One (CSTMD1):} The CSTMD1 neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD1 takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
+
+\item \textbf{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD1 in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP), which we discuss in section X.X.X. Its purpose is to encode information in the CSTMD1 output and pass it onto the Action Selection module.
+
+\item \textbf{Action Selection:} This module takes as input the spike trains from the pattern recognition neurons and the original target animation video. Its function is to select an action for the biomimetic agent at each time step given that input. Biologically, our model emulates the connection between the visual processing and the motor neurons. It can be trained using STDP combined with reward modulation so that the dragonfly learns to maximise target capture based on recurring patterns in its visual field. The final output is the original animation with the position of the dragonfly superimposed onto each frame for observation of how effectively it chases targets.
 \end{enumerate}
 
 \subsection{User Interface}
-For the user interface we decided that a web client would be the most suitable solution. The web client is designed to be a simple interface that allows for simulations for each of the modules to be run and automated, either separately or jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment. It provides key metrics that can be crucial in understanding the performance of the system.
-Given the computationally expensive nature of our modules' simulations, a persistent store had to be used to save the output and results of each run. As shown in the structure diagram below, the five modules that our project comprises, are connected sequentially. Saving the output of each module enabled us to reuse the output of a module as input to the next, multiple times without the need to rerun any of the previous modules. What is more, the persistent store allows the web client to provide a view of the results for analysis simply by querying the database instead of regenerating them each time.
+As we developed the aforementioned modules, we recognised the need to provide an user-friendly interface to our system. In order to maximise portability, the solution had to be lightweight and cross-platform. The most suitable architecture for this purpose consisted of a framework that could connect to each of our modules and provide a client that could be run any modern browser.
+
+Our web client is designed to be a simple interface that allows for simulations for each of the modules to be run and automated, either separately or jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment. It also provides key metrics that can be crucial in understanding the performance of the system.
+
+\subsection{Data Store}
+
+Given the computationally expensive nature of our modules' simulations, a persistent store had to be used to save the output and results of each run. As shown in the structure diagram below, the five modules that our project comprises, are connected sequentially. Saving the output of each module enabled us to reuse the output of a module as input to the next, multiple times without the need to rerun any of the previous modules. Furthermore, the persistent store allows the web client to provide a view of the results for analysis simply by querying the database instead of regenerating them each time.
+
 For our data store MongoDB was chosen. MongoDB provides a fast, scalable solution that does not require strict design decisions in advance. Considering in retrospect the changes and adaptations that had to take place during this project, we trust that MongoDB was a wise choice that contributed to the overall success of this project.
 
 
@@ -171,23 +181,12 @@ The following figure provides a graphical representation of the system as whole.
 \end{figure}
 
 \subsection{Programming language}
-We decided that it made sense that the various modules were all programmed in the same language so that they could be easily linked into the web client. The programming language used throughout the project was Python \cite{python}. Python includes libraries that allow for efficient matrix manipulations that were key in most of the modules. Matlab was an alternative we initially considered \cite{matlab}. Although Matlab is very powerful and user friendly for some particular tasks, it does not allow for the flexibility that Python does. For that reason Matlab was disregarded as an option.
-The database we used was MongoDB because of the increasing popularity of the distributed databases as well as the fact that this was the database scheme we were most familiar with.
+In order to maintain consistency throughout the project, all modules were programmed in the same language. This facilitated communication between the modules as well as their respective link to the web client. Additionally, it allowed us to run one test suite that comprehensively covered the whole project. We decided to use Python \cite{python} for this project given our team's experience with the language as well as its flexibility and ubiquity. Python includes libraries for efficient matrix manipulations that were key in most of the modules, as well as a vast number of neuroscience-specific modules that allowed us to develop our project without having to write potentially complex low-level functions.
 
 
 \clearpage
 \section{Methodology}
-This section of the report includes a detailed analysis of the methods used to complete the tasks described in the specification section. There was a clear way of dividing the overall project into sub problems as most of the tasks were to a great extent modular and upon completion they required to get connected to each other so as to function as a single system when required. There is also an overview of the testing methodology used throughout this project as well as the coverage achieved by our current regression suite.
-
-For the ease of the reader we enumerate the modules that we developed:
-\begin{enumerate}
-\item{Target Animation}
-\item{ESTMD neuron}
-\item{CSTMD neuron}
-\item{Pattern Recognition}
-\item{Action Selection}
-\item{Web Client}
-\end{enumerate}
+Having decided upon a number of specific modules required for the biomimetic agent, the project was naturally split into subproblems in the form of these modules. Additionally, the sequential nature of the modules within the system meant that it made sense to start by building the input of the system first and progress towards the final output, so that the connections between modules could be tested along the way. The web client was built in the latter stage of the project as it was most important to make sure the components of the system worked before building the user interface. Below, we describe the detailed methods undertaken in completing each module, as well as an overview of the software engineering techniques we used, our testing methodology and summary of the coverage achieved by our test suite.
 
 \subsection{Target Animation}
 This module represents the input to the dragonfly's retina. We needed to create an animation tool that allows the user to flexibly create a video of moving targets against a custom and potentially moving background. We started with the suggestion of creating a 3D animation where the dragonfly's view would change dynamically depending on the dragonfly's position and orientation but we decided that creating such an animation would be an overkill for our needs and too computationally expensive. Instead we settled with a 2D animation with coloured circles representing the targets against a moving or stationary 2D background. Our priorities were flexibility and simplicity. In the final output of the visual system, we would also want to be able to see the dragonfly chasing targets and we decided that, rather than create a whole new animation where the whole dragonfly is visible, it would make more sense to superimpose the dragonfly's visual focal point as a circle onto the original animation, so that the 'chasing' is represented as what point in its visual field the dragonfly is focusing on.  
