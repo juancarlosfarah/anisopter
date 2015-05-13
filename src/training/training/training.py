@@ -36,7 +36,7 @@ class Training(object):
 
         os.makedirs(name)
 
-    def run_test(self, start, vel, path, n):
+    def single_test(self, start, vel, path, n):
         """
 
         :param start: Starting position.
