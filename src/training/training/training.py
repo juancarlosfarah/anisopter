@@ -43,7 +43,6 @@ class Training(object):
         """
 
         test = Animation()
-        test.add_target(2)
         test.add_target(2, start=start, velocity=vel, size=5, v=8)
 
         print "---------------------------------------------"

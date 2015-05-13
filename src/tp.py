@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-module = str(sys.argv[0])
+module = str(sys.argv[1])
 
 command1 = 'git pull'
 command2 = 'git add ' + module + ' -A'
@@ -12,5 +12,5 @@ commands = [command1, command2, command3, command4]
 
 for c in commands:
     print c
-    print "======================="
+    print "========================"
     subprocess.call(c.split(" "))
