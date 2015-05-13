@@ -84,20 +84,20 @@ This section outlines our original goals and how they were adjusted according to
 \clearpage
 \section{Specification}
 
-In the beginning of the project, we brainstormed using goal-oriented capture in order to determine the requirements for our project. Figure 1 depicts a chart that portrays this process.	
-		
+Our initial approach to establishing the requirements for this project was to brainstorm using goal-oriented capture. As depicted in Figure 1, our initial goal was to create a biomimetic agent that emulates target selection in the dragonfly. 
 	
-	\begin{figure}
+	\begin{figure}[h]
 	\begin{center}
 	\includegraphics[scale = 0.5]{goalorient}
 	\end{center}
 	\caption{Goal-Oriented Capture Diagram}
 	\end{figure}	
 	
-
-
-	
-	Goal-oriented capture enabled us to establish some minimum requirements for the completion of the project. In order to build an agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, some main objectives were originally set. Although steady progress and promising results were observed for most parts, some unexpected implications (discussed later) led to the slight modification of one of the initial goals but also to the addition of some extra goals that would significantly contribute to the overall success of the project.
+	Goal-oriented capture enabled us to identify the minimum requirements for the completion of our project. As we progressed in the development of the system, we ran into some complications that motivated us to modify the certain aspects of our specification. 
+\subsection{Challenges and Motivation for Updated Specifications}
+In this section, there is a brief discussion of the challenges that were faced during the project and how they motivated the adjustment of the original specifications.\par
+	At the start of the project, our main objective was to create a working dragonfly target selection system. Key to the implementation of a biomimetic agent was the functioning of the CSTMD1 neuron, which had been previously modelled at Professor Shanahan's lab. Having previously displayed evidence of bistability, it was expected that the model of the CSTMD1 would be capable of selecting one target from many in the dragonfly's visual field by replicating the results of research done into real CSTMD1 neurons \cite{w13}. Despite the hard work that was put into addressing the issue, the complex morphology of the CSTMD1 neuron made the task infeasible to be fully completed within the time frame of this project. Thus, it was moved to possible extensions and although significant progress was observed, it was only partially completed by the submission deadline.\par
+	Furthermore, our difficulties led us to believe that it would be useful for us and for future researchers into dragonfly vision to create a user-friendly interface for interacting with our dragonfly system. To this end, we decided to add the creation of a web client to our requirements. The aim is for the web client to provide an interface that allows the user to run and save simulations of either each module individually or of the whole system and to provide key metrics that demonstrate the functionality of each part.
 	
 \subsection{Final Specifications}
 The following table summarises the finalised requirements and the level of completion for each part.
@@ -133,10 +133,7 @@ The following table summarises the finalised requirements and the level of compl
 
 
 
-\subsection{Challenges and Motivation for Updated Specifications}
-In this section, there is a brief discussion of the challenges that were faced during the project and how they motivated the adjustment of the original specifications.\par
-	At the start of the project, our main objective was to create a working dragonfly target selection system. In the beginning, third party code was provided to assist with the modelling of the target selection mechanism of the CSTMD neuron. Unfortunately, although that method had been tested under specific conditions and proved successful in the past, it did not respond as expected to the visual input that was mandatory for this project. It was expected that the CSTMD neuron, when presented with two targets in the visual receptive field, would select one of them but instead of selecting one of the two targets and fire according to its movement, it merely got overstimulated firing according to the movement of both targets in the visual field. Despite the hard work that was put into addressing the issue, the complex morphology of the CSTMD neuron made the task infeasible to be fully completed within the time frame of this project. Thus, it was moved to possible extensions and although significant progress was observed, it was only partially completed by the submission deadline.\par
-	What is more, to enhance the functionality of the end product as well as to enable any interested party to access and use the end product as a simulation tool, a web client was deemed a good addition to this product. The aim is for the web client to provide an interface that allows independent use of the modules as well as the connection and cooperation of the individual components for a full simulation to be ran. Key metrics are also output to demonstrate the functionality of each module and of the dragonfly visual system as a whole.
+
 
 
 \clearpage
