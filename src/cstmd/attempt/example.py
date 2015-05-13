@@ -18,7 +18,7 @@ i = 1
 K = -1
 Na= -1
 SYNAPSES_NO = -1
-
+save=dat.pkl
 while i < len(argv) :
     if argv[i] == "-K" and len(argv) > i+1 :
         i += 1
@@ -28,7 +28,10 @@ while i < len(argv) :
         Na = float(argv[i])
     elif argv[i] == "-SYN" and len(argv) > i+1 :
         i += 1
-        SYNAPSES_NO = float(argv[i])  
+        SYNAPSES_NO = float(argv[i]) 
+    elif argv[i] == "d" and len(argv) > i+1 :
+        i += 1
+        save = argv[i] 
     elif argv[i] == "-file" and len(argv) > i+1 :
         i += 1
         filename = argv[i] 
@@ -67,7 +70,7 @@ MAX_CURRENT = 30
 MIN_CURRENT = 3.0
 MIN = 0.000005
 MAX = 0.00005
-PLOT_ACTIVITY = False
+PLOT_ACTIVITY = True
 runtime=10
 prints=True
 
@@ -83,7 +86,7 @@ FINAL_THING = []
 for i in times[neuron_idx] :
     FINAL_THING.append(float(i))
 
-with open("data.pkl", 'wb') as my_file :
+with open(save, 'wb') as my_file :
     pickle.dump(FINAL_THING, my_file)
 
 
