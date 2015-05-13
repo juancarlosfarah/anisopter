@@ -25,6 +25,7 @@ stage1
 *.pdf
 *.toc
 *.blg
+*.bbl
 
 # IDEA files
 # ==========
