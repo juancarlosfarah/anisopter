@@ -33,7 +33,7 @@ class Training(object):
 
         os.makedirs(name)
 
-    def create_video(self, start, vel, id):
+    def create_video(self, start, vel, path):
         """
 
         :param start: Starting position.
@@ -43,25 +43,23 @@ class Training(object):
         """
 
         test = Animation()
-        test.add_target(2)
         test.add_target(2, start=start, velocity=vel, size=5, v=8)
-
-        local_dir = "out_directories"
-        name = "test" + str(id) + ".avi"
-        path = local_dir + "/" + name
-        Training.make_temp_directory(local_dir)
 
         print "---------------------------------------------"
         print path
         test.run(path, 10, 20)
 
     def test_sequence_videos(self):
+        local_dir = "out_directories"
+        Training.make_temp_directory(local_dir)
 
         starts = [[200, 10], [400, 10], [400, 300]]
         dirs = [[0, 1], [-1, 1], [-1, 0]]
 
         for s, d, i in zip(starts, dirs, range(len(starts))):
-            self.create_video(s, d, i)
+            name = "test" + str(i) + ".avi"
+            path = local_dir + "/" + name
+            self.create_video(s, d, path)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ __author__ = 'eg1114'
 import unittest
 import os
 
-from training.training import *
+from training import training as tr
 
 
 class TestTraining(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestTraining(unittest.TestCase):
         :return:
         """
 
-        self.t = Training()
+        self.t = tr.Training()
 
     def test_init(self):
         """
@@ -40,7 +40,7 @@ class TestTraining(unittest.TestCase):
             os.makedirs(name)
         open(name+"dummy.txt", 'a').close()
 
-        Training.make_temp_directory(name)
+        tr.Training.make_temp_directory(name)
         content = os.listdir(name)
 
         self.assertTrue(os.path.exists(name))
