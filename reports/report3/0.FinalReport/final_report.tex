@@ -84,20 +84,20 @@ This section outlines our original goals and how they were adjusted according to
 \clearpage
 \section{Specification}
 
-In the beginning of the project, we brainstormed using goal-oriented capture in order to determine the requirements for our project. Figure 1 depicts a chart that portrays this process.	
-		
+Our initial approach to establishing the requirements for this project was to brainstorm using goal-oriented capture. As depicted in Figure 1, our initial goal was to create a biomimetic agent that emulates target selection in the dragonfly. 
 	
-	\begin{figure}
+	\begin{figure}[h]
 	\begin{center}
 	\includegraphics[scale = 0.5]{goalorient}
 	\end{center}
 	\caption{Goal-Oriented Capture Diagram}
 	\end{figure}	
 	
-
-
-	
-	Goal-oriented capture enabled us to establish some minimum requirements for the completion of the project. In order to build an agent that can interact with its environment and exhibit the selective function of the CSTMD1 neuron, some main objectives were originally set. Although steady progress and promising results were observed for most parts, some unexpected implications (discussed later) led to the slight modification of one of the initial goals but also to the addition of some extra goals that would significantly contribute to the overall success of the project.
+	Goal-oriented capture enabled us to identify the minimum requirements for the completion of our project. As we progressed in the development of the system, we ran into some complications that motivated us to modify the certain aspects of our specification. 
+\subsection{Challenges and Motivation for Updated Specifications}
+In this section, there is a brief discussion of the challenges that were faced during the project and how they motivated the adjustment of the original specifications.\par
+	At the start of the project, our main objective was to create a working dragonfly target selection system. Key to the implementation of a biomimetic agent was the functioning of the CSTMD1 neuron, which had been previously modelled at Professor Shanahan's lab. Having previously displayed evidence of bistability, it was expected that the model of the CSTMD1 would be capable of selecting one target from many in the dragonfly's visual field by replicating the results of research done into real CSTMD1 neurons \cite{w13}. Despite the hard work that was put into addressing the issue, the complex morphology of the CSTMD1 neuron made the task infeasible to be fully completed within the time frame of this project. Thus, it was moved to possible extensions and although significant progress was observed, it was only partially completed by the submission deadline.\par
+	Furthermore, our difficulties led us to believe that it would be useful for us and for future researchers into dragonfly vision to create a user-friendly interface for interacting with our dragonfly system. To this end, we decided to add the creation of a web client to our requirements. The aim is for the web client to provide an interface that allows the user to run and save simulations of either each module individually or of the whole system and to provide key metrics that demonstrate the functionality of each part.
 	
 \subsection{Final Specifications}
 The following table summarises the finalised requirements and the level of completion for each part.
@@ -133,10 +133,7 @@ The following table summarises the finalised requirements and the level of compl
 
 
 
-\subsection{Challenges and Motivation for Updated Specifications}
-In this section, there is a brief discussion of the challenges that were faced during the project and how they motivated the adjustment of the original specifications.\par
-	At the start of the project, our main objective was to create a working dragonfly target selection system. In the beginning, third party code was provided to assist with the modelling of the target selection mechanism of the CSTMD neuron. Unfortunately, although that method had been tested under specific conditions and proved successful in the past, it did not respond as expected to the visual input that was mandatory for this project. It was expected that the CSTMD neuron, when presented with two targets in the visual receptive field, would select one of them but instead of selecting one of the two targets and fire according to its movement, it merely got overstimulated firing according to the movement of both targets in the visual field. Despite the hard work that was put into addressing the issue, the complex morphology of the CSTMD neuron made the task infeasible to be fully completed within the time frame of this project. Thus, it was moved to possible extensions and although significant progress was observed, it was only partially completed by the submission deadline.\par
-	What is more, to enhance the functionality of the end product as well as to enable any interested party to access and use the end product as a simulation tool, a web client was deemed a good addition to this product. The aim is for the web client to provide an interface that allows independent use of the modules as well as the connection and cooperation of the individual components for a full simulation to be ran. Key metrics are also output to demonstrate the functionality of each module and of the dragonfly visual system as a whole.
+
 
 
 \clearpage
@@ -154,9 +151,9 @@ Having consulted academic research on the subject of dragonfly vision and discus
 
 \begin{enumerate}
 \item{Target Animation:} An animated video that provides the visual input to the system, emulating the retina of the dragonfly. User should be able to specify movements of multiple targets within the visual field and choose the background.
-\item{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background (WIEDERMAN 2008). They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
-\item{Centrifugal Small Target Motion Detector (CSTMD):} The CSTMD neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
-\item{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP) \cite{stdp1}\cite{stdp2}. It outputs spike trains to the Action Selection module.
+\item{Elementary Small Target Motion Detector (ESTMD):} The ESTMD neurons are the first layer of visual processing in the dragonfly. They have the general function of identifying and isolating small moving targets, even against a cluttered, moving background \cite{Wiederman2008}. They take arrays of pixel values as input from the animation and output firing rates of neurons to be processed by the next layer.
+\item{Centrifugal Small Target Motion Detector (CSTMD1):} The CSTMD1 neuron is a higher order visual neuron in the brain of the dragonfly. This neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present \cite{w13}. The CSTMD1 takes the firing rates of the ESTMD as input and outputs a time series of neuron spikes (spike trains) to the next layer.
+\item{Pattern Recognition:} This module has the function of detecting patterns in the output of the CSTMD1 in order to distil features of target movement within the visual field. While it does not have a direct correspondence to a layer of neurons in the dragonfly, it uses a well-established biological learning mechanism called Spike Timing Dependent Plasticity (STDP) \cite{stdp1}\cite{stdp2}. It outputs spike trains to the Action Selection module.
 \item{Action Selection:} This model converts the output of the pattern recognition neurons into movement of the dragonfly, emulating the connection between the visual processing to the motor neurons. It can be trained using STDP combined with reward modulation so that the dragonfly learns to maximise target capture based on the patterns in its visual field. The final output is the original animation with the position of the dragonfly superimposed onto each frame for observation of how effectively it chases targets.
 \end{enumerate}
 
@@ -171,7 +168,7 @@ The following figure provides a graphical representation of the system as whole.
 
 \begin{figure}[hb]
 \centering
-\includegraphics[scale = 0.35]{designblockdiagram2}
+\includegraphics[scale = 0.4]{designblockdiagram2}
 \caption{Project Structure Diagram.}
 \end{figure}
 
@@ -461,17 +458,26 @@ Bottle has a built-in templating engine that enhances HTML with a thin layer of 
   \end{minted}
 \textit{Format and access the field of an object passed to the view.}
 
-
-
-\newpage
-
-\subsection{Problems To Bo Solved}
-
 \subsection{Software Engineering Techniques}
+\subsubsection{Project Management}
 
-\subsection{Division of Tasks}
+\subsubsection{Agile Scrum}
 
+Given the complexity of our project and its division into clear working stages, we chose to apply the Scrum Methodology of Agile Development as our project management framework.
 
+\subsubsection{Sprints}
+The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mediano, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using online collaboration tool \href{http://trello.com}{Trello}, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
+
+\subsubsection{Stand-Ups}
+Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand-ups are later addressed by the Team Leader.
+
+\subsubsection{Collaboration Tools}
+
+\subsubsection{Communication Channels}
+All of our information exchange is conducted using \href{http://slack.com}{Slack}, a platform for team communication, which provides each member with visibility to all aspects of the project. Relevant information is shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
+
+\subsubsection{Version Control}
+We are using Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab}, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
 \clearpage
 \section{Group Work}
 

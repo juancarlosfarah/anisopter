@@ -70,7 +70,7 @@ MAX_CURRENT = 30
 MIN_CURRENT = 3.0
 MIN = 0.000005
 MAX = 0.00005
-PLOT_ACTIVITY = True
+PLOT_ACTIVITY = False
 runtime=10
 prints=True
 
