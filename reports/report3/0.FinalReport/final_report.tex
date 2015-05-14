@@ -198,7 +198,7 @@ This module represents the input to the dragonfly's retina. Our goal was to crea
 
 The design of this module was approached from the user's perspective. Our priorities were to provide flexibility through a simple interface through which to define the duration and size of the video, specify a background, and add targets, each with potentially different properties and behaviours. We supported two types of targets, the first displaying random movement across the viewport and the second moving in a straight line. For the former, the user could simply specify the starting position and speed. For the latter, the user was required to set the target's direction of travel. Additionally, the background could be provided as a PNG or JPG file and would be automatically cropped to fit the viewport.
 
-\begin{figure}[ht]
+\begin{figure}[H]
 \centering
 \begin{minipage}{0.2\textwidth}
 \fbox{\includegraphics[scale = 0.14]{ran0}}
@@ -216,7 +216,7 @@ The design of this module was approached from the user's perspective. Our priori
 \label{target_animation_example}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \begin{minipage}{0.2\textwidth}
 \fbox{\includegraphics[scale = 0.14]{str0}}
@@ -580,6 +580,36 @@ With the reports and testing a general strategy was decided early on. Each membe
 
 As our final product, we have succeeded in creating a flexible, cohesive and portable tool for modelling dragonfly vision and target selection. Overall, we succeeded in completing all of the minimum and expected requirements of our specification, but not without a lot of hard work from the group and many challenges along the way. In the figure below we show some screenshots of our web client.
 
+\begin{figure}[H]
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.15]{backgrounds}}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.15]{cstmd_intro}}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.15]{estmd_sim}}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.15]{ta_form}}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.15]{as_results}}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+\centering
+\fbox{\includegraphics[scale = 0.3]{as_example}}
+\end{minipage}
+\caption{From left to right and top to bottom: (a) Selection of backgrounds for Target Animation (b) CSTMD1 introduction page (c) ESTMD simulation output page (d) Target Animation creation page (e) Key metrics and results for Action Selection module (f) Snapshot of Action Selection video output.}
+\end{figure}
+
+
+
 [HOMEPAGE]
 [FORMS]
 [RESULTS]
@@ -631,8 +661,8 @@ As can be seen below, we managed to complete the minimum and expected requiremen
 \end{center}
 
 \subsection{Action Selection}
-\begin{figure}[H]
 \centering
+\begin{figure}[H]
 \begin{minipage}{0.2\textwidth}
 \fbox{\includegraphics[scale = 0.14]{scr0}}
 \end{minipage}
@@ -646,7 +676,6 @@ As can be seen below, we managed to complete the minimum and expected requiremen
 \fbox{\includegraphics[scale = 0.14]{scr9}}
 \end{minipage}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
-\label{target_animation_example}
 \end{figure}
 
 \subsection{Partially completed tasks}
