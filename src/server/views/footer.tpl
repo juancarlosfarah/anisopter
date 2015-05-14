@@ -1,7 +1,8 @@
-<footer class="container-fluid text-center">
-    <div class="row bxg-footer-container">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-            <div class="row text-left">
+<div></div>
+<footer class="container-fluid text-center bg-primary">
+    <div class="row">
+        <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
+            <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <a class="h5" href="/target_animation">Target Animation</a>
                 </div>
@@ -12,7 +13,7 @@
                     <a class="h5" href="/cstmd">CSTMD1</a>
                 </div>
             </div>
-            <div class="row text-left">
+            <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <a class="h5" href="/pattern_recognition">
                         Pattern Recognition
@@ -22,7 +23,7 @@
                     <a class="h5" href="/action_selection">Action Selection</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/training">Training</a>
+                    <a class="" href="/training">Training</a>
                 </div>
             </div>
         </div>
@@ -39,6 +40,29 @@
          alt="Loading..."/>
 </div>
 <script>
+    /**
+     * FUNCTION: positionFooter
+     * ========================
+     * This function positions the footer at the bottom of the window if the
+     * window is larger than the <body> and elongates the body in order to
+     * fill the gap between the footer and the body's content. Otherwise it
+     * places it within its normal flow.
+     */
+    function positionFooter() {
+        var $footer = $('footer'),
+            $body = $('body'),
+            $window = $(window);
+
+        $footer.css({ 'position' : 'static', 'bottom' : 'auto', 'width' : 'auto'});
+        $body.css({ 'height' : 'auto'});
+
+        if ($body.height() < $window.height()) {
+            $footer.css({ 'position' : 'fixed', 'bottom' : 0, 'width' : '100%'});
+            $body.height($window.height() - $footer.height());
+        }
+        $('#footer').show();
+    }
+
     // This function positions the element in the middle of the browser window.
     function centerElement($element) {
         var $windowWidth = $(window).width();
@@ -68,14 +92,13 @@
         });
         var $showOptionalFields = $('#showOptionalFields');
         $showOptionalFields.click(function() {
-            $('.optional').toggle(function() {
-                var text = $showOptionalFields.text();
-                if (text == "Show Advanced Controls") {
-                    $showOptionalFields.text("Hide Advanced Controls");
-                } else {
-                    $showOptionalFields.text("Show Advanced Controls")
-                }
-            });
+            $('.optional').toggle();
+            var text = $(this).text();
+            if (text == "Show Advanced Controls") {
+                $(this).text("Hide Advanced Controls");
+            } else {
+                $(this).text("Show Advanced Controls")
+            }
         });
     })
 </script>
