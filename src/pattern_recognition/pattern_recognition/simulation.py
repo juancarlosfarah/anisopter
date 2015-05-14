@@ -31,7 +31,7 @@ class Simulation:
     A_RATIO = neuron.Neuron.A_RATIO
     THETA = neuron.Neuron.THETA
 
-    def __init__(self, description=None):
+    def __init__(self, description=None, training=True):
         self.t_min = 0                   # Start time in ms.
         self.t_step = 1                  # Time step in ms.
         self.spike_trains = None
@@ -44,6 +44,7 @@ class Simulation:
         self.sampling_interval = None
         self.cursor = None
         self.description = description
+        self.training = training
 
     def load_file(self, filename, folder="samples/", extension=".npz"):
         """
@@ -105,7 +106,7 @@ class Simulation:
         self.duration = self.spike_trains.shape[1]
         self.sampling_interval = math.ceil(self.duration / 5)
 
-    def add_neuron(self, a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA):
+    def add_neuron(self, a_plus=A_PLUS, a_ratio=A_RATIO, theta=THETA, weights=None):
         """
         Adds neuron to simulation.
         :return: Neuron.
@@ -113,7 +114,8 @@ class Simulation:
         n = neuron.Neuron(self.num_afferents,
                           a_plus,
                           a_ratio,
-                          theta)
+                          theta,
+                          weights)
         self.neurons.append(n)
         return n
 
@@ -216,7 +218,8 @@ class Simulation:
                     n.save_weight_distributions()
 
                 # Update weights.
-                n.update_weights(self.spike_trains, ms)
+                if self.training:
+                    n.update_weights(self.spike_trains, ms)
 
                 # If threshold has been met and more than 1 ms has elapsed
                 # since the last post-synaptic spike, schedule a spike.

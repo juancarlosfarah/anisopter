@@ -33,7 +33,8 @@ class Neuron:
                  num_afferents,
                  a_plus=A_PLUS,
                  a_ratio=A_RATIO,
-                 theta=THETA):
+                 theta=THETA,
+                 weights=None):
         self.dt = 1                          # Discrete time step in ms.
         self.num_afferents = num_afferents   # Number of afferents.
         self.tau_m = 10.0                    # Membrane time constant in ms.
@@ -76,9 +77,13 @@ class Neuron:
 
         # Initialise weights.
         np.random.seed(1)
-        self.current_weights = np.random.normal(0.475, 0.1, (num_afferents, 1))
-        self.current_weights[self.current_weights < self.weight_min] = self.weight_min
-        self.current_weights[self.current_weights > self.weight_max] = self.weight_max
+        if weights is None:
+            self.current_weights = np.random.normal(0.475, 0.1, (num_afferents, 1))
+            self.current_weights[self.current_weights < self.weight_min] = self.weight_min
+            self.current_weights[self.current_weights > self.weight_max] = self.weight_max
+        else:
+            self.current_weights = weights
+
 
         # Initialise epsilons.
         self.epsilons = self.calculate_epsilons()
