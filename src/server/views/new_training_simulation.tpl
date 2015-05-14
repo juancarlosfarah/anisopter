@@ -6,7 +6,7 @@
 <div class="container">
     <h2>New Training set</h2>
 
-    <form action="/training/training_sets/generate" method="post">
+    <form action="/training/simulations/generate" method="post">
 
         <div class="form-group">
             <label for="repetitions">Test repetitions</label>

@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <button type="button"
-                    onclick="window.location.href='/training/training_sets/new'"
+                    onclick="window.location.href='/training/simulations/new'"
                     class="btn btn-primary">New Training set</button>
         </div>
     </div>
@@ -20,10 +20,10 @@
             <th>Date</th>
             <th>Description</th>
         </tr>
-        %for a in trainings:
+        %for a in training:
         <tr>
-            <td><a href="/training/training_set/{{a['_id']}}">{{a['date']}}</a></td>
-            <td><a href="/training/training_set/{{a['_id']}}">{{a['description']}}</a></td>
+            <td><a href="/training/simulation/{{a['_id']}}">{{a['date']}}</a></td>
+            <td><a href="/training/simulation/{{a['_id']}}">{{a['description']}}</a></td>
         </tr>
         %end
     </table>
