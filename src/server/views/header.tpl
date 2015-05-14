@@ -1,6 +1,6 @@
 <div class="curtain-fade"></div>
 <header>
-    <nav class="navbar navbar-default bg-info">
+    <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">Home</a>
