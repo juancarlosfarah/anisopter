@@ -489,7 +489,17 @@ def new_training_set():
 
 @post('/training/training_sets/generate')
 def generate_animation():
-    print "Some stuff is working."
+
+    # Retrieve form and values.
+    form = bottle.request.forms
+
+    n = int(form.get("repetitions"))
+    v = int(form.get("vertical"))
+    h = int(form.get("horizontal"))
+    d = int(form.get("diagonal"))
+    ad = int(form.get("anti-diagonal"))
+
+    print [v, h, d, ad], n
 
 
 @get("/action_selection/simulation/<_id>")
