@@ -148,7 +148,7 @@ class ActionSelection(object):
             for i in range(num_input):
                 for j in range(len(pattern[i])):
                     input_indices.append(i)
-                    input_times.append(j)
+                    input_times.append(pattern[i][j])
 
             print input_indices
             print input_times
