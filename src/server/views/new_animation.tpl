@@ -231,5 +231,6 @@
         submitFormOnClick($('#submit'));
     });
 </script>
+% include('footer.tpl')
 </body>
 </html>

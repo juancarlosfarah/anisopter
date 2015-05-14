@@ -31,5 +31,6 @@
         foraging task.
     </p>
 </div>
+% include('footer.tpl')
 </body>
 </html>
