@@ -1,10 +1,68 @@
-<footer></footer>
+<div></div>
+<footer class="container-fluid text-center">
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/target_animation">Target Animation</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/estmd">ESTMD</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/cstmd">CSTMD1</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/pattern_recognition">Pattern Recognition</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/action_selection">Action Selection</a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <a href="/training">Training</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span class="h6">&copy; 2015 Anisopter LTD</span>
+        </div>
+    </div>
+</footer>
 <div id="LoadingAnimation">
     <img class="img-responsive"
          src="/assets/images/hexagon-spiral.gif"
          alt="Loading..."/>
 </div>
 <script>
+    /**
+     * FUNCTION: positionFooter
+     * ========================
+     * This function positions the footer at the bottom of the window if the
+     * window is larger than the <body> and elongates the body in order to
+     * fill the gap between the footer and the body's content. Otherwise it
+     * places it within its normal flow.
+     */
+    function positionFooter() {
+        var $footer = $('footer'),
+            $body = $('body'),
+            $window = $(window);
+
+        $footer.css({ 'position' : 'static', 'bottom' : 'auto', 'width' : 'auto'});
+        $body.css({ 'height' : 'auto'});
+
+        if ($body.height() < $window.height()) {
+            $footer.css({ 'position' : 'fixed', 'bottom' : 0, 'width' : '100%'});
+            $body.height($window.height() - $footer.height());
+        }
+        $footer.show();
+    }
+
     // This function positions the element in the middle of the browser window.
     function centerElement($element) {
         var $windowWidth = $(window).width();
@@ -32,5 +90,16 @@
             var $animation = $('#LoadingAnimation');
             showLoader($curtain, $animation);
         });
+        var $showOptionalFields = $('#showOptionalFields');
+        $showOptionalFields.click(function() {
+            $('.optional').toggle();
+            var text = $(this).text();
+            if (text == "Show Advanced Controls") {
+                $(this).text("Hide Advanced Controls");
+            } else {
+                $(this).text("Show Advanced Controls")
+            }
+        });
+        positionFooter();
     })
 </script>

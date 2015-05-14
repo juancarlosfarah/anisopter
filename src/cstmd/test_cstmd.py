@@ -89,6 +89,7 @@ class TestCSTMD(unittest.TestCase):
         self.failUnless(perc_change>=self.perc_change_acceptable)
 
 
+
     def test_plot(self):
         """
         Method which checks whether the expected plots are produced.

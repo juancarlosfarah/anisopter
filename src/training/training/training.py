@@ -4,8 +4,10 @@ __author__ = 'eg1114'
 import shutil
 import os
 
+import pymongo
+
 from animation.target_animation import *
-import estmd_dao
+import simulation_dao
 
 
 class Training(object):
@@ -30,9 +32,31 @@ class Training(object):
         self.n = n
         self.id = input_id
 
-        estmd = estmd_dao.EstmdDao()
-        output = estmd.get_simulation(self.id)
-        print output
+        self.db = self.db_connect()
+
+        sd = simulation_dao.SimulationDao(self.db)
+        output = sd.get_simulation(self.id)
+
+        print "-----------------------------------------------"
+        print output["cstmd_id"]
+        print output["estmd_id"]
+        print "-----------------------------------------------"
+
+    def db_connect(self, host="146.169.47.184",
+                   port=27017, db_name="anisopter"):
+        """
+        Connects to database.
+
+        :param host:
+        :param port:
+        :param db_name:
+        :return: Database connection.
+        """
+
+        connection = pymongo.MongoClient(host=host, port=port)
+        db = connection[db_name]
+
+        return db
 
     @staticmethod
     def make_temp_directory(name):

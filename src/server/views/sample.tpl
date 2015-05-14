@@ -28,5 +28,6 @@
         </tr>
     </table>
 </div>
+% include('footer.tpl')
 </body>
 </html>

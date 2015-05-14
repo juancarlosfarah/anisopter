@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New CSTMD Simulation")
+% include('head.tpl', title="New CSTMD1 Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New CSTMD Simulation</h2>
-
+    % include('form_header.tpl', title="New CSTMD1 Simulation")
     <form action="/cstmd/simulation/run" method="post">
         <div class="form-group">
             <label for="sample">Sample</label>

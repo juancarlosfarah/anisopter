@@ -149,5 +149,6 @@
         });
     });
 </script>
+% include('footer.tpl')
 </body>
 </html>

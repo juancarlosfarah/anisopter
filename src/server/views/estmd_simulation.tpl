@@ -4,21 +4,16 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>General</h2>
-    <table class="table">
-        <tr>
-            <td>Simulation ID</td>
-            <td>{{simulation['_id']}}</td>
-        </tr>
-        <tr>
-            <td>Date</td>
-            <td>{{simulation['date']}}</td>
-        </tr>
-        <tr>
-            <td>Description</td>
-            <td>{{simulation['description']}}</td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Simulation</h1>
+        </div>
+        <div class="col-md-2">
+            <button type="button"
+                    onclick="window.location.href='/estmd/simulation/new'"
+                    class="btn btn-primary">New Simulation</button>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Input</h3>
@@ -37,6 +32,45 @@
             </video>
         </div>
     </div>
+    <table class="table">
+        <tr>
+            <td>Simulation ID</td>
+            <td>{{simulation['_id']}}</td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td>{{simulation['date']}}</td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>{{simulation['description']}}</td>
+        </tr>
+	<tr>
+            <td>H Filter</td>
+            <td>{{simulation['h_filter']}}</td>
+        </tr>
+	<tr>
+            <td>b</td>
+            <td>{{simulation['b']}}</td>
+        </tr>
+	<tr>
+            <td>a</td>
+            <td>{{simulation['a']}}</td>
+        </tr>
+	<tr>
+            <td>CS Kernel</td>
+            <td>{{simulation['cs_kernel']}}</td>
+        </tr>
+	<tr>
+            <td>b1</td>
+            <td>{{simulation['b1']}}</td>
+        </tr>
+	<tr>
+            <td>a</td>
+            <td>{{simulation['a1']}}</td>
+        </tr>
+    </table>
 </div>
+% include('footer.tpl')
 </body>
 </html>

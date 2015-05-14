@@ -16,13 +16,14 @@
     </div>
     <div class="row">
         %for bg in bgs:
-        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4 bg-thumbnail">
             <img src="/assets/backgrounds/{{bg}}"
                  alt="Background"
-                 class="img-rounded img-responsive"/>
+                 class="img-rounded img-responsive" />
         </div>
         %end
     </div>
 </div>
+% include('footer.tpl')
 </body>
 </html>

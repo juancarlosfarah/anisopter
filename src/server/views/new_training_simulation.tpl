@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New Training set")
+% include('head.tpl', title="New Training Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Training set</h2>
-
+    % include('form_header.tpl', title="New Training Simulation")
     <form action="/training/simulations/generate" method="post">
 
         <div class="form-group">
@@ -13,7 +12,7 @@
             <select class="form-control" name="input" id="input">
                 %for s in inputs:
                 <option value="{{s['_id']}}">
-                    Description: {{s['description']}}
+                    ID: {{s['_id']}}
                 </option>
                 %end
             </select>
@@ -69,5 +68,6 @@
                 id="submit">Submit</button>
     </form>
 </div>
+% include('footer.tpl')
 </body>
 </html>

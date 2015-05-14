@@ -4,8 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Animation</h2>
-
+    % include('form_header.tpl', title="New Animation")
     <form action="/target_animation/animation/generate" method="post">
         <div class="form-group">
             <label for="background">Background</label>
@@ -20,16 +19,24 @@
                 %end
             </select>
         </div>
-        <div class="form-group">
+	    <div class="form-group">
+            <label for="background_speed">Background Speed</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="background_speed"
+                       name="background_speed" value="0" />
+                <span class="input-group-addon">px/frame</span>
+            </div>
+        </div>
+        <div class="form-group optional">
             <label for="width">Width</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="width"
-                       name="duration" value="640" max="1000"
+                       name="width" value="640" max="1000"
                        disabled="disabled" />
                 <span class="input-group-addon">px</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="height">Height</label>
             <div class="input-group">
               <input type="number" class="form-control" id="height"
@@ -195,6 +202,7 @@
             dataType: "json",
             data: JSON.stringify({
                 "background": $('#background').val(),
+                "background_speed": $('#background_speed').val(),
                 "width": $('#width').val(),
                 "height": $('#height').val(),
                 "description": $('#description').val(),
@@ -232,5 +240,6 @@
         submitFormOnClick($('#submit'));
     });
 </script>
+% include('footer.tpl')
 </body>
 </html>

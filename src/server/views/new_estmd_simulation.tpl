@@ -4,7 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New ESTMD Simulation</h2>
+    % include('form_header.tpl', title="New ESTMD Simulation")
     <form action="/estmd/simulation/run" method="post">
         <div class="form-group">
             <label for="sample">Sample</label>
@@ -23,7 +23,7 @@
                       placeholder="Description" name="description"></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="H_filter">H_filter</label>
             <textarea class="form-control" rows="5" id="H_filter"
                       name="H_filter">
@@ -34,21 +34,21 @@
              [-1, -1, -1, -1, -1]]</textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="b">b</label>
             <textarea class="form-control" rows="1" id="b"
                       name="b">
             [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]</textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="a">a</label>
             <textarea class="form-control" rows="1" id="a"
                       name="a">
             [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]</textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="CSKernel">CSKernel</label>
             <textarea class="form-control" rows="3" id="CSKernel"
                       name="CSKernel">
@@ -57,14 +57,14 @@
              [-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0]]</textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="b1">b1</label>
             <textarea class="form-control" rows="1" id="b1"
                       name="b1">
             [1.0, 1.0] </textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="a1">a1</label>
             <textarea class="form-control" rows="1" id="a1"
                       name="a1">

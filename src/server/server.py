@@ -76,13 +76,15 @@ def show_animation(_id):
 @post('/target_animation/animation/generate')
 def generate_animation():
     background = request.json['background']
+    background_speed = int(request.json['background_speed'])
     width = int(request.json['width'])
     height = int(request.json['height'])
     description = request.json['description']
     targets = request.json['targets']
     frames = int(request.json['frames'])
     _id = animations.generate_animation(width, height, description,
-                                        targets, frames, background)
+                                        targets, frames, background, 
+                                        background_speed)
     rvalue = {"url": "/target_animation/animation/" + str(_id)}
     return rvalue
 
@@ -257,8 +259,9 @@ def show_simulations():
 def new_simulation():
 
     obj = dict()
-    obj['samples'] = samples.get_samples(10)
-    obj['cstmd'] = cstmd.get_simulations(10)
+    obj['simulations'] = simulations.get_simulations(50)
+    obj['samples'] = samples.get_samples(50)
+    obj['cstmd'] = cstmd.get_simulations(50)
     return bottle.template('new_simulation', obj)
 
 
@@ -271,10 +274,28 @@ def run_simulation():
     a_minus = float(form.get("a_minus"))
     theta = float(form.get("theta"))
     description = form.get("description")
+    weights_id = form.get("weights")
+    is_training = form.get("training")
     a_ratio = a_minus / a_plus
 
     # Get sample.
     sample = samples.get_sample(sample_id)
+
+    # Get weights from previous simulation.
+    if weights_id != "none":
+        sim = simulations.get_simulation(weights_id)
+        weights = []
+
+        for neuron in sim['neurons']:
+            weights.append(neuron['weights'])
+    else:
+        weights = None
+
+    # Toggle training.
+    if is_training == "true":
+        is_training = True
+    else:
+        is_training = False
 
     # If no sample is found, perhaps it's a CSTMD simulation.
     if sample is None:
@@ -282,7 +303,8 @@ def run_simulation():
 
     spikes = samples.get_spikes(sample_id)
     _id = simulations.run_simulation(sample, spikes, num_neurons,
-                                     description, a_plus, a_ratio, theta)
+                                     description, a_plus, a_ratio, theta,
+                                     weights, is_training)
     bottle.redirect("/pattern_recognition/simulation/" + str(_id))
 
 
@@ -499,7 +521,7 @@ def show_training_simulations():
 @get("/training/simulations/new")
 def new_training_simulation():
     obj = dict()
-    obj['inputs'] = a_s.get_simulations(50)
+    obj['inputs'] = estmd.get_simulations(50)
     return bottle.template('new_training_simulation', obj)
 
 

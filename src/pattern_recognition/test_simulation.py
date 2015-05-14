@@ -3,8 +3,8 @@ __author__ = 'juancarlosfarah'
 import unittest
 import math
 
-from src.pattern_recognition.pattern_recognition import simulation, sample
-import sample
+from pattern_recognition.simulation import Simulation
+from pattern_recognition.sample import Sample
 import numpy as np
 
 
@@ -16,7 +16,7 @@ class SimulationTests(unittest.TestCase):
         :return: None.
         """
         # Generate Simulation
-        self.simulation = simulation.Simulation()
+        self.simulation = Simulation()
 
     def test_load_file(self):
         """
@@ -47,7 +47,7 @@ class SimulationTests(unittest.TestCase):
         # Generate Sample
         sample_duration = 1000
         num_neurons = 500
-        s = sample.Sample(sample_duration, num_neurons=num_neurons)
+        s = Sample(sample_duration, num_neurons=num_neurons)
 
         sim.load(s)
 
@@ -58,6 +58,16 @@ class SimulationTests(unittest.TestCase):
         self.failUnless(sim.num_afferents == s.spike_trains.shape[0])
         self.failUnless(sim.duration == s.spike_trains.shape[1])
         self.failUnless(sim.sampling_interval == math.ceil(sim.duration / 5))
+
+    def test_general_test(self):
+        """
+        One mothafacka test to rule them all.
+
+        :return:
+        """
+
+        self.simulation.run()
+        self.simulation.plot_membrane_potential()
 
     def tearDown(self):
         """
