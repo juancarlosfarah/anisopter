@@ -479,20 +479,20 @@ def show_as():
 
 
 @route('/training/training_sets')
-def show_training_sets():
+def show_training_simulations():
     obj = dict()
-    obj['trainings'] = training.get_training_sets(50)
+    obj['trainings'] = training.simulations(50)
     return bottle.template('training_sets', obj)
 
 
 @get("/training/training_sets/new")
-def new_training_set():
+def new_training_simulation():
     obj = dict()
     return bottle.template('new_training_set', obj)
 
 
 @post('/training/training_sets/generate')
-def generate_training_set():
+def generate_simulation():
 
     # Retrieve form and values.
     form = bottle.request.forms
@@ -508,7 +508,7 @@ def generate_training_set():
 
 
 @get("/training/training_sets/<_id>")
-def show_training_set(_id):
+def show_training_simulation(_id):
 
     tr = training.get_simulation(_id)
 

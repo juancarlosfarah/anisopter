@@ -37,7 +37,7 @@ class TrainingDao:
 
         return _id
 
-    def get_training_sets(self, num_sets):
+    def get_simulations(self, num_sets):
         """
         Fetches a given number of training sets from the database.
         :param num_animations: Number of trainings set to fetch.
@@ -60,7 +60,7 @@ class TrainingDao:
 
         return trainings
 
-    def get_training_set(self, _id):
+    def get_simulation(self, _id):
         """
         Fetches an training set by _id.
         :param _id: _id of training set to fetch.
