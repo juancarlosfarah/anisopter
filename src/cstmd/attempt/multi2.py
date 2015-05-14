@@ -23,6 +23,8 @@ def firing_rates(binned_data) :
 
 def real_firing_rates(data) :
     fr = []
+	if len(data)==0: return 0
+
     for i in range(len(data)-4) :
         fr.append(4000.0 / (data[i+4] - data[i]))
     return fr
@@ -50,8 +52,8 @@ def run(K,Na,SYN,DATA_NAME):
     score=[]
 
     for i in range(scorelen):
-        dist1=real_fr_both[i]-real_fr_1[i]
-        dist2=real_fr_both[i]-real_fr_2[i]
+        dist1=abs(real_fr_both[i]-real_fr_1[i])
+        dist2=abs(real_fr_both[i]-real_fr_2[i])
         score.append(min(dist1,dist2))
     avgscore=np.mean(score)
 

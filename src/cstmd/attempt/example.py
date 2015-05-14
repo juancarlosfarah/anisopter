@@ -81,13 +81,22 @@ potassium=K,sodium=Na,num_pixels=PIXEL_NO,max_current=MAX_CURRENT,min_current=MI
 times=dr.run()
 if PLOT_ACTIVITY:
 	dr.plot()
+
+#dump the spike times of the first neuron
 neuron_idx = 0
-FINAL_THING = []
+spiketimes = []
 for i in times[neuron_idx] :
-    FINAL_THING.append(float(i))
+    spiketimes.append(float(i))
+
+#spike occurences are recorded per 1 ms of simulation
+spikesPerMs=[0]*(len(frame_list)*runtime)
+
+if len(spiketimes)!=0:
+    for st in spiketimes :
+        spikesPerMs[int(st)] += 1
 
 with open(save, 'wb') as my_file :
-    pickle.dump(FINAL_THING, my_file)
+    pickle.dump(spikesPerMs, my_file)
 
 
 
