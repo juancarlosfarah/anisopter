@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Input</h3>
-            <video width="320" height="240" autoplay loop>
+            <video width="480" height="360" autoplay loop>
                 <source src="/assets/animations/{{simulation['animation_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.
@@ -25,7 +25,7 @@
         </div>
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Output</h3>
-            <video width="320" height="240" autoplay loop>
+            <video width="480" height="360" autoplay loop>
                 <source src="/assets/estmd/{{simulation['_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.
