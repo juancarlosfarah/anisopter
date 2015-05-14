@@ -65,7 +65,7 @@
                 [\n
                 % for row in simulation['cs_kernel']:
                 [
-                % for entry in row
+                % for entry in row:
                 {{'%.2f' % entry}}&nbsp;
                 % end
                 ]\n
