@@ -392,9 +392,9 @@ class Cstmd(object) :
                 exec "v"+str(n)+str(e)+" = np.array(self.vrec"+str(n)+str(e)+")"
 
         colour = ['b', 'r', 'g', 'y', 'k']
-        for e in range(self.electrodes) :
-            for n in range(self.num_neurons) :
-                fignum=(n+1)*(e+1)-1
+        for n in range(self.num_neurons) :
+            for e in range(self.electrodes) :
+                fignum=(n+1)*self.electrodes+e-4
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
                 plt.legend(loc=0)
