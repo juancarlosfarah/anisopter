@@ -37,8 +37,10 @@ class Training(object):
         sd = simulation_dao.SimulationDao(self.db)
         output = sd.get_simulation(self.id)
 
+        print "-----------------------------------------------"
         print output["cstmd_id"]
         print output["estmd_id"]
+        print "-----------------------------------------------"
 
     def db_connect(self, host="146.169.47.184",
                    port=27017, db_name="anisopter"):
