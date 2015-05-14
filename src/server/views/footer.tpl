@@ -68,14 +68,13 @@
         });
         var $showOptionalFields = $('#showOptionalFields');
         $showOptionalFields.click(function() {
-            $('.optional').toggle(function() {
-                var text = $showOptionalFields.text();
-                if (text == "Show Advanced Controls") {
-                    $showOptionalFields.text("Hide Advanced Controls");
-                } else {
-                    $showOptionalFields.text("Show Advanced Controls")
-                }
-            });
+            $('.optional').toggle();
+            var text = $(this).text();
+            if (text == "Show Advanced Controls") {
+                $(this).text("Hide Advanced Controls");
+            } else {
+                $(this).text("Show Advanced Controls")
+            }
         });
     })
 </script>
