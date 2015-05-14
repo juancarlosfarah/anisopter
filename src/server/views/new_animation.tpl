@@ -20,7 +20,7 @@
                 %end
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="width">Width</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="width"
@@ -29,7 +29,7 @@
                 <span class="input-group-addon">px</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="height">Height</label>
             <div class="input-group">
               <input type="number" class="form-control" id="height"
