@@ -49,6 +49,11 @@ dist
 src/server/assets/action_selection
 src/server/assets/animations
 src/server/assets/estmd
+src/server/assets/cstmd
 src/server/assets/backgrounds
+src/action_selection/action_selection/*.png
+src/action_selection/action_selection/temp/
 src/animation/temp
 src/server/temp
+*.avi
+*.mp4
