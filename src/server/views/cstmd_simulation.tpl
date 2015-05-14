@@ -63,6 +63,14 @@
             <td>{{simulation['sodium']}}</td>
         </tr>
     </table>
+    <h2>Graphs</h2>
+    <div class="row">
+        % for i in range(2):
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+            <img class="img-responsive" src="/assets/cstmd/{{simulation['_id']}}/{{i}}.png" />
+        </div>
+        % end
+    </div>
 </div>
 </body>
 </html>
