@@ -19,7 +19,7 @@
         <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
             <img src="/assets/backgrounds/{{bg}}"
                  alt="Background"
-                 class="img-rounded img-responsive"/>
+                 class="img-rounded img-responsive bg-thumbnail" />
         </div>
         %end
     </div>

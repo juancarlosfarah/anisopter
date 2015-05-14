@@ -25,6 +25,10 @@ video {
     display: none;
 }
 
+.bg-thumbnail {
+    height: 256px;
+}
+
 footer {
     display: none;
 }
