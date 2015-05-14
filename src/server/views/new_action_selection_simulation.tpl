@@ -11,6 +11,7 @@
             <label for="input">Input</label>
             <select class="form-control" name="input" id="input">
                 <option value="random" selected>Random</option>
+                <option disabled="disabled">--- Input ---</option>
                 %for s in inputs:
                     <option value="{{s['_id']}}">
                         Date: {{s['date']}},
@@ -27,7 +28,28 @@
                    id="num_neurons" name="num_neurons"
                    value="4" disabled/>
         </div>
-	<div class="form-group">
+        <div class="form-group">
+            <label for="weights">Weights</label>
+            <select class="form-control" name="weights" id="weights">
+                <option value="none" selected>None</option>
+                <option disabled="disabled">--- Saved Weights ---</option>
+                %for s in simulations:
+                <option value="{{s['_id']}}">
+                    Date: {{s['date']}},
+                    Description: {{s['description']}}
+                </option>
+                %end
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="checkbox" id="training">
+                <label>
+                    <input type="checkbox" value="true" name="training" checked>
+                    Training
+                </label>
+            </div>
+        </div>
+	    <div class="form-group">
             <label for="frame_length">Frame Length</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="frame_length"
