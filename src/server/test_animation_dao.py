@@ -36,7 +36,7 @@ class SampleDaoTests(unittest.TestCase):
                     'frames': '50',
                     'size': '1' }]
         frames = 20
-        background = False
+        background = ""
         background_speed = 0
 
         id = self.dao.generate_animation(width, height, decription, targets,
