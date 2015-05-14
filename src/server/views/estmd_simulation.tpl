@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Input</h3>
-            <video width="640" height="480" autoplay loop>
+            <video width="320" height="240" autoplay loop>
                 <source src="/assets/animations/{{simulation['animation_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.
@@ -25,13 +25,15 @@
         </div>
         <div class="col-md-6 col-sm-12 text-center">
             <h3>Output</h3>
-            <video width="640" height="480" autoplay loop>
+            <video width="320" height="240" autoplay loop>
                 <source src="/assets/estmd/{{simulation['_id']}}.mp4"
                         type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
     </div>
+    <br />
+    <h2>Information</h2>
     <table class="table">
         <tr>
             <td>Simulation ID</td>
@@ -45,27 +47,37 @@
             <td>Description</td>
             <td>{{simulation['description']}}</td>
         </tr>
-	<tr>
+        <tr>
             <td>H Filter</td>
             <td>{{simulation['h_filter']}}</td>
         </tr>
-	<tr>
+        <tr>
             <td>b</td>
             <td>{{simulation['b']}}</td>
         </tr>
-	<tr>
+        <tr>
             <td>a</td>
             <td>{{simulation['a']}}</td>
         </tr>
-	<tr>
+        <tr>
             <td>CS Kernel</td>
-            <td>{{simulation['cs_kernel']}}</td>
+            <td>
+                [\n
+                % for row in simulation['cs_kernel']:
+                [
+                % for entry in row
+                {{'%.2f' % entry}}&nbsp;
+                % end
+                ]\n
+                % end
+                ]
+            </td>
         </tr>
-	<tr>
+        <tr>
             <td>b1</td>
             <td>{{simulation['b1']}}</td>
         </tr>
-	<tr>
+        <tr>
             <td>a</td>
             <td>{{simulation['a1']}}</td>
         </tr>
