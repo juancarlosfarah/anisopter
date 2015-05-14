@@ -99,6 +99,7 @@ class AnimationDao:
 
     def generate_animation(self, width, height,
                            description, targets, frames, background,
+                           background_speed,
                            return_object=False):
         """
         Generates and saves an animation.
@@ -134,7 +135,7 @@ class AnimationDao:
                                                 "assets",
                                                 "backgrounds"))
             file_path = "{path}/{file}".format(path=path, file=background)
-            ani.add_background(img_dir=file_path)
+            ani.add_background(img_dir=file_path, background_speed)
 
         if return_object:
             return ani

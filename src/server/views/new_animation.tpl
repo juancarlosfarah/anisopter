@@ -19,11 +19,19 @@
                 %end
             </select>
         </div>
+	<div class="form-group optional">
+            <label for="background_speed">Background speed</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="background_speed"
+                       name="background_speed" value="0" />
+                <span class="input-group-addon">px/frame</span>
+            </div>
+        </div>
         <div class="form-group optional">
             <label for="width">Width</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="width"
-                       name="duration" value="640" max="1000"
+                       name="width" value="640" max="1000"
                        disabled="disabled" />
                 <span class="input-group-addon">px</span>
             </div>
@@ -194,6 +202,7 @@
             dataType: "json",
             data: JSON.stringify({
                 "background": $('#background').val(),
+                "background_speed": $('#background_speed').val(),
                 "width": $('#width').val(),
                 "height": $('#height').val(),
                 "description": $('#description').val(),
