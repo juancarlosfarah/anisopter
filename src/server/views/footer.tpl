@@ -1,5 +1,5 @@
 <div></div>
-<footer class="container-fluid text-center bg-primary">
+<footer class="container-fluid text-center">
     <div class="row">
         <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
             <div class="row">
@@ -60,7 +60,7 @@
             $footer.css({ 'position' : 'fixed', 'bottom' : 0, 'width' : '100%'});
             $body.height($window.height() - $footer.height());
         }
-        $('#footer').show();
+        $footer.show();
     }
 
     // This function positions the element in the middle of the browser window.
