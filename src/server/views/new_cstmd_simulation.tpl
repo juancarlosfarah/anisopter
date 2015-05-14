@@ -68,13 +68,13 @@
                        name="duration_per_frame"
 		       value="10"
                        placeholder="Duration per Frame"/>
-                <p class="help-block">
-                    The CSTMD simulation runs as many times as the frames given
-                    by the ESTMD module. Define for how many milliseconds will
-                    each CSTMD simulation run.
-                </p>
                 <span class="input-group-addon">ms</span>
             </div>
+            <p class="help-block">
+                The CSTMD simulation runs as many times as the frames given
+                by the ESTMD module. Define for how many milliseconds will
+                each CSTMD simulation run.
+            </p>
         </div>
         <div class="form-group">
             <label for="description">Description</label>
