@@ -135,7 +135,7 @@ class AnimationDao:
                                                 "assets",
                                                 "backgrounds"))
             file_path = "{path}/{file}".format(path=path, file=background)
-            ani.add_background(img_dir=file_path, background_speed)
+            ani.add_background(img_dir=file_path, speed=background_speed)
 
         if return_object:
             return ani
