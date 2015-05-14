@@ -19,8 +19,8 @@
                 %end
             </select>
         </div>
-	<div class="form-group optional">
-            <label for="background_speed">Background speed</label>
+	    <div class="form-group">
+            <label for="background_speed">Background Speed</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="background_speed"
                        name="background_speed" value="0" />
