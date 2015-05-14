@@ -390,11 +390,12 @@ class Cstmd(object) :
             for n in range(self.num_neurons) :
                 exec "t"+str(n)+str(e)+" = np.array(self.trec"+str(n)+str(e)+")"
                 exec "v"+str(n)+str(e)+" = np.array(self.vrec"+str(n)+str(e)+")"
-        i = 0
+
         colour = ['b', 'r', 'g', 'y', 'k']
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
-                fig = plt.figure(i)
+                fignum=(n+1)*(e+1)-1
+                fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
                 plt.legend(loc=0)
                 
@@ -405,10 +406,10 @@ class Cstmd(object) :
                 if not os.path.exists(relative_path):
                     os.makedirs(relative_path)
 
-                out_directory = os.path.abspath(relative_path + "/"+str(i)+".png")
+                out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".png")
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
-                i += 1
+
 
     def plot_fir_rate(self,_id) :
         plt.figure(2)  
