@@ -68,5 +68,6 @@
                 id="submit">Submit</button>
     </form>
 </div>
+% include('footer.tpl')
 </body>
 </html>

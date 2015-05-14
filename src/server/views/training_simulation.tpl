@@ -17,5 +17,6 @@
     </table>
     <h2>Training set</h2>
 </div>
+% include('footer.tpl')
 </body>
 </html>
