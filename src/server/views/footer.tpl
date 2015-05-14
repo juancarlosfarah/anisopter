@@ -1,6 +1,6 @@
 <footer></footer>
 <div id="LoadingAnimation">
-    <img class="bxg-img-64"
+    <img class="img-responsive"
          src="/assets/images/hexagon-spiral.gif"
          alt="Loading..."/>
 </div>

@@ -280,14 +280,19 @@ class SimulationDao:
                        description,
                        a_plus,
                        a_ratio,
-                       theta):
+                       theta,
+                       weights):
         sim = Simulation(description)
         sim.load_sample(sample, cursor)
 
         # Add the post-synaptic neurons and connect them.
         neurons = []
         for i in range(num_neurons):
-            n = sim.add_neuron(a_plus, a_ratio, theta)
+            if weights is not None:
+                weight = weights[i]
+            else:
+                weight = None
+            n = sim.add_neuron(a_plus, a_ratio, theta, weight)
             for neuron in neurons:
                 n.connect(neuron)
             neurons.append(n)

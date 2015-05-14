@@ -71,8 +71,14 @@
             [51.0, -49.0]</textarea>
         </div>
 
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="reset"
+                class="btn btn-warning">Reset Defaults</button>
+
+        <button id="submit"
+                type="submit"
+                class="btn btn-success">Run</button>
     </form>
 </div>
+% include('footer.tpl')
 </body>
 </html>

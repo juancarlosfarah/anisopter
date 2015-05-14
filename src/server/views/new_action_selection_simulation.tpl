@@ -214,8 +214,14 @@
             <textarea class="form-control" rows="3" id="description"
                       placeholder="Description" name="description"></textarea>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="reset"
+                class="btn btn-warning">Reset Defaults</button>
+
+        <button id="submit"
+                type="submit"
+                class="btn btn-success">Run</button>
     </form>
 </div>
+% include('footer.tpl')
 </body>
 </html>
