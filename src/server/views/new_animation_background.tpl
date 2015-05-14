@@ -16,8 +16,9 @@
                 Upload a file to use as a background for your animations.
             </p>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button id="submit" type="submit" class="btn btn-success">Upload</button>
     </form>
 </div>
+% include('footer.tpl')
 </body>
 </html>
