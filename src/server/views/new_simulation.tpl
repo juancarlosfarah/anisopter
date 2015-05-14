@@ -30,21 +30,25 @@
             <label for="sample">Number of Post-Synaptic Neurons</label>
             <input class="form-control" type="number" max="5" min="1"
                    id="num_neurons" name="num_neurons"
+		   value="1"
                    placeholder="Number of Neurons (1 to 5)"/>
         </div>
         <div class="form-group">
             <label for="a_plus">A Plus</label>
             <input class="form-control" type="text" id="a_plus"
+		   value="0.03125"
                    name="a_plus" placeholder="A Plus"/>
         </div>
         <div class="form-group">
             <label for="a_minus">A Minus</label>
             <input class="form-control" type="text" id="a_minus"
+		   value="0.028375"
                    name="a_minus" placeholder="A Minus"/>
         </div>
         <div class="form-group">
             <label for="theta">Theta</label>
             <input class="form-control" type="text" id="theta"
+		   value="125"
                    name="theta" placeholder="Theta"/>
         </div>
         <div class="form-group">
