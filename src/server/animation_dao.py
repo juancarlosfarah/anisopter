@@ -37,6 +37,29 @@ class AnimationDao:
 
         return _id
 
+    def remove(self, _id):
+        """
+        Removes one animation from the database. Deletes its related files.
+        :param _id: ID of animation to remove.
+        :return: None.
+        """
+        self.collection.remove_one({"_id": ObjectId(_id)})
+
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            "assets",
+                                            "animations"))
+        # Remove AVI.
+        filename = str(_id) + ".avi"
+        file_path = "{path}/{file}".format(path=path, file=filename)
+        os.remove(file_path)
+
+        # Remove MP4.
+        filename = str(_id) + ".mp4"
+        file_path = "{path}/{file}".format(path=path, file=filename)
+        os.remove(file_path)
+
+        return
+
     def get_animations(self, num_animations):
         """
         Fetches a given number of animations from the database.
