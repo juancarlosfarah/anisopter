@@ -503,6 +503,7 @@ def generate_training_set():
     d = int(form.get("diagonal"))
     ad = int(form.get("anti_diagonal"))
 
+    print "Here"
     _id = training.generate_training_set([v, h, d, ad], n)
     bottle.redirect("/training/training_sets/" + str(_id))
 
