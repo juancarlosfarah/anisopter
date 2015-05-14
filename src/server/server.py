@@ -469,6 +469,9 @@ def show_action_selection_simulation(_id):
 
 # Training
 # ========
+################################################################################
+################################################################################
+################################################################################
 
 @route('/training')
 def show_as():
@@ -486,6 +489,7 @@ def show_training_simulations():
 @get("/training/simulations/new")
 def new_training_simulation():
     obj = dict()
+    obj['inputs'] = a_s.get_simulations(50)
     return bottle.template('new_training_simulation', obj)
 
 
@@ -495,13 +499,14 @@ def generate_simulation():
     # Retrieve form and values.
     form = bottle.request.forms
 
+    input_id = form.get("input")
     n = int(form.get("repetitions"))
     v = int(form.get("vertical"))
     h = int(form.get("horizontal"))
     d = int(form.get("diagonal"))
     ad = int(form.get("anti_diagonal"))
 
-    _id = training.generate_training_simulation([v, h, d, ad], n)
+    _id = training.generate_training_simulation(input_id, [v, h, d, ad], n)
     bottle.redirect("/training/simulation/" + str(_id))
 
 
@@ -517,6 +522,9 @@ def show_training_simulation(_id):
     obj['training'] = tr
     return bottle.template("training_simulation", obj)
 
+################################################################################
+################################################################################
+################################################################################
 
 # Static Routes
 # =============
