@@ -397,10 +397,10 @@ class Cstmd(object) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 if not e:   
-                    fig.ylabel("Neuron "+str(n+1)+"\n Firing rate (Hz)")
+                    plt.ylabel("Neuron "+str(n+1)+"\n Firing rate (Hz)")
                 else:
-                    fig.ylabel("Firing rate (Hz)")
-                fig.xlabel("Time (ms)")
+                    plt.ylabel("Firing rate (Hz)")
+                plt.xlabel("Time (ms)")
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
                 #plt.legend(loc=0)
                 plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
