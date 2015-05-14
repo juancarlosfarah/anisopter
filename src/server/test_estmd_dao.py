@@ -3,8 +3,6 @@ __author__ = 'eg1114'
 import unittest
 import animation_dao
 import estmd_dao
-import cstmd_dao
-import simulation_dao
 import pymongo
 
 
@@ -21,12 +19,8 @@ class SampleDaoTests(unittest.TestCase):
         db = connection["anisopter"].test
         self.dao_animi = animation_dao.AnimationDao(db)
         self.dao_estmd = estmd_dao.EstmdDao(db)
-        self.dao_cstmd = cstmd_dao.CstmdDao(db)
-        self.dao_simul = simulation_dao.SimulationDao(db)
         self.dao_animi.collection.drop()
         self.dao_estmd.collection.drop()
-        self.dao_cstmd.collection.drop()
-        self.dao_simul.collection.drop()
 
     def test_all(self):
         """
@@ -36,7 +30,7 @@ class SampleDaoTests(unittest.TestCase):
 
         width = 640
         height = 480
-        description = "Test"
+        decription = "Test"
         targets = [{ 'color': 'rgb(20,97,107)',
                      'velocity': '5',
                      'velocity_vector': ['1', '2'],
@@ -59,47 +53,26 @@ class SampleDaoTests(unittest.TestCase):
         a1 = "[51.0, -49.0]"
 
 
-        id = self.dao_animi.generate_animation(width, height, description,
+        id = self.dao_animi.generate_animation(width, height, decription,
                                                targets,frames, background,
                                                background_speed)
 
         id2 = self.dao_estmd.run_simulation(id, "test", H_filter, b, a,
-                                            CSKernel, b1, a1)
+                             CSKernel, b1, a1)
 
-
-        sample = {'_id':id2, 'animation_id':id}
-        num_neurons = 1
-        num_electrodes = 1
-        num_synapses = 1
-        synaptic_distance = 1
-        duration_per_frame = 0.
-
-        id3 = self.dao_cstmd.run_simulation(sample,
-                                            frames,
-                                            num_neurons,
-                                            num_electrodes,
-                                            num_synapses,
-                                            synaptic_distance,
-                                            duration_per_frame,
-                                            description)
-
-        sample = {'_id':id3, 'animation_id':id, 'estmd_id':id2}
-
-        id4 = self.dao_simul.run_simulation(self, sample, 1, 5, description, 1,
-                                            1,1,1,False)
-
-        self.dao_simul.get_simulation(id4)
-        self.dao_simul.get_simulations(1)
-
-        
+        self.dao_estmd.get_simulation(id2)
+        self.dao_estmd.get_simulations(1)
 
     def tearDown(self):
         """
-            Resets the sample for the tests.
-            :return:
-            """
+        Resets the sample for the tests.
+        :return:
+        """
         self.dao = None
 
 
 def main():
     unittest.main()
+
+if __name__ == '__main__':
+    main()

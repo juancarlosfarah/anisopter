@@ -16,7 +16,7 @@ class SampleDaoTests(unittest.TestCase):
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection["anisopter"].test
-        self.dao = animation_dao.SimulationDao(db)
+        self.dao = animation_dao.AnimationDao(db)
         self.dao.collection.drop()
 
     def test_all(self):
@@ -25,8 +25,26 @@ class SampleDaoTests(unittest.TestCase):
         :return: None.
         """
 
-        anims = self.dao.get_animations(1)[0]
-        print anims['_id']
+        width = 640
+        height = 480
+        decription = "Test"
+        targets = [{ 'color': 'rgb(20,97,107)',
+                    'velocity': '5',
+                    'velocity_vector': ['1', '2'],
+                    'type': '1',
+                    'start_pos': ['1', '2'],
+                    'frames': '50',
+                    'size': '1' }]
+        frames = 20
+        background = ""
+        background_speed = 0
+
+        id = self.dao.generate_animation(width, height, decription, targets,
+                                         frames, background, background_speed)
+
+        self.dao.get_animation(id)
+        self.dao.get_animations(1)
+        self.dao.remove(id)
 
     def tearDown(self):
         """

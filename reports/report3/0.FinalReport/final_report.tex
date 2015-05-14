@@ -237,13 +237,13 @@ The design of this module was approached from the user's perspective. Our priori
 The challenge was to turn this information into an animation. Our approach was to first create a sequence of images given the input from the user which could then be sequenced into a video. We decided to build our implementation using Gizeh \cite{gizeh}, a Python library for vector graphics written on top of cairocffi \cite{cairocffi} the Python binding for Cairo \cite{cairo}, a 2D graphics library written in C. Gizeh allowed us to perform image creation and manipulation efficiently, as it offers function calls for some of our key requirements, such as drawing circles, adding background images, scaling and transforming graphics. Hence the core of the target animation module processes the user-generated input, calculates the position of each target and of background at each frame and computes the location where each target should be drawn and how the background image should be rendered. At each step, we save the generated image to a temporary file. The generated sequence of images is then combined into a video using OpenCV \cite{opencv}, an an open source computer vision library, and exported as an AVI file. Additionally, the module outputs the series of images in matrix format consisting of greyscale pixel values, which are passed as input to the ESTMD module, and converts the AVI file MP4 format so that it can be easily rendered in a browser using HTML5.
 \newline
 \newline
-Example of frame in produced video can be seen on the picture  ~\ref{target_animation_example}.
+Example of frame in produced video can be seen on the picture  ~\ref{fig:target_animation_example}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale = 0.3]{ta}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
-\label{target_animation_example}
+\label{fig:target_animation_example}
 \end{figure}
 
 
@@ -252,9 +252,8 @@ The target animation module is also required to produce the final output of the 
 \subsection{Elementary Small Target Motion Detector (ESTMD)}
 
 In our initial specification, one of our tasks was to connect the retina of our dragonfly to the CSTMD neurons. Having researched how this occurs in real dragonflies, we discovered that we would have to include a layer of neurons that preprocesses the input from the retina before passing it on to the CSTMDs, named elementary small target motion detectors (ESTMD) \cite{Wiederman2008}. While one of the purposes of the CSTMD seems to be to give the ability to select one target among many in the visual field \cite{w13}, the function of the ESTMDs seems to be that of identifying small moving targets, even against a cluttered, moving background \cite{Wiederman2008}.
-\newline
-\newline
-Our research revealed that the ESTMDs actually consist of several layers of neurons required to perform their function, namely photoreceptors, large monopolar cells (LMCs) and rectifying transient cells (RTCs) \cite{Wiederman2008}. It was immediately obvious to us that implementing all these stages in a multi-compartmental model (the method used for the CSTMD) would be extremely complicated and computationally expensive. Our initial thought was to attempt to use simplified point neuron models (such as Integrate-and-fire) to achieve the ESTMD function, but with a little more research we discovered that it would be possible to do it in a simpler and more computationally efficient way using a series of spatial and temporal transforms on the retina input \cite{Wiederman2008} \cite{hal11}. It is important to note that these transforms are intended to directly approximate the layers of biological neurons mentioned above - there are other techniques from computer vision that could be used for small target motion detection, but our priority is to represent the true function of the dragonfly's brain within realistic bounds of computational complexity. The overview of the model we implemented is summarised in Figure 1 and the details of the transforms were taken from \cite{hal11}. 
+
+	Our research revealed that the ESTMDs actually consist of several layers of neurons required to perform their function, namely photoreceptors, large monopolar cells (LMCs) and rectifying transient cells (RTCs) \cite{Wiederman2008}. It was immediately obvious to us that implementing all these stages in a multi-compartmental model (the method used for the CSTMD) would be extremely complicated and computationally expensive. Our initial thought was to attempt to use simplified point neuron models (such as Integrate-and-fire) to achieve the ESTMD function, but with a little more research we discovered that it would be possible to do it in a simpler and more computationally efficient way using a series of spatial and temporal transforms on the retina input \cite{Wiederman2008} \cite{hal11}. It is important to note that these transforms are intended to directly approximate the layers of biological neurons mentioned above - there are other techniques from computer vision that could be used for small target motion detection, but our priority is to represent the true function of the dragonfly's brain within realistic bounds of computational complexity. The overview of the model we implemented is summarised in Figure 1 and the details of the transforms were taken from \cite{hal11}. 
 
 \begin{figure}[h]
 \centering
@@ -263,9 +262,8 @@ Our research revealed that the ESTMDs actually consist of several layers of neur
 \end{figure}
 
 The first consideration we had to take was the input and output of the ESTMD module. The input would be a time series of two-dimensional arrays of pixel values from the retina and the output would need to be a time series of neuron spikes (spike trains) to provide input to the CSTMD. The spatial and temporal transforms we intended to use are directly applicable to an array of pixel values but the output of these transforms would also be an array of pixel values that would need to be transformed into spike trains. We decided the simplest and most efficient way of doing this would be to map each pixel value to a corresponding firing rate of a neuron, but this would be dealt with by the CSTMD module. In addition, to demonstrate the effect of the ESTMD module, we decided that it would be useful to provide a video of the output in order to ascertain visually that it is performing its expected function.
-\newline
-\newline
-One significant challenge was understanding the transforms and implementing them in Python. For example, understanding the transforms required some background reading on z-transforms, which are the discrete equivalent of Laplace transforms, which are necessary as our system works in discrete time steps. For the translation of the model into Python, we used the Scipy.signal and openCV \cite{opencv} libraries extensively: Scipy was used to process the z-transforms (the temporal transformations) and openCV was used for the spatial transforms, such as Gaussian filtering. We also used openCV to convert videos into arrays of pixel values and vice versa.
+
+	One significant challenge was understanding the transforms and implementing them in Python. For example, understanding the transforms required some background reading on z-transforms, which are the discrete equivalent of Laplace transforms, which are necessary as our system works in discrete time steps. For the translation of the model into Python, we used the Scipy.signal and openCV \cite{opencv} libraries extensively: Scipy was used to process the z-transforms (the temporal transformations) and openCV was used for the spatial transforms, such as Gaussian filtering. We also used openCV to convert videos into arrays of pixel values and vice versa.
 \begin{figure}[h]
 \includegraphics[scale = 0.4]{input}
 \includegraphics[scale = 0.5]{processed}
@@ -360,7 +358,43 @@ Anticipating that the CSTMD1 module would output approximately 500 spike trains,
 \end{table}
 
 
-We produced a similar result with five neurons exposed to three different patterns.
+We produced a similar result with three neurons exposed to one pattern. As it is evident in figure ~\ref{fig:3n1p} when three neurons (labelled red, blue and green) are exposed to the same pattern, they initially fire at random. Every time a neuron fires it inhibits the rest preventing them from firing simultaneously. As the simulation progresses however, the red and the blue neuron learn to identify a different part of the pattern leaving no space for the green one to fire within the pattern. This result is also evident in the following table.
+
+	Note that by varying the level of inhibition we could have obtained different results. We could have had only one neuron firing within the pattern or all three firing within the pattern \cite{stdp2}. 
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llllll}
+\multicolumn{5}{l}{\textbf{Spike Timing Information}}\\
+\hline
+\multicolumn{1}{l}{\textbf{Neuron}} & \multicolumn{1}{l}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{First Quarter}} & \multicolumn{1}{c}{\textbf{Second Quarter}} & \multicolumn{1}{c}{\textbf{Third Quarter}} & \multicolumn{1}{c}{\textbf{Fourth Quarter}} \\ \hline
+\multicolumn{5}{}{}\\ \hline
+\multicolumn{1}{l}{\textbf{Blue}} & \multicolumn{1}{l}{True Positives} & \multicolumn{1}{c}{29.91\%} & \multicolumn{1}{c}{66.67\%} &  \multicolumn{1}{c}{100.0\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{70.09\%} & \multicolumn{1}{c}{33.33\%} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{14.29\%} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{5}{}{}\\ \hline
+\multicolumn{1}{l}{\textbf{Red}} & \multicolumn{1}{l}{True Positives} & \multicolumn{1}{c}{27.12\%} & \multicolumn{1}{c}{61.29\%} &  \multicolumn{1}{c}{100.0\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{72.88\%} & \multicolumn{1}{c}{38.71\%} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{9.52\%} & \multicolumn{1}{c}{4.76\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{5}{}{}\\ \hline
+\multicolumn{1}{l}{\textbf{Green}} & \multicolumn{1}{l}{True Positives} & \multicolumn{1}{c}{28.81\%} & \multicolumn{1}{c}{30.0\%} &  \multicolumn{1}{c}{100.0\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{71.19\%} & \multicolumn{1}{c}{70.0\%} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{71.43\%} & \multicolumn{1}{c}{95.24\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.4]{n3_start}
+\includegraphics[scale = 0.4]{n3_end}
+\caption{Three neurons exposed to one pattern. Initially all three neurons fire randomly (top figure). By the end of the simulation (bottom figure) only two neurons can fire within the pattern while the third one (green line) never fires within the pattern. The grey bars indicate when the pattern occurs.}
+\label{fig:3n1p}
+\end{figure}
+
+
+
 
 	Once the pattern recognition module was built, we extended it so that the neurons can be easily adapted to recognise input with varying properties such as average firing rate, number of afferents, frequency of pattern appearance, amongst others. This implementation is able to recognise patterns output from our CSTMD1 neurons and is described in section X.X.
 
@@ -561,7 +595,7 @@ The lines that are missing are for one of the reasons. Either we are missing one
 \clearpage
 \section{Group Work}
 
-This section describes the division of the total workload among the group members. Flexibility and adaptation were key in the successful division of the tasks. Juan Carlos Farah assumed the position of the team leader due to his previous working experience in technology related projects.
+This section describes the division of the total workload among the group members. Flexibility and adaptation were key in the successful division of the tasks. Juan Carlos Farah assumed the position of the team leader due to his previous working experience in technology related projects. Detailed division of tasks across the team members as well as the time each member spent on each task can be found in the Appendix.
 
 \subsection{Initial Division}
 Initially the team was divided into two subgroups, the first to tackle the Target Animation and the CSTMD1 and the second to work on the Pattern Recognition module. The original estimation was that the Target Animation and CSTMD1 would be much easier than the Pattern Recognition, as the CSTMD1 code was largely provided to us by our supervisors. Therefore Christos Kaplanis along with Ioannis Kasidakis were assigned to the CSTMD1 and Target Animation and Juan Carlos Farah, Erik Grabljevec and Panagiotis Almpouras were assigned to the Pattern Recognition group.
@@ -696,18 +730,9 @@ neuron did not show the expected behaviour. Nevertheless, having embedded the CS
 dragonfly model facilitates further research into the function of this neuron, and specifically whether it is
 responsible for target selection.
 
-\subsubsection{Web Client}
+The web client:
 
-Although our web client allows for the interaction we set forth when specifying our expected requirements,
-further development would enhance its usability and reliability in a manner that could allow for a fully
-production-ready version of the tool. Our focus was to create an interface that would be run locally or in a
-trusted environment, so potential security concerns were not addressed fully.
-- UX
-- Design
-- Multiuser support.
-
-
-\subsection{Non-implemented Tasks}
+\subsection{Non-implemented tasks}
 
 Of all the goals that were set there was only one we did not get the chance to work on:
 
