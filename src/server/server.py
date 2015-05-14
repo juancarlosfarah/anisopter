@@ -478,6 +478,7 @@ def show_as():
 @route('/training/training_sets')
 def show_training_sets():
     obj = dict()
+    return bottle.template('training_sets', obj)
 
 
 # Static Routes
