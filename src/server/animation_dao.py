@@ -43,7 +43,7 @@ class AnimationDao:
         :param _id: ID of animation to remove.
         :return: None.
         """
-        self.collection.remove_one({"_id": ObjectId(_id)})
+        self.collection.remove({"_id": ObjectId(_id)})
 
         path = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                             "assets",
