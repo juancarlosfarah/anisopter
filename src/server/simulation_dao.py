@@ -281,8 +281,9 @@ class SimulationDao:
                        a_plus,
                        a_ratio,
                        theta,
-                       weights):
-        sim = Simulation(description)
+                       weights,
+                       training):
+        sim = Simulation(description, training)
         sim.load_sample(sample, cursor)
 
         # Add the post-synaptic neurons and connect them.
@@ -298,13 +299,13 @@ class SimulationDao:
             neurons.append(n)
 
         sim.run()
-	
-	# Allow for simulations run on generated samples.
-	if 'animation_id' not in sample:
-		sample['animation_id'] = None
 
-	if 'estmd_id' not in sample:
-		sample['estmd_id'] = None
+        # Allow for simulations run on generated samples.
+        if 'animation_id' not in sample:
+            sample['animation_id'] = None
+
+        if 'estmd_id' not in sample:
+            sample['estmd_id'] = None
 
         _id = self.save(sim,
                         sample['animation_id'],
