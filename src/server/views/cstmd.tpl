@@ -29,6 +29,11 @@
             </p>
         </div>
     </div>
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+	<img src="/assets/images/CSTMD.png" alt="CSTMD" class="img-responsive img-rounded">
+      </div>
+    </div>
     <br />
     <br />
     <div class="row">

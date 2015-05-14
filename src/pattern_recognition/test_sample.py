@@ -5,7 +5,7 @@ import math
 from copy import deepcopy
 
 import os
-from src.pattern_recognition.pattern_recognition import sample as sg
+from pattern_recognition import sample as sg
 import numpy as np
 
 

@@ -390,7 +390,7 @@ class Sample:
                  spike_trains=self.spike_trains,
                  pattern_duration=self.pattern_duration)
 
-
+'''
 if __name__ == '__main__':
     bg = np.load("samples/5_neur_100_elecs_15000_runtime.npz")
     st = bg['spike_trains']
@@ -410,3 +410,4 @@ if __name__ == '__main__':
     # mpl.ylabel('# Afferent')
     # mpl.xlabel('Time (ms)')
     # mpl.show()
+'''
