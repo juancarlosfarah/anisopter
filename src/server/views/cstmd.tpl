@@ -41,5 +41,6 @@
         </div>
     </div>
 </div>
+% include('footer.tpl')
 </body>
 </html>
