@@ -20,7 +20,7 @@
             <th>Date</th>
             <th>Description</th>
         </tr>
-        %for a in trainings:
+        %for a in training:
         <tr>
             <td><a href="/training/simulation/{{a['_id']}}">{{a['date']}}</a></td>
             <td><a href="/training/simulation/{{a['_id']}}">{{a['description']}}</a></td>
