@@ -445,7 +445,8 @@ def run_action_selection_simulation():
                                                   a['targets'],
                                                   a['num_frames'],
                                                   a['background_id'],
-                                                  True)
+                                                  a['background_speed'],
+                                                  return_object=True)
     else:
         animation = None
 
