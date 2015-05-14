@@ -74,10 +74,21 @@ class SampleDaoTests(unittest.TestCase):
 
         sample = {'_id':id, 'animation_id':id2}
         num_neurons = 1
+<<<<<<< HEAD
         num_electrodes = 5
         num_synapses = 5
         synaptic_distance = 5
         duration_per_frame = 1
+=======
+        num_electrodes = 1
+        num_synapses = 1
+        synaptic_distance = 1
+        duration_per_frame = 1
+
+        frames = []
+        for i in range(10) :
+            frames.append({'frame': [0 for i in range(32*32)]})
+>>>>>>> ec4d0807b51422664be8a289373930151db554fc
 
         id3 = self.dao_cstmd.run_simulation(sample,
                            frames,
