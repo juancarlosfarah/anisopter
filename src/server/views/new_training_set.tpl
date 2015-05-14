@@ -52,7 +52,7 @@
                 <span class="input-group-addon">type</span>
             </div>
         </div>
-        
+
         <button type="submit"
                 class="btn btn-success btn-default"
                 id="submit">Submit</button>

@@ -81,6 +81,7 @@ class TrainingDao:
         """
 
         tr_set = tr.Training()
+        tr_set.run_tests(types, n)
 
         if return_object:
             return tr_set
