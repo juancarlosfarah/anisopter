@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <button type="button"
-                    onclick="window.location.href='/training/training_sets/new'"
+                    onclick="window.location.href='/training/simulations/new'"
                     class="btn btn-primary">New Training set</button>
         </div>
     </div>
