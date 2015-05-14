@@ -7,7 +7,6 @@ import pickle
 import pymongo
 
 from cstmd.cstmd import Cstmd
-import cstmd_dao
 import numpy as np
 import os
 import matplotlib
@@ -62,12 +61,13 @@ class TestCSTMD(unittest.TestCase):
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection[db_name]
-
-        dao = cstmd_dao.CstmdDao(db)
-        id = dao.get_simulations(1)[0]['_id']
+        c = db.cstmd
+        
+        cursor = c.find().sort('_id', direction=-1).limit(1)
+        id = cursor[0]['_id']
 
         self.cstmd.plot_fir_rate(id)
-        self.plot_compart_act(id)
+        self.cstmd.plot_compart_act(id)
 
 
 
