@@ -121,7 +121,10 @@ class Cstmd(object) :
         self.find_middle_coordinates()
         self.num_synapses = num_synapses
         self.synaptic_distance = synaptic_distance
-           
+        
+        # initialise num plots
+        self.num_plots = 0
+
     # -- Helper functions ------------------------------------------------------
     def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
         return MIN + np.random.rand()*(MAX-MIN)*np.exp( -((x-m)**2.0)/(2.0*sigma**2.0)  )
@@ -404,6 +407,7 @@ class Cstmd(object) :
                     print "Saving animation in: " + out_directory  
                     fig.savefig(out_directory)
                 i += 1
+        self.num_plots = i+1
 
     def plot_fir_rate(self,_id) :
         plt.figure(2)  
@@ -447,6 +451,6 @@ class Cstmd(object) :
         if not os.path.exists(relative_path):
             os.makedirs(relative_path)
 
-        out_directory = os.path.abspath(relative_path + "/1" + ".png")
+        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".png")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
