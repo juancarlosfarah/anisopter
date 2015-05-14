@@ -574,8 +574,7 @@ def assets_two_level(filename, subfolder, folder):
 
 def start():
     bottle.run(host="localhost",
-               port=8092,
-               reloader=True)
+               port=8092)
 
 
 def connect_db(db_name="anisopter"):
