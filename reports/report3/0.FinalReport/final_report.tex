@@ -344,11 +344,20 @@ Anticipating that the CSTMD1 module would output approximately 500 spike trains,
 \caption{Distribution of strength of weights for five progressive time slices.}
 \end{figure}
 
-\begin{figure}[H]
+
+
+
+\begin{table}[H]
 \centering
-\includegraphics[scale = 0.35]{pr3}
-\caption{Rates}
-\end{figure}
+\begin{tabular}{lllll}
+\multicolumn{4}{l}{\textbf{Spike Timing Information}}\\
+\hline
+\multicolumn{1}{l}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{First Quarter}} & \multicolumn{1}{c}{\textbf{Second Quarter}} & \multicolumn{1}{c}{\textbf{Third Quarter}} & \multicolumn{1}{c}{\textbf{Fourth Quarter}} \\ \hline
+\multicolumn{1}{l}{True Positives} & \multicolumn{1}{c}{24.38\%} & \multicolumn{1}{c}{28.57\%} & \multicolumn{1}{c}{78.72\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
+\multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{75.62\%} & \multicolumn{1}{c}{71.43\%} & \multicolumn{1}{c}{21.28\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{50.0\%} & \multicolumn{1}{c}{40.32\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
+\end{tabular}
+\end{table}
 
 
 We produced a similar result with five neurons exposed to three different patterns.
