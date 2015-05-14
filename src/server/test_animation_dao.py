@@ -25,6 +25,9 @@ class SampleDaoTests(unittest.TestCase):
         :return: None.
         """
 
+        anims = self.dao.get_animations(1)[0]
+        print anims['_id']
+
     def tearDown(self):
         """
         Resets the sample for the tests.
