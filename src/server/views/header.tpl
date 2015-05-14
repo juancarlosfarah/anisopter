@@ -1,3 +1,4 @@
+<div class="curtain-fade"></div>
 <header>
     <nav class="navbar navbar-default">
         <div class="container">
