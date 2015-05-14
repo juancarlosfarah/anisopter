@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-12 text-center">
                     <button type="button"
-                            onclick="window.location.href='/cstmd/simulation/new'"
+                            onclick="window.location.href='/pattern_recognition/simulation/new'"
                             class="btn btn-lg btn-primary">New Pattern Recognition Simulation</button>
                 </div>
             </div>
