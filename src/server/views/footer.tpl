@@ -1,4 +1,5 @@
-<footer class="container-fluid text-center bg-success text-info">
+<div></div>
+<footer class="container-fluid text-center bg-primary">
     <div class="row">
         <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
             <div class="row">
@@ -39,6 +40,29 @@
          alt="Loading..."/>
 </div>
 <script>
+    /**
+     * FUNCTION: positionFooter
+     * ========================
+     * This function positions the footer at the bottom of the window if the
+     * window is larger than the <body> and elongates the body in order to
+     * fill the gap between the footer and the body's content. Otherwise it
+     * places it within its normal flow.
+     */
+    function positionFooter() {
+        var $footer = $('footer'),
+            $body = $('body'),
+            $window = $(window);
+
+        $footer.css({ 'position' : 'static', 'bottom' : 'auto', 'width' : 'auto'});
+        $body.css({ 'height' : 'auto'});
+
+        if ($body.height() < $window.height()) {
+            $footer.css({ 'position' : 'fixed', 'bottom' : 0, 'width' : '100%'});
+            $body.height($window.height() - $footer.height());
+        }
+        $('#footer').show();
+    }
+
     // This function positions the element in the middle of the browser window.
     function centerElement($element) {
         var $windowWidth = $(window).width();

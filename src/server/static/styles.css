@@ -24,3 +24,7 @@ video {
 .optional {
     display: none;
 }
+
+footer {
+    display: none;
+}
