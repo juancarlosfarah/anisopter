@@ -478,20 +478,20 @@ def show_as():
     return bottle.template('training', obj)
 
 
-@route('/training/training_sets')
+@route('/training/simulations')
 def show_training_simulations():
     obj = dict()
     obj['trainings'] = training.get_simulations(50)
-    return bottle.template('training_sets', obj)
+    return bottle.template('training_simulations', obj)
 
 
-@get("/training/training_sets/new")
+@get("/training/simulations/new")
 def new_training_simulation():
     obj = dict()
-    return bottle.template('new_training_set', obj)
+    return bottle.template('new_training_simulation', obj)
 
 
-@post('/training/training_sets/generate')
+@post('/training/simulations/generate')
 def generate_simulation():
 
     # Retrieve form and values.
@@ -504,10 +504,10 @@ def generate_simulation():
     ad = int(form.get("anti_diagonal"))
 
     _id = training.generate_training_simulation([v, h, d, ad], n)
-    bottle.redirect("/training/training_sets/" + str(_id))
+    bottle.redirect("/training/simulation/" + str(_id))
 
 
-@get("/training/training_sets/<_id>")
+@get("/training/simulation/<_id>")
 def show_training_simulation(_id):
 
     tr = training.get_simulation(_id)
@@ -517,7 +517,7 @@ def show_training_simulation(_id):
 
     obj = dict()
     obj['trainings'] = tr
-    return bottle.template("training_set", obj)
+    return bottle.template("training_simulation", obj)
 
 
 # ==============================================================================
