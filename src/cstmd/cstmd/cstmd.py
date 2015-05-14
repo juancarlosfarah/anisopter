@@ -341,12 +341,14 @@ class Cstmd(object) :
 
 
         # Run the simulation
-        pixels=len(self.input[0])	
+        pixels=len(self.input[0]['frame'])
+	print pixels
         #print "pix",len(self.input[0]),self.num_pixels
         self.runtime = self.duration
 
         for frame_object in self.input:
             frame = np.array(frame_object['frame'])
+            print frame
             for n in range(pixels) :
                 self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
 
