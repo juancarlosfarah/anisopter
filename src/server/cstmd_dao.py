@@ -140,7 +140,8 @@ class CstmdDao:
                       input=frames)
 
         times, cstmd.spike_trains = cstmd.run()
-
+        #cstmd.reset()
+        
         # Save CSTMD simulation.
         _id = self.save(cstmd, sample['_id'], sample['animation_id'])
 

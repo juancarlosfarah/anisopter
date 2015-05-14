@@ -21,7 +21,6 @@ class Training(object):
         :return:
         """
 
-        pass
 
     @staticmethod
     def make_temp_directory(name):
@@ -77,9 +76,8 @@ class Training(object):
         :return:
         """
 
-        for i in range(4):
-            # Run one for each type.
-            pass
+        self.types = types
+        self.reps = reps
 
 
 if __name__ == '__main__':
