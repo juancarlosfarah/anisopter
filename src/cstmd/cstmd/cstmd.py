@@ -386,7 +386,7 @@ class Cstmd(object) :
 
         return spike_trains
 
-    def plot_compart_act(self,_id) :     
+    def plot_compart_act(self,_id):
 
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
