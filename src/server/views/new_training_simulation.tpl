@@ -9,6 +9,17 @@
     <form action="/training/simulations/generate" method="post">
 
         <div class="form-group">
+            <label for="input">Action selection input</label>
+            <select class="form-control" name="input" id="input">
+                %for s in inputs:
+                <option value="{{s['_id']}}">
+                    Description: {{s['description']}}
+                </option>
+                %end
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="repetitions">Test repetitions</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="repetitions"

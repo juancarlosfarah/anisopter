@@ -73,14 +73,16 @@ class TrainingDao:
 
         return training
 
-    def generate_training_simulation(self, types, n, return_object=False):
+    def generate_training_simulation(self, input_id, types,
+                                     n, return_object=False):
         """
         Generates and saves a training set.
 
         :return: _id of training set generated.
         """
 
-        tr_set = tr.Training(types, n)
+        tr_set = tr.Training(input_id, types, n)
+        tr_set.run()
 
         if return_object:
             return tr_set

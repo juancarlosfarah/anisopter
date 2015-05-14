@@ -5,6 +5,7 @@ import shutil
 import os
 
 from animation.target_animation import *
+import estmd_dao
 
 
 class Training(object):
@@ -15,7 +16,7 @@ class Training(object):
      - run_tests: which sets types and frequency of tests
     """
 
-    def __init__(self, types, n):
+    def __init__(self, input_id, types, n):
         """
         Constructor.
         :param types: Corresponds to how many tests of each type should we run.
@@ -27,6 +28,11 @@ class Training(object):
 
         self.types = types
         self.n = n
+        self.id = input_id
+
+        estmd = estmd_dao.EstmdDao()
+        output = estmd.get_simulation(self.id)
+        print output
 
     @staticmethod
     def make_temp_directory(name):
@@ -70,6 +76,14 @@ class Training(object):
             # TO DO: adjust
             start = []
             # Run single test.
+
+    def run(self):
+        """
+        Run stuff and save stuff.
+
+        :return:
+        """
+
 
 
 if __name__ == '__main__':
