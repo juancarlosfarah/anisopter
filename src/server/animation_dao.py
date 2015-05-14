@@ -16,7 +16,7 @@ class AnimationDao:
         self.db = database
         self.collection = self.db.animations
 
-    def save(self, animation, targets, background_id):
+    def save(self, animation, targets, background_id, background_speed):
         """
         Saves the animation to the database.
         :return: _id of animation inserted.
@@ -27,6 +27,7 @@ class AnimationDao:
             "width": animation.width,
             "height": animation.height,
             "num_frames": animation.total_frames,
+            "background_speed": background_speed,
             "background_id": background_id,
             "description": animation.description,
             "frames_per_second": animation.fps,
@@ -140,7 +141,7 @@ class AnimationDao:
         if return_object:
             return ani
 
-        _id = self.save(ani, targets, background)
+        _id = self.save(ani, targets, background, background_speed)
 
         # Save video file.
         print "Current working directory: " + os.getcwd()
