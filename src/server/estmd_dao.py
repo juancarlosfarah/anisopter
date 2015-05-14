@@ -27,10 +27,10 @@ class EstmdDao(object):
         sim = {
             'description': estmd.description,
             'animation_id': estmd.input_id,
-            'h_filter': estmd.H_filter,
+            'h_filter': estmd.H_filter.tolist(),
             'b': estmd.b,
             'a': estmd.a,
-            'cs_kernel': estmd.CSKernel,
+            'cs_kernel': estmd.CSKernel.tolist(),
             'b1': estmd.b1,
             'a1': estmd.a1
         }
