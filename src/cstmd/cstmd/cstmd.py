@@ -385,40 +385,25 @@ class Cstmd(object) :
             for n in range(self.num_neurons) :
                 exec "t"+str(n)+str(e)+" = np.array(self.trec"+str(n)+str(e)+")"
                 exec "v"+str(n)+str(e)+" = np.array(self.vrec"+str(n)+str(e)+")"
+        i = 0
+        colour = ['b', 'r', 'g', 'y', 'k']
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
+                fig = figure(i)
+                exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
+                plt.legend(loc=0)
+                
+                # Save Plots.
+                relative_path = "../server/assets/cstmd/" + str(_id)
 
-                if n == 0:
-                   exec "plt.subplot("+str(self.num_neurons)+","+str(self.electrodes+1)+","+str(e+1)+")"
-                   exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='b')"
-                   exec "plt.legend(loc=0)"
-                elif n == 1:
-                   exec "plt.subplot("+str(self.num_neurons)+","+str(self.electrodes+1)+","+str(n*5+e+1)+")"
-                   exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='r')"
-                   exec "plt.legend(loc=0)"
-                elif n == 2:
-                   exec "plt.subplot("+str(self.num_neurons)+","+str(self.electrodes+1)+","+str(n*5+e+1)+")"
-                   exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='g')"
-                   exec "plt.legend(loc=0)"
-                elif n == 3:
-                   exec "plt.subplot("+str(self.num_neurons)+","+str(self.electrodes+1)+","+str(n*5+e+1)+")"
-                   exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='y')"
-                   exec "plt.legend(loc=0)"
-                elif n == 4:
-                   exec "plt.subplot("+str(self.num_neurons)+","+str(self.electrodes+1)+","+str(n*5+e+1)+")"
-                   exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='k')"
-                   exec "plt.legend(loc=0)"
+                # Create the path for the plots
+                if not os.path.exists(relative_path):
+                    os.makedirs(relative_path)
 
-        # Save Plots.
-        relative_path = "../server/assets/cstmd/" + str(_id)
-
-        # Create the path for the plots
-        if not os.path.exists(relative_path):
-            os.makedirs(relative_path)
-
-        out_directory = os.path.abspath(relative_path + "/0" + ".png")
-        print "Saving animation in: " + out_directory  
-        plt.savefig(out_directory)
+                    out_directory = os.path.abspath(relative_path + "/"+str(i)+".png")
+                    print "Saving animation in: " + out_directory  
+                    fig.savefig(out_directory)
+                i += 1
 
     def plot_fir_rate(self,_id) :
         plt.figure(2)  
