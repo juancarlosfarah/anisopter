@@ -357,6 +357,9 @@ class Cstmd(object) :
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
+        for sec in h.allsec():
+            h("%s{delete_section()}"%sec.name())
+
         return list(self.t_vec),self.sp_trains()
 
     def sp_trains(self):
@@ -402,9 +405,9 @@ class Cstmd(object) :
                 if not os.path.exists(relative_path):
                     os.makedirs(relative_path)
 
-                    out_directory = os.path.abspath(relative_path + "/"+str(i)+".png")
-                    print "Saving animation in: " + out_directory  
-                    fig.savefig(out_directory)
+                out_directory = os.path.abspath(relative_path + "/"+str(i)+".png")
+                print "Saving animation in: " + out_directory  
+                fig.savefig(out_directory)
                 i += 1
         self.num_plots = i+1
 
