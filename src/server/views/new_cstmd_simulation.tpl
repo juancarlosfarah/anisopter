@@ -86,4 +86,5 @@
     </form>
 </div>
 </body>
+% include('footer.tpl')
 </html>
