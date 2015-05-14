@@ -392,12 +392,16 @@ class Cstmd(object) :
                 exec "v"+str(n)+str(e)+" = np.array(self.vrec"+str(n)+str(e)+")"
 
         colour = ['b', 'r', 'g', 'y', 'k']
-        for e in range(self.electrodes) :
-            for n in range(self.num_neurons) :
-                fignum=(n+1)*(e+1)-1
+        for n in range(self.num_neurons) :
+            for e in range(self.electrodes) :
+                fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
-                plt.legend(loc=0)
+                plt.ylabel("Firing Rate (Hz)")
+                plt.xlabel("Time (ms)")
+                plt.title("Section "+str(self.rec[n][e]))
+                #plt.legend(loc=0)
+                #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
                 
                 # Save Plots.
                 relative_path = "../server/assets/cstmd/" + str(_id)

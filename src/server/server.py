@@ -50,6 +50,16 @@ def show_animations():
     obj['animations'] = animations.get_animations(50)
     return bottle.template('animations', obj)
 
+@post('/target_animation/remove')
+def remove_animation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    animations.remove(_id)
+
+    obj = dict()
+    obj['animations'] = animations.get_animations(50)
+    return bottle.template('animations', obj)
+
 
 @get("/target_animation/animation/<_id>")
 def show_animation(_id):
@@ -572,8 +582,7 @@ def assets_two_level(filename, subfolder, folder):
 
 def start():
     bottle.run(host="localhost",
-               port=8092,
-               reloader=True)
+               port=8092)
 
 
 def connect_db(db_name="anisopter"):
