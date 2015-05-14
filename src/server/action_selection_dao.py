@@ -217,6 +217,9 @@ class ActionSelectionDao:
         # Save video to filesystem.
         self.save_video(a_s, str(_id))
 
+        # Save graphs.
+        self.save_graphs(a_s, str(_id))
+
         return _id
 
     def save_video(self, a_s, _id):
@@ -235,8 +238,18 @@ class ActionSelectionDao:
 
         a_s.run_animation(out_directory)
 
-    def plot_graphs(self, input_dir):
-        pass
+    def save_graphs(self, a_s, _id):
+        save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "assets",
+                                                 "action_selection",
+                                                 _id))
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+
+        # Save video file.
+        out_directory = os.path.abspath(save_path + "/" + str(_id))
+
+        a_s.save_plots(out_directory)
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"

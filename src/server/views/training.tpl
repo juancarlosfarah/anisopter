@@ -10,9 +10,9 @@
             <p>
                 Lorem ipsum...
             </p>
-            <a href="/action_selection/simulations" class="h2">Simulations</a>
+            <a href="/training/training_sets" class="h2">Training sets</a>
             <p>
-                Given input from the pattern recognition neurons...
+                Create new trainings and stuff.
             </p>
         </div>
     </div>
