@@ -382,7 +382,6 @@ class Cstmd(object) :
         return spike_trains
 
     def plot_compart_act(self,_id) :     
-        plt.figure(1)
 
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
@@ -392,7 +391,7 @@ class Cstmd(object) :
         colour = ['b', 'r', 'g', 'y', 'k']
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
-                fig = figure(i)
+                fig = plt.figure(i)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
                 plt.legend(loc=0)
                 
