@@ -396,7 +396,7 @@ class Cstmd(object) :
             for e in range(self.electrodes) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
-                if !e:   
+                if not e:   
                     fig.set_ylabel("Neuron "+str(n+1)+"\n Firing rate (Hz)")
                 else:
                     fig.set_ylabel("Firing rate (Hz)")
