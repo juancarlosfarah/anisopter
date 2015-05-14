@@ -4,6 +4,6 @@
     </div>
     <div class="col-md-2">
         <button type="button" id="showOptionalFields"
-                class="btn btn-primary">Toggle Advanced Fields</button>
+                class="btn btn-primary">Show Advanced Controls</button>
     </div>
 </div>
