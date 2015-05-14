@@ -78,7 +78,7 @@ class Training(object):
         """
 
         self.types = types
-        self.reps = reps
+        self.n = reps
 
 
 if __name__ == '__main__':
