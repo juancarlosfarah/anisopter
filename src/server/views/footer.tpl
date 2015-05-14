@@ -1,38 +1,39 @@
 <div></div>
 <footer class="container-fluid text-center">
     <br />
-    <br />
     <div class="row">
         <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/target_animation">Target Animation</a>
+                    <a class="h4" href="/target_animation">Target Animation</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/estmd">ESTMD</a>
+                    <a class="h4" href="/estmd">ESTMD</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/cstmd">CSTMD1</a>
+                    <a class="h4" href="/cstmd">CSTMD1</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/pattern_recognition">Pattern Recognition</a>
+                    <a class="h4" href="/pattern_recognition">Pattern Recognition</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/action_selection">Action Selection</a>
+                    <a class="h4" href="/action_selection">Action Selection</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a href="/training">Training</a>
+                    <a class="h4" href="/training">Training</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row bottom-footer">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <span class="h6">&copy; 2015 Anisopter LTD</span>
         </div>
     </div>
+    <br />
+    <br />
 </footer>
 <div id="LoadingAnimation">
     <img class="img-responsive"
