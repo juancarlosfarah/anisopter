@@ -510,13 +510,13 @@ def generate_training_set():
 @get("/training/training_sets/<_id>")
 def show_training_set(_id):
 
-    sim = a_s.get_simulation(_id)
+    tr = training.get_simulation(_id)
 
-    if sim is None:
+    if tr is None:
         bottle.redirect("/")
 
     obj = dict()
-    obj['simulation'] = sim
+    obj['trainings'] = tr
     return bottle.template("training_set", obj)
 
 
