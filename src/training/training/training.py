@@ -4,6 +4,8 @@ __author__ = 'eg1114'
 import shutil
 import os
 
+import pymongo
+
 from animation.target_animation import *
 import estmd_dao
 
@@ -30,7 +32,13 @@ class Training(object):
         self.n = n
         self.id = input_id
 
-        estmd = estmd_dao.EstmdDao()
+        host = "146.169.47.184"
+        port = 27017
+        db_name="anisopter"
+        connection = pymongo.MongoClient(host=host, port=port)
+        db = connection[db_name]
+
+        estmd = estmd_dao.EstmdDao(db)
         output = estmd.get_simulation(self.id)
         print output
 
