@@ -501,22 +501,23 @@ def generate_training_set():
     v = int(form.get("vertical"))
     h = int(form.get("horizontal"))
     d = int(form.get("diagonal"))
-    ad = int(form.get("anti-diagonal"))
+    ad = int(form.get("anti_diagonal"))
 
-    _id = a_s.generate_training_set([v, h, d, ad], n)
+    print "Here"
+    _id = training.generate_training_set([v, h, d, ad], n)
     bottle.redirect("/training/training_sets/" + str(_id))
 
 
 @get("/training/training_sets/<_id>")
 def show_training_set(_id):
 
-    sim = a_s.get_simulation(_id)
+    tr = training.get_simulation(_id)
 
-    if sim is None:
+    if tr is None:
         bottle.redirect("/")
 
     obj = dict()
-    obj['simulation'] = sim
+    obj['trainings'] = tr
     return bottle.template("training_set", obj)
 
 

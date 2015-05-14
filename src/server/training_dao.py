@@ -14,7 +14,7 @@ class TrainingDao:
     # Constructor for the class.
     def __init__(self, database):
         self.db = database
-        self.collection = self.db.animations
+        self.collection = self.db.trainings
 
     def save(self, tr_set):
         """
@@ -30,7 +30,7 @@ class TrainingDao:
             "vertical": tr_set.types[0],
             "horizontal": tr_set.types[1],
             "diagonal": tr_set.types[2],
-            "anti-diagonal": tr_set.types[3],
+            "anti_diagonal": tr_set.types[3],
         }
 
         _id = self.collection.insert(a)
