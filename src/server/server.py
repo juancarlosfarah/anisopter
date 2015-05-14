@@ -481,6 +481,30 @@ def show_training_sets():
     return bottle.template('training_sets', obj)
 
 
+@get("/training/training_sets/new")
+def new_training_set():
+    obj = dict()
+    return bottle.template('new_training_set', obj)
+
+
+@post('/training/training_sets/generate')
+def generate_animation():
+    print "Some stuff is working."
+
+
+@get("/action_selection/simulation/<_id>")
+def show_action_selection_simulation(_id):
+
+    sim = a_s.get_simulation(_id)
+
+    if sim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['simulation'] = sim
+    return bottle.template("action_selection_simulation", obj)
+
+
 # Static Routes
 # =============
 @get('/static/<tool>/<folder>/<filename>')
