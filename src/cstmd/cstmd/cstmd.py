@@ -412,7 +412,7 @@ class Cstmd(object) :
         if not os.path.exists(relative_path):
             os.makedirs(relative_path)
 
-        out_directory = os.path.abspath(relative_path + "/compart_act" + ".png")
+        out_directory = os.path.abspath(relative_path + "/0" + ".png")
         print "Saving animation in: " + out_directory  
         plt.savefig(out_directory)
 
@@ -458,6 +458,6 @@ class Cstmd(object) :
         if not os.path.exists(relative_path):
             os.makedirs(relative_path)
 
-        out_directory = os.path.abspath(relative_path + "fir_rate" + ".png")
+        out_directory = os.path.abspath(relative_path + "/1" + ".png")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
