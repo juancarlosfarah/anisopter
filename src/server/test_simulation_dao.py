@@ -94,7 +94,7 @@ class SampleDaoTests(unittest.TestCase):
 
         sample = self.samples.get_sample(id3)
 
-        id4 = self.dao_simul.run_simulation(sample, 1, 5, description, 1, 1,
+        id4 = self.dao_simul.run_simulation(sample, 1, 5, description, 1,
                                             1,1,1,False)
 
         self.dao_simul.get_simulation(id4)
