@@ -354,6 +354,9 @@ class Cstmd(object) :
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
+        for sec in h.allsec():
+            h("%s{delete_section()}"%sec.name())
+
         return list(self.t_vec),self.sp_trains()
 
     def sp_trains(self):
