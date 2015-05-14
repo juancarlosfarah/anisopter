@@ -360,7 +360,15 @@ class NeuronTests(unittest.TestCase):
         
         self.failUnless(type(fig) is tuple)
         return
-        
+
+    def test_plotting(self):
+        """
+        Added test to cover what is missing.
+
+        :return:
+        """
+        self.neuron.plot_eta(5)
+        self.neuron.plot_stdp()
       
         
     def tearDown(self):
