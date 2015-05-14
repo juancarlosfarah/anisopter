@@ -76,13 +76,15 @@ def show_animation(_id):
 @post('/target_animation/animation/generate')
 def generate_animation():
     background = request.json['background']
+    background_speed = request.json['background_speed']
     width = int(request.json['width'])
     height = int(request.json['height'])
     description = request.json['description']
     targets = request.json['targets']
     frames = int(request.json['frames'])
     _id = animations.generate_animation(width, height, description,
-                                        targets, frames, background)
+                                        targets, frames, background, 
+                                        background_speed)
     rvalue = {"url": "/target_animation/animation/" + str(_id)}
     return rvalue
 
