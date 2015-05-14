@@ -52,6 +52,28 @@
                    name="theta" placeholder="Theta"/>
         </div>
         <div class="form-group">
+            <label for="weights">Weights</label>
+            <select class="form-control" name="weights" id="weights">
+                <option value="none" selected>None</option>
+                <option disabled="disabled">--- Saved Weights ---</option>
+                %for s in simulations:
+                <option value="{{s['_id']}}">
+                    Date: {{s['date']}},
+                    Neurons: {{len(s['neurons'])}},
+                    Description: {{s['description']}}
+                </option>
+                %end
+            </select>
+        </div>
+        <div class="form-group">
+            <div class="checkbox" id="training">
+                <label>
+                    <input type="checkbox" value="true" name="training" checked>
+                    Training
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="description">Description</label>
             <textarea class="form-control" rows="3" id="description"
                       placeholder="Description" name="description"></textarea>
