@@ -123,7 +123,7 @@ class Cstmd(object) :
         self.synaptic_distance = synaptic_distance
         
         # initialise num plots
-        self.num_plots = 0
+        self.num_plots = self.num_neurons * self.electrodes
 
     # -- Helper functions ------------------------------------------------------
     def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
@@ -357,11 +357,11 @@ class Cstmd(object) :
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
-        for sec in h.allsec():
-            h("%s{delete_section()}"%sec.name())
-
         return list(self.t_vec),self.sp_trains()
 
+    def reset(self):
+        for sec in h.allsec():
+            h("%s{delete_section()}"%sec.name())
     def sp_trains(self):
 
         # Container for spike trains.
@@ -409,7 +409,6 @@ class Cstmd(object) :
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
                 i += 1
-        self.num_plots = i+1
 
     def plot_fir_rate(self,_id) :
         plt.figure(2)  
