@@ -149,6 +149,7 @@ class CstmdDao:
 
         return _id
 
+
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
     connection = pymongo.MongoClient(connection_string)
