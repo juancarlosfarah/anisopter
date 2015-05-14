@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Action Selection</h1>
+            <h1>Training</h1>
             <p>
                 Lorem ipsum...
             </p>
