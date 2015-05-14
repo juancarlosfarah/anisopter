@@ -5,6 +5,7 @@ import animation_dao
 import estmd_dao
 import cstmd_dao
 import simulation_dao
+import sample_dao
 import pymongo
 
 
@@ -23,10 +24,13 @@ class SampleDaoTests(unittest.TestCase):
         self.dao_estmd = estmd_dao.EstmdDao(db)
         self.dao_cstmd = cstmd_dao.CstmdDao(db)
         self.dao_simul = simulation_dao.SimulationDao(db)
+        self.samples = sample_dao.SampleDao(db)
         self.dao_animi.collection.drop()
         self.dao_estmd.collection.drop()
         self.dao_cstmd.collection.drop()
         self.dao_simul.collection.drop()
+        self.samples.collection.drop()
+        
 
     def test_all(self):
         """
@@ -83,7 +87,7 @@ class SampleDaoTests(unittest.TestCase):
                                             duration_per_frame,
                                             description)
 
-        sample = {'_id':id3, 'animation_id':id, 'estmd_id':id2}
+        sample = self.samples.get_sample(id3)
 
         id4 = self.dao_simul.run_simulation(self, sample, 1, 5, description, 1,
                                             1,1,1,False)
@@ -91,7 +95,7 @@ class SampleDaoTests(unittest.TestCase):
         self.dao_simul.get_simulation(id4)
         self.dao_simul.get_simulations(1)
 
-        
+
 
     def tearDown(self):
         """
