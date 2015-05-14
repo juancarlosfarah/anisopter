@@ -100,5 +100,6 @@
                 $(this).text("Show Advanced Controls")
             }
         });
+        positionFooter();
     })
 </script>
