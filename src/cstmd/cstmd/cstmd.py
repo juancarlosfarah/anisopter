@@ -394,7 +394,7 @@ class Cstmd(object) :
         colour = ['b', 'r', 'g', 'y', 'k']
         for n in range(self.num_neurons) :
             for e in range(self.electrodes) :
-                fignum=(n+1)*self.electrodes+e-4
+                fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
                 plt.legend(loc=0)
