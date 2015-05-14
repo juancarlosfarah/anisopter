@@ -38,7 +38,7 @@ class TestTraining(unittest.TestCase):
         name = "abcdefgh12345"
         if not os.path.exists(name):
             os.makedirs(name)
-        open(name+"dummy.txt", 'a').close()
+        open(name+"/dummy.txt", 'a').close()
 
         tr.Training.make_temp_directory(name)
         content = os.listdir(name)
