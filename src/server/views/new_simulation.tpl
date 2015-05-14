@@ -59,7 +59,7 @@
                 %for s in simulations:
                 <option value="{{s['_id']}}">
                     Date: {{s['date']}},
-                    Neurons: {{len(s['neurons'])}},
+                    Neurons: {{s['num_neurons']}},
                     Description: {{s['description']}}
                 </option>
                 %end
