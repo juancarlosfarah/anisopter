@@ -10,7 +10,7 @@
             <p>
                 Lorem ipsum...
             </p>
-            <a href="/training/training_sets" class="h2">Training sets</a>
+            <a href="/training/simulations" class="h2">Training sets</a>
             <p>
                 Create new trainings and stuff.
             </p>

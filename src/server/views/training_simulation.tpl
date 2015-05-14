@@ -8,11 +8,11 @@
     <table class="table">
         <tr>
             <td>Training ID</td>
-            <td>{{animation['_id']}}</td>
+            <td>{{training['_id']}}</td>
         </tr>
         <tr>
             <td>Description</td>
-            <td>{{animation['description']}}</td>
+            <td>{{training['description']}}</td>
         </tr>
     </table>
     <h2>Training set</h2>
