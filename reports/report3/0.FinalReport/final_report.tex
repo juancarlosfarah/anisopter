@@ -17,6 +17,9 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage{minted}
@@ -170,13 +173,13 @@ Our web client is designed to be a simple interface that allows for simulations 
 
 Given the computationally expensive nature of our modules' simulations, a persistent store had to be used to save the output and results of each run. As shown in the structure diagram below, the five modules that our project comprises, are connected sequentially. Saving the output of each module enabled us to reuse the output of a module as input to the next, multiple times without the need to rerun any of the previous modules. Furthermore, the persistent store allows the web client to provide a view of the results for analysis simply by querying the database instead of regenerating them each time.
 
-For our data store MongoDB was chosen. MongoDB provides a fast, scalable solution that does not require strict design decisions in advance. Considering in retrospect the changes and adaptations that had to take place during this project, we trust that MongoDB was a wise choice that contributed to the overall success of this project.
+For our data store MongoDB \cite{mdb} was chosen. MongoDB provides a fast, scalable solution that does not require strict design decisions in advance. Considering in retrospect the changes and adaptations that had to take place during this project, we trust that MongoDB was a wise choice that contributed to the overall success of this project.
 
 
 \subsection{Design diagram}
 The following figure provides a graphical representation of the system as whole. 
 
-\begin{figure}[hb]
+\begin{figure}[h]
 \centering
 \includegraphics[scale = 0.35]{designblockdiagram2}
 \caption{Project Structure Diagram.}
@@ -213,7 +216,7 @@ The design of this module was approached from the user's perspective. Our priori
 \label{target_animation_example}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \centering
 \begin{minipage}{0.2\textwidth}
 \fbox{\includegraphics[scale = 0.14]{str0}}
@@ -231,12 +234,12 @@ The design of this module was approached from the user's perspective. Our priori
 \label{target_animation_example}
 \end{figure}
 
-The challenge was to turn this information into an animation. Our approach was to first create a sequence of images given the input from the user which could then be sequenced into a video. We decided to build our implementation using Gizeh (https://github.com/Zulko/gizeh), a Python library for vector graphics written on top of cairocffi (https://github.com/SimonSapin/cairocffi) the Python binding for Cairo (http://cairographics.org), a 2D graphics library written in C. Gizeh allowed us to perform image creation and manipulation efficiently, as it offers function calls for some of our key requirements, such as drawing circles, adding background images, scaling and transforming graphics. Hence the core of the target animation module processes the user-generated input, calculates the position of each target and of background at each frame and computes the location where each target should be drawn and how the background image should be rendered. At each step, we save the generated image to a temporary file. The generated sequence of images is then combined into a video using OpenCV (http://opencv.org), an an open source computer vision library, and exported as an AVI file. Additionally, the module outputs the series of images in matrix format consisting of greyscale pixel values, which are passed as input to the ESTMD module, and converts the AVI file MP4 format so that it can be easily rendered in a browser using HTML5.
-
-
+The challenge was to turn this information into an animation. Our approach was to first create a sequence of images given the input from the user which could then be sequenced into a video. We decided to build our implementation using Gizeh \cite{gizeh}, a Python library for vector graphics written on top of cairocffi \cite{cairocffi} the Python binding for Cairo \cite{cairo}, a 2D graphics library written in C. Gizeh allowed us to perform image creation and manipulation efficiently, as it offers function calls for some of our key requirements, such as drawing circles, adding background images, scaling and transforming graphics. Hence the core of the target animation module processes the user-generated input, calculates the position of each target and of background at each frame and computes the location where each target should be drawn and how the background image should be rendered. At each step, we save the generated image to a temporary file. The generated sequence of images is then combined into a video using OpenCV \cite{opencv}, an an open source computer vision library, and exported as an AVI file. Additionally, the module outputs the series of images in matrix format consisting of greyscale pixel values, which are passed as input to the ESTMD module, and converts the AVI file MP4 format so that it can be easily rendered in a browser using HTML5.
+\newline
+\newline
 Example of frame in produced video can be seen on the picture  ~\ref{target_animation_example}.
 
-\begin{figure}[hb]
+\begin{figure}[h]
 \centering
 \includegraphics[scale = 0.3]{ta}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
@@ -262,9 +265,13 @@ Our research revealed that the ESTMDs actually consist of several layers of neur
 The first consideration we had to take was the input and output of the ESTMD module. The input would be a time series of two-dimensional arrays of pixel values from the retina and the output would need to be a time series of neuron spikes (spike trains) to provide input to the CSTMD. The spatial and temporal transforms we intended to use are directly applicable to an array of pixel values but the output of these transforms would also be an array of pixel values that would need to be transformed into spike trains. We decided the simplest and most efficient way of doing this would be to map each pixel value to a corresponding firing rate of a neuron, but this would be dealt with by the CSTMD module. In addition, to demonstrate the effect of the ESTMD module, we decided that it would be useful to provide a video of the output in order to ascertain visually that it is performing its expected function.
 \newline
 \newline
-One significant challenge was understanding the transforms and implementing them in Python. For example, understanding the transforms required some background reading on z-transforms, which are the discrete equivalent of Laplace transforms, which are necessary as our system works in discrete time steps. For the translation of the model into Python, we used the Scipy.signal and openCV (CITATION REQUIRED?) libraries extensively: Scipy was used to process the z-transforms (the temporal transformations) and openCV was used for the spatial transforms, such as Gaussian filtering. We also used openCV to convert videos into arrays of pixel values and vice versa.
-\newline
-\newline
+One significant challenge was understanding the transforms and implementing them in Python. For example, understanding the transforms required some background reading on z-transforms, which are the discrete equivalent of Laplace transforms, which are necessary as our system works in discrete time steps. For the translation of the model into Python, we used the Scipy.signal and openCV \cite{opencv} libraries extensively: Scipy was used to process the z-transforms (the temporal transformations) and openCV was used for the spatial transforms, such as Gaussian filtering. We also used openCV to convert videos into arrays of pixel values and vice versa.
+\begin{figure}[h]
+\includegraphics[scale = 0.4]{input}
+\includegraphics[scale = 0.5]{processed}
+\caption{Snapshot of target animation and example of the corresponding ESTMD output. The target is circled in red in the original animation.}
+\end{figure}
+
 Once we had programmed the transforms, some tinkering with parameters was required to achieve the small target motion detection we were expecting. In any case, the user of the web client will have the capability of changing these parameters for their own model.
 
 \subsection{Centrifugal Small Target Motion Detector Neuron (CSTMD)}
@@ -272,12 +279,12 @@ Once we had programmed the transforms, some tinkering with parameters was requir
 The function of this module is to implement a multi-compartmental model of the actual CSTMD neuron that exists in dragonflies, with the hope that it will create an effect of selecting one target from many in the visual field. It takes input from the ESTMD and gives output to the pattern recognition module. The initial code was given to us by our supervisors, who had already shown that there is mutual inhibition of CSTMD1 neurons that could indicate target selection, but it was our job to connect it to the rest of the system and also, as a secondary goal, see if we could replicate the target selection effect observed in real dragonflies. The main issues in tackling this model were:
 \begin{enumerate}
 	\item Understanding he complicated nature of the morphologically-modelled CSTMD1
-	\item Learning how to use the simulation environment of the CSTMD1 neurons (NEURON simulation environment)\cite{w13}
+	\item Learning how to use the simulation environment of the CSTMD1 neurons (NEURON simulation environment)\cite{neuron}
 	\item Efficiently connecting this module with both the ESTMD and the pattern recognition module
 	\item Generating key indicators to measure the performance and the plausibility of the module, in order to assist the user in assessing the function of this neuron
 \end{enumerate}
 
-Given that the CSTMD1 is multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order be aware of all the plausible values that should be tried for each of the parameters.
+Given that the CSTMD1 is multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order to be aware of all the plausible values that should be tried for each of the parameters.
 
 Moreover, we had to consider what would be the best way to provide stimuli to the CSTMD1 neurons as an input from the ESTMD module. The NEURON simulation environment provides many classes as a connection to a model from an external input. After examining all the different possibilities we decided to use a leaky integrator (IntFire2() point process). We made this selection as it allows the modification of the total current as a parameter which is what we required in order to connect the two modules. IntFire2() also has a quite straightforward structure compared to other similar but considerably more complex point processes. 
 
@@ -287,7 +294,7 @@ With regards to the output, since the pattern recognition module requires a cons
 
 After successfully connecting the different modules, our next goal was to define key performance indicators for the CSTMD1 module in order to measure as accurately as possible its performance and also be able to modify the several parameters of the given model and observe their effect to the simulation. For this purpose, we created several plots which recorded the activity of different compartments of the neurons as well as their spiking rates. 
 
-\newpage
+
 \begin{figure}[h]
 \centering
 \includegraphics[scale = 0.3]{compartments}
@@ -313,30 +320,31 @@ The web client that we introduced supports running simulations of the CSTMD1 mod
 The purpose of the pattern recognition module is to discern recurring spike patterns within the output from the CSTMD1 module, with each pattern recognition neuron becoming selective to one pattern. Given the expected behaviour of CSTMD1 neurons, as explained in Section XX, we hypothesised that any patterns found in the output of the CSTMD1 module would encode information about the velocity and direction of targets observed in the visual field of the dragonfly.\par
 
 	In order to model these neurons, we initially replicated experiments conducted by Masquelier et al. \cite{stdp2} \cite{stdp1}. These experiments showed that spike response model (SRM) leaky integrate-and-fire (LIF) neurons could successfully recognise input patterns based on sample input generated from a Poisson process. A single neuron of this type is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. This behaviour is achieved by modulating the weights of the pattern recognition neuron's synaptic connections to its afferents using spike timing dependent plasticity (STDP). STDP uses Long Term synaptic Potentiation (LTP) to reinforce connections with afferents that fired shortly before the postsynaptic neuron, and Long Term Depression (LTD) to weaken those with afferents that fired shortly after. Given that the input patterns occur within random noise, STDP will favour those afferents that participate in the pattern, as every time the pattern manifests itself, they will consistently fire in a given order.
-
-\begin{figure}[h]
+	
+\begin{figure}[H]
 \centering
 \includegraphics[scale = 0.35]{stdp}
 \caption{STDP}
 \end{figure}
-	
+
+
 	Once the pattern recognition neuron becomes selective to the pattern, it continuously reinforces the connections of the afferents that fired slightly before it discharged. Hence with every manifestation of the pattern, the neuron is more likely to fire earlier within it, effectively signalling its beginning. In order to allow for different pattern recognition neurons to become selective to different patterns, we followed Masquelier et al. (2009), connecting a network of pattern recognition neurons to the sample inputs, introducing inhibitory connections amongst the post-synaptic neurons. This allows for a single postsynaptic neuron to become selective to one pattern and to inhibit other postsynaptic neurons from becoming selective to that pattern, thus allowing them to bind to other patterns in the input.\par
 
 Anticipating that the CSTMD1 module would output approximately 500 spike trains, we tuned the pattern recognition neurons from Masquelier et al. to be sensitive to patterns produced by a subset of this number of neurons. As shown in figures [XXX] one pattern recognition neuron becomes sensitive to a recurring pattern produced by 50\% of its afferents, with the synaptic weights to certain afferents involved in the pattern becoming fully potentiated, while the rest are completely depressed. In a 50 second simulation, during the fourth quarter the neuron fires consistently when the pattern manifests itself, with a false-positive and false-negative rate of 0\%.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[scale = 0.35]{pr1}
+\includegraphics[scale = 0.4]{pr1}
 \caption{Neuron fires only when pattern manifests itself. The grey bars indicate when the pattern occurs.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale = 0.35]{pr2}
 \caption{Distribution of strength of weights for five progressive time slices.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale = 0.35]{pr3}
 \caption{Rates}
@@ -359,7 +367,7 @@ The main aspects we needed to consider were:
 \end{enumerate}
 Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the action selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 1.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale = 0.3]{as_example}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
@@ -408,7 +416,7 @@ In the web client, the user is able to change the parameters of the model and ob
 \subsection{Web Client}
 The web client is designed to be a simple interface through which simulations for each of the modules can be run and automated, both separately and jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment.
 
-In order to maintain consistency with the rest of the project, we decided to use a web framework for Python that could easily connect with each of our modules. The basic requirements were that the client could be easily deployed on a local environment for testing purposes, but also able to serve multiple users concurrently when deployed in production. We chose Bottle (http://bottlepy.org) as it is a lightweight web framework with a built-in HTTP development server that would address the first requirement out-of-the-box. It can also be paired with Nginx (http://wiki.nginx.org/) through uWSGI (https://uwsgi-docs.readthedocs.org/en/latest/). By using Nginx, a high-performance HTTP server on top of uWSGI, a full stack interface between web frameworks and web servers, our web client can be deployed in production, providing load-balanced high-availability.
+In order to maintain consistency with the rest of the project, we decided to use a web framework for Python that could easily connect with each of our modules. The basic requirements were that the client could be easily deployed on a local environment for testing purposes, but also able to serve multiple users concurrently when deployed in production. We chose Bottle \cite{bottle} as it is a lightweight web framework with a built-in HTTP development server that would address the first requirement out-of-the-box. It can also be paired with Nginx \cite{nginx} through uWSGI \cite{uwsgi}. By using Nginx, a high-performance HTTP server on top of uWSGI, a full stack interface between web frameworks and web servers, our web client can be deployed in production, providing load-balanced high-availability.
 
 Given that running our modules' simulations is computationally expensive, it was imperative that the output and results of each run be saved in a persistent store. As shown in figure X, our project consists of five modules connected sequentially, with the output of the each module in the sequence serving as input to the next module. By saving the output of each module during a simulation, we would be able to perform multiple runs of the next module in the sequence without rerunning the previous modules. Additionally, by saving the data generated by each run, the web client can provide a view of the results for analysis by simply querying the database instead of generating them from scratch.
 
@@ -493,32 +501,35 @@ Bottle has a built-in templating engine that enhances HTML5 with a thin layer of
 </html>
 \end{minted}
 
-We also minimised the overhead for our front-end requirements by taking advantage of HTML5 functionalities, such as client-side form validation, video rendering and SVG graphics support. Using jQuery (https://jquery.com), a rich cross-browser JavaScript library, we implemented Asynchronous JavaScript and XML (AJAX) communication between the back-end and the front-end, as well as compatible manipulation of HTML's Document Object Model (DOM) that improves user interaction with the client. Where possible, we converted our graphics from matplotlib to D3.js (http://d3js.org), which provides data visualisation tools for browsers, using the Python API provided by mpld3 (http://mpld3.github.io). Furthermore, we structured our HTML5 and CSS using Bootstrap (http://getbootstrap.com), which provides responsive, elegant components for web projects. 
+We also minimised the overhead for our front-end requirements by taking advantage of HTML5 functionalities, such as client-side form validation, video rendering and SVG graphics support. Using jQuery \cite{jquery}, a rich cross-browser JavaScript library, we implemented Asynchronous JavaScript and XML (AJAX) communication between the back-end and the front-end, as well as compatible manipulation of HTML's Document Object Model (DOM) that improves user interaction with the client. Where possible, we converted our graphics from matplotlib to D3.js \cite{d3js}, which provides data visualisation tools for browsers, using the Python API provided by mpld3 \cite{mpld3}. Furthermore, we structured our HTML5 and CSS using Bootstrap \cite{bstrap}, which provides responsive, elegant components for web projects. 
 
 
 \subsection{Software Engineering Techniques}
+The following section describes the framework we used to structure, plan and control the progress of this project.
+It includes two main components: Project Management and Collaboration Tools.
 \subsubsection{Project Management}
-
-\subsubsection{Agile Scrum}
+In order to constantly have a solid understanding of the progress of this project and the significance of any issues that arose in each module we used the following techniques.
+\paragraph{Scrum}
 
 Given the complexity of our project and its division into clear working stages, we chose to apply the Scrum Methodology of Agile Development as our project management framework.
 
-\subsubsection{Sprints}
-The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mediano, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using online collaboration tool \href{http://trello.com}{Trello}, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
+\paragraph{Sprints}
+The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mediano, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using online collaboration tool \href{http://trello.com}{Trello} \cite{trello}, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
 
-\subsubsection{Stand-Ups}
+\paragraph{Stand-Ups}
 Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand-ups are later addressed by the Team Leader.
 
 \subsubsection{Collaboration Tools}
+To ease the internal team communication and ensure that every member is aware of the work conducted by the rest of the team we used the following means.
 
-\subsubsection{Communication Channels}
-All of our information exchange is conducted using \href{http://slack.com}{Slack}, a platform for team communication, which provides each member with visibility to all aspects of the project. Relevant information is shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
+\paragraph{Communication Channels}
+All of our information exchange is conducted using \href{http://slack.com}{Slack} \cite{slack}, a platform for team communication, which provides each member with visibility to all aspects of the project. Relevant information is shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
 
-\subsubsection{Version Control}
-We are using Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab}, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
+\paragraph{Version Control}
+We are using Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab} \cite{gitlab}, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
 
 \subsection{Testing}
-
+The following section describes our testing methodology, implementation as well as the results acquired after the testing was complete.There is also a brief discussion on the challenges faced during testing of this project.
 \subsubsection{Methodology}
 Our testing strategy has evolved from simple ``on the run manual testing'' to full systematic unit testing of our entire codebase. We followed our project's modular and class-based architecture while designing our testing structure. Each class has a corresponding test class, whose test methods aim to mirror the methods of the class it is testing. However, it is possible that several test methods cover different parts of the same method, or that in turn one test method covers several methods.
 

@@ -7,11 +7,10 @@
 	year = "2013"
 }
 
-@online{ne13,
-	author = "Villaseor, Hector J. C. and Fountas, Zafeirios and Torben-Nielsen, Ben and Stiefel, Klaus M.",
-	optorganization = "Telluride Neuromorphic Cognition Engineering Workshop",
-	title = "{Visual attention selection in a dragonfly neuron via dendritic bistability}",
-	url = "http://neuromorphs.net/nm/wiki/2013/DragonflyAttentionNeuron",
+@misc{ne13,
+	author = "Fountas, Zafeirios and Stiefel, Klaus",
+	location = "Telluride, USA",
+	title = "{Neuromorphic Engineering Workshop}",
 	year = "2013"
 }
 
@@ -179,11 +178,5 @@
 	author = "MongoDB\_Inc.",
 	howpublished = "\url{http://mongodb.org}",
 	title = "{MongoDB}"
-}
-
-@manual{neuron,
-	author = "Hines, M.L and Carnevale, N.T.",
-	howpublished = "\url{http://http://www.neuron.yale.edu/}",
-	title = "{The NEURON Simulation Environment}"
 }
 
