@@ -310,7 +310,7 @@ class ActionSelection(object):
 
         # Save weights
         self.synapses = S
-        self.saved_weights = self.synapses.w
+        self.saved_weights = np.asarray(self.synapses.w[:])
 
         print self.saved_weights
 
