@@ -20,6 +20,7 @@ class Training(object):
         Constructor.
         :return:
         """
+        print "Creating new training object."
 
 
     @staticmethod
@@ -71,15 +72,14 @@ class Training(object):
 
         :param types: Corresponds to how many tests of each type should we run.
                       They correspond to:
-                       [vertical, horizontal, diagonal, anty-diagonal]
+                       [vertical, horizontal, diagonal, anti-diagonal]
         :param reps: How many times should we run each test case.
         :return:
         """
 
         self.types = types
-        self.reps = reps
+        self.n = reps
 
 
 if __name__ == '__main__':
     t = Training()
-    t.test_sequence_videos()
