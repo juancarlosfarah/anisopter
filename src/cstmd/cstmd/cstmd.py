@@ -123,7 +123,7 @@ class Cstmd(object) :
         self.synaptic_distance = synaptic_distance
         
         # initialise num plots
-        self.num_plots = 0
+        self.num_plots = self.num_neurons * self.electrodes
 
     # -- Helper functions ------------------------------------------------------
     def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
@@ -406,7 +406,6 @@ class Cstmd(object) :
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
                 i += 1
-        self.num_plots = i+1
 
     def plot_fir_rate(self,_id) :
         plt.figure(2)  
