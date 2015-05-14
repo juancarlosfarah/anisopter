@@ -46,7 +46,9 @@ class ActionSelectionDao:
             'speed_factor': (a_s.SPEED_FACTOR/second).tolist(),
             'dragonfly_start': a_s.dragonfly_start,
             'animation_id': a_s.animation_id,
-            'pattern_recognition_id': a_s.pattern_recognition_id
+            'pattern_recognition_id': a_s.pattern_recognition_id,
+            'weights': (a_s.saved_weights).tolist(),
+            'training': a_s.training
         }
 
         # Save general data.
@@ -107,7 +109,9 @@ class ActionSelectionDao:
                                     dragonfly_start=[300, 300, 0.0],
                                     description="",
                                     animation_id=None,
-                                    pattern_recognition_id=None):
+                                    pattern_recognition_id=None,
+                                    saved_weights=None,
+                                    training=True):
 
         _id = self.run_simulation(N,
                                    taum*ms,
@@ -134,7 +138,9 @@ class ActionSelectionDao:
                                    pattern_input,
                                    animation,
                                    animation_id,
-                                   pattern_recognition_id)
+                                   pattern_recognition_id,
+                                   saved_weights,
+                                   training)
 
         return _id
 
@@ -164,7 +170,9 @@ class ActionSelectionDao:
                        pattern_input=None,
                        animation=None,
                        animation_id=None,
-                       pattern_recognition_id=None):
+                       pattern_recognition_id=None,
+                       saved_weights=None,
+                       training=True):
         """
         Generates and saves a simulation.
         """
@@ -197,7 +205,9 @@ class ActionSelectionDao:
                               pattern_duration=pattern_duration,
                               pattern_input=pattern_input,
                               animation_id=animation_id,
-                              pattern_recognition_id=pattern_recognition_id)
+                              pattern_recognition_id=pattern_recognition_id,
+                              saved_weights=saved_weights,
+                              training=training)
 
         a_s.run()
 
