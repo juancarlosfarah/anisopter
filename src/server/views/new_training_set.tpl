@@ -11,8 +11,8 @@
         <div class="form-group">
             <label for="repetitions">Test repetitions</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="height"
-                       name="height" value="10" max="100"/>
+                <input type="number" class="form-control" id="repetitions"
+                       name="repetitions" value="10" max="100"/>
                 <span class="input-group-addon">reps</span>
             </div>
         </div>
@@ -20,36 +20,36 @@
         <div class="form-group">
             <label for="vertical">Vertical tests</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="height"
-                       name="height" value="1" max="10"/>
-                <span class="input-group-addon">types</span>
+                <input type="number" class="form-control" id="vertical"
+                       name="vertical" value="1" max="10"/>
+                <span class="input-group-addon">type</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="horizontal">Horizontal tests</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="height"
-                       name="height" value="1" max="10"/>
-                <span class="input-group-addon">types</span>
+                <input type="number" class="form-control" id="horizontal"
+                       name="horizontal" value="1" max="10"/>
+                <span class="input-group-addon">type</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="diagonal">Diagonal tests</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="height"
-                       name="height" value="1" max="10"/>
-                <span class="input-group-addon">types</span>
+                <input type="number" class="form-control" id="diagonal"
+                       name="diagonal" value="1" max="10"/>
+                <span class="input-group-addon">type</span>
             </div>
         </div>
 
         <div class="form-group">
             <label for="anti-diagonal">Anti-diagonal tests</label>
             <div class="input-group">
-                <input type="number" class="form-control" id="height"
-                       name="height" value="1" max="10"/>
-                <span class="input-group-addon">types</span>
+                <input type="number" class="form-control" id="anti-diagonal"
+                       name="anti-diagonal" value="1" max="10"/>
+                <span class="input-group-addon">type</span>
             </div>
         </div>
 
@@ -66,7 +66,7 @@
 
         $.ajax({
             method: "POST",
-            url: "/target_animation/animation/generate",
+            url: "/training/training_sets/generate'",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: JSON.stringify({

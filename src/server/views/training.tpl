@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Action Selection</h1>
+            <h1>Training</h1>
             <p>
                 Lorem ipsum...
             </p>
@@ -16,6 +16,20 @@
             </p>
         </div>
     </div>
+
+    <table class="table">
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+        %for a in trainings:
+        <tr>
+            <td><a href="/training/training_set/{{a['_id']}}">{{a['date']}}</a></td>
+            <td><a href="/training/training_set/{{a['_id']}}">{{a['description']}}</a></td>
+        </tr>
+        %end
+    </table>
+
 </div>
 </body>
 </html>

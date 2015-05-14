@@ -15,6 +15,7 @@ import animation_dao
 import estmd_dao
 import cstmd_dao
 import action_selection_dao
+import training_dao
 from bson.objectid import ObjectId
 
 @route('/')
@@ -449,20 +450,20 @@ def run_action_selection_simulation():
 @route('/action_selection/simulations')
 def show_action_selection_simulations():
     obj = dict()
-    obj['simulations'] = a_s.get_simulations(50)
+    obj['simulations'] = a_s.get_training_sets(50)
     return bottle.template('action_selection_simulations', obj)
 
 
 @get("/action_selection/simulation/<_id>")
 def show_action_selection_simulation(_id):
 
-    sim = a_s.get_simulation(_id)
+    tr = training.get_training_set(_id)
 
-    if sim is None:
+    if tr is None:
         bottle.redirect("/")
 
     obj = dict()
-    obj['simulation'] = sim
+    obj['training'] = tr
     return bottle.template("action_selection_simulation", obj)
 
 
@@ -480,6 +481,7 @@ def show_as():
 @route('/training/training_sets')
 def show_training_sets():
     obj = dict()
+    obj['trainings'] = training.get_training_sets(50)
     return bottle.template('training_sets', obj)
 
 
@@ -490,7 +492,7 @@ def new_training_set():
 
 
 @post('/training/training_sets/generate')
-def generate_animation():
+def generate_training_set():
 
     # Retrieve form and values.
     form = bottle.request.forms
@@ -501,11 +503,12 @@ def generate_animation():
     d = int(form.get("diagonal"))
     ad = int(form.get("anti-diagonal"))
 
-    print [v, h, d, ad], n
+    _id = a_s.generate_training_set([v, h, d, ad], n)
+    bottle.redirect("/training/training_sets/" + str(_id))
 
 
-@get("/action_selection/simulation/<_id>")
-def show_action_selection_simulation(_id):
+@get("/training/training_sets/<_id>")
+def show_training_set(_id):
 
     sim = a_s.get_simulation(_id)
 
@@ -514,7 +517,8 @@ def show_action_selection_simulation(_id):
 
     obj = dict()
     obj['simulation'] = sim
-    return bottle.template("action_selection_simulation", obj)
+    return bottle.template("training_set", obj)
+
 
 # ==============================================================================
 # ==============================================================================
@@ -572,7 +576,7 @@ def start():
 
 
 def connect_db(db_name="anisopter"):
-    global db, simulations, samples, animations, cstmd, estmd, a_s
+    global db, simulations, samples, animations, cstmd, estmd, a_s, training
     host = "146.169.47.184"
     port = 27017
     connection = pymongo.MongoClient(host=host, port=port)
@@ -585,6 +589,7 @@ def connect_db(db_name="anisopter"):
     a_s = action_selection_dao.ActionSelectionDao(db)
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
+    training = training_dao.TrainingDao(db)
 
 if __name__ == "__main__":
     connect_db("anisopter")
