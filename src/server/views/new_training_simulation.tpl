@@ -13,7 +13,7 @@
             <select class="form-control" name="input" id="input">
                 %for s in inputs:
                 <option value="{{s['_id']}}">
-                    Description: {{s['description']}}
+                    ID: {{s['_id']}}
                 </option>
                 %end
             </select>
