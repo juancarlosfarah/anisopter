@@ -141,9 +141,6 @@ class ActionSelection(object):
         if self.pattern_input is None:
             input = PoissonGroup(N, rates=F)
         else:
-            # Pattern recognition input
-            print self.pattern_input
-
             pattern = self.pattern_input
             num_input = len(pattern)
 
@@ -160,9 +157,6 @@ class ActionSelection(object):
 
             input_times = np.asarray(sort_combined[0])*ms
             input_indices = np.asarray(sort_combined[1])
-
-            print input_times
-            print input_indices
 
             input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 
@@ -401,10 +395,11 @@ class ActionSelection(object):
                                                  _id))
         self.animation.run(save_path, 10, self.total_anim_frames)
 
-
+'''
 if __name__ == "__main__":
     action = ActionSelection()
     action.run()
     action.save_plots("")
     action.animation.run("test1.avi", 10, 10)
     show()
+'''
