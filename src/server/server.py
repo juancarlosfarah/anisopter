@@ -467,7 +467,9 @@ def show_action_selection_simulation(_id):
 
 
 # Training
-# ========
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
 
 @route('/training')
 def show_as():
@@ -479,6 +481,44 @@ def show_as():
 def show_training_sets():
     obj = dict()
     return bottle.template('training_sets', obj)
+
+
+@get("/training/training_sets/new")
+def new_training_set():
+    obj = dict()
+    return bottle.template('new_training_set', obj)
+
+
+@post('/training/training_sets/generate')
+def generate_animation():
+
+    # Retrieve form and values.
+    form = bottle.request.forms
+
+    n = int(form.get("repetitions"))
+    v = int(form.get("vertical"))
+    h = int(form.get("horizontal"))
+    d = int(form.get("diagonal"))
+    ad = int(form.get("anti-diagonal"))
+
+    print [v, h, d, ad], n
+
+
+@get("/action_selection/simulation/<_id>")
+def show_action_selection_simulation(_id):
+
+    sim = a_s.get_simulation(_id)
+
+    if sim is None:
+        bottle.redirect("/")
+
+    obj = dict()
+    obj['simulation'] = sim
+    return bottle.template("action_selection_simulation", obj)
+
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
 
 
 # Static Routes
@@ -527,7 +567,7 @@ def assets_two_level(filename, subfolder, folder):
 
 def start():
     bottle.run(host="localhost",
-               port=8090,
+               port=8092,
                reloader=True)
 
 

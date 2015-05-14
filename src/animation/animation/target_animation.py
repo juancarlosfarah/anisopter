@@ -269,6 +269,15 @@ class Animation(object):
         """
         self.bg = Background(img_dir, speed)
 
+    def set_total_frames(self, total_frames):
+        """
+        Sets number of frames video should have.
+        :param total_frames: Number of frames you want to have.
+        :return:
+        """
+
+        self.total_frames = total_frames
+
     def run(self, out_directory, fps=20, total_frames=50):
         """
         Run animation and save it in out_directory.
