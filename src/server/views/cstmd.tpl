@@ -29,6 +29,17 @@
             </p>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button"
+                            onclick="window.location.href='/cstmd/simulation/new'"
+                            class="btn btn-xl btn-primary">New CSTMD1 Simulation</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
