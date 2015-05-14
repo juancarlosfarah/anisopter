@@ -82,7 +82,6 @@ class SampleDaoTests(unittest.TestCase):
         for i in range(10) :
             frames.append({'frame': [0 for i in range(32*32)]})
             
-            
         id3 = self.dao_cstmd.run_simulation(sample,
                                             frames,
                                             num_neurons,
@@ -94,7 +93,7 @@ class SampleDaoTests(unittest.TestCase):
 
         sample = self.samples.get_sample(id3)
 
-        id4 = self.dao_simul.run_simulation(sample, 1, 5, description, 1, 1,
+        id4 = self.dao_simul.run_simulation(self, sample, 1, 5, description, 1,
                                             1,1,1,False)
 
         self.dao_simul.get_simulation(id4)
