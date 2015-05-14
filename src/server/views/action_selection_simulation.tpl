@@ -4,6 +4,24 @@
 <body>
 % include('header.tpl')
 <div class="container">
+    <h1>Action Selection</h1>
+    <h2>Graphs</h2>
+    <div class="row">
+        % for i in range(1, 13):
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <img class="img-responsive" src="/assets/action_selection/{{simulation['_id']}}/{{i}}.png" />
+        </div>
+        % end
+    </div>
+    <h2>Animation</h2>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <video width="640" height="480" autoplay loop>
+                <source src="/assets/action_selection/{{simulation['_id']}}/{{simulation['_id']}}.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
     <h2>General</h2>
     <table class="table">
         <tr>
@@ -63,23 +81,6 @@
             <td>{{simulation['frame_length']}}</td>
         </tr>
     </table>
-    <h2>Animation</h2>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <video width="640" height="480" autoplay loop>
-                <source src="/assets/action_selection/{{simulation['_id']}}/{{simulation['_id']}}.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
-    <h2>Graphs</h2>
-    <div class="row">
-        % for i in range(1, 13):
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
-            <img class="img-responsive" src="/assets/action_selection/{{simulation['_id']}}/{{i}}.png" />
-        </div>
-        % end
-    </div>
 </div>
 % include('footer.tpl')
 </body>
