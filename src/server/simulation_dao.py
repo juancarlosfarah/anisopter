@@ -74,16 +74,20 @@ class SimulationDao:
         _id = self.collection.insert(sim)
         return _id
 
-    def get_simulations(self, num_simulations):
+    def get_simulations(self, num_simulations, from_animation=False):
         """
         Fetches a given number of simulatons from the database.
         :param num_simulations: Number of simulations to fetch.
         :return: Array of simulations.
         """
         c = self.collection
-        cursor = c.find().sort('_id', direction=-1).limit(num_simulations)
-        sims = []
+        if not from_animation:
+            cursor = c.find()
+        else:
+            cursor = c.find({"animation_id": {"$ne": None}})
 
+        cursor.sort('_id', direction=-1).limit(num_simulations)
+        sims = []
         for sim in cursor:
             if "description" not in sim:
                 sim['description'] = "Description"
