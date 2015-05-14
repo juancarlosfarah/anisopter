@@ -48,7 +48,7 @@ class SimulationTests(unittest.TestCase):
         sample_duration = 1000
         num_neurons = 500
         s = Sample(sample_duration, num_neurons=num_neurons)
-
+        
         sim.load(s)
 
         # Test assertions.
@@ -70,6 +70,7 @@ class SimulationTests(unittest.TestCase):
         sim.load_file("sample")
         n1 = sim.add_neuron(0.03125, .95, 300)
         sim.run()
+        sim.plot_weight_distributions()
         sim.plot_membrane_potential()
 
     def tearDown(self):
