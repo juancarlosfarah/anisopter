@@ -95,6 +95,8 @@ class AnimationDao:
         """
 
         ani = Animation(width, height, description)
+        ani.total_frames(frames)
+        
         for target in targets:
             start = [int(i) for i in target['start_pos']]
             velocity = int(target['velocity'])
