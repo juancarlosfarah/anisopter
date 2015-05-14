@@ -339,8 +339,7 @@ def show_as():
 @route('/action_selection/simulation/new')
 def new_as_simulation():
     obj = dict()
-    obj['inputs'] = simulations.get_simulations(50)
-    obj['animations'] = animations.get_animations(50)
+    obj['inputs'] = simulations.get_simulations(50, True)
     return bottle.template('new_action_selection_simulation', obj)
 
 

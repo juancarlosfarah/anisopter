@@ -39,7 +39,8 @@ class ActionSelection(object):
                  pattern_input=None,
                  pattern_duration=None,
                  animation_id=None,
-                 pattern_recognition_id=None):
+                 pattern_recognition_id=None,
+                 saved_weights = None):
         
         # Neuron Variables
         self.N = N
@@ -90,6 +91,7 @@ class ActionSelection(object):
         self.animation = animation
         self.animation_id = animation_id
         self.pattern_recognition_id = pattern_recognition_id
+        self.saved_weights = saved_weights
 
         if total_anim_frames is None:
             self.total_anim_frames = int(sim_time / frame_length)
@@ -148,22 +150,17 @@ class ActionSelection(object):
             for i in range(num_input):
                 for j in range(len(pattern[i])):
                     input_indices.append(i)
-                    input_times.append(j)
-
-            print input_indices
-            print input_times
+                    input_times.append(pattern[i][j])
 
             combined = zip(input_times, input_indices)
 
-            print combined
-
             sort_combined = [list(t) for t in zip(*sorted(combined))]
 
-            print sort_combined
-
-
-            input_times = np.asarray(sort_combined[0])
+            input_times = np.asarray(sort_combined[0])*ms
             input_indices = np.asarray(sort_combined[1])
+
+            print input_times
+            print input_indices
 
             input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 
@@ -191,8 +188,12 @@ class ActionSelection(object):
 
         self.synapses = S
         # S.w = 0.5 * gmax
-        S.w = 'rand() * gmax'
-        S.c = 'rand() * gmax'
+        if self.saved_weights is None:
+            S.w = 'rand() * gmax'
+            S.c = 'rand() * gmax'
+        else:
+            S.w = self.saved_weights
+            S.c = 0
 
         # Subgroups
         neuron0=neurons[0:1]
@@ -290,6 +291,7 @@ class ActionSelection(object):
         
         self.rates_t = rates_t
 
+
         # Save monitors
         self.synapse_mon = mon
         self.w0_mon = w0_mon
@@ -301,6 +303,12 @@ class ActionSelection(object):
         self.r1_mon = r1_mon
         self.r2_mon = r2_mon
         self.r3_mon = r3_mon
+
+        # Save weights
+        self.synapses = S
+        self.saved_weights = self.synapses.w
+
+        print self.saved_weights
 
     def save_plots(self, graph_dir):
         # Plots
