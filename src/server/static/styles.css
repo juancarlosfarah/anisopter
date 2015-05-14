@@ -33,8 +33,18 @@ video {
 
 footer {
     display: none;
-    color: #fff;
-    background-color: #337ab7;
+    color: #777;
+    background-color: #e7e7e7;
+}
+
+footer a {
+    color: #777;
+}
+
+footer a:hover,
+footer a:focus{
+    color: #333;
+    background-color: transparent;
 }
 
 .navbar-default {

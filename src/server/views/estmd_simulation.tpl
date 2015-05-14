@@ -33,7 +33,7 @@
         </div>
     </div>
     <br />
-    <h2>Information</h2>
+    <h3>Properties</h3>
     <table class="table">
         <tr>
             <td>Simulation ID</td>
@@ -62,13 +62,13 @@
         <tr>
             <td>CS Kernel</td>
             <td>
-                [\n
+                [
                 % for row in simulation['cs_kernel']:
                 [
                 % for entry in row:
-                {{'%.2f' % entry}}&nbsp;
+                {{'%.3f' % entry}}
                 % end
-                ]\n
+                ]
                 % end
                 ]
             </td>
