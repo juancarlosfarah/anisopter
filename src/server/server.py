@@ -623,6 +623,7 @@ def connect_db(db_name="anisopter"):
     samples = sample_dao.SampleDao(db)
     training = training_dao.TrainingDao(db)
 
+
 if __name__ == "__main__":
     connect_db("anisopter")
     start()
