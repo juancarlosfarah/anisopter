@@ -8,7 +8,7 @@ import os
 import bottle
 from bottle import route, post, get, template, request
 import pymongo
-import pickle
+import numpy as np
 import simulation_dao
 import sample_dao
 import animation_dao
@@ -339,6 +339,7 @@ def show_as():
 @route('/action_selection/simulation/new')
 def new_as_simulation():
     obj = dict()
+    obj['simulations'] = a_s.get_simulations(50)
     obj['inputs'] = simulations.get_simulations(50, True)
     return bottle.template('new_action_selection_simulation', obj)
 
@@ -373,6 +374,21 @@ def run_action_selection_simulation():
     dragonfly_x = int(form.get("dragonfly_x"))
     dragonfly_y = int(form.get("dragonfly_x"))
     description = form.get("description")
+    weights_id = form.get("weights")
+    training = form.get("training")
+
+    if weights_id != "none":
+        sim = a_s.get_simulation(weights_id)
+        weights = None
+        if "weights" in sim:
+            weights = np.array(sim.weights)
+    else:
+        weights = None
+
+    if training == "true":
+        is_training = True
+    else:
+        is_training = False
 
     if input_id != "random":
         sim = simulations.get_simulation(input_id)
@@ -424,7 +440,9 @@ def run_action_selection_simulation():
                                           SPEED_FACTOR=speed_factor,
                                           dragonfly_start=[dragonfly_x,
                                                            dragonfly_y, 0.0],
-                                          description=description)
+                                          description=description,
+                                          training=is_training,
+                                          saved_weights=weights)
     bottle.redirect("/action_selection/simulation/" + str(_id))
 
 
