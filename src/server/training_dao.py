@@ -73,7 +73,7 @@ class TrainingDao:
 
         return training
 
-    def generate_training_set(self, types, n, return_object=False):
+    def generate_training_simulation(self, types, n, return_object=False):
         """
         Generates and saves a training set.
 
