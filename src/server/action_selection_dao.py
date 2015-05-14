@@ -247,7 +247,7 @@ class ActionSelectionDao:
             os.makedirs(save_path)
 
         # Save video file.
-        out_directory = os.path.abspath(save_path + "/" + str(_id))
+        out_directory = os.path.abspath(save_path + "/")
 
         a_s.save_plots(out_directory)
 
