@@ -40,7 +40,8 @@ class ActionSelection(object):
                  pattern_duration=None,
                  animation_id=None,
                  pattern_recognition_id=None,
-                 saved_weights = None):
+                 saved_weights = None,
+                 training = True):
         
         # Neuron Variables
         self.N = N
@@ -92,6 +93,7 @@ class ActionSelection(object):
         self.animation_id = animation_id
         self.pattern_recognition_id = pattern_recognition_id
         self.saved_weights = saved_weights
+        self.training = training
 
         if total_anim_frames is None:
             self.total_anim_frames = int(sim_time / frame_length)
@@ -186,14 +188,16 @@ class ActionSelection(object):
                      connect=True,
                     )
 
+        # Set up weights
         self.synapses = S
-        # S.w = 0.5 * gmax
         if self.saved_weights is None:
             S.w = 'rand() * gmax'
-            S.c = 'rand() * gmax'
         else:
             S.w = self.saved_weights
-            S.c = 0
+        if self.training is False:
+            dopBoost = 0.0
+            self.dopBoost = dopBoost
+        S.c = 'rand() * gmax'
 
         # Subgroups
         neuron0=neurons[0:1]
