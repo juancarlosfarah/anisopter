@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
-% include('head.tpl', title="New Training set")
+% include('head.tpl', title="New Training Simulation")
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Training set</h2>
-
+    % include('form_header.tpl', title="New Training Simulation")
     <form action="/training/simulations/generate" method="post">
 
         <div class="form-group">

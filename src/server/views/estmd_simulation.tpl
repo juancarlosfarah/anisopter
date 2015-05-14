@@ -4,7 +4,16 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>General</h2>
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Simulation</h1>
+        </div>
+        <div class="col-md-2">
+            <button type="button"
+                    onclick="window.location.href='/estmd/simulation/new'"
+                    class="btn btn-primary">New Simulation</button>
+        </div>
+    </div>
     <table class="table">
         <tr>
             <td>Simulation ID</td>

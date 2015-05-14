@@ -4,8 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Action Selection Simulation</h2>
-
+    % include('form_header.tpl', title="New Action Selection Simulation")
     <form action="/action_selection/simulation/run" method="post">
         <div class="form-group">
             <label for="input">Input</label>

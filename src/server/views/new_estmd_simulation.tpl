@@ -4,7 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New ESTMD Simulation</h2>
+    % include('form_header.tpl', title="New ESTMD Simulation")
     <form action="/estmd/simulation/run" method="post">
         <div class="form-group">
             <label for="sample">Sample</label>

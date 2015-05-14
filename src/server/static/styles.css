@@ -20,3 +20,7 @@ video {
     height: 64px;
     width: 64px;
 }
+
+.optional {
+    display: none;
+}

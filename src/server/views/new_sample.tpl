@@ -4,8 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Sample</h2>
-
+    % include('form_header.tpl', title="New Pattern Recognition Sample")
     <form action="/pattern_recognition/sample/generate" method="post">
         <div class="form-group">
             <label for="duration">Duration</label>

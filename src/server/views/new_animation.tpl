@@ -4,8 +4,7 @@
 <body>
 % include('header.tpl')
 <div class="container">
-    <h2>New Animation</h2>
-
+    % include('form_header.tpl', title="New Animation")
     <form action="/target_animation/animation/generate" method="post">
         <div class="form-group">
             <label for="background">Background</label>
