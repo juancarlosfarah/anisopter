@@ -13,7 +13,10 @@
                 <option value="random" selected>Random</option>
                 %for s in inputs:
                     <option value="{{s['_id']}}">
-                        ID: {{s['_id']}}
+                        Date: {{s['date']}},
+                        Duration: {{s['duration']}},
+                        Afferents: {{s['num_afferents']}},
+                        Efferents: {{s['num_neurons']}}
                     </option>
                 %end
             </select>
