@@ -5,7 +5,7 @@ from subprocess import call
 import unittest
 import pickle
 
-from cstmd.cstmd import Cstmd
+from cstmd import cstmd
 import numpy as np
 import os
 import matplotlib
@@ -15,25 +15,32 @@ class TestCSTMD(unittest.TestCase):
     """
     This class represents sequence of tests for class CSTMD.
     """
-    # Set up initial value for the CSTMD object
-    neurons_no = 2
-    electrds=2
-    SYNAPSES_NO=500
-    D=30
-    time_bet_frames=10
-
-    # Initiate the CSTMD object
-    dr = Cstmd(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,PRINT =True)
-
     # Create an array of zeros
-    frame_list = []
+    frames = []
     for i in range(10) :
         frame_list.append(np.zeros([32,32]))
 
+    # Set up initial value for the CSTMD object
+    num_neurons = 2
+    num_electrodes=2
+    num_synapses=500
+    synaptic_distance=30
+    duration_per_frame=10
+    description="Test"
+
+
+    # Initiate the CSTMD object
+    cstmd = Cstmd(num_neurons=num_neurons,
+              num_synapses=num_synapses,
+              synaptic_distance=synaptic_distance,
+              num_electrodes=num_electrodes,
+              duration=duration_per_frame,
+              description=description,
+              input=frames)
+
+
     # Run simulation for the empty arrray
-    for frame in frame_list :
-        frame = frame.ravel()
-        times, ids = dr.run(time = time_bet_frames, rates = frame)
+    times, cstmd.spike_trains = cstmd.run()
 
 
     def setUp(self):
@@ -41,10 +48,6 @@ class TestCSTMD(unittest.TestCase):
         Method that runs at start of each test.
         """
         self.perc_change_acceptable=50.0
-        self.Na = 0.48
-        self.K = 0.05
-        self.runtime=2000
-
 
     def real_firing_rates(self,data) :
         """
@@ -85,21 +88,7 @@ class TestCSTMD(unittest.TestCase):
         # predicted rate then the test succeeds
         self.failUnless(perc_change>=self.perc_change_acceptable)
 
-    def test_save(self):
-        """
-        Method which checks whether the resulted spike trains are saved
-        after a CSTMD simulation is run.
-        """
-        # Save file
-        self.dr.sp_trains_save()
 
-        extension = ".npz"
-        filename = "spike_trains/{}_{}_{}_{}_{}_{}".format(self.neurons_no,"neur",
-                                                           self.electrds,"elecs",
-                                                           self.time_bet_frames*len(self.frame_list),"runtime")
-
-        # Checks whether a file of spike trains is created
-        self.failUnless(os.path.exists(filename + extension))
 
     def test_plot(self):
         """
