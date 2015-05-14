@@ -150,20 +150,15 @@ class ActionSelection(object):
                     input_indices.append(i)
                     input_times.append(pattern[i][j])
 
-            print input_indices
-            print input_times
-
             combined = zip(input_times, input_indices)
-
-            print combined
 
             sort_combined = [list(t) for t in zip(*sorted(combined))]
 
-            print sort_combined
-
-
-            input_times = np.asarray(sort_combined[0])
+            input_times = np.asarray(sort_combined[0])*ms
             input_indices = np.asarray(sort_combined[1])
+
+            print input_times
+            print input_indices
 
             input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 
