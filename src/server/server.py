@@ -447,6 +447,15 @@ def show_action_selection_simulation(_id):
     obj['simulation'] = sim
     return bottle.template("action_selection_simulation", obj)
 
+# Training
+# ========
+
+@route('/training')
+def show_as():
+    obj = dict()
+    return bottle.template('training', obj)
+
+
 # Static Routes
 # =============
 @get('/static/<tool>/<folder>/<filename>')
