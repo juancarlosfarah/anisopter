@@ -5,7 +5,7 @@ from subprocess import call
 import unittest
 import pickle
 
-from src.cstmd.second_attempt import CSTMD
+from cstmd.cstmd import CSTMD
 import numpy as np
 import os
 import matplotlib
