@@ -22,10 +22,10 @@
         </div>
         <div class="form-group">
             <label for="num_neurons">Number of Neurons</label>
-            <input class="form-control" type="number" max="5" min="1"
+            <input class="form-control" type="number" max="5" min="2"
                    id="num_neurons" name="num_neurons"
 		   value="5"
-                   placeholder="Number of Neurons (1 to 5)"/>
+                   placeholder="Number of Neurons (2 to 5)"/>
             <p class="help-block">
                 Choose the number of neurons to be used for the simulation.
             </p>
