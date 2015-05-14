@@ -16,9 +16,11 @@ class SampleDaoTests(unittest.TestCase):
         Sets up for the tests.
         :return: None.
         """
-        connection_string = "mongodb://localhost"
+        connection_string = "146.169.47.184"
         connection = pymongo.MongoClient(connection_string)
-        db = connection.test
+        port = 27017
+        connection = pymongo.MongoClient(host=host, port=port)
+        db = connection["anisopter"].test
 
         # Connect client to test database.
         server.connect_db("test")
