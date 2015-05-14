@@ -312,7 +312,7 @@ class ActionSelection(object):
         self.synapses = S
         self.saved_weights = self.synapses.w
 
-        print self.saved_weights
+        print self.saved_weights[:]
 
     def save_plots(self, graph_dir):
         # Plots
