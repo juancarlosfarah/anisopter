@@ -22,7 +22,7 @@ class TestActionSelection(unittest.TestCase):
         """
 
         self.dummy_as.run()
-        self.dummy_as.save_plots("")
+        self.dummy_as.save_plots("temp")
         self.dummy_as.animation.run("test1.avi", 10, 10)
 
 

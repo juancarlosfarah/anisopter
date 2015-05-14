@@ -5,7 +5,7 @@ from subprocess import call
 import unittest
 import pickle
 
-from src.cstmd.second_attempt import CSTMD
+from cstmd.cstmd import Cstmd
 import numpy as np
 import os
 import matplotlib
@@ -23,7 +23,7 @@ class TestCSTMD(unittest.TestCase):
     time_bet_frames=10
 
     # Initiate the CSTMD object
-    dr = CSTMD(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,PRINT =True)
+    dr = Cstmd(neurons_no=neurons_no, synapses_no=SYNAPSES_NO, D=D,electrds=electrds,PRINT =True)
 
     # Create an array of zeros
     frame_list = []
