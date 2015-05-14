@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            <label for="anti_diagonal">Anti_diagonal tests</label>
+            <label for="anti_diagonal">Anti-diagonal tests</label>
             <div class="input-group">
                 <input type="number" class="form-control" id="anti_diagonal"
                        name="anti_diagonal" value="1" max="10"/>

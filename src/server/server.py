@@ -494,6 +494,7 @@ def new_training_set():
 @post('/training/training_sets/generate')
 def generate_training_set():
 
+    print "Here above"
     # Retrieve form and values.
     form = bottle.request.forms
 
