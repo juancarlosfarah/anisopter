@@ -59,6 +59,17 @@ class SimulationTests(unittest.TestCase):
         self.failUnless(sim.duration == s.spike_trains.shape[1])
         self.failUnless(sim.sampling_interval == math.ceil(sim.duration / 5))
 
+    def test_general_test(self):
+        """
+        One mothafacka test to rule them all.
+
+        :return:
+        """
+
+        self.simulation.add_neuron(0.03125, .95, 300)
+        self.siumulation.run
+        self.simulation.plot_membrane_potential()
+
     def tearDown(self):
         """
         Resets the sample for the tests.
