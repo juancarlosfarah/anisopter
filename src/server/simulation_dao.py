@@ -293,6 +293,14 @@ class SimulationDao:
             neurons.append(n)
 
         sim.run()
+	
+	# Allow for simulations run on generated samples.
+	if 'animation_id' not in sample:
+		sample['animation_id'] = None
+
+	if 'estmd_id' not in sample:
+		sample['estmd_id'] = None
+
         _id = self.save(sim,
                         sample['animation_id'],
                         sample['estmd_id'],

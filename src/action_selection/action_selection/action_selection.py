@@ -138,6 +138,8 @@ class ActionSelection(object):
             input = PoissonGroup(N, rates=F)
         else:
             # Pattern recognition input
+            print self.pattern_input
+
             pattern = self.pattern_input
             num_input = len(pattern)
 
@@ -146,13 +148,17 @@ class ActionSelection(object):
             for i in range(num_input):
                 for j in range(len(pattern[i])):
                     input_indices.append(i)
-                    input_times.append(j)
+                    input_times.append(pattern[i][j])
 
             combined = zip(input_times, input_indices)
-            input_times, input_indices = sorted(combined)
 
-            input_times = np.asarray(input_times)
-            input_indices = np.asarray(input_indices)
+            sort_combined = [list(t) for t in zip(*sorted(combined))]
+
+            input_times = np.asarray(sort_combined[0])*ms
+            input_indices = np.asarray(sort_combined[1])
+
+            print input_times
+            print input_indices
 
             input = SpikeGeneratorGroup(num_input, input_indices, input_times)
 

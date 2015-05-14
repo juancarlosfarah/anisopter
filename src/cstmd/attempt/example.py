@@ -15,10 +15,24 @@ from_file = False
 no_input = False
 
 i = 1
-K = -1
-Na= -1
+K = 0.06
+Na= 0.48
+SYNAPSES_NO = 500
+save="dat.pkl"
 while i < len(argv) :
-    if argv[i] == "-file" and len(argv) > i+1 :
+    if argv[i] == "-K" and len(argv) > i+1 :
+        i += 1
+        K = float(argv[i]) 
+    elif argv[i] == "-Na" and len(argv) > i+1 :
+        i += 1
+        Na = float(argv[i])
+    elif argv[i] == "-SYN" and len(argv) > i+1 :
+        i += 1
+        SYNAPSES_NO = float(argv[i]) 
+    elif argv[i] == "d" and len(argv) > i+1 :
+        i += 1
+        save = argv[i] 
+    elif argv[i] == "-file" and len(argv) > i+1 :
         i += 1
         filename = argv[i] 
         from_file = True
@@ -43,14 +57,14 @@ for i in range(len(frame_list)) :
 # Load CSTMD neurons
 # ==============================
 
+
 neurons_no = 5
-SYNAPSES_NO = 500
+
 D = 30
 electrds=50
 
 #Already have default values
-K=0.06
-Na=0.48
+
 PIXEL_NO = len(frame_list[0])
 MAX_CURRENT = 30
 MIN_CURRENT = 3.0
@@ -58,21 +72,32 @@ MIN = 0.000005
 MAX = 0.00005
 PLOT_ACTIVITY = False
 runtime=10
-prints=True
+prints=False
 
+print "K ",K," Na ",Na," Syn ",SYNAPSES_NO
 dr = CSTMD(num_neurons=neurons_no, num_synapses=SYNAPSES_NO, synaptic_distance=D,num_electrodes=electrds,
 potassium=K,sodium=Na,num_pixels=PIXEL_NO,max_current=MAX_CURRENT,min_current=MIN_CURRENT,min_weight=MIN,max_weight=MAX,plot_activity =PLOT_ACTIVITY,duration=runtime,input=frame_list,verbose=prints)
 
 times=dr.run()
 if PLOT_ACTIVITY:
 	dr.plot()
-neuron_idx = 0
-FINAL_THING = []
-for i in times[neuron_idx] :
-    FINAL_THING.append(float(i))
 
-with open("data.pkl", 'wb') as my_file :
-    pickle.dump(FINAL_THING, my_file)
+#dump the spike times of the first neuron
+neuron_idx = 0
+spiketimes = []
+for i in times[neuron_idx] :
+    spiketimes.append(float(i))
+
+#spike occurences are recorded per 1 ms of simulation
+spikesPerMs=[0]*(len(frame_list)*runtime)
+
+if len(spiketimes)!=0:
+    for st in spiketimes :
+        spikesPerMs[int(st)] += 1
+
+with open(save, 'wb') as my_file :
+    pickle.dump(spikesPerMs, my_file)
+
 
 
 

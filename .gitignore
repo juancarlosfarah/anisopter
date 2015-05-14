@@ -9,7 +9,12 @@
 *.orig
 \#*
 .\#*
+.DS_Store
 stage1
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
 
 # LaTeX Files
 # ===========
@@ -17,6 +22,10 @@ stage1
 *.aux
 *.log
 *.synctex.gz
+*.pdf
+*.toc
+*.blg
+*.bbl
 
 # IDEA files
 # ==========

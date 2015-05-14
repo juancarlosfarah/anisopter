@@ -579,3 +579,7 @@ class Neuron:
         pylab.title('Effect of STDP on Synaptic Weights')
         if show:
             pylab.show()
+
+if __name__ == "__main__" and __package__ is None:
+    neuron = Neuron(500)
+    neuron.plot_stdp()
