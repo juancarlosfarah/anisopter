@@ -38,7 +38,8 @@ class CstmdDao:
             'sodium': cstmd.sodium,
             'synaptic_distance': cstmd.synaptic_distance,
             'animation_id': animation_id,
-            'estmd_id': estmd_id
+            'estmd_id': estmd_id,
+            'num_plots': cstmd.num_plots
         }
 
         # Save general data.
@@ -144,8 +145,8 @@ class CstmdDao:
         _id = self.save(cstmd, sample['_id'], sample['animation_id'])
 
         # Save Plots.
-        cstmd.plot_fir_rate(str(_id))
         cstmd.plot_compart_act(str(_id))
+        cstmd.plot_fir_rate(str(_id))
 
         return _id
 

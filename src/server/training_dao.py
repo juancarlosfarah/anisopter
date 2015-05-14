@@ -73,12 +73,10 @@ class TrainingDao:
 
         return training
 
-    def generate_animation(self, types, n, return_object=False):
+    def generate_training_set(self, types, n, return_object=False):
         """
         Generates and saves a training set.
 
-        :param width:
-        :param height:
         :return: _id of training set generated.
         """
 
@@ -88,17 +86,6 @@ class TrainingDao:
             return tr_set
 
         _id = self.save(tr_set)
-
-        # Save video file.
-        print "Current working directory: " + os.getcwd()
-        path = os.path.abspath(os.path.join(os.path.dirname(__file__),
-                                            "assets",
-                                            "animations"))
-        filename = str(_id) + ".avi"
-        file_path = "{path}/{file}".format(path=path, file=filename)
-        print "Saving animation in: " + file_path
-
-        ani.run(file_path, total_frames=frames)
 
         return _id
 

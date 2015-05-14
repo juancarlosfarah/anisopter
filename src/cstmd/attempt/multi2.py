@@ -23,7 +23,7 @@ def firing_rates(binned_data) :
 
 def real_firing_rates(data) :
     fr = []
-	if len(data)==0: return 0
+    if len(data)==0: return 0
 
     for i in range(len(data)-4) :
         fr.append(4000.0 / (data[i+4] - data[i]))
@@ -44,9 +44,13 @@ def run(K,Na,SYN,DATA_NAME):
         databoth = pickle.load(my_file)
 
 
-    real_fr_1 = real_firing_rates(data1)
-    real_fr_2 = real_firing_rates(data2)
-    real_fr_both = real_firing_rates(databoth)
+    #real_fr_1 = real_firing_rates(data1)
+    #real_fr_2 = real_firing_rates(data2)
+    #real_fr_both = real_firing_rates(databoth)
+
+    real_fr_1=data1
+    real_fr_2=data2
+    real_fr_both=databoth
 
     scorelen=min(len(real_fr_1),len(real_fr_2),len(real_fr_both))
     score=[]
@@ -100,8 +104,8 @@ else :
     START_K = float(argv[1])
     END_K = float(argv[2])
 """
-START_K = 0.01
-END_K = 0.1
+START_K = 0.02
+END_K = 0.08
 
 
 FILENAME = "results.pkl"
@@ -128,7 +132,7 @@ def myFunction(k):
 
 import multiprocessing as mp
 myPool = mp.Pool(7)
-results = myPool.map(myFunction, np.arange(START_K, END_K, 0.01))
+results = myPool.map(myFunction, np.arange(START_K, END_K, 0.005))
 
 # It's the same as this results = [myFunction(k) for k in np.arange(...) ] in parallel!
 
