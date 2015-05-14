@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label for="weights">Weights</label>
-            <select class="form-control" name="weights" id="weights">
+            <select class="form-control optional" name="weights" id="weights">
                 <option value="none" selected>None</option>
                 <option disabled="disabled">--- Saved Weights ---</option>
                 %for s in simulations:
@@ -57,7 +57,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="tau_m">Tau M</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_m"
@@ -65,7 +65,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="tau_pre">Tau Pre</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_pre"
@@ -73,7 +73,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="tau_post">Tau Post</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_post"
@@ -81,7 +81,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="tau_c">Tau C</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_c"
@@ -89,7 +89,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="tau_dop">Tau Dop</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_dop"
@@ -97,7 +97,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="Ee">Ee</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="Ee"
@@ -105,7 +105,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="vt">vt</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="vt"
@@ -113,7 +113,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="vr">vr</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="vr"
@@ -121,7 +121,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="El">El</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="El"
@@ -129,7 +129,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="dop_boost">Dopamine Boost</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dop_boost"
@@ -137,7 +137,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="tau_e">Tau E</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="tau_e"
@@ -145,7 +145,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="F">F</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="F"
@@ -153,7 +153,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="gmax">Max Weight</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="gmax"
@@ -161,7 +161,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-	<div class="form-group">
+	<div class="form-group optional">
             <label for="dApre">dApre</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dApre"
@@ -169,7 +169,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="duration">Duration</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="duration"
@@ -177,7 +177,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="reward_distance">Reward Distance</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="reward_distance"
@@ -185,7 +185,7 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group optional">
             <label for="speed_factor">Speed Factor</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="speed_factor"
