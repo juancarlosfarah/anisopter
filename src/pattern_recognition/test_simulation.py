@@ -66,8 +66,7 @@ class SimulationTests(unittest.TestCase):
         :return:
         """
 
-        self.simulation.add_neuron(0.03125, .95, 300)
-        self.siumulation.run
+        self.simulation.run()
         self.simulation.plot_membrane_potential()
 
     def tearDown(self):
