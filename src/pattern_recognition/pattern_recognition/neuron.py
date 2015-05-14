@@ -585,6 +585,7 @@ class Neuron:
         if show:
             pylab.show()
 
+
 if __name__ == "__main__" and __package__ is None:
     neuron = Neuron(500)
     neuron.plot_stdp()
