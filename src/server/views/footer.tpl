@@ -1,7 +1,7 @@
-<footer class="container-fluid text-center">
-    <div class="row bxg-footer-container">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-            <div class="row text-left">
+<footer class="container-fluid text-center bg-success text-info">
+    <div class="row">
+        <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
+            <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <a class="h5" href="/target_animation">Target Animation</a>
                 </div>
@@ -12,7 +12,7 @@
                     <a class="h5" href="/cstmd">CSTMD1</a>
                 </div>
             </div>
-            <div class="row text-left">
+            <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <a class="h5" href="/pattern_recognition">
                         Pattern Recognition
@@ -22,7 +22,7 @@
                     <a class="h5" href="/action_selection">Action Selection</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/training">Training</a>
+                    <a class="" href="/training">Training</a>
                 </div>
             </div>
         </div>
