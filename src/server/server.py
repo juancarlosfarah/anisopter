@@ -481,7 +481,7 @@ def show_as():
 @route('/training/training_sets')
 def show_training_simulations():
     obj = dict()
-    obj['trainings'] = training.simulations(50)
+    obj['trainings'] = training.get_simulations(50)
     return bottle.template('training_sets', obj)
 
 
