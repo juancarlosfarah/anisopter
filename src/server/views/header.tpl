@@ -8,7 +8,7 @@
                     Target Animation
                 </a>
                 <a class="navbar-brand" href="/estmd">ESTMD</a>
-                <a class="navbar-brand" href="/cstmd">CSTMD</a>
+                <a class="navbar-brand" href="/cstmd">CSTMD1</a>
                 <a class="navbar-brand" href="/pattern_recognition">
                     Pattern Recognition
                 </a>
