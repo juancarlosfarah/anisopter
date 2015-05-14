@@ -1,29 +1,29 @@
 <div></div>
 <footer class="container-fluid text-center">
+    <br />
+    <br />
     <div class="row">
         <div class="col-lg-8 col-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 col-sm-offset-0">
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/target_animation">Target Animation</a>
+                    <a href="/target_animation">Target Animation</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/estmd">ESTMD</a>
+                    <a href="/estmd">ESTMD</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/cstmd">CSTMD1</a>
+                    <a href="/cstmd">CSTMD1</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/pattern_recognition">
-                        Pattern Recognition
-                    </a>
+                    <a href="/pattern_recognition">Pattern Recognition</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="h5" href="/action_selection">Action Selection</a>
+                    <a href="/action_selection">Action Selection</a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                    <a class="" href="/training">Training</a>
+                    <a href="/training">Training</a>
                 </div>
             </div>
         </div>
