@@ -1,5 +1,5 @@
 <div class="curtain-fade"></div>
-<header>
+<header class="bg-info">
     <nav class="navbar navbar-default">
         <div class="container">
             <div class="navbar-header">
