@@ -15,13 +15,18 @@ class Training(object):
      - run_tests: which sets types and frequency of tests
     """
 
-    def __init__(self):
+    def __init__(self, types, n):
         """
         Constructor.
+        :param types: Corresponds to how many tests of each type should we run.
+                      They correspond to:
+                       [vertical, horizontal, diagonal, anti-diagonal]
+        :param reps: How many times should we run each test case.
         :return:
         """
-        print "Creating new training object."
 
+        self.types = types
+        self.n = n
 
     @staticmethod
     def make_temp_directory(name):
@@ -65,20 +70,6 @@ class Training(object):
             # TO DO: adjust
             start = []
             # Run single test.
-
-    def run_tests(self, types=[1, 1, 1, 1], reps=1):
-        """
-        Function that runs selected tests on our modules.
-
-        :param types: Corresponds to how many tests of each type should we run.
-                      They correspond to:
-                       [vertical, horizontal, diagonal, anti-diagonal]
-        :param reps: How many times should we run each test case.
-        :return:
-        """
-
-        self.types = types
-        self.n = reps
 
 
 if __name__ == '__main__':

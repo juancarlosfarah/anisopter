@@ -80,8 +80,7 @@ class TrainingDao:
         :return: _id of training set generated.
         """
 
-        tr_set = tr.Training()
-        tr_set.run_tests(types, n)
+        tr_set = tr.Training(types, n)
 
         if return_object:
             return tr_set
