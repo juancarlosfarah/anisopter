@@ -14,6 +14,9 @@
                 <a class="navbar-brand" href="/action_selection">
                     Action Selection
                 </a>
+                <a class="navbar-brand" href="/training">
+                    Training
+                </a>
             </div>
         </div>
     </nav>
