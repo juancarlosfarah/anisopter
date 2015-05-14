@@ -29,9 +29,10 @@ class Training(object):
         self.types = types
         self.n = n
         self.id = input_id
-        
-        estmd = estmd_dao.get_simulation(self.id)
-        print estmd
+
+        estmd = estmd_dao.EstmdDao()
+        output = estmd.get_simulation(self.id)
+        print output
 
     @staticmethod
     def make_temp_directory(name):
