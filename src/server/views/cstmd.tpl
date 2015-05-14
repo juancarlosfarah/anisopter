@@ -26,6 +26,10 @@
             <a href="/cstmd/simulations" class="h2">Simulations</a>
             <p>
                 Given an input, simulate the output of a CSTMD1 neuron.
+                Note that the CSTMD1 is multi-compartmental model with several
+                parameters that directly or indirectly affect its activity and
+                effect to a given input. You need to first fully understand the
+                given model before proceeding.
             </p>
         </div>
     </div>
