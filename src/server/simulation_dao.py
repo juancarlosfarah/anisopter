@@ -224,7 +224,7 @@ class SimulationDao:
         duration = simulation["duration"]
         neurons = simulation["neurons"]
         patterns = simulation["start_positions"]
-        n = neurons[0]
+        n = neurons[1]
 
         # Split start positions and spikes into 4 arrays.
         split = duration / 4
