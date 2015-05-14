@@ -447,6 +447,7 @@ def show_action_selection_simulation(_id):
     obj['simulation'] = sim
     return bottle.template("action_selection_simulation", obj)
 
+
 # Training
 # ========
 
@@ -454,6 +455,11 @@ def show_action_selection_simulation(_id):
 def show_as():
     obj = dict()
     return bottle.template('training', obj)
+
+
+@route('/training/training_sets')
+def show_training_sets():
+    obj = dict()
 
 
 # Static Routes
