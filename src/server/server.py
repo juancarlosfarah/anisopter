@@ -450,20 +450,20 @@ def run_action_selection_simulation():
 @route('/action_selection/simulations')
 def show_action_selection_simulations():
     obj = dict()
-    obj['simulations'] = a_s.get_training_sets(50)
+    obj['simulations'] = a_s.get_simulations(50)
     return bottle.template('action_selection_simulations', obj)
 
 
 @get("/action_selection/simulation/<_id>")
 def show_action_selection_simulation(_id):
 
-    tr = training.get_training_set(_id)
+    sim = a_s.get_simulation(_id)
 
-    if tr is None:
+    if sim is None:
         bottle.redirect("/")
 
     obj = dict()
-    obj['training'] = tr
+    obj['simulation'] = sim
     return bottle.template("action_selection_simulation", obj)
 
 

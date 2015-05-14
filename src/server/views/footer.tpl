@@ -27,7 +27,7 @@
     }
 
     $(document).ready(function() {
-        $('form').submit(function() {
+        $('#submit').click(function() {
             var $curtain = $('.curtain-fade');
             var $animation = $('#LoadingAnimation');
             showLoader($curtain, $animation);
