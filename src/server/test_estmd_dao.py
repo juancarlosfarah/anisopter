@@ -39,39 +39,29 @@ class SampleDaoTests(unittest.TestCase):
                      'frames': '50',
                      'size': '1' }]
         frames = 20
-        background = False
+        background = ""
         background_speed = 0
 
-        H_filter = [[-1, -1, -1, -1, -1],
-                    [-1,  0,  0,  0, -1],
-                    [-1,  0,  2,  0, -1],
-                    [-1,  0,  0,  0, -1],
-                    [-1, -1, -1, -1, -1]]
+        H_filter = "[[-1, -1, -1, -1, -1],[-1,  0,  0,  0, -1],[-1,  0,  2,  0, -1],[-1,  0,  0,  0, -1],[-1, -1, -1, -1, -1]]"
 
-        b = [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]
-        a = [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]
+        b = "[0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]"
+        a = "[1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]"
 
-        CSKernel = [[-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0],
-                    [-1.0 / 9.0,  8.0 / 9.0, -1.0 / 9.0],
-                    [-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0]]
+        CSKernel = "[[-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0],[-1.0 / 9.0,  8.0 / 9.0, -1.0 / 9.0],[-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0]]"
 
-        b1 = [1.0, 1.0]
-        a1 = [51.0, -49.0]
+        b1 = "[1.0, 1.0]"
+        a1 = "[51.0, -49.0]"
 
 
         id = self.dao_animi.generate_animation(width, height, decription,
                                                targets,frames, background,
                                                background_speed)
 
-        id2 = self.dao_estmd(id, "test", H_filter, b, a,
+        id2 = self.dao_estmd.run_simulation(id, "test", H_filter, b, a,
                              CSKernel, b1, a1)
 
-        def run_simulation(self, sample_id, description, H_filter, b, a,
-                           CSKernel, b1, a1):
-
-        self.dao.get_simulation(id2)
-        self.dao.get_simulations(1)
-        self.dao.remove(id2)
+        self.dao_estmd.get_simulation(id2)
+        self.dao_estmd.get_simulations(1)
 
     def tearDown(self):
         """
