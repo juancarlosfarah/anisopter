@@ -76,7 +76,7 @@ def show_animation(_id):
 @post('/target_animation/animation/generate')
 def generate_animation():
     background = request.json['background']
-    background_speed = request.json['background_speed']
+    background_speed = int(request.json['background_speed'])
     width = int(request.json['width'])
     height = int(request.json['height'])
     description = request.json['description']
