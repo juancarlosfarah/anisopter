@@ -75,7 +75,7 @@
     <h2>Graphs</h2>
     <div class="row">
         % for i in range(1, 13):
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
             <img class="img-responsive" src="/assets/action_selection/{{simulation['_id']}}/{{i}}.png" />
         </div>
         % end
