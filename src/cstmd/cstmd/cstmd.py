@@ -295,10 +295,14 @@ class Cstmd(object) :
         self.out_raster = []
 
         # Initialize the electrodes
+
+        #Choose the appropriate step for the compartments to be recorded
+        self.step_patt_rec_index=min(self.step_patt_rec_index,(self.NSize[n]-self.start_patt_rec_index)/self.num_electrodes)
+
         for n in range(self.num_neurons) :
             for i in range(self.num_electrodes):
                 # The compartment number which will be recorded
-                comp_idx=self.start_patt_rec_index+i*(self.step_patt_rec_index )
+                comp_idx=self.start_patt_rec_index+i*self.step_patt_rec_index
                 #print "Neuron No ",n, " elec no: ",i," comp num: ",comp_idx
                 self.t_out_vec.append(h.Vector())
                 self.id_out_vec.append(h.Vector())
