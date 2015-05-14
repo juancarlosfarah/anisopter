@@ -50,7 +50,11 @@
             % for i in range(len(simulation['potential_plots'])):
             % p_plot = simulation['potential_plots'][i]
             <div role="tabpanel" class="tab-pane" id="p{{i + 1}}">
-                {{!p_plot}}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        {{!p_plot}}
+                    </div>
+                </div>
             </div>
             %end
         </div>
