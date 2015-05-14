@@ -519,7 +519,7 @@ def show_training_simulations():
 @get("/training/simulations/new")
 def new_training_simulation():
     obj = dict()
-    obj['inputs'] = a_s.get_simulations(50)
+    obj['inputs'] = estmd.get_simulations(50)
     return bottle.template('new_training_simulation', obj)
 
 
