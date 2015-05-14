@@ -42,3 +42,15 @@ footer {
     background-color: #337ab7;
     border-color: #337ab7;
 }
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #c4e3f3;
+    background-color: transparent;
+}
+.navbar-default .navbar-text {
+    color: #fff;
+}
