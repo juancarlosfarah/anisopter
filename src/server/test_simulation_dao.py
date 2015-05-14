@@ -12,9 +12,10 @@ class SimulationDaoTests(unittest.TestCase):
         Creates a SimulationDao to test on.
         :return: None.
         """
-        connection_string = "mongodb://localhost"
-        connection = pymongo.MongoClient(connection_string)
-        db = connection.test
+        host = "146.169.47.184"
+        port = 27017
+        connection = pymongo.MongoClient(host=host, port=port)
+        db = connection["anisopter"].test
         self.dao = simulation_dao.SimulationDao(db)
         self.dao.collection.drop()
 
