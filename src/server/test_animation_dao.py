@@ -16,7 +16,7 @@ class SampleDaoTests(unittest.TestCase):
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection["anisopter"].test
-        self.dao = animation_dao.SimulationDao(db)
+        self.dao = animation_dao.AnimationDao(db)
         self.dao.collection.drop()
 
     def test_all(self):
