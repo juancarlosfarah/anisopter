@@ -396,8 +396,14 @@ class Cstmd(object) :
             for e in range(self.electrodes) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
+                if !e:   
+                    fig.set_ylabel("Neuron "+str(n+1)+"\n Firing rate (Hz)")
+                else:
+                    fig.set_ylabel("Firing rate (Hz)")
+                fig.set_xlabel("Time (ms)")
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
-                plt.legend(loc=0)
+                #plt.legend(loc=0)
+                plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
                 
                 # Save Plots.
                 relative_path = "../server/assets/cstmd/" + str(_id)
