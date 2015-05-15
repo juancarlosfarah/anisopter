@@ -5,6 +5,7 @@ import animation_dao
 import estmd_dao
 import cstmd_dao
 import simulation_dao
+import sample_dao
 import pymongo
 
 
@@ -23,10 +24,13 @@ class SampleDaoTests(unittest.TestCase):
         self.dao_estmd = estmd_dao.EstmdDao(db)
         self.dao_cstmd = cstmd_dao.CstmdDao(db)
         self.dao_simul = simulation_dao.SimulationDao(db)
+        self.samples = sample_dao.SampleDao(db)
         self.dao_animi.collection.drop()
         self.dao_estmd.collection.drop()
         self.dao_cstmd.collection.drop()
         self.dao_simul.collection.drop()
+        self.samples.collection.drop()
+        
 
     def test_all(self):
         """
@@ -72,8 +76,13 @@ class SampleDaoTests(unittest.TestCase):
         num_electrodes = 1
         num_synapses = 1
         synaptic_distance = 1
-        duration_per_frame = 0.
+        duration_per_frame = 1
 
+        frames = []
+        for i in range(10) :
+            frames.append({'frame': [0 for i in range(32*32)]})
+            
+            
         id3 = self.dao_cstmd.run_simulation(sample,
                                             frames,
                                             num_neurons,
@@ -83,15 +92,15 @@ class SampleDaoTests(unittest.TestCase):
                                             duration_per_frame,
                                             description)
 
-        sample = {'_id':id3, 'animation_id':id, 'estmd_id':id2}
+        sample = self.samples.get_sample(id3)
 
-        id4 = self.dao_simul.run_simulation(self, sample, 1, 5, description, 1,
+        id4 = self.dao_simul.run_simulation(sample, 1, 5, description, 1,
                                             1,1,1,False)
 
         self.dao_simul.get_simulation(id4)
         self.dao_simul.get_simulations(1)
 
-        
+
 
     def tearDown(self):
         """
@@ -103,3 +112,6 @@ class SampleDaoTests(unittest.TestCase):
 
 def main():
     unittest.main()
+    
+if __name__ == '__main__':
+    main()

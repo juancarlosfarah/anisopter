@@ -14,7 +14,6 @@ class SampleDaoTests(unittest.TestCase):
         Creates a SimulationDao to test on.
         :return: None.
         """
-        
         host = "146.169.47.184"
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
@@ -25,7 +24,6 @@ class SampleDaoTests(unittest.TestCase):
         self.dao_animi.collection.drop()
         self.dao_estmd.collection.drop()
         self.dao_cstmd.collection.drop()
-        
 
     def test_all(self):
         """
@@ -67,19 +65,9 @@ class SampleDaoTests(unittest.TestCase):
 
         self.dao_estmd.get_simulation(id2)
         self.dao_estmd.get_simulations(1)
-        
-        frames = []
-        for i in range(10) :
-            frames.append({'frame': [0 for i in range(32*32)]})
 
         sample = {'_id':id, 'animation_id':id2}
         num_neurons = 1
-<<<<<<< HEAD
-        num_electrodes = 5
-        num_synapses = 5
-        synaptic_distance = 5
-        duration_per_frame = 1
-=======
         num_electrodes = 1
         num_synapses = 1
         synaptic_distance = 1
@@ -88,7 +76,6 @@ class SampleDaoTests(unittest.TestCase):
         frames = []
         for i in range(10) :
             frames.append({'frame': [0 for i in range(32*32)]})
->>>>>>> ec4d0807b51422664be8a289373930151db554fc
 
         id3 = self.dao_cstmd.run_simulation(sample,
                            frames,
@@ -104,14 +91,11 @@ class SampleDaoTests(unittest.TestCase):
 
     def tearDown(self):
         """
-        Resets the sample for the tests.
-        :return:
-        """
-        self.dao = None
+            Resets the sample for the tests.
+            :return:
+            """
+            self.dao = None
 
 
 def main():
     unittest.main()
-
-if __name__ == '__main__':
-    main()
