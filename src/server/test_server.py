@@ -44,7 +44,8 @@ class SampleDaoTests(unittest.TestCase):
         page = server.show_target_animation()
         page = server.new_animation()
         page = server.show_animations()
-        page = server.remove_animation()
+        with self.assertRaises(KeyError):
+            page = server.remove_animation()
         page = server.generate_animation()
         page = server.new_animation_background()
         page = server.upload_animation_background()
