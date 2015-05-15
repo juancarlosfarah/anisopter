@@ -42,9 +42,7 @@ class SampleDaoTests(unittest.TestCase):
         :return: None.
         """
         page = server.show_simulations()
-        obj = dict()
-        obj['simulations'] = self.simulations.get_simulations(50)
-        self.failUnless(bottle.template('simulations', obj) == page)
+
         
 '''
     def test_simulation(self):
