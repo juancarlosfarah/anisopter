@@ -571,6 +571,67 @@ INSERT TABLE
 \subsubsection{Challenges}
 As expected, much of our code changed when we added additional modules, requiring that our tests be modified accordingly.  We found it especially difficult to test the graphical output that our modules produce. Though testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. A solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
 
+\subsection{Task Scheduling}
+
+Below is a condensed version of our final schedule. Sprints are two weeks long, with Sprint 1 having started on 4 February 2015. Priorities are ranked 1 (highest) to 4 (lowest). If the task was completed, the sprint during which it was finalised is indicated. Otherwise, it is noted as incomplete.
+
+\subsubsection{Stage 1A: Visual Pre-processing}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Implement visual pre-processing chain based on \cite{hal11}. & 1 & 1 \\
+	Connect output of pre-processing to CSTMD1. & 1 & 2\\
+	Replicate experiment in \cite{w13}. & 1 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsubsection{Stage 1B: Pattern Recognition}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Consolidate pattern recognition neuron as a Python class. & 2 & 2 \\
+	Consolidate pattern and noise sample generators as a Python class. & 2 & 2 \\
+	Design and implement unit tests for neuron model. & 2 & 4 \\
+	Design and implement unit tests for generators. & 2 & 1 \\
+	Add the ability to save and load samples for testing. & 3 & 1 \\
+	Make single pattern recognition neuron into a module. & 1 & 1 \\
+	Extend pattern recognition neuron to a model of competing patterns. & 1 & 1 \\
+	Analyse impact of varying noise on pattern recognition neurons. & 2 & 1 \\
+    \end{tabular}
+\end{center}
+
+\subsubsection{Stage 1C: CSTMD1 and Pattern Recognition Integration}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+	Get pattern recognition to detect short patterns from CSTMD output. & 1 & Incomplete \\
+	Layer pattern recognition neurons to recognise longer patterns. & 1 & 4\\
+	Create simple action selection mechanism. & 1 & 4 \\
+    \end{tabular}
+\end{center}
+
+\subsubsection{Stage 2: Web Client and Enhanced Action Selection}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+    Define range of actions available to biomimetic agent. & 2 & 4 \\
+    Design and implement basic environment for simulated agent. & 2 & 5 \\
+    Improve action selection mechanism. & 2 & 5 \\
+	Parametrise components of visual system for integration into web client. & 2 & 4 \\
+	Integrate classes of components into web client. & 2 & 5 \\	
+	Implement useful metrics for each component in web client. & 2 & 5 \\
+    \end{tabular}
+\end{center}
+
+\subsubsection{Stage 3: Target Selection and Improved Web Client}
+\begin{center}
+    \begin{tabular}{p{12cm} c c}
+    \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
+    Get CSTMD to select between targets. & 3 & Incomplete \\
+    Implement agent in a quad-copter drone. & 4 & Incomplete \\
+    \end{tabular}
+\end{center}
+
 \clearpage
 \section{Group Work}
 
