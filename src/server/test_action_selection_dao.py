@@ -17,10 +17,8 @@ class SampleDaoTests(unittest.TestCase):
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection["anisopter"].test
-        self.dao = action_selection_dao.SimulationDao(db)
-        self.samples = sample_dao.SampleDao(db)
-        self.dao_simul.collection.drop()
-        self.samples.collection.drop()
+        self.dao = action_selection_dao.ActionSelectionDao(db)
+        self.dao.collection.drop()
 
     def test_all(self):
         """
@@ -29,15 +27,9 @@ class SampleDaoTests(unittest.TestCase):
         """
 
 
-        id = self.samples.generate_sample(100, 5, 5, "Random")
-        sample = self.samples.get_sample(id)
-        c = self.samples.db.spikes
-        cursor = c.find({'sample_id' : sample['_id']}).sort('_id', direction=1)
-        
-        id2 = self.dao_simul.run_simulation(sample, cursor, 5, "Random", 5, 5, 5, [np.zeros((5, 5)) for i in range(5)], False)
-
-        self.dao_simul.get_simulation(id2)
-        self.dao_simul.get_simulations(1)
+        id = self.dao.run_simulation_preprocessor()
+        self.dao.get_simulation(id)
+        self.dao.get_simulations(1)
 
     def tearDown(self):
         """

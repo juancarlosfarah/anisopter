@@ -304,20 +304,20 @@ The web client that we introduced supports running simulations of the CSTMD1 mod
 
 \subsection{Pattern Recognition}
 
-The purpose of the Pattern Recognition module is to discern recurring spike patterns within the output from the CSTMD1 module, with each Pattern Recognition neuron becoming selective to one pattern. Given the expected behaviour of CSTMD1 neurons, as explained in Section 4.3, we hypothesised that any patterns found in the output of the CSTMD1 module would encode information about the velocity and direction of targets observed in the visual field of the dragonfly.\par
+The purpose of the Pattern Recognition module is to discern recurring spike patterns within the output from the CSTMD1 module, with each pattern recognition neuron becoming selective to one pattern. Given the expected behaviour of CSTMD1 neurons, as explained in Section 4.3, we hypothesised that any patterns found in the output of the CSTMD1 module would encode information about the velocity and direction of targets observed in the visual field of the dragonfly.\par
 
-	In order to model these neurons, we initially replicated experiments conducted by Masquelier et al. \cite{stdp2} \cite{stdp1}. These experiments showed that spike response model (SRM) leaky integrate-and-fire (LIF) neurons could successfully recognise input patterns based on sample input generated from a Poisson process. A single neuron of this type is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. This behaviour is achieved by modulating the weights of the Pattern Recognition neuron's synaptic connections to its afferents using spike timing dependent plasticity (STDP). STDP uses long lerm synaptic potentiation (LTP) to reinforce connections with afferents that fired shortly before the postsynaptic neuron, and long term depression (LTD) to weaken those with afferents that fired shortly after. Given that the input patterns occur within random noise, STDP will favour those afferents that participate in the pattern, as every time the pattern manifests itself, they will consistently fire in a given order.
+	In order to model these neurons, we initially replicated experiments conducted by Masquelier et al. \cite{stdp2} \cite{stdp1}. These experiments showed that spike response model (SRM) leaky integrate-and-fire (LIF) neurons could successfully recognise input patterns based on sample input generated from a Poisson process. A single neuron of this type is able to successfully recognise a recurring pattern within background noise and a network of them is able to do so for multiple patterns. This behaviour is achieved by modulating the weights of the pattern recognition neuron's synaptic connections to its afferents using spike-timing-dependent plasticity (STDP). STDP uses long term synaptic potentiation (LTP) to reinforce connections with afferents that fired shortly before the post-synaptic neuron, and long term depression (LTD) to weaken those with afferents that fired shortly after. Given that the input patterns occur within random noise, STDP will favour those afferents that participate in the pattern, as every time the pattern manifests itself, they will consistently fire in a given order.
 	
 \begin{figure}[H]
 \centering
 \includegraphics[scale = 0.35]{stdp}
-\caption{Visual representation of the Spike Timing Dependent Plasticity (STDP) function.}
+\caption{Visual representation of the spike-timing-dependent plasticity (STDP) function.}
 \end{figure}
 
 
-	Once the Pattern Recognition neuron becomes selective to the pattern, it continuously reinforces the connections of the afferents that fired slightly before it discharged. Hence with every manifestation of the pattern, the neuron is more likely to fire earlier within it, effectively signalling its beginning. In order to allow for different Pattern Recognition neurons to become selective to different patterns, we followed \cite{stdp2}, connecting a network of these neurons to sample inputs and introducing inhibitory connections amongst them. This allows for a single post-synaptic neuron to become selective to one pattern and to inhibit other neurons from becoming selective to it, thus giving them the possibility of binding to other patterns in the input.\par
+	Once the pattern recognition neuron becomes selective to the pattern, it continuously reinforces the connections of the afferents that fired slightly before it discharged. Hence with every manifestation of the pattern, the neuron is more likely to fire earlier within it, effectively signalling its beginning. In order to allow for different pattern recognition neurons to become selective to different patterns, we followed \cite{stdp2}, connecting a network of these neurons to sample inputs and introducing inhibitory connections amongst them. This allows for a single post-synaptic neuron to become selective to one pattern and to inhibit other neurons from becoming selective to it, thus giving them the possibility of binding to other patterns in the input.\par
 
-Anticipating that the CSTMD1 module would output approximately 500 spike trains, we tuned the Pattern Recognition neurons from Masquelier et al. to be sensitive to patterns produced by a subset of this number of neurons. As shown in Figures 10-11 one Pattern Recognition neuron becomes sensitive to a recurring pattern produced by 50\% of its afferents, with the synaptic weights to certain afferents involved in the pattern becoming fully potentiated, while the rest being completely depressed. Throughout the fourth quarter of a 50 second simulation, the neuron fires consistently when the pattern manifests itself, with false-positive and false-negative rates of 0\%, as shown in Table 1.
+Anticipating that the CSTMD1 module would output approximately 500 spike trains, we tuned the pattern recognition neurons from Masquelier et al. to be sensitive to patterns produced by a subset of this number of neurons. As shown in Figures 10-11 one pattern recognition neuron becomes sensitive to a recurring pattern produced by 50\% of its afferents, with the synaptic weights to certain afferents involved in the pattern becoming fully potentiated, while the rest being completely depressed. Throughout the fourth quarter of a 50 second simulation, the neuron fires consistently when the pattern manifests itself, with false-positive and false-negative rates of 0\%, as shown in Table 1.
 
 \begin{figure}[H]
 \centering
@@ -340,7 +340,7 @@ Anticipating that the CSTMD1 module would output approximately 500 spike trains,
 \multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{75.62\%} & \multicolumn{1}{c}{71.43\%} & \multicolumn{1}{c}{21.28\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
 \multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{50.0\%} & \multicolumn{1}{c}{40.32\%} & \multicolumn{1}{c}{0.0\%} \\ \hline
 \end{tabular}
-\caption{Spike timing information for one Pattern Recognition neuron during a 50 second simulation.}
+\caption{Spike timing information for one pattern recognition neuron during a 50 second simulation.}
 \end{table}
 
 
@@ -365,7 +365,7 @@ We produced a similar result with three neurons exposed to one pattern, as it is
 \multicolumn{1}{l}{} & \multicolumn{1}{l}{False Positives} & \multicolumn{1}{c}{71.19\%} & \multicolumn{1}{c}{70.0\%} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
 \multicolumn{1}{l}{} & \multicolumn{1}{l}{False Negatives} & \multicolumn{1}{c}{0.0\%} & \multicolumn{1}{c}{71.43\%} & \multicolumn{1}{c}{95.24\%} & \multicolumn{1}{c}{100.0\%} \\ \hline
 \end{tabular}
-\caption{Spike timing information for three Pattern Recognition neurons exposed to one pattern during a 50 second simulation.}
+\caption{Spike timing information for three pattern recognition neurons exposed to one pattern during a 50 second simulation.}
 \end{table}
 
 
@@ -385,12 +385,14 @@ Once the Pattern Recognition module was built, we extended it so that the neuron
 The function of this module is to convert the output of the pattern recognition neurons into an action for the dragonfly to take in order for it to pursue insects in its visual field.
 The main aspects we needed to consider were:
 \begin{enumerate}
-	\item The simulation environment of the dragonfly
-	\item The embodiment of the dragonfly
-	\item The actions available to the dragonfly within its environment
-	\item How to convert the output of the pattern recognition neurons into actions
+	\item The simulation environment of the dragonfly.
+	\item The embodiment of the dragonfly.
+	\item The actions available to the dragonfly within its environment.
+	\item How to convert the output of the pattern recognition neurons into actions.
 \end{enumerate}
-Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the Action Selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 1.
+
+
+	Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the Action Selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 13.
 
 \begin{figure}[H]
 \centering
@@ -401,7 +403,7 @@ Since the purpose of this project is to provide a tool for studying dragonfly vi
 In the original proposal for the project, it was suggested that we use reward-modulated reinforcement learning to train the action selection mechanism. The idea of this is to have a mechanism that can be used to train the dragonfly to choose the actions that maximize its reward, which is administered when it catches a target. 
 \newline
 \newline
-We decided to implement a network of four action selection neurons, each representing one direction of movement (up, down, left and right). These neurons would take as input the spike train output of the pattern recognition neurons, via synapses with all-to-all connections between the two groups of neurons. The weights of the synapses would be initially randomised and the changes in weights would be dynamically governed by spike-timing-dependent plasticity (STDP, the same mechanism as the pattern recognition neurons) but modulated by a reward-modulator, which we label as dopamine but in reality could be another chemical. The way this works is that the change in weights determined by STDP is replaced with an eligibility trace that decays over time and the weights only change when dopamine is present in the system, by multiplying the eligibility trace of each synapse with the level of dopamine present. The dopamine is given a boost whenever the dragonfly focal point is within a certain distance of a target. The conceptual idea is that the synapses that contribute to catching the target are strengthened. The actual model used for the neurons is integrate-and-fire, which is a relatively simplistic but efficient model. The equations that govern the behaviour of the neurons and synapses are shown below. The implementation is based on the STDP example from the Brian Simulator website \cite{brian}, which is in turned based on \cite{Song2000}. The reward modulation we added ourselves
+	We decided to implement a network of four action selection neurons, each representing one direction of movement (up, down, left and right). These neurons would take as input the spike train output of the pattern recognition neurons via synapses with all-to-all connections between the two groups of neurons. The weights of the synapses would be initially randomised and the changes in weights would be dynamically governed by spike-timing-dependent plasticity (STDP, the same mechanism as the pattern recognition neurons) but modulated by a reward-modulator, which we label as dopamine but in reality could be another chemical. The way this works is that the change in weights determined by STDP is replaced with an eligibility trace that decays over time and the weights only change when dopamine is present in the system, by multiplying the eligibility trace of each synapse with the level of dopamine present. The dopamine is given a boost whenever the dragonfly focal point is within a certain distance of a target. The conceptual idea is that the synapses that contribute to catching the target are strengthened. The actual model used for the neurons is integrate-and-fire, which is a relatively simplistic but efficient model. The equations that govern the behaviour of the neurons and synapses are shown below. The implementation is based on the STDP example from the Brian Simulator website \cite{brian}, which is in turned based on \cite{Song2000}. The reward modulation we added ourselves
 \newline
 \newline
 Integrate-and-fire neurons:
@@ -409,34 +411,34 @@ $$\frac{dv}{dt}=\frac{g _{e} (E_{e}-v _{r}) + E_{l} -v}{ \tau_{m}}$$
 $$\frac{dg_{e}}{dt}= -\frac{g_{e}}{\tau_{e}}$$
 where $v$ is the membrane potential, $g_{e}$ is the synaptic conductance, $E|{e}$ and $E_{l}$ are reverse potentials, $v_{r}$ is the resting potential and $\tau _{m}$ is a time constant.
 \newline
-Reward-modulated Synapses with STDP:
+\newline
+Reward-modulated synapses with STDP:
 $$\frac{dw}{dt} = c \cdot Dop$$
 $$\frac{dDop}{dt}=-\frac{Dop}{\tau _{Dop}}$$
 $$\frac{dc}{dt} = -\frac{c}{\tau _{c}}$$
 $$\frac{dApre}{dt}=-\frac{Apre}{\tau_{pre}}$$
 $$\frac{dApost}{dt}=-\frac{Apost}{\tau_{post}}$$
-where $w$ is the weight of the synapse, $c$ is the eligibility trace, $Dop$ is the level of dopamine, $dApre$ and $dApost$ are variables that govern the STDP and the $\tau$s are time constants.
+where $w$ is the weight of the synapse, $c$ is the eligibility trace, $Dop$ is the level of dopamine, $dApre$ and $dApost$ are variables that govern the STDP, and the $\tau$s are time constants.
 When the pre-synaptic neuron fires, the following updates are executed:
 $$ge = ge + w$$
 $$Apre = Apre + Apre _{step}$$
 $$c =c+Apost$$
-When the post-synaptic neuron fires, the following updates are executed:
+When the post-synaptic neuron fires, the following updates are executed, where $Apre_{step}$ and $Apost_{step}$ are constants.
 $$Apost = Apost + Apost _{step}$$
 $$c =c+Apre$$
-where $Apre_{step}$ and $Apost_{step}$ are constants.
 
-Finally, at each time step, the distance between dragonfly's focal point (which is initialised to some position at the start) and the nearest target is calculated. If the distance is within a preset distance, a dopamine boost is administered to the system. The movement of the dragonfly is calculated by translating the firing rate of each of the four neurons into the velocity of the focal point in the corresponding direction. The overall velocity and hence distance travelled for the time step was averaged between the four and the dragonfly position updated. 
+Finally, at each time step, the distance between dragonfly's focal point (which is initialised to a given position at the start) and the nearest target is calculated. If the distance is within a preset distance, a dopamine boost is administered to the system. The movement of the dragonfly is calculated by translating the firing rate of each of the four neurons into the velocity of the focal point in the corresponding direction. The overall velocity and hence distance travelled for the time step was averaged between the four and the dragonfly position updated. 
 
-It is possible to run the action selection part in training mode, where the weights can change, or in fixed mode where you give it trained, fixed weights to simply run a simulation. 
+It is possible to run the Action Selection module in training mode, where the weights can change, or in fixed mode where you give it trained, fixed weights to simply run a simulation. 
 
 The model was implemented in Python using a neuron simulator package called Brian 2 \cite{brian}. We used this as it is a flexible simulator and easier to use than NEURON (which was used for the CSTMD), since we are only modelling point neurons in this module, not a multi-compartmental model. 
 
 The output of the Action Selection module is twofold:
 \begin{enumerate}
-\item A video of the original animation with the dragonfly focal point position superimposed to each frame. This way you can see if the dragonfly is 'chasing' the targets or not.
+\item A video of the original animation with the dragonfly focal point position superimposed to each frame. This way you can see if the dragonfly is `chasing' the targets or not.
 \item A graphical display of the behaviour of variables of the model during the simulation, including weights, firing rates, the dopamine level and a raster plot.
 \end{enumerate}
-In the web client, the user is able to change the parameters of the model and observe how the resulting dragonfly's behaviour, as well as the behaviour of variables in the model.
+In the web client, the user is able to change the parameters of the model and observe how the resulting dragonfly's behaviour, as well as the effect of the variables in the model.
 
 \subsection{Web Client}
 The web client is designed to be a simple interface through which simulations for each of the modules can be run and automated, both separately and jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment.
@@ -445,7 +447,7 @@ In order to maintain consistency with the rest of the project, we decided to use
 
 Given that running our modules' simulations is computationally expensive, it was imperative that the output and results of each run be saved in a persistent store. As shown in Figure X, our project consists of five modules connected sequentially, with the output of the each module in the sequence serving as input to the next module. By saving the output of each module during a simulation, we would be able to perform multiple runs of the next module in the sequence without rerunning the previous modules. Additionally, by saving the data generated by each run, the web client can provide a view of the results for analysis by simply querying the database instead of generating them from scratch.
 
-We chose MongoDB, a documented-oriented database, as a data store as it provides a fast, scalable solution that does not require strict design decisions in advance. As we developed our product, MongoDB's dynamic schemas allowed us to modify our objects without having to spend considerable time fixing compatibility issues. Additionally, MongoDB documents follow a JavaScript Object Notation (JSON)-like structure, which mirrors the structure of our Python objects, making it straight forward to understand what fields in our stored documents correspond to what properties of our Python classes.\\
+We chose MongoDB, a documented-oriented database, as a data store as it provides a fast, scalable solution that does not require strict design decisions in advance. As we developed our product, MongoDB's dynamic schemas allowed us to modify our objects without having to spend considerable time fixing compatibility issues. Additionally, MongoDB documents follow a JavaScript Object Notation (JSON)-like structure, which mirrors the structure of our Python objects, as shown in the following code snippet. This makes it straight forward to understand what fields in our stored documents correspond to what properties of our Python classes.\\
 \\
 \\
 \begin{minipage}[t]{0.5\textwidth}
@@ -533,63 +535,55 @@ We also minimised the overhead for our front-end requirements by taking advantag
 The following section describes the framework we used to structure, plan and control the progress of this project.
 It includes two main components: Project Management and Collaboration Tools.
 \subsubsection{Project Management}
-In order to constantly have a solid understanding of the progress of this project and the significance of any issues that arose in each module we used the following techniques.
-\paragraph{Scrum}
-
 Given the complexity of our project and its division into clear working stages, we chose to apply the Scrum Methodology of Agile Development as our project management framework.
 
 \paragraph{Sprints}
-The project has been divided into seven two-week sprints starting on 4 February 2015. The first five sprints have been designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings will be held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mediano, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints are being managed using online collaboration tool \href{http://trello.com}{Trello} \cite{trello}, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
+The project was divided into seven two-week sprints starting on 4 February 2015. The first five sprints were designed to complete the minimum and expected goals, with the last two reserved to refine results, prepare the presentation and optionally implement extensions. Sprint Review meetings were held every other Wednesday in the presence of co-supervisors Zafeirios Fountas and Pedro Mediano, followed directly by the Sprint Planning meeting for the upcoming sprint. Sprints were managed using online collaboration tool \href{http://trello.com}{Trello} \cite{trello}, with each task given an estimate of one to eight hours and a priority ranging from one (highest) to three (lowest).
 
 \paragraph{Stand-Ups}
-Every weekday the team meets for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint is assessed, with each team member outlining what he achieved on the previous day and what he will be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand-ups are later addressed by the Team Leader.
+Every other weekday the team met for a brief stand up meeting capped at 15 minutes. During this time, the state of the current sprint was assessed, with each team member outlining what he achieved on the previous day and what he would be working on before the next stand-up. Any possible bottlenecks or roadblocks identified during these stand-ups were later addressed by the Team Leader.
 
 \subsubsection{Collaboration Tools}
-To ease the internal team communication and ensure that every member is aware of the work conducted by the rest of the team we used the following means.
+To ease the internal team communication and ensure that every member was aware of the work conducted by the rest of the team we used the following protocols.
 
 \paragraph{Communication Channels}
-All of our information exchange is conducted using \href{http://slack.com}{Slack} \cite{slack}, a platform for team communication, which provides each member with visibility to all aspects of the project. Relevant information is shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
+All of our information exchange was conducted using \href{http://slack.com}{Slack} \cite{slack}, a platform for team communication, which provided each member with visibility to all aspects of the project. Relevant information was shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
 
 \paragraph{Version Control}
-We are using Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab} \cite{gitlab}, which integrates with our communication and project management tools. By taking advantage of web hooks, pushes to the repository can trigger automatic code reviews and unit tests, ensuring code integrity and keeping all team members and supervisors up to date with progress.
+We used Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab} \cite{gitlab}, which integrated with our communication and project management tools.
 
 \subsection{Testing}
-The following section describes our testing methodology, implementation as well as the results acquired after the testing was complete.There is also a brief discussion on the challenges faced during testing of this project.
+The following section describes our testing methodology, implementation as well as the results acquired after the testing was complete. There is also a brief discussion on the challenges faced during testing of this project.
 
 \subsubsection{Methodology}
-Our testing strategy has evolved from simple ``on the run manual testing'' to full systematic unit testing of our entire codebase. We followed our project's modular and class-based architecture while designing our testing structure. Each class has a corresponding test class, whose test methods aim to mirror the methods of the class it is testing. However, it is possible that several test methods cover different parts of the same method, or that in turn one test method covers several methods.
+Our testing strategy evolved from simple ``on the run manual testing'' to full systematic unit testing of our entire codebase. We followed our project's modular and class-based architecture while designing our testing structure. Each class has a corresponding test class, whose test methods aim to mirror the methods of the class it is testing. However, it is possible that several test methods cover different parts of the same method, or that in turn one test method covers several methods.
 
-Following the white-box testing strategy, each test class is designed by the team members who wrote the original code and who therefore have the best insight regarding the expected behaviour of the original class. Currently we have focused our testing on covering as many branches as possible, each of which is analysed for the different possible behaviours it may have. We are measuring our code coverage by the percentage of statements covered. We are aiming for 90\%+ statement coverage.
-
-As we progress with our development we aim to augment our testing strategy to include component, integration and system tests. Component tests will cover end-to-end cases for each of our modules, while integration tests will cover the connections between each of these components. Finally, system tests will cover the complete project, when all modules have been connected between themselves and the web client.
+Following the white-box testing strategy, each test class is designed by the team members who wrote the original code and who therefore have the best insight regarding the expected behaviour of the original class. We focused our testing on covering as many branches as possible, each of which is analysed for the different possible behaviours it may have. We measured our code coverage by the percentage of statements covered.
 
 \subsubsection{Implementation}
-Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we are using Python's coverage library, which allows us to run tests on each file separately and combine results to create comprehensive reports.
+Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we used Python's coverage library, which allowed us to run tests on each file separately and combine results to create comprehensive reports.
 
-\subsubsection{Results - we need to redo tests}
-Our current test coverage is 81\%. Detailed results from our latest test run covering all of our modules can be found in Appendix C.
+\subsubsection{Results}
+Our current test coverage is XX\%. An overview of the test results are shown below. Details from our final test run covering all of our modules can be found in Appendix X.
+
+INSERT TABLE
 
 \subsubsection{Challenges}
-As expected much of our code has changed when we added additional modules. Accordingly our tests had to be changed. Furthermore since modules are now completed, we have also added tests for code that was not tested before. Our knowledge of testing has significantly improved since the start of the project.
+As expected, much of our code changed when we added additional modules, requiring that our tests be modified accordingly.  We found it especially difficult to test the graphical output that our modules produce. Though testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. A solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
 
-We found it difficult to test the graphical output that our modules produce. While testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. Solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
-
-The lines that are missing are for one of the reasons. Either we are missing one of if-else branches that is almost irrelevant to the execution of the module or the person working on that module ran out of time - only created main tests. 
 \clearpage
 \section{Group Work}
 
-This section describes the division of the total workload among the group members. Flexibility and adaptation were key in the successful division of the tasks. Juan Carlos Farah assumed the position of the team leader due to his previous working experience in technology related projects. Detailed division of tasks across the team members as well as the time each member spent on each task can be found in the Appendix.
+This section describes the division of the total workload among the group members. Flexibility and adaptation were key in the successful division of the tasks. Juan Carlos Farah assumed the position of the team leader due to his previous working experience in technology related projects. Detailed division of tasks across team members as well as the time each spent on each task can be found in Appendix C.
 
 \subsection{Initial Division}
-Initially the team was divided into two subgroups, the first to tackle the Target Animation and the CSTMD1 and the second to work on the Pattern Recognition module. The original estimation was that the Target Animation and CSTMD1 would be much easier than the Pattern Recognition, as the CSTMD1 code was largely provided to us by our supervisors. Therefore Christos Kaplanis along with Ioannis Kasidakis were assigned to the CSTMD1 and Target Animation and Juan Carlos Farah, Erik Grabljevec and Panagiotis Almpouras were assigned to the Pattern Recognition group.
+Initially the team was divided into two subgroups, the first to tackle the Target Animation and CSTMD1 modules and the second to work on the Pattern Recognition module. The original estimation was that the Target Animation and CSTMD1 would be more straightforward than the Pattern Recognition, as the CSTMD1 code was largely provided to us by our supervisors. Therefore Christos Kaplanis along with Ioannis Kasidakis were assigned to the CSTMD1 and Target Animation, and Juan Carlos Farah, Erik Grabljevec and Panagiotis Almpouras were assigned to the Pattern Recognition group.
 
-\subsection{Reorganising to meet targets}
-As mentioned earlier in the report, the CSTMD1 neuron did not behave as expected. With the addition of the ESTMD neuron and the web client, a reorganisation was required to ensure that the project would progress as smoothly as possible. Erik Grablevec was transferred to work along with Christos Kaplanis on the ESTMD module. Ioannis Kasidakis kept working on the CSTMD1 neuron trying to solve the issues that had arisen. Juan Carlos Farah started working on the web client. Initially he created the general structure and later in cooperation with each member he connected the individual modules to the web client and with each other. Panagiotis Almpouras continued working on the pattern recognition module finalising its design and development.
-
-Later on, a new reorganisation was required. Christos Kaplanis  and Erik Grablevec after having completed the ESTMD module, they were respectively assigned to the Action Selection and the Target Animation.
+\subsection{Reorganising to Meet Targets}
+As mentioned earlier in the report, the CSTMD1 neuron did not behave as expected. With the addition of the ESTMD neuron and the web client, a reorganisation was required to ensure that the project would progress as smoothly as possible. Erik Grabljevec was transferred to work along with Christos Kaplanis on the ESTMD module. Ioannis Kasidakis kept working on the CSTMD1 neuron trying to solve the issues that had arisen while Juan Carlos Farah started working on the web client. First he created the general structure and later, in cooperation with each member, he connected the individual modules. Panagiotis Almpouras continued working on the Pattern Recognition module, finalising its design and development. Later on, a new reorganisation was required. Having completed the ESTMD, Christos Kaplanis and Erik Grabljevec were respectively assigned to the Action Selection and Target Animation modules.
 
 \subsection{Reports and Testing}
-With the reports and testing a general strategy was decided early on. Each member would be responsible for providing unit tests for the components he worked on. Similarly, each member should write the part for the report which was most relevant to the part he worked on. The more generic parts of each report were assigned the member(s) that were least busy at the time before the submission.
+With reports and testing, a general strategy was decided at the start of the project. Each member would be responsible for providing unit tests for the components he worked on. Similarly, each member would write the part of the report corresponding to the modules that he was most involved in development. The more generic parts of each report were divided equally among the team.
 
 
 \clearpage
@@ -764,11 +758,11 @@ this project and we have acquired invaluable insights from this collaboration.
 \item Panagiotis Almpouras (PA)
 \item Ioannis Kasidakis (IK)
 \item Zafeirios Fountas (ZF)
-\item Pedro Martínez Mediano(PMM)
+\item Pedro Mediano(PM)
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on discussing the way the group would tackle administrative tasks. The decision about the split of the groups was finalised and initial tasks (mainly background reading) was assigned to the two groups. The members were split in a group of three (JCF, EG, PA) that would focus on the pattern recognition and a group of two (CK, IK) that would focus on the action selection.
+This meeting was mainly focused on discussing the way the group would tackle administrative tasks. The decision about the split of the groups was finalised and initial tasks (mainly background reading) was assigned to the two groups. The members were split in a group of three (JCF, EG, PA) that would focus on the pattern recognition and a group of two (CK, IK) that would focus on the CSTMD and retina connection.
 
 \maketitle
 \section*{21 January 2015}
@@ -832,7 +826,7 @@ This meeting was mainly focused on the first report. With the input of the super
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the progress and issues of each group. The pattern recognition group (JC, EG, PA) had no issues to report and made progress according to plan. The action selection group (CK, IK) upon completion of the initial tasks realised they need an extra component to act as an intermediate between the stimuli input and the action selection neurons. The main issue was the isolation of the small moving targets from much larger objects that may be moving in the background. The action selection group set a goal for next week to identify the most feasible solution by conducting deep background research on the topic.
+This meeting was mainly focused on the progress and issues of each group. The pattern recognition group (JC, EG, PA) had no issues to report and made progress according to plan. CK and IK, upon completion of the initial tasks realised they need an extra component to act as an intermediate between the stimuli input and the CSTMD1 neuron. CK and IK set a goal for next week to identify the most feasible solution by conducting deep background research on the topic.
 
 \maketitle
 \section*{18 February 2015}
@@ -848,8 +842,8 @@ This meeting was mainly focused on the progress and issues of each group. The pa
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the progress and issues of each group. The pattern recognition group (JC, EG, PA) had no issues to report and made progress according to plan. The pattern recognition was providing accurate results and was modularised so that it could run independently given a proper input.
-\\ The action selection group (CK, IK) upon completion of the initial tasks realised they need an extra component to act as an intermediate between the stimuli input and the action selection neurons. The main issue was the isolation of the small moving targets from much larger objects that may be moving in the background. The action selection group set a goal for next week to identify the most feasible solution by conducting deep background research on the topic.
+This meeting was mainly focused on the progress and issues of each group. The Pattern Recognition group (JC, EG, PA) had no issues to report and made progress according to plan. The pattern recognition was providing accurate results and was modularised so that it could run independently given a proper input.
+\\ CK had identified research on which to base the ESTMD model and were to attempt to replicate it. IK was to work on how the CSTMD1 would be connected to the ESTMD.
 
 \maketitle
 \section*{25 February 2015}
@@ -865,7 +859,7 @@ This meeting was mainly focused on the progress and issues of each group. The pa
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the action selection mechanism. The action selection group managed to identify a viable solution to the issues mentioned in last week's meeting. An intermediate mechanism should be constructed to approximate the function of the ESTMD neuron. The function of the mechanism would be to pre-process the visual input to isolate small targets. Since the pattern recognition group had almost completed its task one member (EG) was transferred to the action selection group to assist with the development of  ESTMD . A web client was also deemed as a good addition to the project to provide a user friendly interface that connects all the modules together but also allows for independent use of each. The pattern recognition group was further split. One member would focus on the web client (JCF) and the other (PA) would continue working on the pattern recognition mainly creating unit tests to ensure that future changes would not create unspotted issues that affect the robustness and accuracy of the module.
+This meeting was mainly focused on the ESTMD neuron. The function of the mechanism would be to pre-process the visual input to isolate small targets. Since the pattern recognition group had almost completed its task one member (EG) was transferred to assist with the development of ESTMD and the Target Animation. A web client was also deemed as a good addition to the project to provide a user friendly interface that connects all the modules together but also allows for independent use of each. The pattern recognition group was further split. One member would focus on the web client (JCF) and the other (PA) would continue working on the pattern recognition mainly creating unit tests to ensure that future changes would not create unspotted issues that affect the robustness and accuracy of the module.
 
 \maketitle
 \section*{4 March 2015}
@@ -881,7 +875,7 @@ This meeting was mainly focused on the action selection mechanism. The action se
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the web client and the ESTMD neuron. A skeleton version of the web client was created by (JCF) and the next step would be to connect the completed Pattern Recognition module to the web client. Progress was reported on the ESTMD, however the intermediate mechanism revealed some unspotted issues with the CSTMD neuron that is responsible for selecting a single target if multiple stimuli are provided. The action selection group was divided into two sub-groups. Two members (CK, EG) would continue working on the ESTMD and the third member (IK) would focus on the CSTMD to analyse the erroneous behaviour and identify potential solutions. The structure of the second report (due on 13/03/2015) was also discussed.
+This meeting was mainly focused on the web client and the ESTMD neuron. A skeleton version of the web client was created by (JCF) and the next step would be to connect the completed Pattern Recognition module to the web client. Progress was reported on the ESTMD, however the intermediate mechanism revealed some unspotted issues with the CSTMD1 neuron that is responsible for selecting a single target if multiple stimuli are provided. The action selection group was divided into two sub-groups. EG had progressed with Target Animation and two members (CK, EG) would continue working on the ESTMD and the third member (IK) would focus on the CSTMD to analyse the erroneous behaviour and identify potential solutions. The structure of the second report (due on 13/03/2015) was also discussed.
 
 \maketitle
 \section*{11 March 2015}
@@ -897,7 +891,7 @@ This meeting was mainly focused on the web client and the ESTMD neuron. A skelet
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the second report. With the input of the supervisors and the slides provided by the course instructor Dr. Fidelis Perkonigg the final structure of the report was decided and a soft deadline was set for completion, to allow for a few last amendments before the actual submission on the 13/03/2015.
+This meeting was mainly focused on the second report. With the input of the supervisors and the slides provided by the course instructor Dr. Fidelis Perkonigg the final structure of the report was decided and a soft deadline was set for completion, to allow for a few last amendments before the actual submission on the 13/03/2015. Some changes to the specification were agreed upon due to difficulties with the CSTMD1.
 
 \maketitle
 \section*{18 March 2015}
@@ -913,7 +907,7 @@ This meeting was mainly focused on the second report. With the input of the supe
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the web client and the ESTMD neuron. The Action Selection module was successfully connected to the web client and some prefixed simulations could be run online. Next step would be to add as many functionalities as possible to the web client before the completion and connection of the other modules. Progress was reported on the ESTMD development (CK,EG). No progress was reported on the CSTMD neuron (IK) but a lot of possible ways to address the issue were discussed and would be looked into before the next meeting.
+This meeting was mainly focused on the web client and the ESTMD neuron. The Pattern Recognition module was successfully connected to the web client and some prefixed simulations could be run online. Next step would be to add as many functionalities as possible to the web client before the completion and connection of the other modules. Progress was reported on the ESTMD development (CK,EG). No progress was reported on the CSTMD1 neuron (IK) but a lot of possible ways to address the issue were discussed and would be looked into before the next meeting.
 
 \maketitle
 \section*{25 March 2015}
@@ -933,7 +927,7 @@ This meeting was mainly focused on the web client and the ESTMD neuron. The Acti
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on planning the group project activities to take place during the exam preparation period. Members mutually agreed to focus on exams and work on the group project one day a week for the following weeks. Slower but steady progress was expected.  The CSTMD neuron proving much more challenging than originally expected was the only section for which an accurate estimate of the completion date could not be made. For that reason the simpler but similar mechanism of the point neurons was decided to be the last resource in case the CSTMD could not function properly.
+This meeting was mainly focused on planning the group project activities to take place during the exam preparation period. Members mutually agreed to focus on exams and work on the group project one day a week for the following weeks. Slower but steady progress was expected.  The CSTMD1 neuron proving much more challenging than originally expected was the only section for which an accurate estimate of the completion date could not be made. For that reason the simpler but similar mechanism of the point neurons was decided to be the last resource in case the CSTMD1 could not function properly.
 
 \maketitle
 \section*{8 April 2015}
@@ -953,7 +947,7 @@ This meeting was mainly focused on planning the group project activities to take
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on discussing the progress of the development of the several modules. The web client was progressing as expected and as soon as each module was completed it would get connected to the web client. The ESTMD was progressing as expected and completed. The CSTMD still could not progress. The target animation along with the re-enforcement learning mechanism were the next things to be tackled. The target animation was assigned to (PA) and (EG), the re-enforcement learning was assigned to (CK). (JCF) would continue working on the web client and (IK) on the CSTMD and the point neurons.
+This meeting was mainly focused on discussing the progress of the development of the several modules. The web client was progressing as expected and as soon as each module was completed it would get connected to the web client. The ESTMD was progressing as expected and completed. The CSTMD1 still could not progress. The Target Animation along with the Action Selection mechanism were the next things to be tackled. The Target Animation was assigned to (PA) and (EG) as it had to be adapted to work with the Action Selection mechanism, which was assigned to (CK). (JCF) would continue working on the web client and (IK) on the CSTMD1 and the point neurons.
 
 \maketitle
 \section*{22 April 2015}
@@ -969,7 +963,7 @@ This meeting was mainly focused on discussing the progress of the development of
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on discussing the progress of the development of the several modules. All modules apart from CSTMD were progressing as expected. The CSTMD showed some progress. All members mutually agreed not to work on the group project during the following two weeks as the final exams where taking place during that period.
+This meeting was mainly focused on discussing the progress of the development of the several modules. All modules apart from CSTMD1 were progressing as expected. The CSTMD1 showed some progress. All members mutually agreed not to work on the group project during the following two weeks as the final exams where taking place during that period.
 
 \maketitle
 \section*{29 April 2015}
@@ -993,7 +987,7 @@ This meeting was mainly focused on discussing the progress of the development of
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on creating a schedule for the activities to take place during the last week before the submission. (JCF) would work with each member to make the final connection of all the modules to the web client. (IK) would finish the CSTMD neuron asap to test its behaviour. (PA) would start working on the report, creating the main structure and writing any part that can be written without the input of another member (mainly Introduction,  Specification, Group Work, Appendix). A soft deadline was set for completion of the report on the 12/04/2015, to allow for a few last amendments before the actual submission on the 15/04/2015.
+This meeting was mainly focused on creating a schedule for the activities to take place during the last week before the submission. (JCF) would work with each member to make the final connection of all the modules to the web client. (IK) would finish the CSTMD1 neuron asap to test its behaviour. (PA) would start working on the report, creating the main structure and writing any part that can be written without the input of another member (mainly Introduction,  Specification, Group Work, Appendix). A soft deadline was set for completion of the report on the 12/04/2015, to allow for a few last amendments before the actual submission on the 15/04/2015.
 
 \maketitle
 \section*{13 May 2015}
