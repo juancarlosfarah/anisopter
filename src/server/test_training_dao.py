@@ -25,7 +25,7 @@ class SampleDaoTests(unittest.TestCase):
         :return: None.
         """
 
-        input_id = "kvenkakvenkakvenkakvenka"
+        input_id = str("kvenkakvenka")
         types = [1, 1, 1, 1]
         n = 1
 
