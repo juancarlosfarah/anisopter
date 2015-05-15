@@ -36,7 +36,7 @@ class SampleDaoTests(unittest.TestCase):
         cursor = c.find({'sample_id' : sample['_id']}).sort('_id', direction=1)
 
         id2 = self.dao_simul.run_simulation(sample, cursor, 5, 
-                                "Random", 5, 5, 5, [np.zeros((5,5)) for i in range(5), False)
+                                "Random", 5, 5, 5, [np.zeros((5,5)) for i in range(5)], False)
 
         self.dao_simul.get_simulation(id2)
         self.dao_simul.get_simulations(1)
