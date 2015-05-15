@@ -49,7 +49,8 @@ class SampleDaoTests(unittest.TestCase):
         with self.assertRaises(TypeError):
           page = server.generate_animation()
         page = server.new_animation_background()
-        page = server.upload_animation_background()
+        with self.assertRaises(KeyError):
+            page = server.upload_animation_background()
         page = server.show_backgrounds()
         page = server.show_estmd()
         page = server.new_estmd_simulation()
