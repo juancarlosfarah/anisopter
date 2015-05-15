@@ -82,7 +82,7 @@ This section outlines our original goals and how they were adjusted according to
 \textbf{Final Product:} This section present the final product of the work conducted throughout the project, expanding on the goals that were met as well as the goals that were infeasible. We analyse results in detail and motivate future development as well as potential extensions that might be of interest to future collaborators.\\
 
 \noindent
-\textbf{Appendix:} This section presents a log of the summary of the minutes for meetings conducted throughout the project, covering tasks assigned to each member and his overall contribution. 
+\textbf{Appendix:} This section presents a log of the summary of the minutes for meetings conducted throughout the project, covering tasks assigned to each member and his overall contribution, as well as the full results of our testing suite and commit statistics.
 
 \section{Specification}
 
@@ -151,7 +151,7 @@ The challenge of designing a tool that could satisfy the overall functionality o
 
 \subsection{System Components}
 
-Building on research done at Professor Murray Shanahan's laboratory on the CSTMD1 neuron \cite{?}, our first design challenge was to specify the structure of the system that we would build around the CSTMD1. We identified four key components that we would need to model and connect in order to implement a coherent system. Along with the CSTMD1, they make up the main modules in our project.
+Building on research done at Professor Murray Shanahan's laboratory on the CSTMD1 neuron \cite{ne13}, our first design challenge was to specify the structure of the system that we would build around the CSTMD1. We identified four key components that we would need to model and connect in order to implement a coherent system. Along with the CSTMD1, they make up the main modules in our project.
 
 \begin{enumerate}
 \item \textbf{Target Animation:} This module's purpose is to provide sample ``prey'' that our biomimetic agent can identify and ``capture''. Our implementation allows the user to specify movements of multiple targets within the visual field and choose the background, resulting in an animated video that provides the visual input to the system. Biologically this emulates the retina of the dragonfly.
@@ -376,7 +376,7 @@ The main aspects we needed to consider were:
 \end{enumerate}
 
 
-	Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the Action Selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 13.
+	Since the purpose of this project is to provide a tool for studying dragonfly vision rather than prey capture, we decided that having a complicated 3D simulated environment for the dragonfly was unnecessary. Instead, we decided to use the original retina input as a basis for the 'environment' for the dragonfly, and simply add a red circle to the animation input that corresponds to the dragonfly's focal point. The focal point would be moved around within the 2D plane of the visual input by the action selection mechanism and the focal point being overlapping with a target in the visual field would represent the dragonfly having caught the target. The actions available to the dragonfly's focal point would be up, down, left and right within the visual field. Therefore, the output of the Action Selection module would be a video of the original animation with the position of the dragonfly's focal point superimposed to each frame. An example is shown in Figure 12.
 
 \begin{figure}[H]
 \centering
@@ -393,7 +393,7 @@ In the original proposal for the project, it was suggested that we use reward-mo
 Integrate-and-fire neurons:
 $$\frac{dv}{dt}=\frac{g _{e} (E_{e}-v _{r}) + E_{l} -v}{ \tau_{m}}$$
 $$\frac{dg_{e}}{dt}= -\frac{g_{e}}{\tau_{e}}$$
-where $v$ is the membrane potential, $g_{e}$ is the synaptic conductance, $E|{e}$ and $E_{l}$ are reverse potentials, $v_{r}$ is the resting potential and $\tau _{m}$ is a time constant.
+where $v$ is the membrane potential, $g_{e}$ is the synaptic conductance, $E_{e}$ and $E_{l}$ are reverse potentials, $v_{r}$ is the resting potential and $\tau _{m}$ is a time constant.
 \newline
 \newline
 Reward-modulated synapses with STDP:
@@ -404,7 +404,7 @@ $$\frac{dApre}{dt}=-\frac{Apre}{\tau_{pre}}$$
 $$\frac{dApost}{dt}=-\frac{Apost}{\tau_{post}}$$
 where $w$ is the weight of the synapse, $c$ is the eligibility trace, $Dop$ is the level of dopamine, $dApre$ and $dApost$ are variables that govern the STDP, and the $\tau$s are time constants.
 When the pre-synaptic neuron fires, the following updates are executed:
-$$ge = ge + w$$
+$$g_{e} = g_{e} + w$$
 $$Apre = Apre + Apre _{step}$$
 $$c =c+Apost$$
 When the post-synaptic neuron fires, the following updates are executed, where $Apre_{step}$ and $Apost_{step}$ are constants.
@@ -429,7 +429,7 @@ The web client is designed to be a simple interface through which simulations fo
 
 In order to maintain consistency with the rest of the project, we decided to use a web framework for Python that could easily connect with each of our modules. The basic requirements were that the client could be easily deployed on a local environment for testing purposes, but also able to serve multiple users concurrently when deployed in production. We chose Bottle \cite{bottle} as it is a lightweight web framework with a built-in HTTP development server that would address the first requirement out-of-the-box. It can also be paired with Nginx \cite{nginx} through uWSGI \cite{uwsgi}. By using Nginx, a high-performance HTTP server on top of uWSGI, a full stack interface between web frameworks and web servers, our web client can be deployed in production, providing load-balanced high-availability.
 
-Given that running our modules' simulations is computationally expensive, it was imperative that the output and results of each run be saved in a persistent store. As shown in Figure X, our project consists of five modules connected sequentially, with the output of the each module in the sequence serving as input to the next module. By saving the output of each module during a simulation, we would be able to perform multiple runs of the next module in the sequence without rerunning the previous modules. Additionally, by saving the data generated by each run, the web client can provide a view of the results for analysis by simply querying the database instead of generating them from scratch.
+Given that running our modules' simulations is computationally expensive, it was imperative that the output and results of each run be saved in a persistent store. As shown in Figure 2, our project consists of five modules connected sequentially, with the output of the each module in the sequence serving as input to the next module. By saving the output of each module during a simulation, we would be able to perform multiple runs of the next module in the sequence without rerunning the previous modules. Additionally, by saving the data generated by each run, the web client can provide a view of the results for analysis by simply querying the database instead of generating them from scratch.
 
 We chose MongoDB, a documented-oriented database, as a data store as it provides a fast, scalable solution that does not require strict design decisions in advance. As we developed our product, MongoDB's dynamic schemas allowed us to modify our objects without having to spend considerable time fixing compatibility issues. Additionally, MongoDB documents follow a JavaScript Object Notation (JSON)-like structure, which mirrors the structure of our Python objects, as shown in the following code snippet. This makes it straight forward to understand what fields in our stored documents correspond to what properties of our Python classes.\\
 \\
@@ -548,7 +548,7 @@ Following the white-box testing strategy, each test class is designed by the tea
 Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we used Python's coverage library, which allowed us to run tests on each file separately and combine results to create comprehensive reports.
 
 \subsubsection{Results}
-Our current test coverage is XX\%. An overview of the test results are shown below. Details from our final test run covering all of our modules can be found in Appendix X.
+Our current test coverage is 84\%. An overview of the test results are shown below. Details from our final test run covering all of our modules can be found in Appendix D.
 
 \begin{minted}{bash}
 $ coverage report -m
@@ -785,11 +785,9 @@ provides a platform for their potential completion in the future, as we discuss 
 
 The task that proved to be the most challenging aspect of the project was the development of the 
 CSTMD1 neuron model. It is observed that the CSTMD1 neuron, when provided with multiple stimuli,
-becomes responsive to a single one of them, thus providing a selection mechanism \cite{?}.
+becomes responsive to a single one of them, thus providing a selection mechanism \cite{w13}.
 However, when provided with visual input from our Target Animation and ESTMD modules, the CSTMD1
-neuron did not show the expected behaviour. Nevertheless, having embedded the CSTMD1 in our coherent
-dragonfly model facilitates further research into the function of this neuron, and specifically whether it is
-responsible for target selection.
+neuron did not show enough evidence to conclude that it is responsible for target selection. Nevertheless, having embedded the CSTMD1 in our coherent dragonfly model facilitates further research into the function of this neuron, and specifically whether it is responsible for target selection.
 
 \subsubsection{Web Client}
 
