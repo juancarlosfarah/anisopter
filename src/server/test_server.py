@@ -67,7 +67,8 @@ class SampleDaoTests(unittest.TestCase):
             page = server.run_simulation()
         page = server.show_samples()
         page = server.new_sample()
-        page = server.generate_sample()
+        with self.assertRaises(KeyError):
+            page = server.generate_sample()
         page = server.show_as()
         page = server.new_as_simulation()
         page = server.run_action_selection_simulation()
