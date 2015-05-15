@@ -35,7 +35,7 @@ class SampleDaoTests(unittest.TestCase):
         id = self.samples.generate_sample(100, 2, 2, "Random")
         sample = self.samples.get_sample(id)
         
-        id2 = self.dao_simul.run_simulation(sample, 1, 5, "Random", 1, 1, 1, 1, False)
+        id2 = self.dao_simul.run_simulation(sample, 1, 5, "Random", 1, 1, 1, [1 for i in range(5), False)
 
         self.dao_simul.get_simulation(id2)
         self.dao_simul.get_simulations(1)
