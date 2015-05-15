@@ -161,7 +161,7 @@ class SampleDaoTests(unittest.TestCase):
         # self.failUnless(js == bottle.static_file("bootstrap.js", root=root_js))
         # self.failUnless(css == bottle.static_file("bootstrap.css",
         #                                           root=root_css))
-'''
+
     def tearDown(self):
         """
         Resets the sample for the tests.
@@ -169,6 +169,7 @@ class SampleDaoTests(unittest.TestCase):
         """
         self.simulations = None
         self.samples = None
+'''
 
 
 def main():
