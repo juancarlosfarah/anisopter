@@ -7,6 +7,7 @@ import cstmd_dao
 import simulation_dao
 import sample_dao
 import pymongo
+import numpy as np
 
 
 class SampleDaoTests(unittest.TestCase):
@@ -37,7 +38,7 @@ class SampleDaoTests(unittest.TestCase):
         c = self.samples.db.spikes
         cursor = c.find({'sample_id' : sample['_id']}).sort('_id', direction=1)
         
-        id2 = self.dao_simul.run_simulation(sample, cursor, 5, "Random", 5, 5, 5, [[[1 for i in range(5)] for j in range(5)] for z in range(5)], False)
+        id2 = self.dao_simul.run_simulation(sample, cursor, 5, "Random", 5, 5, 5, [np.zeros((5, 5)) for i in range(5)], False)
 
         self.dao_simul.get_simulation(id2)
         self.dao_simul.get_simulations(1)
