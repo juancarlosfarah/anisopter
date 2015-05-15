@@ -36,16 +36,53 @@ class SampleDaoTests(unittest.TestCase):
         obj = dict()
         self.failUnless(bottle.template('index', obj) == page)
 
-    def test_simulations(self):
+    def test_everything(self):
         """
-        Tests if simulations can be accessed.
+        One big badass test.
         :return: None.
         """
+        page = server.show_target_animation()
+        page = server.new_animation()
+        page = server.show_animations()
+        with self.assertRaises(KeyError):
+            page = server.remove_animation()
+        with self.assertRaises(TypeError):
+            page = server.generate_animation()
+        page = server.new_animation_background()
+        with self.assertRaises(KeyError):
+            page = server.upload_animation_background()
+        page = server.show_backgrounds()
+        page = server.show_estmd()
+        page = server.new_estmd_simulation()
+        page = server.show_estmd_simulations()
+        page = server.show_cstmd()
+        page = server.new_cstmd_simulation()
+        with self.assertRaises(KeyError):
+            page = server.run_cstmd_simulation()
+        with self.assertRaises(NameError):
+            page = server.show_cstmd_simulations()
+        page = server.show_pattern_recognition()
         page = server.show_simulations()
-        obj = dict()
-        obj['simulations'] = self.simulations.get_simulations(50)
-        self.failUnless(bottle.template('simulations', obj) == page)
+        with self.assertRaises(KeyError):
+            page = server.run_simulation()
+        page = server.show_samples()
+        page = server.new_sample()
+        with self.assertRaises(KeyError):
+            page = server.generate_sample()
+        page = server.show_as()
+        page = server.new_as_simulation()
+        with self.assertRaises(KeyError):
+            page = server.run_action_selection_simulation()
+        page = server.show_action_selection_simulations()
+        page = server.show_tr()
+        page = server.show_training_simulations()
+        page = server.new_training_simulation()
+        with self.assertRaises(KeyError):
+            page = server.generate_simulation()
 
+
+        
+'''
     def test_simulation(self):
         """
         Tests if a simulation can be accessed.
@@ -168,6 +205,7 @@ class SampleDaoTests(unittest.TestCase):
         """
         self.simulations = None
         self.samples = None
+'''
 
 
 def main():

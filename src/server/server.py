@@ -507,7 +507,7 @@ def show_action_selection_simulation(_id):
 ################################################################################
 
 @route('/training')
-def show_as():
+def show_tr():
     obj = dict()
     return bottle.template('training', obj)
 
