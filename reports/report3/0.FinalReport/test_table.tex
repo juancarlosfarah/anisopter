@@ -1,0 +1,260 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+
+\usepackage[titletoc,toc,title,page]{appendix}
+\usepackage[nodayofweek]{datetime}
+\usepackage{cite}
+\usepackage{graphicx}
+\longdate
+
+\usepackage{minted}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{M.Sc.\ Group Project Report}}
+\rhead{\fancyplain{}{\today}}
+\cfoot{\fancyplain{}{\thepage}}
+
+
+\title{Implementation of attentional bistability of the dragonfly visual neurons in an intelligent biomimetic agent\\\Large{--- Report Two ---}}
+\author{Juan Carlos Farah, Panagiotis Almpouras, Ioannis Kasidakis, Erik Grabljevec, Christos Kaplanis\\
+       \{jcf214, pa512, ik311, eg1114, ck2714\}@doc.ic.ac.uk\\ \\
+       \small{Supervisors: Professor Murray Shanahan, Zafeirios Fountas, Pedro Mediano}\\
+       \small{Course: CO530/533, Imperial College London}
+}
+
+\begin{document}
+\maketitle
+
+\begin{minted}{bash}
+    $ coverage report -m
+
+    Name 	      Stmts    Miss    Branch    BrMiss     Cover   Missing
+    ------------------------------------------------------------------------------------
+    estmd               114        0       16         1        99%   
+    cstmd               380       84      130        44        75%   213, 218, 317-401,
+                                                                     487-488, 513-514,
+                                                                     600-603, 638,
+                                                                     642, 647-648, 662
+    target_animation    125        0       20         1        99%   
+    neuron              248       59       72        32        72%   170-179, 197,
+                                                                     209-212, 216,                                                                                      	                                                                 230-233, 237, 261,
+                                                                     300, 331, 357, 
+                                                                     368-381, 388-393,                                                                                     	                                                                 417-420, 447-450,
+                                                                     488, 562-563,
+                                                                     570-579
+    sample              127        0       32         0       100%   
+    simulation          109       35       30        18        62%   88-103, 133, 
+                                                                     144-146, 159-162, 
+                                                                     175, 202-232
+    sample_dao           52        8       10         2        84%   78, 113-120
+    server               80       19        6         3        74%   44-51, 59, 79, 
+    	                                                         93-100, 146,
+                                                                     160-161
+    simulation_dao      154       18       46        14        84%   34-35, 88, 118, 
+                                                                     160-161, 239-247,
+                                                                     259-260, 285
+    action_selection    114        0       16         1        99%   
+    neuron              380       84      130        44        75%   213, 218, 317-401,
+                                                                     487-488, 513-514,
+                                                                     600-603, 638,
+                                                                     642, 647-648, 662
+    animation_dao       125        0       20         1        99%   
+    cstmd_dao           248       59       72        32        72%   170-179, 197,
+                                                                     209-212, 216,                                                                                      	                                                                 230-233, 237, 261,
+                                                                     300, 331, 357, 
+                                                                     368-381, 388-393,                                                                                     	                                                                 417-420, 447-450,
+                                                                     488, 562-563,
+                                                                     570-579
+    estmd_dao           127        0       32         0       100%   
+    simulation          109       35       30        18        62%   88-103, 133, 
+                                                                     144-146, 159-162, 
+                                                                     175, 202-232
+    training_dao         52        8       10         2        84%   78, 113-120
+    script               80       19        6         3        74%   44-51, 59, 79, 
+    	                                                         93-100, 146,
+                                                                     160-161
+    training            154       18       46        14        84%   34-35, 88, 118, 
+                                                                     160-161, 239-247,
+                                                                     259-260, 285                                                                     
+    ------------------------------------------------------------------------------------
+    TOTAL              1389      223      362       115        81%  
+    \end{minted}
+    
+    
+\subsection{Individual Tests}
+\subsubsection{Visual Pre-processing Module}
+\subsubsection*{{\hspace{6mm}}ESTMD}
+\begin{minted}{bash}
+    $ coverage run --branch test_estmd.py
+    ....
+    ----------------------------------------------------------------------
+    Ran 4 tests in 3.845s
+
+    OK
+\end{minted}
+\subsubsection*{{\hspace{6mm}}Target Animation}
+\begin{minted}{bash}
+    $ coverage run --branch test_target_animation.py
+    ...........
+    ----------------------------------------------------------------------
+    Ran 11 tests in 2.615s
+
+    OK
+\end{minted}
+
+\subsubsection{Dragonfly Neuron Module}
+\subsubsection*{{\hspace{6mm}}CSTMD}
+\begin{minted}{bash}
+    $ coverage run --branch test_cstmd.py
+    ..
+    ----------------------------------------------------------------------
+    Ran 3 tests in 64.135s
+
+    OK
+\end{minted}
+
+\subsubsection{Pattern Recognition Module}
+\subsubsection*{{\hspace{6mm}}Neuron}
+\begin{minted}{bash}
+    $ coverage run --branch test_neuron.py
+    ................
+    ----------------------------------------------------------------------
+    Ran 16 tests in 0.197s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Sample}
+\begin{minted}{bash}
+    $ coverage run --branch test_sample.py
+    .
+    ----------------------------------------------------------------------
+    Ran 6 tests in 39.788s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation}
+\begin{minted}{bash}
+    $ coverage run --branch test_simulation.py
+    ..
+    ----------------------------------------------------------------------
+    Ran 2 tests in 1.080s
+
+    OK
+\end{minted}
+
+\subsubsection{Web Client Module}
+\subsubsection*{{\hspace{6mm}}Sample Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_sample_dao.py 
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 7.838s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Server}
+\begin{minted}{bash}
+    $ coverage run --branch test_server.py
+    ...
+    ----------------------------------------------------------------------
+    Ran 8 tests in 5.172s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_simulation_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_action_selection.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted} 
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_neuron.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}   
+    
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_animation_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_cstmd_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+  
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_estmd_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}  
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_simulation.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_training_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_script.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_training.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 5.211s
+
+    OK
+\end{minted}
+    \end{document}
