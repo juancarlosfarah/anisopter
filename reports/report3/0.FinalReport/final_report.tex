@@ -566,14 +566,72 @@ Given that all of our code is written in Python, we use Python's unittest framew
 \subsubsection{Results}
 Our current test coverage is XX\%. An overview of the test results are shown below. Details from our final test run covering all of our modules can be found in Appendix X.
 
-INSERT TABLE
+\begin{minted}{bash}
+$ coverage report -m
+
+Name 	      Stmts    Miss    Branch    BrMiss     Cover   Missing
+------------------------------------------------------------------------------------
+estmd               138        0       34         0       100%   
+cstmd               272       14      106        20        91%   204, 210, 365-366, 
+                                                                 413, 436, 440, 
+                                                                 448-453, 460
+target_animation    182        1       34         1        99%   279
+neuron              248       59       72        32        72%   170-179, 197,
+                                                                 209-212, 216,
+                                                                 230-233, 237, 261,
+                                                                 300, 331, 357, 
+                                                                 368-381, 388-393,
+                                                                 417-420, 447-450,
+                                                                 488, 562-563,
+                                                                 570-579
+sample              128        0       32         0       100%   
+simulation          137       22       46        14        80%   64, 69, 82-94, 
+                                                                 158-159, 175-176, 
+                                                                 197, 210-213, 
+                                                                 236-237
+sample_dao           49        1        8         1        96%   79
+server              340      194       40        39        39%   56-61, 67-73, 
+                                                                 79-89, 102-116,
+                                                                 147-159, 173-180, 
+                                                                 201-218, 226, 
+                                                                 232-239, 261-265, 
+                                                                 271-308, 314-321, 
+                                                                 336-343, 356-362, 
+                                                                 388-480, 493-500, 
+                                                                 535-543, 549-556, 
+                                                                 566-570, 575-580, 
+                                                                 585-586, 591-594, 
+                                                                 599-603, 607, 
+                                                                 628-629
+
+simulation_dao      164       41       60        27        70%   32-33, 87, 93, 
+                                                                 120, 124, 167-168, 
+                                                                 176-209, 245-253, 
+                                                                 265-266, 295, 318
+action_selection    251       14       30        14        90%   142, 190, 192-193, 
+                                                                 265-267, 272-278, 
+                                                                 392-396
+animation_dao        68        9       20         1        87%   76, 97, 
+                                                                 135-139, 142, 
+                                                                 160-162
+cstmd_dao            46        7        8         2        83%   108-110, 156-158 
+                                                                                                                
+estmd_dao            66        7       10         3        87%   63, 79-82, 93, 
+                                                                 136-138
+simulation          109       35       30        18        62%   88-103, 133, 
+                                                                 144-146, 159-162, 
+                                                                 175, 202-232
+
+------------------------------------------------------------------------------------
+TOTAL              1389      223      362       115        81%  
+\end{minted}
 
 \subsubsection{Challenges}
 As expected, much of our code changed when we added additional modules, requiring that our tests be modified accordingly.  We found it especially difficult to test the graphical output that our modules produce. Though testing it manually is very straightforward, we encountered problems while writing tests to do so systematically. A solution we employed was to store images of the graphics and check the values of specific pixels against the expected ones, which we defined beforehand.
 
 \subsection{Task Scheduling}
 
-Below is a condensed version of our final schedule. Sprints are two weeks long, with Sprint 1 having started on 4 February 2015. Priorities are ranked 1 (highest) to 4 (lowest). If the task was completed, the sprint during which it was finalised is indicated. Otherwise, it is noted as incomplete.
+Below is a condensed version of our final schedule. Sprints are two weeks long, with Sprint 1 having started on 4 February 2015. Priorities are ranked 1 (highest) to 3 (lowest). If the task was completed, the sprint during which it was finalised is indicated. Otherwise, it is noted as incomplete.
 
 \subsubsection{Stage 1A: Visual Pre-processing}
 \begin{center}
@@ -1133,6 +1191,146 @@ Ioannis Kasidakis& CSTMD Module& 9.0 weeks  \\ \cline{1-3}
 \end{tabular}
 \end{table}
 
+\clearpage
+\section{Testing Suite}
+\subsection{Individual Tests}
+\subsubsection{Visual Pre-processing Module}
+\subsubsection*{{\hspace{6mm}}ESTMD}
+\begin{minted}{bash}
+    $ coverage run --branch test_estmd.py
+    ....
+    ----------------------------------------------------------------------
+    Ran 6 tests in 5.113s
+
+    OK
+\end{minted}
+\subsubsection*{{\hspace{6mm}}Target Animation}
+\begin{minted}{bash}
+    $ coverage run --branch test_target_animation.py
+    ...........
+    ----------------------------------------------------------------------
+    Ran 20 tests in 0.643s
+
+    OK
+\end{minted}
+
+\subsubsection{Dragonfly Neuron Module}
+\subsubsection*{{\hspace{6mm}}CSTMD}
+\begin{minted}{bash}
+    $ coverage run --branch test_cstmd.py
+    ..
+    ----------------------------------------------------------------------
+    Ran 1 tests in 2.133s
+
+    OK
+\end{minted}
+
+\subsubsection{Pattern Recognition Module}
+\subsubsection*{{\hspace{6mm}}Neuron}
+\begin{minted}{bash}
+    $ coverage run --branch test_neuron.py
+    ................
+    ----------------------------------------------------------------------
+    Ran 16 tests in 0.197s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Sample}
+\begin{minted}{bash}
+    $ coverage run --branch test_sample.py
+    .
+    ----------------------------------------------------------------------
+    Ran 6 tests in 26.930s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation}
+\begin{minted}{bash}
+    $ coverage run --branch test_simulation.py
+    ..
+    ----------------------------------------------------------------------
+    Ran 3 tests in 36.030s
+
+    OK
+\end{minted}
+
+\subsubsection{Action Selection Module}
+\subsubsection*{{\hspace{6mm}}Action Selection}
+\begin{minted}{bash}
+    $ coverage run --branch test_action_selection.py
+    ----------------------------------------------------------------------
+    Ran 2 test in 77.555s
+
+    OK
+\end{minted}
+
+\subsubsection{Web Client Module}
+\subsubsection*{{\hspace{6mm}}Sample Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_sample_dao.py 
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 0.057s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Server}
+\begin{minted}{bash}
+    $ coverage run --branch test_server.py
+    ...
+    ----------------------------------------------------------------------
+    Ran 2 tests in 0.144s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Simulation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_simulation_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 4.073s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}Action Selection Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_action_selection_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 49.251s
+
+    OK
+\end{minted} 
+    
+\subsubsection*{{\hspace{6mm}}Animation Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_animation_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 0.650s
+
+    OK
+\end{minted}
+
+\subsubsection*{{\hspace{6mm}}CSTMD1 Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_cstmd_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 13.329s
+
+    OK
+\end{minted}
+  
+\subsubsection*{{\hspace{6mm}}ESTMD Data Access Object}
+\begin{minted}{bash}
+    $ coverage run --branch test_estmd_dao.py
+    ----------------------------------------------------------------------
+    Ran 1 test in 11.517s
+
+    OK
+\end{minted}  
 
 \end{document}
 
