@@ -47,7 +47,7 @@ class SampleDaoTests(unittest.TestCase):
         with self.assertRaises(KeyError):
             page = server.remove_animation()
         with self.assertRaises(TypeError):
-          page = server.generate_animation()
+            page = server.generate_animation()
         page = server.new_animation_background()
         with self.assertRaises(KeyError):
             page = server.upload_animation_background()
@@ -59,7 +59,8 @@ class SampleDaoTests(unittest.TestCase):
         page = server.new_cstmd_simulation()
         with self.assertRaises(KeyError):
             page = server.run_cstmd_simulation()
-        page = server.show_cstmd_simulations()
+        with self.assertRaises(TypeError):
+            page = server.show_cstmd_simulations()
         page = server.show_pattern_recognition()
         page = server.show_simulations()
         page = server.run_simulation()
