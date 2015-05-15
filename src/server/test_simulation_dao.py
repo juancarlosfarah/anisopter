@@ -2,6 +2,7 @@ __author__ = 'eg1114'
 
 import unittest
 import simulation_dao
+import sample_dao
 import pymongo
 import numpy as np
 
