@@ -34,7 +34,7 @@ class SampleDaoTests(unittest.TestCase):
         
         self.samples.get_samples(1)
         self.samples.get_sample(id)
-        self.get_spikes(id)
+        self.samples.get_spikes(id)
 
     def tearDown(self):
         """
