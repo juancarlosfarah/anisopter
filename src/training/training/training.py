@@ -32,15 +32,12 @@ class Training(object):
         self.n = n
         self.id = input_id
 
-        self.db = self.db_connect()
+        # self.db = self.db_connect()
 
-        sd = simulation_dao.SimulationDao(self.db)
-        output = sd.get_simulation(self.id)
+        # sd = simulation_dao.SimulationDao(self.db)
+        # output = sd.get_simulation(self.id)
 
-        print "-----------------------------------------------"
-        print output["cstmd_id"]
-        print output["estmd_id"]
-        print "-----------------------------------------------"
+    
 
     def db_connect(self, host="146.169.47.184",
                    port=27017, db_name="anisopter"):
@@ -96,10 +93,7 @@ class Training(object):
         :return:
         """
 
-        for i in range(dif):
-            # TO DO: adjust
-            start = []
-            # Run single test.
+        pass
 
     def run(self):
         """
@@ -107,7 +101,8 @@ class Training(object):
 
         :return:
         """
-
+        
+        pass
 
 
 if __name__ == '__main__':
