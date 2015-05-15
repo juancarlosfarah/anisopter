@@ -34,8 +34,8 @@ class SampleDaoTests(unittest.TestCase):
 
         id = self.samples.generate_sample(100, 2, 2, "Random")
         sample = self.samples.get_sample(id)
-        c = self.samples.db.samples
-        cursor = c.find().sort('_id', direction=-1).limit(50)
+        c = self.samples.db.spikes
+        cursor = c.find({sample_id:sample['_id']}).sort('_id', direction=1)
         
         id2 = self.dao_simul.run_simulation(sample, cursor, 5, "Random", 1, 1, 1, [1 for i in range(5)], False)
 
