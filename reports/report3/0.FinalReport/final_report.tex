@@ -196,7 +196,7 @@ Having decided upon a number of specific modules required for the biomimetic age
 \subsection{Target Animation}
 This module represents the input to the dragonfly's retina. Our goal was to create an animation tool that would allow a user to flexibly create videos of moving targets against a custom and potentially moving background. Our initial specifications aimed to create a 3D animation, where the dragonfly's view would change dynamically depending on the dragonfly's position and orientation. As a first step, we implemented a 2D animation, with coloured circles representing targets against a moving or stationary background that could be defined by the user.
 
-The design of this module was approached from the user's perspective. Our priorities were to provide flexibility through a simple interface through which to define the duration and size of the video, specify a background, and add targets, each with potentially different properties and behaviours. We supported two types of targets, the first displaying random movement across the viewport and the second moving in a straight line. For the former, the user could simply specify the starting position and speed. For the latter, the user was required to set the target's direction of travel. Additionally, the background could be provided as a PNG or JPG file and would be automatically cropped to fit the viewport.
+The design of this module was approached from the user's perspective. Our priorities were to provide flexibility through a simple interface through which to define the duration and size of the video, specify a background, and add targets, each with potentially different properties and behaviours. We supported two types of targets, the first displaying random movement across the viewport (Figure 3) and the second moving in a straight line. For the former, the user could simply specify the starting position and speed. For the latter, the user was required to set the target's direction of travel. Additionally, the background could be provided as a PNG or JPG file and would be automatically cropped to fit the viewport.
 
 \begin{figure}[H]
 \centering
@@ -212,42 +212,30 @@ The design of this module was approached from the user's perspective. Our priori
 \begin{minipage}{0.2\textwidth}
 \fbox{\includegraphics[scale = 0.14]{ran3}}
 \end{minipage}
-\caption{Simple example of Target Animation output. The black dot represents the target.}
-\label{target_animation_example}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.14]{str0}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.14]{str1}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.14]{str2}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.14]{str3}}
-\end{minipage}
-\caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
+\caption{Screenshots of a simple example of Target Animation output with a randomly moving target.}
 \label{target_animation_example}
 \end{figure}
 
 The challenge was to turn this information into an animation. Our approach was to first create a sequence of images given the input from the user which could then be sequenced into a video. We decided to build our implementation using Gizeh \cite{gizeh}, a Python library for vector graphics written on top of cairocffi \cite{cairocffi} the Python binding for Cairo \cite{cairo}, a 2D graphics library written in C. Gizeh allowed us to perform image creation and manipulation efficiently, as it offers function calls for some of our key requirements, such as drawing circles, adding background images, scaling and transforming graphics. Hence the core of the target animation module processes the user-generated input, calculates the position of each target and of background at each frame and computes the location where each target should be drawn and how the background image should be rendered. At each step, we save the generated image to a temporary file. The generated sequence of images is then combined into a video using OpenCV \cite{opencv}, an an open source computer vision library, and exported as an AVI file. Additionally, the module outputs the series of images in matrix format consisting of greyscale pixel values, which are passed as input to the ESTMD module, and converts the AVI file MP4 format so that it can be easily rendered in a browser using HTML5.
-\newline
-\newline
-Example of frame in produced video can be seen on the picture  ~\ref{fig:target_animation_example}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.3]{ta}
+\begin{minipage}{0.23\textwidth}
+\fbox{\includegraphics[scale = 0.17]{scr0}}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\fbox{\includegraphics[scale = 0.17]{scr3}}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\fbox{\includegraphics[scale = 0.17]{scr6}}
+\end{minipage}
+\begin{minipage}{0.23\textwidth}
+\fbox{\includegraphics[scale = 0.17]{scr9}}
+\end{minipage}
 \caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
-\label{fig:target_animation_example}
 \end{figure}
 
-
-The target animation module is also required to produce the final output of the visual system, where the biomimetic agent is shown ``chasing'' the targets from the initial input video. Rather than create a whole new animation where the whole dragonfly is visible, we decided to superimpose the dragonfly's visual focal point as a distinctive circle on the original animation. This means that the ``chasing'' is represented as the point in the visual field that the biomimetic agent is focusing on. In order to assist with the reward-modulated learning provided by the action selection module, the target animation module exposes functions to calculate positions of targets at any given time during the animation. This allows the action selection module to appropriately implement reinforcement learning and is further discussed in section X.X.
+The Target Animation module is also required to produce the final output of the visual system, where the biomimetic agent is shown ``chasing'' the targets from the initial input video (Figure 4). Rather than create a whole new animation where the whole dragonfly is visible, we decided to superimpose the dragonfly's visual focal point as a distinctive circle on the original animation. This means that the ``chasing'' is represented as the point in the visual field that the biomimetic agent is focusing on. In order to assist with the reward-modulated learning provided by the action selection module, the target animation module exposes functions to calculate positions of targets at any given time during the animation. This allows the action selection module to appropriately implement reinforcement learning and is further discussed in Section 4.5.
 
 \subsection{Elementary Small Target Motion Detector (ESTMD)}
 
@@ -699,25 +687,6 @@ provides a platform for their potential completion in the future, as we discuss 
     \end{tabular}
 \end{center}
 
-\subsection{Action Selection}
-
-\begin{figure}[H]
-\centering
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.15]{scr0}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.15]{scr3}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.15]{scr6}}
-\end{minipage}
-\begin{minipage}{0.2\textwidth}
-\fbox{\includegraphics[scale = 0.15]{scr9}}
-\end{minipage}
-\caption{Simple example of action selection output. The red dot represents the dragonfly focal point and the black dot represents the target.}
-\end{figure}
-
 \subsection{Partially completed tasks}
 
 \subsubsection{CSTMD1 Model}
@@ -730,27 +699,30 @@ neuron did not show the expected behaviour. Nevertheless, having embedded the CS
 dragonfly model facilitates further research into the function of this neuron, and specifically whether it is
 responsible for target selection.
 
-The web client:
+\subsubsection{Web Client}
+
+Although our web client allows for the interaction we set forth when specifying our expected requirements,
+further development would enhance its usability and reliability in a manner that could allow for a fully
+production-ready version of the tool. Our focus was to create an interface that would be run locally or in a
+trusted environment, so potential security concerns were not addressed fully. Similarly, we assumed that
+our user base would be somewhat familiar with the field of neuroscience, which could possibly not be the
+case if the tool were to target a wider audience. Finally, our priority was to have a clean and consistent
+design, but we limited ourselves to a relatively conservative user interface.
 
 \subsection{Non-implemented tasks}
 
-Of all the goals that were set there was only one we did not get the chance to work on:
-
-\noindent
-Of the possible extensions in our specification, the one we did not have time to attempt was to implement our target selection system into a quadcopter drone (Possible Extensions). The idea behind this goal was to integrate the completed agent into a quadcopter with embedded cameras that would allow it to react in real time to visual stimuli. Our current system computes the entire output of each module before being passed on to the next one - for a real time system, the processing in each module would have to be completed at each time step. Additionally, the required processing of the visual input within each simulation is very computationally expensive that it would have required a very powerful offline processor (i.e. not mounted onto the quadcopter) in order to implement it in real-time. 
+Of the possible extensions in our specification, the one we did not have time to attempt was the implementation of our target selection system into an autonomous drone. The idea behind this goal was to integrate the completed agent into a quadcopter with embedded cameras that would allow it to react in real time to visual stimuli. Our current system computes the entire output of each module before it is passed on to the next one. For a real-time implementation, the processing in each module would have to be completed at each time step, requiring a redesign of the system. Additionally, the necessary processing of the visual input within each simulation is very computationally expensive and would require a very powerful offline processor (i.e. not mounted onto the quadcopter) in order to implement it in real-time. 
 
 \subsection{Future Development}
-Our project's modular architecture and design allows for future development on each of the components to be feasible both by the members of our team as well as the community. We will release our source code via a public repository and welcome contributions as we continue to improve our tool. Given our use of Git as a source version control system, users will be able to easily clone and fork the repository for their own deployments, as well as submit pull requests to contribute to the development of the original tool. We have also made a public-facing website available at (WEBSITE) so that potential users or contributors can easily test the web client.
-
-Specific areas where our system can be potentially improved include the following:
+Our project's modular architecture and design allows for future development on each of the components to be feasible both by the members of our team as well as the community. We will release our source code via a public repository and welcome contributions as we continue to improve our tool. Given our use of Git as a source version control system, users will be able to easily clone and fork the repository for their own deployments, as well as submit pull requests to contribute to the development of the original tool. We have also made a public-facing website available so that potential users or contributors can easily test the web client. Specific areas where our system can be potentially improved include the following:
 
 \begin{enumerate}
-\item Neuron Models Adjustable
-\item Custom Modules
-\item Improve Data Visualisation in the Web Client
-\item Improve usability of the web client (multiple users)
-\item Implement 3D simulation for target animation and action selection
-\item Option to export code for testing in a quadcopter drone
+\item Making the neuron models more adjustable. Currently, while the parameters of the neuron models for the various modules can be changed by the user, the actual models can not be. This would provide an extra level of flexibility.
+\item Adding the possibility of adding custom modules. The user should be able to add their own layers to the visual system.
+\item Improving data visualisation in the web client. Currently, we present visual information about our system using a mixture of MP4 and PNG files as well as interactive plots generated from matplotlib through our use of mpld3. A more thorough implementation of the D3.js library would significantly enhance the user's ability to manipulate the data.
+\item Improve usability of the web client. For instance we could allow multiple users to run on one instance of the tool, but keep their respective simulations isolated from each other. Exporting data for manipulation on external tools would also improve the user experience.
+\item Implement a 3D simulation for the Target Animation and Action Selection modules. If the model is made to work in a 2D simulation, it would be interesting to extend it to a 3D simulation to make the system more realistic.
+\item Make the system exportable for testing in a quadcopter drone as mentioned in Section 6.3.
 \end{enumerate}
 
 \subsection{Project Evaluation}
