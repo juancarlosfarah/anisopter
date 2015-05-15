@@ -97,7 +97,7 @@ Our initial approach to establishing the requirements for this project was to br
 	
 	Goal-oriented capture enabled us to identify the minimum requirements for the completion of our project. As we progressed in the development of the system, we ran into some complications that motivated us to modify the certain aspects of our specification.
 	 
-\subsection{Challenges and Motivation for Updated Specifications}
+\subsection{Challenges and Finalisation of Specifications}
 In this section, there is a brief discussion of the challenges that were faced during the project and how they motivated the adjustment of the original specifications.
 
 	At the start of the project, our main objective was to create a working dragonfly target selection system. Key to the implementation of a biomimetic agent was the functioning of the CSTMD1 neuron, which had been previously modelled at Professor Shanahan's lab. Having previously displayed evidence of bistability, it was expected that the model of the CSTMD1 would be capable of selecting one target from many in the dragonfly's visual field by replicating the results of research done into real CSTMD1 neurons \cite{w13}. Despite the hard work that was put into addressing the issue, the challenge of handling the complex morphology of the CSTMD1 neuron made the task infeasible to be fully completed within the time frame of this project. Thus, it was moved to possible extensions and although significant progress was observed, it was only partially completed by the submission deadline.
@@ -168,7 +168,7 @@ Building on research done at Professor Murray Shanahan's laboratory on the CSTMD
 \subsection{User Interface}
 As we developed the aforementioned modules, we recognised the need to provide an user-friendly interface to our system. In order to maximise portability, the solution had to be lightweight and cross-platform. The most suitable architecture for this purpose consisted of a framework that could connect to each of our modules and provide a client that could be run on any modern browser.
 
-Our web client is designed to be a simple interface that allows for simulations for each of the modules to be run and automated, either separately or jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment. It also provides key metrics that can be crucial in understanding the performance of the system.
+Our web client is designed to be a simple interface that allows for simulations for each of the modules to be run and automated, either separately or jointly. This graphical user interface interacts with each module's API and provides the functionality needed to save and access the results of every experiment. It also provides key metrics that can be crucial in understanding the performance of the system. Figure 2 provides a graphical representation of the system as whole. 
 
 \subsection{Data Store}
 
@@ -176,17 +176,13 @@ Given the computationally expensive nature of our modules' simulations, a persis
 
 For our data store MongoDB \cite{mdb} was chosen. MongoDB provides a fast, scalable solution that does not require strict design decisions in advance. Considering in retrospect the changes and adaptations that had to take place during this project, we trust that MongoDB was a wise choice that contributed to the overall success of this project.
 
-
-\subsection{Design diagram}
-The following figure provides a graphical representation of the system as whole. 
-
 \begin{figure}[h]
 \centering
 \includegraphics[scale = 0.35]{designblockdiagram2}
 \caption{Project Structure Diagram.}
 \end{figure}
 
-\subsection{Programming language}
+\subsection{Programming Language}
 In order to maintain consistency throughout the project, all modules were programmed in the same language. This facilitated communication between the modules as well as their respective link to the web client. Additionally, it allowed us to run one test suite that comprehensively covered the whole project. We decided to use Python \cite{python} for this project given our team's experience with the language as well as its flexibility and ubiquity. Python includes libraries for efficient matrix manipulations that were key in most of the modules, as well as a vast number of neuroscience-specific modules that allowed us to develop our project without having to write potentially complex low-level functions. Furthermore, Python's matplotlib 2D plotting library provides a way for each module to generate production quality graphics that can be easily transmitted to an interactive user interface.
 
 
@@ -240,9 +236,9 @@ The Target Animation module is also required to produce the final output of the 
 
 \subsection{Elementary Small Target Motion Detector (ESTMD)}
 
-In our initial specification, one of our tasks was to connect the retina of our dragonfly to the CSTMD neurons. Having researched how this occurs in real dragonflies, we discovered that we would have to include a layer of neurons that preprocesses the input from the retina before passing it on to the CSTMDs, named elementary small target motion detectors (ESTMD) \cite{Wiederman2008}. While one of the purposes of the CSTMD seems to be to give the ability to select one target among many in the visual field \cite{w13}, the function of the ESTMDs seems to be that of identifying small moving targets, even against a cluttered, moving background \cite{Wiederman2008}.
+In our initial specification, one of our tasks was to connect the retina of our dragonfly to the CSTMD1 neurons. Having researched how this occurs in real dragonflies, we discovered that we would have to include a layer of neurons that preprocesses the input from the retina before passing it on to the CSTMD1s, named elementary small target motion detectors (ESTMD) \cite{Wiederman2008}. While one of the purposes of the CSTMD1 seems to be to give the ability to select one target among many in the visual field \cite{w13}, the function of the ESTMDs seems to be that of identifying small moving targets, even against a cluttered, moving background \cite{Wiederman2008}.
 
-	Our research revealed that the ESTMDs actually consist of several layers of neurons required to perform their function, namely photoreceptors, large monopolar cells (LMCs) and rectifying transient cells (RTCs) \cite{Wiederman2008}. It was immediately obvious to us that implementing all these stages in a multi-compartmental model (the method used for the CSTMD) would be extremely complicated and computationally expensive. Our initial thought was to attempt to use simplified point neuron models (such as Integrate-and-fire) to achieve the ESTMD function, but with a little more research we discovered that it would be possible to do it in a simpler and more computationally efficient way using a series of spatial and temporal transforms on the retina input \cite{Wiederman2008} \cite{hal11}. It is important to note that these transforms are intended to directly approximate the layers of biological neurons mentioned above - there are other techniques from computer vision that could be used for small target motion detection, but our priority is to represent the true function of the dragonfly's brain within realistic bounds of computational complexity. The overview of the model we implemented is summarised in Figure 1 and the details of the transforms were taken from \cite{hal11}. 
+	Our research revealed that the ESTMDs actually consist of several layers of neurons required to perform their function, namely photoreceptors, large monopolar cells (LMCs) and rectifying transient cells (RTCs) \cite{Wiederman2008}. It was immediately obvious to us that implementing all these stages in a multi-compartmental model (the method used for the CSTMD1) would be extremely complicated and computationally expensive. Our initial thought was to attempt to use simplified point neuron models (such as Integrate-and-fire) to achieve the ESTMD function, but with a little more research we discovered that it would be possible to do it in a simpler and more computationally efficient way using a series of spatial and temporal transforms on the retina input \cite{Wiederman2008} \cite{hal11}. It is important to note that these transforms are intended to directly approximate the layers of biological neurons mentioned above - there are other techniques from computer vision that could be used for small target motion detection, but our priority is to represent the true function of the dragonfly's brain within realistic bounds of computational complexity. The overview of the model we implemented is summarised in Figure 1 and the details of the transforms were taken from \cite{hal11}. 
 
 \begin{figure}[h]
 \centering
@@ -250,32 +246,33 @@ In our initial specification, one of our tasks was to connect the retina of our 
 \caption{\cite{Wiederman2008}}
 \end{figure}
 
-The first consideration we had to take was the input and output of the ESTMD module. The input would be a time series of two-dimensional arrays of pixel values from the retina and the output would need to be a time series of neuron spikes (spike trains) to provide input to the CSTMD. The spatial and temporal transforms we intended to use are directly applicable to an array of pixel values but the output of these transforms would also be an array of pixel values that would need to be transformed into spike trains. We decided the simplest and most efficient way of doing this would be to map each pixel value to a corresponding firing rate of a neuron, but this would be dealt with by the CSTMD module. In addition, to demonstrate the effect of the ESTMD module, we decided that it would be useful to provide a video of the output in order to ascertain visually that it is performing its expected function.
+The first consideration we had to take was the input and output of the ESTMD module. The input would be a time series of two-dimensional arrays of pixel values from the retina and the output would need to be a time series of neuron spikes (spike trains) to provide input to the CSTMD1. The spatial and temporal transforms we intended to use are directly applicable to an array of pixel values but the output of these transforms would also be an array of pixel values that would need to be transformed into spike trains. We decided the simplest and most efficient way of doing this would be to map each pixel value to a corresponding firing rate of a neuron, but this would be dealt with by the CSTMD1 module. In addition, to demonstrate the effect of the ESTMD module, we decided that it would be useful to provide a video of the output in order to ascertain visually that it is performing its expected function.
 
 	One significant challenge was understanding the transforms and implementing them in Python. For example, understanding the transforms required some background reading on z-transforms, which are the discrete equivalent of Laplace transforms, which are necessary as our system works in discrete time steps. For the translation of the model into Python, we used the Scipy.signal and openCV \cite{opencv} libraries extensively: Scipy was used to process the z-transforms (the temporal transformations) and openCV was used for the spatial transforms, such as Gaussian filtering. We also used openCV to convert videos into arrays of pixel values and vice versa.
+	
 \begin{figure}[H]
-\includegraphics[scale = 0.4]{input}
-\includegraphics[scale = 0.5]{processed}
-\caption{Snapshot of target animation and example of the corresponding ESTMD output. The target is circled in red in the original animation.}
+\includegraphics[scale = 0.37]{input}
+\includegraphics[scale = 0.4575]{processed}
+\caption{Snapshot of Target Animation and example of the corresponding ESTMD output. The target is circled in red in the original animation.}
 \end{figure}
 
 Once we had programmed the transforms, some tinkering with parameters was required to achieve the small target motion detection we were expecting. In any case, the user of the web client will have the capability of changing these parameters for their own model.
 
-\subsection{Centrifugal Small Target Motion Detector Neuron (CSTMD)}
+\subsection{Centrifugal Small Target Motion Detector One (CSTMD1)}
 
-The function of this module is to implement a multi-compartmental model of the actual CSTMD neuron that exists in dragonflies, with the hope that it will create an effect of selecting one target from many in the visual field. It takes input from the ESTMD and gives output to the Pattern Recognition module. The initial code was given to us by our supervisors, who had already shown that there is mutual inhibition of CSTMD1 neurons that could indicate target selection, but it was our job to connect it to the rest of the system and also, as a secondary goal, see if we could replicate the target selection effect observed in real dragonflies. The main issues in tackling this model were:
+The function of this module is to implement a multi-compartmental model of the actual CSTMD1 neuron that exists in dragonflies, with the hope that it will create an effect of selecting one target from many in the visual field. It takes input from the ESTMD and gives output to the Pattern Recognition module. The initial code was given to us by our supervisors, who had already shown that there is mutual inhibition of CSTMD1 neurons that could indicate target selection, but it was our job to connect it to the rest of the system and also, as a secondary goal, see if we could replicate the target selection effect observed in real dragonflies. The main issues in tackling this model were:
 \begin{enumerate}
-	\item Understanding he complicated nature of the morphologically-modelled CSTMD1.
+	\item Understanding the complicated nature of the morphologically-modelled CSTMD1.
 	\item Learning how to use the simulation environment of the CSTMD1 neurons (NEURON simulation environment).\cite{neuron}
 	\item Efficiently connecting this module with both the ESTMD and the Pattern Recognition module.
 	\item Generating key indicators to measure the performance and the plausibility of the module, in order to assist the user in assessing the function of this neuron.
 \end{enumerate}
 
-Given that the CSTMD1 is multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order to be aware of all the plausible values that should be tried for each of the parameters.
+Given that the CSTMD1 is a multi-compartmental model with several parameters that directly or indirectly affect its activity and effect to a given input, we needed to first fully understand the given model before proceeding with any further decisions. Thus, we performed several tests in order to be aware of all the plausible values that should be tried for each of the parameters.
 
 Moreover, we had to consider what would be the best way to provide stimuli to the CSTMD1 neurons as an input from the ESTMD module. The NEURON simulation environment provides many classes as a connection to a model from an external input. After examining all the different possibilities we decided to use a leaky integrator (IntFire2() point process). We made this selection as it allows the modification of the total current as a parameter which is what we required in order to connect the two modules. IntFire2() also has a quite straightforward structure compared to other similar but considerably more complex point processes. 
 
-The ESTMD module provides a time series of neuron spikes which is essentially an array of values each of which corresponds to a spiking rate per retina pixel. Thus, we initiated one leaky integrator for each pixel and provided the spiking rate as its total current. We then connected these point processes to each of the CSTMD neurons used for the simulation. In order to make our model as much biologically plausible as possible, we added some randomized delays to the connections of the leaky integrators with the CSTMD1 neurons with the aim of ensuring that the desired inhibitory effect will be achieved while neurons are provided with some stimuli. We also applied a spatial Gaussian distribution to the weights of these connections, increasing the relative weights of the pixels in the centre of the visual field compared to those on the edges, as this is the case with real dragonflies \cite{w13}.
+The ESTMD module provides a time series of neuron spikes which is essentially an array of values each of which corresponds to a spiking rate per retina pixel. Thus, we initiated one leaky integrator for each pixel and provided the spiking rate as its total current. We then connected these point processes to each of the CSTMD1 neurons used for the simulation. In order to make our model as much biologically plausible as possible, we added some randomised delays to the connections of the leaky integrators with the CSTMD1 neurons with the aim of ensuring that the desired inhibitory effect will be achieved while neurons are provided with some stimuli. We also applied a spatial Gaussian distribution to the weights of these connections, increasing the relative weights of the pixels in the centre of the visual field compared to those on the edges, as this is the case with real dragonflies \cite{w13}.
 
 With regards to the output, since the Pattern Recognition module requires a considerable number of spike trains as an input, we had to find a way to connect the two modules without severely affecting the speed and performance of the CSTMD1 module. Hence, given the morphologically large axon of the CSTMD1 neuron \cite{geurten} we decided that, instead of using as many neurons as the inputs required by the Pattern Recognition module, to apply a large number of electrodes to different compartments of the neurons and thus provide the adequate number of spike trains without limiting the biological plausibility of our model.
 
@@ -284,10 +281,10 @@ After successfully connecting the different modules, our next goal was to define
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{cstmd_neuron}
-\caption{Compartments recorded within a CSTDM1 neuron}
+\caption{Compartments recorded within a CSTDM1 neuron.}
 \end{figure}
 
-Figure 8 shows the spiking rate of different compartments of 5 CSTMD1 neurons as these were used in one of our simulations in the NEURON simulation environment. Figure 7 shows a visualisation of the location of these compartments. We can observe that most compartments of the 2nd and the 4th neuron, coloured in red and yellow respectively, show little or no spiking activity at the sections B, C and D although they seemed to have received similar stimuli to their counterpart neurons as shown by the spiking rates of their initial compartments in section A. Hence, an inhibitory effect is evident which results in neurons 1, 3 and 5 having high spike rates whereas neurons 2 and 4 show a blockade of activity.
+Figure 8 shows the spiking rate of different compartments of five CSTMD1 neurons as these were used in one of our simulations using the NEURON environment. Figure 7 shows a visualisation of the location of these compartments. We can observe that most compartments of the second and the fourth neuron, coloured in red and yellow respectively, show little or no spiking activity at the sections B, C and D although they seemed to have received similar stimuli to their counterpart neurons as shown by the spiking rates of their initial compartments in section A. Hence, an inhibitory effect is evident which results in neurons 1, 3 and 5 having high spike rates whereas neurons 2 and 4 show a blockade of activity.
 \newpage
 \begin{figure}[H]
 \centering
@@ -415,7 +412,7 @@ Finally, at each time step, the distance between dragonfly's focal point (which 
 
 It is possible to run the Action Selection module in training mode, where the weights can change, or in fixed mode where you give it trained, fixed weights to simply run a simulation. 
 
-The model was implemented in Python using a neuron simulator package called Brian 2 \cite{brian}. We used this as it is a flexible simulator and easier to use than NEURON (which was used for the CSTMD), since we are only modelling point neurons in this module, not a multi-compartmental model. 
+The model was implemented in Python using a neuron simulator package called Brian 2 \cite{brian}. We used this as it is a flexible simulator and easier to use than NEURON (which was used for the CSTMD1), since we are only modelling point neurons in this module, not a multi-compartmental model. 
 
 The output of the Action Selection module is twofold:
 \begin{enumerate}
@@ -622,8 +619,8 @@ Below is a condensed version of our final schedule. Sprints are two weeks long, 
     \begin{tabular}{p{12cm} c c}
     \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
 	Implement visual pre-processing chain based on \cite{hal11}. & 1 & 1 \\
-	Connect output of pre-processing to CSTMD1. & 1 & 2\\
-	Replicate experiment in \cite{w13}. & 1 & 1 \\
+	Connect output of pre-processing to CSTMD1. & 1 & 4\\
+	Replicate experiment in \cite{w13}. & 3 & Incomplete \\
     \end{tabular}
 \end{center}
 
@@ -633,12 +630,10 @@ Below is a condensed version of our final schedule. Sprints are two weeks long, 
     \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
 	Consolidate pattern recognition neuron as a Python class. & 2 & 2 \\
 	Consolidate pattern and noise sample generators as a Python class. & 2 & 2 \\
-	Design and implement unit tests for neuron model. & 2 & 4 \\
-	Design and implement unit tests for generators. & 2 & 1 \\
+	Design and implement unit tests for Pattern Recognition. & 2 & 4 \\
 	Add the ability to save and load samples for testing. & 3 & 1 \\
-	Make single pattern recognition neuron into a module. & 1 & 1 \\
-	Extend pattern recognition neuron to a model of competing patterns. & 1 & 1 \\
-	Analyse impact of varying noise on pattern recognition neurons. & 2 & 1 \\
+	Make single pattern recognition neuron into a module. & 1 & 3 \\
+	Extend pattern recognition neuron to a model of competing patterns. & 1 & 3 \\
     \end{tabular}
 \end{center}
 
@@ -646,7 +641,7 @@ Below is a condensed version of our final schedule. Sprints are two weeks long, 
 \begin{center}
     \begin{tabular}{p{12cm} c c}
     \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
-	Get pattern recognition to detect short patterns from CSTMD output. & 1 & Incomplete \\
+	Get Pattern Recognition to detect short patterns from CSTMD1 output. & 1 & Incomplete \\
 	Layer pattern recognition neurons to recognise longer patterns. & 1 & 4\\
 	Create simple action selection mechanism. & 1 & 4 \\
     \end{tabular}
@@ -669,8 +664,8 @@ Below is a condensed version of our final schedule. Sprints are two weeks long, 
 \begin{center}
     \begin{tabular}{p{12cm} c c}
     \textbf{Task} & \textbf{Priority} & \textbf{Sprint} \\ \hline
-    Get CSTMD to select between targets. & 3 & Incomplete \\
-    Implement agent in a quad-copter drone. & 4 & Incomplete \\
+    Get CSTMD1 to select between targets. & 3 & Incomplete \\
+    Implement agent in a quad-copter drone. & 3 & Incomplete \\
     \end{tabular}
 \end{center}
 
@@ -724,7 +719,7 @@ As our final product, we have succeeded in creating a flexible, cohesive and por
 \begin{minipage}{0.5\textwidth}
 \centering
 \fbox{\includegraphics[scale = 0.15]{as_results}}
-\caption{Key metrics Action Selection.}
+\caption{Key metrics for Action Selection.}
 \end{minipage}
 \begin{minipage}{0.5\textwidth}
 \centering
@@ -838,10 +833,11 @@ this project and we have acquired invaluable insights from this collaboration.
 
 
 \clearpage
-
 \bibliography{final_report}{}
 \bibliographystyle{plain}
 \clearpage
+
+\begin{appendices}
 \appendix
 \section{Commit Statistics}
 
@@ -881,7 +877,7 @@ Over 158 days we performed 1212 commits, averaging 7.7 commits per day. Below yo
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on discussing the way the group would tackle administrative tasks. The decision about the split of the groups was finalised and initial tasks (mainly background reading) was assigned to the two groups. The members were split in a group of three (JCF, EG, PA) that would focus on the pattern recognition and a group of two (CK, IK) that would focus on the CSTMD and retina connection.
+This meeting was mainly focused on discussing the way the group would tackle administrative tasks. The decision about the split of the groups was finalised and initial tasks (mainly background reading) was assigned to the two groups. The members were split in a group of three (JCF, EG, PA) that would focus on the pattern recognition and a group of two (CK, IK) that would focus on the CSTMD1 and retina connection.
 
 \maketitle
 \section*{21 January 2015}
@@ -994,7 +990,7 @@ This meeting was mainly focused on the ESTMD neuron. The function of the mechani
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the web client and the ESTMD neuron. A skeleton version of the web client was created by (JCF) and the next step would be to connect the completed Pattern Recognition module to the web client. Progress was reported on the ESTMD, however the intermediate mechanism revealed some unspotted issues with the CSTMD1 neuron that is responsible for selecting a single target if multiple stimuli are provided. The action selection group was divided into two sub-groups. EG had progressed with Target Animation and two members (CK, EG) would continue working on the ESTMD and the third member (IK) would focus on the CSTMD to analyse the erroneous behaviour and identify potential solutions. The structure of the second report (due on 13/03/2015) was also discussed.
+This meeting was mainly focused on the web client and the ESTMD neuron. A skeleton version of the web client was created by (JCF) and the next step would be to connect the completed Pattern Recognition module to the web client. Progress was reported on the ESTMD, however the intermediate mechanism revealed some unspotted issues with the CSTMD1 neuron that is responsible for selecting a single target if multiple stimuli are provided. The first group was divided into two sub-groups. EG had progressed with Target Animation and two members (CK, EG) would continue working on the ESTMD and the third member (IK) would focus on the CSTMD1 to analyse the erroneous behaviour and identify potential solutions. The structure of the second report (due on 13/03/2015) was also discussed.
 
 \maketitle
 \section*{11 March 2015}
@@ -1148,7 +1144,7 @@ Panagiotis Almpouras&  Pattern Recognition Module& 8.0 weeks  \\ \cline{1-3}
 &  Final Report&  1.5 weeks  \\ \cline{1-3}
 &  &    \\ \cline{1-3}
  Christos Kaplanis&  ESTMD Module&  5.5 weeks  \\ \cline{1-3}
-&  CSTMD module& 2.0 weeks    \\ \cline{1-3}
+&  CSTMD1 module& 2.0 weeks    \\ \cline{1-3}
 &  Action Selection Module&  3.5 weeks  \\ \cline{1-3}
 & Testing& 0.5 weeks \\ \cline{1-3}
 &  First Report&  0.5 weeks  \\ \cline{1-3}
@@ -1163,7 +1159,7 @@ Erik Grabljevec&  Pattern Recognition Module&  3.0 weeks  \\ \cline{1-3}
 &  Second Report&  0.5 weeks  \\ \cline{1-3}
 &  Final Report&  1.0 week  \\ \cline{1-3}
 &  &   \\ \cline{1-3}
-Ioannis Kasidakis& CSTMD Module& 9.0 weeks  \\ \cline{1-3}
+Ioannis Kasidakis& CSTMD1 Module& 9.0 weeks  \\ \cline{1-3}
 &  Web Client & 3.5 weeks    \\ \cline{1-3}
 & Testing& 0.5 weeks \\ \cline{1-3}
 &  First Report& 0.5 weeks     \\ \cline{1-3}
@@ -1197,7 +1193,7 @@ Ioannis Kasidakis& CSTMD Module& 9.0 weeks  \\ \cline{1-3}
 \end{minted}
 
 \subsubsection{Dragonfly Neuron Module}
-\subsubsection*{{\hspace{6mm}}CSTMD}
+\subsubsection*{{\hspace{6mm}}CSTMD1}
 \begin{minted}{bash}
     $ coverage run --branch test_cstmd.py
     ..
@@ -1313,6 +1309,6 @@ Ioannis Kasidakis& CSTMD Module& 9.0 weeks  \\ \cline{1-3}
 
     OK
 \end{minted}  
-
+\end{appendices}
 \end{document}
 
