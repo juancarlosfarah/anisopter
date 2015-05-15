@@ -355,9 +355,7 @@ Figures 10 and 11 show the results of the CSTMD1 simulations with two and three 
 
 In the first case, we can observe that while the spiking rate of the central target reaches its peak close to 700 ms, then the corresponding rate of both targets resembles the former. Nevertheless, it is not evident that the neurons show a clear selectivity between the two targets.
 
-The second figure was run under the same parameters and an additional diagonal target was presented. The plot seems to be showing a quite complex behaviour where no patterns are evident.
-
-Consequently, it is difficult to say whether these neurons display selectivity since it is not obvious from their firing rates and thus, in order to reach to a safe conclusion, further investigation is required.
+The second figure was run under the same parameters and an additional diagonal target was presented. The plot seems to be showing a complex behaviour where no patterns are evident. Consequently, it is difficult to say whether these neurons display selectivity since it is not obvious from their firing rates. Thus, in order to reach to a safe conclusion, further investigation is required.
 
 The web client that we introduced supports running simulations of the CSTMD1 module. We transferred all the functionality as described above and thus the user is able to change all the significant parameters of the model and observe the resulting CSTMD1 neurons' behaviour as well as the behaviour of KPIs in the model.
 
@@ -384,7 +382,7 @@ The main aspects we needed to consider were:
 In the original proposal for the project, it was suggested that we use reward-modulated reinforcement learning to train the action selection mechanism. The idea of this is to have a mechanism that can be used to train the dragonfly to choose the actions that maximize its reward, which is administered when it catches a target. 
 \newline
 \newline
-	We decided to implement a network of four action selection neurons, each representing one direction of movement (up, down, left and right). These neurons would take as input the spike train output of the pattern recognition neurons via synapses with all-to-all connections between the two groups of neurons. The weights of the synapses would be initially randomised and the changes in weights would be dynamically governed by spike-timing-dependent plasticity (STDP, the same mechanism as the pattern recognition neurons) but modulated by a reward-modulator, which we label as dopamine but in reality could be another chemical. The way this works is that the change in weights determined by STDP is replaced with an eligibility trace that decays over time and the weights only change when dopamine is present in the system, by multiplying the eligibility trace of each synapse with the level of dopamine present. The dopamine is given a boost whenever the dragonfly focal point is within a certain distance of a target. The conceptual idea is that the synapses that contribute to catching the target are strengthened. The actual model used for the neurons is integrate-and-fire, which is a relatively simplistic but efficient model. The equations that govern the behaviour of the neurons and synapses are shown below. The implementation is based on the STDP example from the Brian Simulator website \cite{brian}, which is in turned based on \cite{Song2000} and the reward modulation we added ourselves but is based on other research \cite{Izhikevich2007}.
+	We decided to implement a network of four action selection neurons, each representing one direction of movement (up, down, left and right). These neurons would take as input the spike train output of the pattern recognition neurons via synapses with all-to-all connections between the two groups of neurons. The weights of the synapses would be initially randomised and the changes in weights would be dynamically governed by spike-timing-dependent plasticity (STDP, the same mechanism as the pattern recognition neurons) but modulated by a reward-modulator, which we label as dopamine but in reality could be another chemical. The way this works is that the change in weights determined by STDP is replaced with an eligibility trace that decays over time and the weights only change when dopamine is present in the system, by multiplying the eligibility trace of each synapse with the level of dopamine present. The dopamine is given a boost whenever the dragonfly focal point is within a certain distance of a target. The conceptual idea is that the synapses that contribute to catching the target are strengthened. The actual model used for the neurons is integrate-and-fire, which is a relatively simplistic but efficient model. The equations that govern the behaviour of the neurons and synapses are shown below. The implementation is based on the STDP example from the Brian Simulator website \cite{brian}, which is in turned based on \cite{Song2000}. The reward modulation we added ourselves, but is based on other research \cite{Izhikevich2007}.
 \newline
 \newline
 Integrate-and-fire neurons:
@@ -485,7 +483,9 @@ def __init__(self,
 \\
 \\
 \\ 
-Bottle has a built-in templating engine that enhances HTML5 with a thin layer of Python that can be inserted as both as inline and embedded snippets. These templates also allow the server to pass an object to the view, which can then be accessed using straightforward Python dictionary syntax. As shown in the code snippet below, this makes it easier for create reusable views that dynamically iterate through, access and display relevant content according to the objects made accessible by the server.
+Bottle has a built-in templating engine that enhances HTML5 with a thin layer of Python that can be inserted as both as inline and embedded snippets. These templates also allow the server to pass an object to the view, which can then be accessed using straightforward Python dictionary syntax. As shown in the code snippet below, this makes it easier to create reusable views that dynamically iterate through, access and display relevant content according to the objects made accessible by the server.
+
+\clearpage
 
 \begin{minted}{html}
 <!DOCTYPE html>
@@ -531,7 +531,7 @@ To ease the internal team communication and ensure that every member was aware o
 All of our information exchange was conducted using \href{http://slack.com}{Slack} \cite{slack}, a platform for team communication, which provided each member with visibility to all aspects of the project. Relevant information was shared, discussed and classified using Slack's channeled feeds, with a dedicated channel assigned to each sprint.
 
 \paragraph{Version Control}
-We used Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab} \cite{gitlab}, which integrated with our communication and project management tools.
+We used Git as our version control system, hosting our remote repository on \href{http://gitlab.com}{GitLab} \cite{gitlab}, which integrated with our communication and project management tools. As we prepare the product for future development we will migrate the repository to a public facing host in order to allow collaboration from the community.
 
 \subsection{Testing}
 The following section describes our testing methodology, implementation as well as the results acquired after the testing was complete. There is also a brief discussion on the challenges faced during testing of this project.
@@ -545,11 +545,15 @@ Following the white-box testing strategy, each test class is designed by the tea
 Given that all of our code is written in Python, we use Python's unittest framework. To measure code coverage we used Python's coverage library, which allowed us to run tests on each file separately and combine results to create comprehensive reports.
 
 \subsubsection{Results}
-Our current test coverage is 84\%. An overview of the test results are shown below. Details from our final test run covering all of our modules can be found in Appendix D.
+Our current test coverage is 84\%. We ran our test suite to produce comprehensive reports using coverage's report tools, as shown below. An overview of the test results are shown on the following page and details from our final test run covering all of our modules can be found in Appendix D.
 
 \begin{minted}{bash}
 $ coverage report -m
+\end{minted}
 
+\clearpage
+
+\begin{minted}{bash}
 Name 	      Stmts    Miss    Branch    BrMiss     Cover   Missing
 ------------------------------------------------------------------------------------
 estmd               138        0       34         0       100%   
@@ -584,7 +588,6 @@ server              340      194       40        39        39%   56-61, 67-73,
                                                                  585-586, 591-594, 
                                                                  599-603, 607, 
                                                                  628-629
-
 simulation_dao      164       41       60        27        70%   32-33, 87, 93, 
                                                                  120, 124, 167-168, 
                                                                  176-209, 245-253, 
@@ -595,14 +598,12 @@ action_selection    251       14       30        14        90%   142, 190, 192-1
 animation_dao        68        9       20         1        87%   76, 97, 
                                                                  135-139, 142, 
                                                                  160-162
-cstmd_dao            46        7        8         2        83%   108-110, 156-158 
-                                                                                                                
+cstmd_dao            46        7        8         2        83%   108-110, 156-158                                                                                                                 
 estmd_dao            66        7       10         3        87%   63, 79-82, 93, 
                                                                  136-138
 simulation          109       35       30        18        62%   88-103, 133, 
                                                                  144-146, 159-162, 
                                                                  175, 202-232
-
 ------------------------------------------------------------------------------------
 TOTAL              2198      404      530       172        84%  
 \end{minted}
@@ -827,11 +828,6 @@ and efficient way. Finally, the contributions and insights from our supervisors 
 this project and we have acquired invaluable insights from this collaboration.
 
 
-
-
-
-
-
 \clearpage
 \bibliography{final_report}{}
 \bibliographystyle{plain}
@@ -958,7 +954,7 @@ This meeting was mainly focused on the progress and issues of each group. The pa
 
 \subsection*{Summary}
 This meeting was mainly focused on the progress and issues of each group. The Pattern Recognition group (JCF, EG, PA) had no issues to report and made progress according to plan. The pattern recognition was providing accurate results and was modularised so that it could run independently given a proper input.
-\\ CK had identified research on which to base the ESTMD model and were to attempt to replicate it. IK was to work on how the CSTMD1 would be connected to the ESTMD.
+\\ CK had identified research on which to base the ESTMD model and would attempt to replicate it. IK was to work on how the CSTMD1 would be connected to the ESTMD.
 
 \maketitle
 \section*{25 February 2015}
@@ -1006,7 +1002,7 @@ This meeting was mainly focused on the web client and the ESTMD neuron. A skelet
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on the second report. With the input of the supervisors and the slides provided by the course instructor Dr. Fidelis Perkonigg the final structure of the report was decided and a soft deadline was set for completion, to allow for a few last amendments before the actual submission on the 13/03/2015. Some changes to the specification were agreed upon due to difficulties with the CSTMD1.
+This meeting was mainly focused on the second report. With the input of the supervisors and the slides provided by the course instructor Dr. Fidelis Perkonigg the final structure of the report was decided and a soft deadline was set for completion, to allow for a few last amendments before the actual submission on the 13/03/2015. Some changes to the specification were agreed upon due to the difficulties with the CSTMD1.
 
 \maketitle
 \section*{18 March 2015}
@@ -1042,7 +1038,7 @@ This meeting was mainly focused on the web client and the ESTMD neuron. The Patt
 \end{compactenum}
 
 \subsection*{Summary}
-This meeting was mainly focused on planning the group project activities to take place during the exam preparation period. Members mutually agreed to focus on exams and work on the group project one day a week for the following weeks. Slower but steady progress was expected.  The CSTMD1 neuron proving much more challenging than originally expected was the only section for which an accurate estimate of the completion date could not be made. For that reason the simpler but similar mechanism of the point neurons was decided to be the last resource in case the CSTMD1 could not function properly.
+This meeting was mainly focused on planning the group project activities to take place during the exam preparation period. Members mutually agreed to focus on exams and work on the group project one day a week for the following weeks. Slower but steady progress was expected.  The CSTMD1 neuron proving much more challenging than originally expected was the only section for which an accurate estimate of the completion date could not be made. For that reason the simpler but similar mechanism of the point neurons was decided to be the last resort in case the CSTMD1 could not function properly.
 
 \maketitle
 \section*{8 April 2015}
