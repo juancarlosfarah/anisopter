@@ -1,11 +1,7 @@
 __author__ = 'eg1114'
 
 import unittest
-import animation_dao
-import estmd_dao
-import cstmd_dao
-import simulation_dao
-import sample_dao
+import action_selection_dao
 import pymongo
 import numpy as np
 
