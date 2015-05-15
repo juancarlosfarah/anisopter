@@ -63,7 +63,8 @@ class SampleDaoTests(unittest.TestCase):
             page = server.show_cstmd_simulations()
         page = server.show_pattern_recognition()
         page = server.show_simulations()
-        page = server.run_simulation()
+        with self.assertRaises(KeyError):
+            page = server.run_simulation()
         page = server.show_samples()
         page = server.new_sample()
         page = server.generate_sample()
