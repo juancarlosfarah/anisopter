@@ -32,7 +32,7 @@ class SampleDaoTests(unittest.TestCase):
         """
 
 
-        sample = self.samples.generate_sample(10, 2, 2, "Random")
+        sample = self.samples.generate_sample(100, 2, 2, "Random")
 
         id4 = self.dao_simul.run_simulation(sample, 1, 5, description, 1, 1, 1, 1, False)
 
