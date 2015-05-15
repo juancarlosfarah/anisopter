@@ -1,9 +1,8 @@
 __author__ = 'eg1114'
 
 import unittest
-import sample_dao
+import training_dao
 import pymongo
-import numpy as np
 
 
 class SampleDaoTests(unittest.TestCase):
@@ -17,8 +16,8 @@ class SampleDaoTests(unittest.TestCase):
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection["anisopter"].test
-        self.samples = sample_dao.SampleDao(db)
-        self.samples.collection.drop()
+        self.dao = training_dao.TrainingDao(db)
+        self.dao.collection.drop()
 
     def test_all(self):
         """
@@ -26,27 +25,25 @@ class SampleDaoTests(unittest.TestCase):
         :return: None.
         """
 
+        input_id = str("kvenkakvenka")
+        types = [1, 1, 1, 1]
+        n = 1
 
-        id = self.samples.generate_sample(100, 5, 5, "Random")
-        sample = self.samples.get_sample(id)
-        c = self.samples.db.spikes
-        cursor = c.find({'sample_id' : sample['_id']}).sort('_id', direction=1)
-        
-        self.samples.get_samples(1)
-        self.samples.get_sample(id)
-        self.samples.get_spikes(id)
+        self.dao.generate_training_simulation(input_id, types, n)
+
+        self.dao.get_simulation(id)
+        self.dao.get_simulations(1)
 
     def tearDown(self):
         """
         Resets the sample for the tests.
         :return:
         """
-        
         self.dao = None
 
 
 def main():
     unittest.main()
-    
+
 if __name__ == '__main__':
     main()

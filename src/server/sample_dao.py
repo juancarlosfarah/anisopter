@@ -121,6 +121,7 @@ class SampleDao:
         _id = self.save(s)
         return _id
 
+'''
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
     connection = pymongo.MongoClient(connection_string)
@@ -130,3 +131,4 @@ if __name__ == "__main__":
     s.generate_sample()
     sample_dao = SampleDao(db)
     sample_dao.save(s)
+'''
