@@ -16,14 +16,10 @@ class SampleDaoTests(unittest.TestCase):
         Sets up for the tests.
         :return: None.
         """
-        connection_string = "146.169.47.184"
-        connection = pymongo.MongoClient(connection_string)
+        host = "146.169.47.184"
         port = 27017
         connection = pymongo.MongoClient(host=host, port=port)
         db = connection["anisopter"].test
-
-        # Connect client to test database.
-        server.connect_db("test")
 
         # Data Access Objects.
         self.simulations = simulation_dao.SimulationDao(db)
