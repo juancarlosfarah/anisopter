@@ -32,11 +32,12 @@ class Training(object):
         self.n = n
         self.id = input_id
 
-        # self.db = self.db_connect()
+        self.db = self.db_connect()
 
-        # sd = simulation_dao.SimulationDao(self.db)
-        # output = sd.get_simulation(self.id)
+        sd = simulation_dao.SimulationDao(self.db)
+        output = sd.get_simulations(1)
 
+        print output
     
 
     def db_connect(self, host="146.169.47.184",
