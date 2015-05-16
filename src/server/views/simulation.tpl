@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10">
-            <h1>Animation</h1>
+            <h1>Simulation</h1>
         </div>
         <div class="col-md-2">
             <button type="button"

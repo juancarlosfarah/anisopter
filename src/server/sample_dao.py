@@ -63,6 +63,20 @@ class SampleDao:
             collection.insert(obj)
 
         return _id
+        return _id
+
+    def remove(self, _id):
+        """
+        Removes one simulation from the database. Deletes its related files.
+        :param _id: ID of simulation to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+        self.spikes.remove({"sample_id": ObjectId(_id)})
+
+        # TO-DO: Add stuff ???
+
+        return
 
     def get_samples(self, num_samples):
         """

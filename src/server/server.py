@@ -376,6 +376,18 @@ def show_samples():
     return bottle.template('samples', obj)
 
 
+@post('/pattern_recognition/samples/remove')
+def remove_animation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    simulations.remove(_id)
+
+    obj = dict()
+    obj['samples'] = samples.get_samples(10)
+
+    return bottle.template('samples', obj)
+
+
 @get("/pattern_recognition/sample/<_id>")
 def show_sample(_id):
 

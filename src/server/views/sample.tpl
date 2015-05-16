@@ -4,6 +4,22 @@
 <body>
 % include('header.tpl')
 <div class="container">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>Animation</h1>
+        </div>
+        <div class="col-md-2">
+            <button type="button"
+                    onclick="window.location.href='/pattern_recognition/sample/new'"
+                    class="btn btn-primary">New Sample</button>
+        </div>
+        <div class="col-md-2">
+            <form action="/pattern_recognition/sample/remove" method="post">
+                <input type="hidden" name="_id" value="{{sample['_id']}}" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
     <h2>General</h2>
     <table class="table">
         <tr>
