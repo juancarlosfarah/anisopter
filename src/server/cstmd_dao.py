@@ -127,11 +127,11 @@ class CstmdDao:
         if return_object:
             sample = 1
             frames = 1
-            num_neurons = float(sim.get('num_neurons'))
-            num_electrodes = float(sim.get('num_electrodes'))
-            num_synapses = float(sim.get('num_synapses'))
+            num_neurons = int(sim.get('num_neurons'))
+            num_electrodes = int(sim.get('num_electrodes'))
+            num_synapses = int(sim.get('num_synapses'))
             synaptic_distance = float(sim.get('synaptic_distance'))
-            duration_per_frame = float(sim.get('duration_per_frame'))
+            duration_per_frame = int(sim.get('duration_per_frame'))
             description = sim.get('description')
             potassium=float(sim.get('potassium'))
             sodium=float(sim.get('sodium'))
