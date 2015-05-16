@@ -115,6 +115,10 @@ class TrainingDao(object):
         sim = self.sd.get_simulation(id, True)
 
         tr_set = tr.Training(types, n, ani, estmd, cstmd, sim)
+
+        if return_object:
+            return tr_set
+
         tr_set.run()
 
 
