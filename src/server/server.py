@@ -135,7 +135,7 @@ def show_estmd():
 
 
 @post('/estmd/remove')
-def remove_esmtd():
+def remove_esmtd_simulation():
     form = bottle.request.forms
     _id = form.get("_id")
     estmd.remove(_id)
@@ -207,7 +207,7 @@ def new_cstmd_simulation():
 
 
 @post('/cstmd/remove')
-def remove_animation():
+def remove_cstmd_simulation():
     form = bottle.request.forms
     _id = form.get("_id")
     cstmd.remove(_id)
@@ -281,7 +281,7 @@ def show_pattern_recognition():
 
 
 @post('/pattern_recognition/simulation/remove')
-def remove_animation():
+def remove_simulation():
     form = bottle.request.forms
     _id = form.get("_id")
     simulations.remove(_id)
@@ -377,10 +377,10 @@ def show_samples():
 
 
 @post('/pattern_recognition/samples/remove')
-def remove_animation():
+def remove_sample():
     form = bottle.request.forms
     _id = form.get("_id")
-    simulations.remove(_id)
+    samples.remove(_id)
 
     obj = dict()
     obj['samples'] = samples.get_samples(10)
@@ -427,7 +427,7 @@ def show_as():
     return bottle.template('action_selection', obj)
 
 @post('/action_selection/remove')
-def remove_animation():
+def remove_action_selection():
     form = bottle.request.forms
     _id = form.get("_id")
     a_s.remove(_id)
