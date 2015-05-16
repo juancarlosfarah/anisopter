@@ -93,16 +93,33 @@ class CstmdDao:
 
         return simulations
 
-    def get_simulation(self, _id):
+    def get_simulation(self, _id, return_object=False):
         """
         Fetches an simulation by _id.
         :param _id: _id of simulation to fetch.
         :return: Simulation.
         """
 
-        simulation = self.collection.find_one({'_id': ObjectId(_id)})
+        sim = self.collection.find_one({'_id': ObjectId(_id)})
 
-        return simulation
+        if return_object:
+            sample = 1
+            frames = 1
+            num_neurons = sim['num_neurons']
+            num_electrodes = sim['num_electrodes']
+            num_synapses = sim['num_synapses']
+            synaptic_distance = sim['synaptic_distance']
+            duration_per_frame = sim['duration_per_frame']
+            description = sim['description']
+
+            cstmd = self.run_simulation(sample, frames, num_neurons,
+                                        num_electrodes, num_synapses,
+                                        synaptic_distance, duration_per_frame,
+                                        description, True)
+
+            return cstmd
+
+        return sim
 
     def get_spikes(self, _id):
         cursor = self.spikes.find({'sample_id': ObjectId(_id)})
@@ -117,7 +134,8 @@ class CstmdDao:
                        num_synapses,
                        synaptic_distance,
                        duration_per_frame,
-                       description):
+                       description,
+                       return_object = False):
         """
         Generates and saves a simulation.
         :param sample: Dictionary with information about input sample.
@@ -138,6 +156,9 @@ class CstmdDao:
                       duration=duration_per_frame,
                       description=description,
                       input=frames)
+
+        if return_object:
+            return cstmd
 
         times, cstmd.spike_trains = cstmd.run()
         #cstmd.reset()
