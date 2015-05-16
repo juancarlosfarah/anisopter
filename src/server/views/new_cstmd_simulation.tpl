@@ -70,9 +70,9 @@
                 <span class="input-group-addon">ms</span>
             </div>
             <p class="help-block">
-                The CSTMD simulation runs as many times as the frames given
+                The CSTMD1 simulation runs as many times as the frames given
                 by the ESTMD module. Define for how many milliseconds will
-                each CSTMD simulation run.
+                each CSTMD1 simulation run.
             </p>
         </div>
         <div class="form-group">
