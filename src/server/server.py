@@ -402,6 +402,16 @@ def show_as():
     obj = dict()
     return bottle.template('action_selection', obj)
 
+@post('/action_selection/remove')
+def remove_animation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    a_s.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = a_s.get_simulations(50)
+    return bottle.template('action_selection_simulations', obj)
+
 
 @route('/action_selection/simulation/new')
 def new_as_simulation():
