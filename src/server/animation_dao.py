@@ -101,7 +101,7 @@ class AnimationDao:
             height = animation['height']
             description = animation['description']
             targets = animation['targets']
-            frames = animation['frames']
+            frames = animation["num_frames"]
             background = animation['background_id']
             background_speed = animation['background_speed']
 
