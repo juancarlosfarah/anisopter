@@ -21,7 +21,7 @@
             <th>Description</th>
             <th>Width</th>
             <th>Height</th>
-            <th>Delete</th>
+            <th>Action</th>
         </tr>
         %for a in animations:
         <tr>
