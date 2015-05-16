@@ -205,6 +205,12 @@ def run_cstmd_simulation():
     synaptic_distance = int(form.get("synaptic_distance"))
     duration_per_frame = int(form.get("duration_per_frame"))
     description = form.get("description")
+    potassium=float(form.get("potassium"))
+    sodium=float(form.get("sodium"))
+    max_current=float(form.get("max_current"))
+    min_current=float(form.get("min_current"))
+    min_weight=float(form.get("min_weight"))
+    max_weight=float(form.get("max_weight"))
     sample = estmd.get_simulation(sample_id)
     frames = estmd.get_frames(sample_id)
     _id = cstmd.run_simulation(sample,
@@ -214,7 +220,13 @@ def run_cstmd_simulation():
                                num_synapses,
                                synaptic_distance,
                                duration_per_frame,
-                               description)
+                               description,
+                               potassium,
+                               sodium,
+                               max_current,
+                               min_current,
+                               max_weight,
+                               min_weight)
     bottle.redirect("/cstmd/simulation/" + str(_id))
 
 

@@ -111,11 +111,18 @@ class CstmdDao:
             synaptic_distance = sim.get('synaptic_distance')
             duration_per_frame = sim.get('duration_per_frame')
             description = sim.get('description')
+            potassium=sim.get('potassium')
+            sodium=sim.get('sodium')
+            max_current=sim.get('max_current')
+            min_current=sim.get('min_current')
+            min_weight=sim.get('min_weight')
+            max_weight=sim.get('max_weight')
 
             cstmd = self.run_simulation(sample, frames, num_neurons,
                                         num_electrodes, num_synapses,
                                         synaptic_distance, duration_per_frame,
-                                        description, True)
+                                        description,potassium,sodium,max_current,
+                                        min_current,min_weight,max_weight,True)
 
             return cstmd
 
@@ -135,6 +142,12 @@ class CstmdDao:
                        synaptic_distance,
                        duration_per_frame,
                        description,
+                       potassium,
+                       sodium,
+                       max_current,
+                       min_current,
+                       min_weight,
+                       max_weight,
                        return_object = False):
         """
         Generates and saves a simulation.
@@ -146,6 +159,12 @@ class CstmdDao:
         :param synaptic_distance: Distance between the synapses.
         :param duration_per_frame: Duration per frame of simulation in ms.
         :param description: Optional description field.
+        :param potassium: Potassium level.
+        :param sodium: Sodium level.
+        :param max_current: Maximum current.
+        :param min_current: Minimum current.
+        :param min_weight: Minimum weight.
+        :param max_weight: Maximum weight.
         :return: _id of simulation generated.
         """
 
@@ -155,6 +174,12 @@ class CstmdDao:
                       num_electrodes=num_electrodes,
                       duration=duration_per_frame,
                       description=description,
+                      potassium=potassium,
+                      sodium=potassium,
+                      max_current=potassium,
+                      min_current=potassium,
+                      min_weight=potassium,
+                      max_weight=potassium,
                       input=frames)
 
         if return_object:
