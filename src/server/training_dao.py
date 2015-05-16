@@ -133,7 +133,7 @@ if __name__ == "__main__":
     db = connection[db_name]
 
     sd = simulation_dao.SimulationDao(db)
-    id = sd.get_simulations(1, True)[0]['_id']
+    id = "5557942e2d1baa4cefc6d7de"
 
     t = TrainingDao(db)
     t.generate_training_simulation(id, [1, 1, 1, 1], 1)
