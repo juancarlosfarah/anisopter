@@ -95,15 +95,15 @@ class EstmdDao(object):
 
         if return_object:
             print simulation.keys()
-            
-            sample_id = simulation['animation_id']
-            description = simulation['description']
-            H_filter = simulation['h_filter']
-            b = simulation['b']
-            a = simulation['a']
-            CSKernel = simulation['cs_kernel']
-            b1 = simulation['b1']
-            a1 = simulation['a1']
+
+            sample_id = simulation.get('animation_id')
+            description = simulation.get('description')
+            H_filter = simulation.get('h_filter')
+            b = simulation.get('b')
+            a = simulation.get('a')
+            CSKernel = simulation.get('cs_kernel')
+            b1 = simulation.get('b1')
+            a1 = simulation.get('a1')
 
             e = self.run_simulation(sample_id, description, H_filter,
                                           b, a, CSKernel, b1, a1, True)
@@ -121,12 +121,18 @@ class EstmdDao(object):
 
         input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
-        H_filter = np.array(eval(H_filter))
-        b = eval(b)
-        a = eval(a)
-        CSKernel = np.array(eval(CSKernel))
-        b1 = eval(b1)
-        a1 = eval(a1)
+        if H_filter is not None:
+            H_filter = np.array(eval(H_filter))
+        if b is not None:
+            b = eval(b)
+        if a is not None:
+            a = eval(a)
+        if CSKernel is not None:
+            CSKernel = np.array(eval(CSKernel))
+        if b1 is not None:
+            b1 = eval(b1)
+        if a1 is not None:
+            a1 = eval(a1)
 
         e = ESTMD(sample_id, description, H_filter, b, a, CSKernel, b1, a1)
 
