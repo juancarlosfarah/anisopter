@@ -96,7 +96,7 @@ class EstmdDao(object):
         if return_object:
             sample_id = simulation['animation_id']
             description = simulation['description']
-            H_filter = simulation['H_filter']
+            H_filter = simulation['h_filter']
             b = simulation['b']
             a = simulation['a']
             CSKernel = simulation['cs_kernel']
