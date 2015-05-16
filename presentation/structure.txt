@@ -14,4 +14,5 @@ Design of system 1min
 what have we achieved? 1-1.5min
 future work / improvements? 1-1.5min
 
-
+Demonstration:
+figure out how much time we need to spend on each page.
