@@ -15,7 +15,7 @@ import simulation_dao
 
 from animation.target_animation import Animation
 
-from training import training as tr
+import training.training
 
 
 class TrainingDao(object):
@@ -114,7 +114,7 @@ class TrainingDao(object):
         cstmd = self.cd.get_simulation(cstmd_id, True)
         sim = self.sd.get_simulation(id, True)
 
-        tr_set = tr.Training(types, n, ani, estmd, cstmd, sim)
+        tr_set = training.training.Training(types, n, ani, estmd, cstmd, sim)
 
         if return_object:
             return tr_set
