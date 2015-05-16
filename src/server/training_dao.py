@@ -10,6 +10,7 @@ import action_selection_dao
 import animation_dao
 import cstmd_dao
 import estmd_dao
+import simulation_dao
 
 from training import training as tr
 
@@ -86,8 +87,14 @@ class TrainingDao(object):
         :return: _id of training set generated.
         """
 
-        print "Testing some stuff!"
+        print "Input ID:"
+        print input_id
+        print "------------------------------"
 
+        sim = self.sd.get_simulation(input_id)
+
+        print "Animation ID: ", sim['animation_id']
+        print "Estmd ID: ", sim['estmd_id']
 
 
         '''
@@ -129,6 +136,10 @@ if __name__ == "__main__":
     connection = pymongo.MongoClient(host=host, port=port)
     db = connection[db_name]
 
+    sd = simulation_dao.SimulationDao(db)
+    id = sd.get_simulation(1)['_id']
+
     t = TrainingDao(db)
+    t.generate_training_simulation(id, [1, 1, 1, 1], 1)
 
     print "Connected and done."
