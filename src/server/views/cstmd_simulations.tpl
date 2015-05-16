@@ -53,7 +53,7 @@
                 </a>
             </td>
             <td class="text-center">
-                <form action="/target_animation/remove" method="post">
+                <form action="/cstmd/remove" method="post">
                     <input type="hidden" name="_id" value="{{s['_id']}}" />
                     <button type="submit"
                             class="btn btn-xs btn-danger">Delete</button>

@@ -195,7 +195,7 @@ def new_cstmd_simulation():
     return bottle.template('new_cstmd_simulation', obj)
 
 
-@post('/target_animation/remove')
+@post('/cstmd/remove')
 def remove_animation():
     form = bottle.request.forms
     _id = form.get("_id")
