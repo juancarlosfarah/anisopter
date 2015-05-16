@@ -96,11 +96,10 @@ class TrainingDao(object):
 
         sim = self.sd.get_simulation(input_id)
 
-        print "Simulation: ", sim.keys()
-        print "Animation ID: ", sim['animation_id']
-        print "Estmd ID: ", sim['estmd_id']
-        print "Cstmd ID: ", sim['cstmd_id']
+        ani_id = sim['animation_id']
+        ani = Animation(ani_id, True)
 
+        print "Created animation class."
 
         '''
         tr_set = tr.Training(input_id, types, n)

@@ -85,7 +85,7 @@ class AnimationDao:
 
         return animations
 
-    def get_animation(self, _id):
+    def get_animation(self, _id, return_object=False):
         """
         Fetches an animation by _id.
         :param _id: _id of animation to fetch.
@@ -95,6 +95,22 @@ class AnimationDao:
         animation = self.collection.find_one({'_id': ObjectId(_id)})
         if "description" not in animation:
             animation['description'] = "Description"
+
+        if return_object:
+            width = animation['width']
+            height = animation['height']
+            description = animation['description']
+            targets = animation['targets']
+            frames = animation['frames']
+            background = animation['background_id']
+            background_speed = animation['background_speed']
+
+            ani = self.generate_animation(width, height, description, targets,
+                                          frames, background, background_speed,
+                                          return_object=True)
+
+            return ani
+
 
         return animation
 
