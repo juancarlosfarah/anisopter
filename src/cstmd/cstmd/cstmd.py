@@ -399,7 +399,7 @@ class Cstmd(object) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
-                plt.ylabel("Firing Rate (Hz)")
+                plt.ylabel("Membrane Potential (mV)")
                 plt.xlabel("Time (ms)")
                 plt.title("Section "+str(self.rec[n][e]))
                 #plt.legend(loc=0)
@@ -428,6 +428,7 @@ class Cstmd(object) :
             
             fr = []
             s = 0
+            colour = ['b', 'r', 'g', 'y', 'k']
             for i in range(len(spikes)-1) :
                 t0 = spikes[i]
                 t1 = spikes[i+1]
@@ -441,16 +442,7 @@ class Cstmd(object) :
             else :
                 fr.append(1000.0/s)
 
-            if neu == 0:
-                plt.plot(spikes, fr, c='b')
-            elif neu == 1:
-                plt.plot(spikes, fr, c='r')
-            elif neu == 2:
-                plt.plot(spikes, fr, c='g')
-            elif neu == 3:
-                plt.plot(spikes, fr, c='y')
-            elif neu == 4:
-                plt.plot(spikes, fr, c='k')
+            plt.plot(spikes, fr, c=colour[neu])
 
         # Save Plots.
         relative_path = "../server/assets/cstmd/" + str(_id)
