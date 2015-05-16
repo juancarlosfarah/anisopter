@@ -618,6 +618,7 @@ def connect_db(db_name="anisopter"):
     # Data Access Objects.
     animations = animation_dao.AnimationDao(db)
     estmd = estmd_dao.EstmdDao(db)
+    cstmd = cstmd_dao.CstmdDao(db)
     a_s = action_selection_dao.ActionSelectionDao(db)
     simulations = simulation_dao.SimulationDao(db)
     samples = sample_dao.SampleDao(db)
