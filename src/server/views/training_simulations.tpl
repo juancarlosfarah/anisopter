@@ -19,6 +19,7 @@
         <tr>
             <th>Date</th>
             <th>Description</th>
+            <th>Action</th>
         </tr>
         %for a in training:
         <tr>
