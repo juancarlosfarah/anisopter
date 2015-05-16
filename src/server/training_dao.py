@@ -23,6 +23,9 @@ class TrainingDao(object):
     def __init__(self, database):
         self.db = database
         self.collection = self.db.trainings
+
+        self.ad = animation_dao.AnimationDao(self.db)
+        self.ed = estmd_dao.EstmdDao(self.db)
         self.sd = simulation_dao.SimulationDao(self.db)
 
     def save(self, tr_set):
@@ -97,9 +100,13 @@ class TrainingDao(object):
         sim = self.sd.get_simulation(input_id)
 
         ani_id = sim['animation_id']
-        ani = Animation(ani_id, True)
+        estmd_id = sim['estmd_id']
 
-        print "Created animation class."
+
+        ani = self.ad.get_simulation(ani_id, True)
+        estmd = self.ed.get_simulation(estmd_id, True)
+
+        print "Created animation and esmtd class."
 
         '''
         tr_set = tr.Training(input_id, types, n)
