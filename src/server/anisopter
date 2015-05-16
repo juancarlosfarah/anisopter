@@ -1,5 +1,5 @@
 upstream _anisopter {
-    server unix:/run/uwsgi/app/anisopter/socket;
+    server unix:/home/anisopter/git/anisopter/run/socket;
 }
 
 server {
