@@ -21,6 +21,7 @@ class TrainingDao(object):
     def __init__(self, database):
         self.db = database
         self.collection = self.db.trainings
+        self.sd = simulation_dao.SimulationDao(self.db)
 
     def save(self, tr_set):
         """
@@ -93,8 +94,10 @@ class TrainingDao(object):
 
         sim = self.sd.get_simulation(input_id)
 
+        print "Simulation: ", sim.keys()
         print "Animation ID: ", sim['animation_id']
         print "Estmd ID: ", sim['estmd_id']
+        print "Cstmd ID: ", sim['cstmd_id']
 
 
         '''
@@ -137,7 +140,8 @@ if __name__ == "__main__":
     db = connection[db_name]
 
     sd = simulation_dao.SimulationDao(db)
-    id = sd.get_simulation(1)['_id']
+    id = sd.get_simulations(1, True)[0]['_id']
+    print id
 
     t = TrainingDao(db)
     t.generate_training_simulation(id, [1, 1, 1, 1], 1)
