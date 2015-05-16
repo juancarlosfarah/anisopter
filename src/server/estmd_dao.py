@@ -48,6 +48,31 @@ class EstmdDao(object):
 
         return _id
 
+    def remove(self, _id):
+        """
+        Removes one animation from the database. Deletes its related files.
+        :param _id: ID of animation to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            "assets",
+                                            "estmd"))
+        # Remove AVI.
+        filename = str(_id) + ".avi"
+        file_path = "{path}/{file}".format(path=path, file=filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+        # Remove MP4.
+        filename = str(_id) + ".mp4"
+        file_path = "{path}/{file}".format(path=path, file=filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+        return
+
     def get_simulations(self, num_simulations):
         """
         Fetches a given number of simulations from the database.

@@ -134,12 +134,23 @@ def show_estmd():
     return bottle.template('estmd', obj)
 
 
+@post('/estmd/remove')
+def remove_esmtd():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    animations.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = estmd.get_simulations(50)
+    return bottle.template('animations', obj)
+
+
 @route('/estmd/simulation/new')
 def new_estmd_simulation():
 
     obj = dict()
     obj['samples'] = animations.get_animations(50)
-    return bottle.template('new_estmd_simulation', obj)
+    return bottle.template('estmd_simulations', obj)
 
 
 @post('/estmd/simulation/run')
