@@ -5,8 +5,8 @@ upstream _anisopter {
 server {
     listen [::]:55080;
     listen 55080;
-    server_name cvm-g1453017.doc.ic.ac.uk;
-    root /var/www/anisopter/src/server;
+    server_name cloud-vm-47-117.doc.ic.ac.uk;
+    root /home/anisopter/git/anisopter/src/server;
 
     location / {
         try_files $uri @uwsgi;
