@@ -147,12 +147,12 @@ def run_estmd_simulation():
     form = bottle.request.forms
     sample_id = form.get("sample")
     description = form.get("description")
-    H_filter = form.get("H_filter")
-    b = form.get("b")
-    a = form.get("a")
-    CSKernel = form.get("CSKernel")
-    b1 = form.get("b1")
-    a1 = form.get("a1")
+    H_filter = np.array(eval(form.get("H_filter")))
+    b = eval(form.get("b"))
+    a = eval(form.get("a"))
+    CSKernel = np.array(eval(form.get("CSKernel")))
+    b1 = eval(form.get("b1"))
+    a1 = eval(form.get("a1"))
 
     _id = estmd.run_simulation(sample_id, description, H_filter, b, a,
                                CSKernel, b1, a1)
