@@ -105,11 +105,11 @@ class CstmdDao:
         if return_object:
             sample = 1
             frames = 1
-            num_neurons = sim.get('num_neurons')
-            num_electrodes = sim.get('num_electrodes')
-            num_synapses = sim.get('num_synapses')
-            synaptic_distance = sim.get('synaptic_distance')
-            duration_per_frame = sim.get('duration_per_frame')
+            num_neurons = float(sim.get('num_neurons'))
+            num_electrodes = float(sim.get('num_electrodes'))
+            num_synapses = float(sim.get('num_synapses'))
+            synaptic_distance = float(sim.get('synaptic_distance'))
+            duration_per_frame = float(sim.get('duration_per_frame'))
             description = sim.get('description')
 
             cstmd = self.run_simulation(sample, frames, num_neurons,

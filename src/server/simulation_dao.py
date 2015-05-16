@@ -103,7 +103,7 @@ class SimulationDao:
 
         return sims
 
-    def get_simulation(self, _id):
+    def get_simulation(self, _id, return_object=False):
         """
         Fetches a simulation by _id.
         :param _id: _id of simulation to fetch.
@@ -137,6 +137,14 @@ class SimulationDao:
             # for the first neuron for one pattern.
             # TODO: Expand to all neurons.
             sim['neurons'][0]['spike_info'] = spike_info
+
+        if return_object:
+            description = sim['description']
+            training = True
+
+            s = Simulation(description, training)
+
+            return s
 
         return sim
 
@@ -282,8 +290,11 @@ class SimulationDao:
                        a_ratio,
                        theta,
                        weights,
-                       training):
+                       training,
+                       return_object = False):
+
         sim = Simulation(description, training)
+
         sim.load_sample(sample, cursor)
 
         # Add the post-synaptic neurons and connect them.

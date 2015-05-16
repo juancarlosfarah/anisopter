@@ -17,7 +17,7 @@ class Training(object):
      - run_tests: which sets types and frequency of tests
     """
 
-    def __init__(self, types, n):
+    def __init__(self, types, n, ani, estmd, cstmd, sim):
         """
         Constructor.
         :param types: Corresponds to how many tests of each type should we run.
@@ -29,9 +29,12 @@ class Training(object):
 
         self.types = types
         self.n = n
+        self.ani = ani
+        self.estmd = estmd
+        self.cstmd = cstmd
+        self.sim = sim
 
-
-        print "Initiating training"
+        print "Initiating Training."
 
         return 1
 
