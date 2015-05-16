@@ -376,7 +376,7 @@ def show_samples():
     return bottle.template('samples', obj)
 
 
-@post('/pattern_recognition/samples/remove')
+@post('/pattern_recognition/sample/remove')
 def remove_sample():
     form = bottle.request.forms
     _id = form.get("_id")
