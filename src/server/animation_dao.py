@@ -97,13 +97,13 @@ class AnimationDao:
             animation['description'] = "Description"
 
         if return_object:
-            width = animation['width']
-            height = animation['height']
-            description = animation['description']
-            targets = animation['targets']
-            frames = animation["num_frames"]
-            background = animation['background_id']
-            background_speed = animation['background_speed']
+            width = animation.get('width')
+            height = animation.get('height')
+            description = animation.get('description')
+            targets = animation.get('targets')
+            frames = animation.get('num_frames')
+            background = animation.get('background_id')
+            background_speed = animation.get('background_speed')
 
             ani = self.generate_animation(width, height, description, targets,
                                           frames, background, background_speed,
