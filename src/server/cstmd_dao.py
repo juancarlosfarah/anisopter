@@ -132,7 +132,7 @@ class CstmdDao:
             num_synapses = float(sim.get('num_synapses'))
             synaptic_distance = float(sim.get('synaptic_distance'))
             duration_per_frame = float(sim.get('duration_per_frame'))
-            description = sim.get('description'))
+            description = sim.get('description')
             potassium=float(sim.get('potassium'))
             sodium=float(sim.get('sodium'))
             max_current=float(sim.get('max_current'))
