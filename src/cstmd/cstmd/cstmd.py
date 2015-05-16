@@ -48,7 +48,7 @@ class Cstmd(object) :
                  potassium=0.06,
                  sodium=0.48,
                  num_pixels=4096,
-                 max_current=30,
+                 max_current=30.0,
                  min_current=2.0,
                  min_weight=0.000005,
                  max_weight=0.00005,
