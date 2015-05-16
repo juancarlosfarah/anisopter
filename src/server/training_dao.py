@@ -6,10 +6,15 @@ import os
 import pickle
 import pymongo
 
+import action_selection_dao
+import animation_dao
+import cstmd_dao
+import estmd_dao
+
 from training import training as tr
 
 
-class TrainingDao:
+class TrainingDao(object):
 
     # Constructor for the class.
     def __init__(self, database):
@@ -83,6 +88,8 @@ class TrainingDao:
 
         print "Testing some stuff!"
 
+
+
         '''
         tr_set = tr.Training(input_id, types, n)
 
@@ -97,6 +104,4 @@ class TrainingDao:
         '''
 
 if __name__ == "__main__":
-    connection_string = "mongodb://localhost"
-    connection = pymongo.MongoClient(connection_string)
-    db = connection.anisopter
+    "Print testing"
