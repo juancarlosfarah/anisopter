@@ -1,5 +1,5 @@
 upstream _anisopter {
-    server unix:/home/anisopter/git/anisopter/run/socket;
+    server unix:/run/uwsgi/app/anisopter/socket;
 }
 
 server {
@@ -10,7 +10,7 @@ server {
 
     location / {
         try_files $uri @uwsgi;
-    }git
+    }
 
     location @uwsgi {
         include uwsgi_params;
