@@ -81,7 +81,11 @@ class TrainingDao:
         :return: _id of training set generated.
         """
 
+        print "Testing some stuff!"
+
+        '''
         tr_set = tr.Training(input_id, types, n)
+
         tr_set.run()
 
         if return_object:
@@ -90,6 +94,7 @@ class TrainingDao:
         _id = self.save(tr_set)
 
         return _id
+        '''
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"
