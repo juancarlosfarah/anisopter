@@ -94,12 +94,12 @@ class EstmdDao(object):
         simulation['date'] = simulation['_id'].generation_time
 
         if return_object:
-            sample_id = simulation['sample_id']
+            sample_id = simulation['animation_id']
             description = simulation['description']
             H_filter = simulation['H_filter']
             b = simulation['b']
             a = simulation['a']
-            CSKernel = simulation['CSKernal']
+            CSKernel = simulation['cs_kernel']
             b1 = simulation['b1']
             a1 = simulation['a1']
 
