@@ -87,6 +87,8 @@ class Training(object):
         :return:
         """
 
+        print "Ali to sploh kej dela"
+
         out_dir = "out_directories"
         name = "test1"
         out_path = os.path.abspath(os.path.join(out_dir, name))
