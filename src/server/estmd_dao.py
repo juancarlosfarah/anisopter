@@ -119,6 +119,7 @@ class EstmdDao(object):
 
         input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
+        print H_filter
         if H_filter is not None:
             H_filter = np.array(eval(H_filter))
         if b is not None:
