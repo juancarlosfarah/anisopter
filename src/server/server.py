@@ -138,7 +138,7 @@ def show_estmd():
 def remove_esmtd():
     form = bottle.request.forms
     _id = form.get("_id")
-    animations.remove(_id)
+    estmd.remove(_id)
 
     obj = dict()
     obj['simulations'] = estmd.get_simulations(50)
