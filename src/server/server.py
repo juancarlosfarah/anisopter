@@ -142,7 +142,7 @@ def remove_esmtd():
 
     obj = dict()
     obj['simulations'] = estmd.get_simulations(50)
-    return bottle.template('animations', obj)
+    return bottle.template('estmd_simulations', obj)
 
 
 @route('/estmd/simulation/new')
