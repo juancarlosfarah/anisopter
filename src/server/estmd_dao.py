@@ -94,8 +94,6 @@ class EstmdDao(object):
         simulation['date'] = simulation['_id'].generation_time
 
         if return_object:
-            print simulation.keys()
-
             sample_id = simulation.get('animation_id')
             description = simulation.get('description')
             H_filter = simulation.get('h_filter')
