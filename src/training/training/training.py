@@ -81,8 +81,18 @@ class Training(object):
 
         :return:
         """
-        
-        print "Running training!"
+        out_dir = "out_directories"
+        name = "test1"
+        out_path = out_dir + "/" + name
+
+        self.make_temp_directory(out_dir)
+        self.ani.run(out_path)
+        self.estmd.open_movie(out_path)
+        self.estmd.run(by_frame=True)
+
+        frame_array = e.run(by_frame=True)
+
+        print frame_array[10]
 
 
 if __name__ == '__main__':

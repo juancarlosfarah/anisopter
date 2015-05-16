@@ -112,10 +112,7 @@ class TrainingDao(object):
         sim = self.sd.get_simulation(id, True)
 
         tr_set = tr.Training(types, n, ani, estmd, cstmd, sim)
-
-        print tr_set
-
-        return "Done."
+        tr_set.run()
 
 
 if __name__ == "__main__":
