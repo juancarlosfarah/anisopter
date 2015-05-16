@@ -103,7 +103,7 @@ class TrainingDao(object):
         estmd_id = sim['estmd_id']
 
 
-        ani = self.ad.get_simulation(ani_id, True)
+        ani = self.ad.get_animation(ani_id, True)
         estmd = self.ed.get_simulation(estmd_id, True)
 
         print "Created animation and esmtd class."
