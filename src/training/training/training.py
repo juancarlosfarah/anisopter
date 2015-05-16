@@ -94,7 +94,9 @@ class Training(object):
         out_path = os.path.abspath(os.path.join(out_dir, name))
 
         self.make_temp_directory(out_dir)
+        print "----------------------- Start ani"
         self.ani.run(out_path)
+        print "----------------------- Start estmd"
         self.estmd.open_movie(out_path)
         self.estmd.run(by_frame=True)
 
