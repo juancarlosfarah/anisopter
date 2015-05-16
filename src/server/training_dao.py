@@ -102,6 +102,9 @@ class TrainingDao(object):
         sim = self.sd.get_simulation(input_id)
 
         ani_id = sim['animation_id']
+
+        print ani_id
+
         estmd_id = sim['estmd_id']
         cstmd_id = sim['cstmd_id']
         id = sim['_id']
@@ -127,7 +130,6 @@ if __name__ == "__main__":
 
     sd = simulation_dao.SimulationDao(db)
     id = sd.get_simulations(1, True)[0]['_id']
-    print id
 
     t = TrainingDao(db)
     t.generate_training_simulation(id, [1, 1, 1, 1], 1)
