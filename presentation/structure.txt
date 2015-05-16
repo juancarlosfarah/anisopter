@@ -1,0 +1,17 @@
+Presentation breakdown
+----------------------
+
+10-12 minutes slides
+8-10 mins demonstration
+
+OR interleave the two?
+
+Talking points:
+Motivation for project 1min
+Goal of the project 1min
+Design of system 1min
+5 modules + web client 1min each
+what have we achieved? 1-1.5min
+future work / improvements? 1-1.5min
+
+
