@@ -81,7 +81,7 @@ class EstmdDao(object):
 
         return cursor
 
-    def get_simulation(self, _id):
+    def get_simulation(self, _id, return_object=False):
         """
         Fetches an simulation by _id.
         :param _id: _id of simulation to fetch.
@@ -92,10 +92,26 @@ class EstmdDao(object):
         if "description" not in simulation:
             simulation['description'] = "Description"
         simulation['date'] = simulation['_id'].generation_time
+
+        if return_object:
+            sample_id = simulation['sample_id']
+            description = simulation['description']
+            H_filter = simulation['H_filter']
+            b = simulation['b']
+            a = simulation['a']
+            CSKernel = simulation['CSKernal']
+            b1 = simulation['b1']
+            a1 = simulation['a1']
+
+            e = self.run_simulation(sample_id, description, H_filter,
+                                          b, a, CSKernel, b1, a1, True)
+
+            return e
+
         return simulation
 
     def run_simulation(self, sample_id, description, H_filter, b, a,
-                       CSKernel, b1, a1):
+                       CSKernel, b1, a1, return_object=False):
         """
         Runs and saves the output simulation.
         :return: _id of simulation generated.
@@ -111,16 +127,18 @@ class EstmdDao(object):
         a1 = eval(a1)
 
         e = ESTMD(sample_id, description, H_filter, b, a, CSKernel, b1, a1)
+
+        if return_object:
+            return e
+
         e.open_movie(input_directory)
         e.run(by_frame=True)
         e.create_list_of_arrays()
         _id = self.save(e)
 
         # Save video file.
-        print "Current working directory: " + os.getcwd()
         relative_path = "assets/estmd/"
         out_directory = os.path.abspath(relative_path + str(_id) + ".avi")
-        print "Saving animation in: " + out_directory
 
         e.open_movie(input_directory)
         e.run(out_dir=out_directory)
