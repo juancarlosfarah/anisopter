@@ -67,7 +67,7 @@ class CstmdDao:
         :return: None.
         """
         self.collection.remove({"_id": ObjectId(_id)})
-        self.spikes.remove({"sample_id": _id})
+        self.spikes.remove({"sample_id": ObjectId(_id)})
 
         path = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                             "assets",

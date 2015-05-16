@@ -23,7 +23,7 @@
             <th>Number of Electrodes</th>
             <th>Duration</th>
             <th>Description</th>
-            <th>Remove</th>
+            <th>Action</th>
         </tr>
         %for s in simulations:
         <tr>
