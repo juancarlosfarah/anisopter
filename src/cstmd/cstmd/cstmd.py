@@ -418,7 +418,7 @@ class Cstmd(object) :
 
 
     def plot_fir_rate(self,_id) :
-        plt.figure(2)  
+        plt.figure(self.num_plots)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0
@@ -451,6 +451,6 @@ class Cstmd(object) :
         if not os.path.exists(relative_path):
             os.makedirs(relative_path)
 
-        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots+1)+ ".png")
+        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".png")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
