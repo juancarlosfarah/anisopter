@@ -399,7 +399,7 @@ class Cstmd(object) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
-                plt.ylabel("Firing Rate (Hz)")
+                plt.ylabel("Membrane Potential (mV)")
                 plt.xlabel("Time (ms)")
                 plt.title("Section "+str(self.rec[n][e]))
                 #plt.legend(loc=0)
