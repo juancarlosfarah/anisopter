@@ -3,7 +3,9 @@ __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
 from bson.objectid import ObjectId
 import numpy as np
+import os
 import pymongo
+import shutil
 from cstmd.cstmd import Cstmd
 
 
@@ -57,6 +59,26 @@ class CstmdDao:
             collection.insert(obj)
 
         return _id
+
+    def remove(self, _id):
+        """
+        Removes one simulation from the database. Deletes its related files.
+        :param _id: ID of simulation to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+        self.spikes.remove({"sample_id": _id})
+
+        path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                            "assets",
+                                            "cstmd"))
+        # Remove Folder.
+        folder = str(_id)
+        file_path = "{path}/{folder}".format(path=path, folder=folder)
+        if os.path.exists(file_path):
+            shutil.rmtree(file_path)
+
+        return
 
     def get_simulations(self, num_simulations):
         """
