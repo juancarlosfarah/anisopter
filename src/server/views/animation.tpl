@@ -16,7 +16,7 @@
         </div>
         <div class="col-md-2">
             <form action="/target_animation/remove" method="post">
-                <input type="hidden" name="_id" value="{{simulation['_id']}}" />
+                <input type="hidden" name="_id" value="{{animation['_id']}}" />
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>

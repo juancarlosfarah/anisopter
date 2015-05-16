@@ -21,13 +21,21 @@
             <th>Description</th>
             <th>Width</th>
             <th>Height</th>
+            <th>Delete</th>
         </tr>
         %for a in animations:
         <tr>
             <td><a href="/target_animation/animation/{{a['_id']}}">{{a['date']}}</a></td>
             <td><a href="/target_animation/animation/{{a['_id']}}">{{a['description']}}</a></td>
             <td><a href="/target_animation/animation/{{a['_id']}}">{{a['width']}}</a></td>
-            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['height']}}</a></td>
+            <td><a href="/target_animation/animation/{{a['_id']}}">{{a['height']}}</a></td
+            <td class="text-center">
+                <form action="/target_animation/remove" method="post">
+                    <input type="hidden" name="_id" value="{{a['_id']}}" />
+                    <button type="submit"
+                            class="btn btn-xs btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         %end
     </table>
