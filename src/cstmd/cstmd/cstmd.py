@@ -418,7 +418,7 @@ class Cstmd(object) :
 
 
     def plot_fir_rate(self,_id) :
-        plt.figure(2)  
+        plt.figure(self.num_plots)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0
@@ -443,6 +443,8 @@ class Cstmd(object) :
                 fr.append(1000.0/s)
 
             plt.plot(spikes, fr, c=colour[neu])
+            plt.ylabel("Firing Rate (Hz)")
+            plt.xlabel("Time (ms)")
 
         # Save Plots.
         relative_path = "../server/assets/cstmd/" + str(_id)
