@@ -34,10 +34,6 @@ class Training(object):
         self.cstmd = cstmd
         self.sim = sim
 
-        print "Initiating Training."
-
-        return 1
-
 
     @staticmethod
     def make_temp_directory(name):
@@ -62,10 +58,10 @@ class Training(object):
         :return:
         """
 
-        test = Animation()
-        test.add_target(2, start=start, velocity=vel, size=5, v=8)
 
-        test.run(path, 10, 20)
+        self.ani.add_target(2, start=start, velocity=vel, size=5, v=8)
+        self.ani.run(path, 15, 25)
+
 
     def create_tests(self, type, dif, n):
         """
@@ -86,7 +82,7 @@ class Training(object):
         :return:
         """
         
-        pass
+        print "Running training!"
 
 
 if __name__ == '__main__':
