@@ -74,14 +74,17 @@
     </table>
     <h2>Graphs</h2>
     <h3>Compartmental Activity</h3>
+    % for n in range(simulation['num_neurons']):
+    <h4>Neuron {{n + 1}}</h4>
     <div class="row">
-        % for i in range(simulation['num_plots']):
+        % for i in range(n * 4, (n + 1) * 4):
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 text-center">
             <img class="img-responsive"
                  src="/assets/cstmd/{{simulation['_id']}}/{{i}}.png" />
         </div>
         % end
     </div>
+    % end
     <h3>Firing Rate</h3>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
