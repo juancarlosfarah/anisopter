@@ -443,6 +443,8 @@ class Cstmd(object) :
                 fr.append(1000.0/s)
 
             plt.plot(spikes, fr, c=colour[neu])
+            plt.ylabel("Firing Rate (Hz)")
+            plt.xlabel("Time (ms)")
 
         # Save Plots.
         relative_path = "../server/assets/cstmd/" + str(_id)
