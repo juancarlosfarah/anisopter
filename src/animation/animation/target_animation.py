@@ -301,6 +301,7 @@ class Animation(object):
             window.update_frame(time)
             window.draw()
 
+        print "Creating movie in: ", out_directory
         self.create_movie(out_directory, fps, total_frames)
         [self.target_list, self.bg, self.dragonfly] = history
 
