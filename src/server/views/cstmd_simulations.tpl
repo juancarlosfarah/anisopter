@@ -23,6 +23,7 @@
             <th>Number of Electrodes</th>
             <th>Duration</th>
             <th>Description</th>
+            <th>Action</th>
         </tr>
         %for s in simulations:
         <tr>
@@ -50,6 +51,13 @@
                 <a href="/cstmd/simulation/{{s['_id']}}">
                     {{s['description']}}
                 </a>
+            </td>
+            <td class="text-center">
+                <form action="/target_animation/remove" method="post">
+                    <input type="hidden" name="_id" value="{{s['_id']}}" />
+                    <button type="submit"
+                            class="btn btn-xs btn-danger">Delete</button>
+                </form>
             </td>
         </tr>
         %end
