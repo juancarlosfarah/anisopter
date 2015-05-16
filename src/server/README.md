@@ -22,6 +22,7 @@ an example of what an environment might be like.
 
 2. Copy `anisopter.ini` to the `/etc/uwsgi/apps-available` folder. 
 
+    $ sudo chmod -R g+w /etc/uwsgi/
     $ mkdir -p /etc/uwsgi/apps-available/
     $ cp anisopter.ini /etc/uwsgi/apps-available/ 
 
@@ -31,6 +32,7 @@ an example of what an environment might be like.
 
 4. Copy `anisopter` to the `/etc/nginx/sites-available` folder.
 
+    $ sudo chmod -R g+w /etc/nginx/
     $ mkdir -p /etc/nginx/sites-available/
     $ cp anisopter /etc/nginx/sites-available/
      
