@@ -103,5 +103,32 @@ class TrainingDao(object):
         return _id
         '''
 
+def db_connect(self, host="146.169.47.184",
+                       port=27017, db_name="anisopter"):
+    """
+    Connects to database.
+
+    :param host:
+    :param port:
+    :param db_name:
+    :return: Database connection.
+    """
+
+    connection = pymongo.MongoClient(host=host, port=port)
+    db = connection[db_name]
+
+    return db
+
 if __name__ == "__main__":
-    "Print testing"
+    print "Starting test!"
+
+    host = "146.169.47.184"
+    port = 27017
+    db_name = "anisopter"
+
+    connection = pymongo.MongoClient(host=host, port=port)
+    db = connection[db_name]
+
+    t = TrainingDao(db)
+
+    print "Connected and done."
