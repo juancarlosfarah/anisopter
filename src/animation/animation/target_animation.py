@@ -288,6 +288,7 @@ class Animation(object):
             total_frames: Total frames that movie will contain.
         """
 
+        print "WTF"
         self.fps = fps
         self.total_frames = total_frames
         self.make_directory("temp")
@@ -301,6 +302,7 @@ class Animation(object):
             window.update_frame(time)
             window.draw()
 
+        print "--------------------------------------"
         print "Creating movie in: ", out_directory
         self.create_movie(out_directory, fps, total_frames)
         [self.target_list, self.bg, self.dragonfly] = history
