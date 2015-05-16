@@ -24,6 +24,13 @@
         <tr>
             <td><a href="/training/simulation/{{a['_id']}}">{{a['date']}}</a></td>
             <td><a href="/training/simulation/{{a['_id']}}">{{a['description']}}</a></td>
+            <td class="text-center">
+                <form action="/training/remove" method="post">
+                    <input type="hidden" name="_id" value="{{a['_id']}}" />
+                    <button type="submit"
+                            class="btn btn-xs btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         %end
     </table>

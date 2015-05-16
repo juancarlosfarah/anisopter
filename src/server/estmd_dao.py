@@ -50,8 +50,8 @@ class EstmdDao(object):
 
     def remove(self, _id):
         """
-        Removes one animation from the database. Deletes its related files.
-        :param _id: ID of animation to remove.
+        Removes one estmd simulation from the database. Deletes related files.
+        :param _id: ID of simulation to remove.
         :return: None.
         """
         self.collection.remove({"_id": ObjectId(_id)})

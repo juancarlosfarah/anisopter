@@ -49,6 +49,16 @@ class TrainingDao(object):
 
         return _id
 
+    def remove(self, _id):
+        """
+        Removes one training from the database. Deletes its related files.
+        :param _id: ID of training to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+
+        return
+
     def get_simulations(self, num_sets):
         """
         Fetches a given number of training sets from the database.

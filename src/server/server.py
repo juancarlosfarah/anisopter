@@ -536,14 +536,22 @@ def show_action_selection_simulation(_id):
 
 # Training
 # ========
-################################################################################
-################################################################################
-################################################################################
 
 @route('/training')
 def show_tr():
     obj = dict()
     return bottle.template('training', obj)
+
+
+@post('/training/remove')
+def remove_training():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    training.remove(_id)
+
+    obj = dict()
+    obj['training'] = training.get_simulations(50)
+    return bottle.template('training_simulations', obj)
 
 
 @route('/training/simulations')
@@ -588,10 +596,6 @@ def show_training_simulation(_id):
     obj = dict()
     obj['training'] = tr
     return bottle.template("training_simulation", obj)
-
-################################################################################
-################################################################################
-################################################################################
 
 # Static Routes
 # =============
