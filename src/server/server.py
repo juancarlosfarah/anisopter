@@ -280,6 +280,18 @@ def show_pattern_recognition():
     return bottle.template('pattern_recognition', obj)
 
 
+@post('/pattern_recognition/simulation/remove')
+def remove_animation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    simulations.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = simulations.get_simulations(50)
+
+    return bottle.template('simulations', obj)
+
+
 @route('/pattern_recognition/simulations')
 def show_simulations():
 
