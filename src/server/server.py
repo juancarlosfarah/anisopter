@@ -18,6 +18,7 @@ import action_selection_dao
 import training_dao
 from bson.objectid import ObjectId
 
+
 @route('/')
 def show_index():
 
