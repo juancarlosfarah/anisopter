@@ -17,7 +17,7 @@ class Training(object):
      - run_tests: which sets types and frequency of tests
     """
 
-    def __init__(self, types, n):
+    def __init__(self, types, n, ani, estmd, cstmd, sim):
         """
         Constructor.
         :param types: Corresponds to how many tests of each type should we run.
@@ -29,11 +29,10 @@ class Training(object):
 
         self.types = types
         self.n = n
-
-
-        print "Initiating training"
-
-        return 1
+        self.ani = ani
+        self.estmd = estmd
+        self.cstmd = cstmd
+        self.sim = sim
 
 
     @staticmethod
@@ -59,10 +58,10 @@ class Training(object):
         :return:
         """
 
-        test = Animation()
-        test.add_target(2, start=start, velocity=vel, size=5, v=8)
 
-        test.run(path, 10, 20)
+        self.ani.add_target(2, start=start, velocity=vel, size=5, v=8)
+        self.ani.run(path, 15, 25)
+
 
     def create_tests(self, type, dif, n):
         """
@@ -83,7 +82,7 @@ class Training(object):
         :return:
         """
         
-        pass
+        print "Running training!"
 
 
 if __name__ == '__main__':

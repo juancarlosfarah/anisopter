@@ -1,6 +1,7 @@
 __author__ = 'eg1114'
 __authoremail__ = 'erikgrabljevec5@gmail.com'
 
+
 from bson.objectid import ObjectId
 import os
 import pickle
@@ -103,25 +104,18 @@ class TrainingDao(object):
         ani_id = sim['animation_id']
         estmd_id = sim['estmd_id']
         cstmd_id = sim['cstmd_id']
+        id = sim['_id']
 
         ani = self.ad.get_animation(ani_id, True)
         estmd = self.ed.get_simulation(estmd_id, True)
         cstmd = self.cd.get_simulation(cstmd_id, True)
+        sim = self.sd.get_simulation(id, True)
 
+        tr_set = tr.Training(types, n, ani, estmd, cstmd, sim)
 
+        print tr_set
 
-        '''
-        tr_set = tr.Training(input_id, types, n)
-
-        tr_set.run()
-
-        if return_object:
-            return tr_set
-
-        _id = self.save(tr_set)
-
-        return _id
-        '''
+        return "Done."
 
 
 if __name__ == "__main__":
