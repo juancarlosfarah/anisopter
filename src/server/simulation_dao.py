@@ -74,7 +74,6 @@ class SimulationDao:
         _id = self.collection.insert(sim)
         return _id
 
-    def get_simulations(self, num_simulations, from_animation=False):
         """
         Fetches a given number of simulatons from the database.
         :param num_simulations: Number of simulations to fetch.
@@ -296,7 +295,6 @@ class SimulationDao:
             n = sim.add_neuron(a_plus, a_ratio, theta, weight)
             for neuron in neurons:
                 n.connect(neuron)
-            neurons.append(n)
 
         sim.run()
 
