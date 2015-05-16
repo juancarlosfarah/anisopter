@@ -74,6 +74,7 @@ class SimulationDao:
         _id = self.collection.insert(sim)
         return _id
 
+    def get_simulations(self, num_simulations, from_animation=False): 
         """
         Fetches a given number of simulatons from the database.
         :param num_simulations: Number of simulations to fetch.
