@@ -54,15 +54,15 @@
                 </p>
         </div>
         <div class="form-group optional">
--            <label for="num_electrodes">Number of Electrodes</label>
--            <input class="form-control" type="number" id="num_electrodes"
--                   name="num_electrodes" min="1" max="500"
--		   value="50"
--                   placeholder="Number of Electrodes (1 to 500)"/>
--            <p class="help-block">
--                Choose the number of electrodes which will record different compartments of the neurons and provide input to the Pattern Recognition module.
--            </p>
--        </div>
+            <label for="num_electrodes">Number of Electrodes</label>
+            <input class="form-control" type="number" id="num_electrodes"
+                   name="num_electrodes" min="1" max="500"
+		   value="50"
+                   placeholder="Number of Electrodes (1 to 500)"/>
+            <p class="help-block">
+                Choose the number of electrodes which will record different compartments of the neurons and provide input to the Pattern Recognition module.
+            </p>
+        </div>
         <div class="form-group optional">
             <label for="num_synapses">Number of Synapses</label>
             <input class="form-control" type="number" id="num_synapses"
