@@ -95,15 +95,15 @@ class EstmdDao(object):
 
         if return_object:
             print simulation.keys()
-            
-            sample_id = simulation['animation_id']
-            description = simulation['description']
-            H_filter = simulation['h_filter']
-            b = simulation['b']
-            a = simulation['a']
-            CSKernel = simulation['cs_kernel']
-            b1 = simulation['b1']
-            a1 = simulation['a1']
+
+            sample_id = simulation.get('animation_id')
+            description = simulation.get('description')
+            H_filter = simulation.get('h_filter')
+            b = simulation.get('b')
+            a = simulation.get('a')
+            CSKernel = simulation.get('cs_kernel')
+            b1 = simulation.get('b1')
+            a1 = simulation.get('a1')
 
             e = self.run_simulation(sample_id, description, H_filter,
                                           b, a, CSKernel, b1, a1, True)
