@@ -1,5 +1,5 @@
 upstream _anisopter {
-    server unix:/home/anisopter/git/anisopter/run/socket;
+    server unix:/home/anisopter/git/anisopter/run/anisopter.sock;
 }
 
 server {
