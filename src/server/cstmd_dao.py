@@ -132,13 +132,13 @@ class CstmdDao:
             num_synapses = float(sim.get('num_synapses'))
             synaptic_distance = float(sim.get('synaptic_distance'))
             duration_per_frame = float(sim.get('duration_per_frame'))
-            description = sim.get('description')
-            potassium=sim.get('potassium')
-            sodium=sim.get('sodium')
-            max_current=sim.get('max_current')
-            min_current=sim.get('min_current')
-            min_weight=sim.get('min_weight')
-            max_weight=sim.get('max_weight')
+            description = sim.get('description'))
+            potassium=float(sim.get('potassium'))
+            sodium=float(sim.get('sodium'))
+            max_current=float(sim.get('max_current'))
+            min_current=float(sim.get('min_current'))
+            min_weight=float(sim.get('min_weight'))
+            max_weight=float(sim.get('max_weight'))
 
             cstmd = self.run_simulation(sample, frames, num_neurons,
                                         num_electrodes, num_synapses,
@@ -198,10 +198,10 @@ class CstmdDao:
                       description=description,
                       potassium=potassium,
                       sodium=potassium,
-                      max_current=potassium,
-                      min_current=potassium,
-                      min_weight=potassium,
-                      max_weight=potassium,
+                      max_current=max_current,
+                      min_current=min_current,
+                      min_weight=min_weight,
+                      max_weight=max_weight,
                       input=frames)
 
         if return_object:
