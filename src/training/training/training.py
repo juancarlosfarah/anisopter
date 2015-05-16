@@ -7,7 +7,6 @@ import os
 import pymongo
 
 from animation.target_animation import *
-import simulation_dao
 
 
 class Training(object):
@@ -18,7 +17,7 @@ class Training(object):
      - run_tests: which sets types and frequency of tests
     """
 
-    def __init__(self, input_id, types, n):
+    def __init__(self, types, n):
         """
         Constructor.
         :param types: Corresponds to how many tests of each type should we run.
@@ -30,31 +29,12 @@ class Training(object):
 
         self.types = types
         self.n = n
-        self.id = input_id
 
-        self.db = self.db_connect()
 
-        sd = simulation_dao.SimulationDao(self.db)
-        output = sd.get_simulations(1)
+        print "Initiating training"
 
-        print output
-    
+        return 1
 
-    def db_connect(self, host="146.169.47.184",
-                   port=27017, db_name="anisopter"):
-        """
-        Connects to database.
-
-        :param host:
-        :param port:
-        :param db_name:
-        :return: Database connection.
-        """
-
-        connection = pymongo.MongoClient(host=host, port=port)
-        db = connection[db_name]
-
-        return db
 
     @staticmethod
     def make_temp_directory(name):
