@@ -52,12 +52,14 @@ class AnimationDao:
         # Remove AVI.
         filename = str(_id) + ".avi"
         file_path = "{path}/{file}".format(path=path, file=filename)
-        os.remove(file_path)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
         # Remove MP4.
         filename = str(_id) + ".mp4"
         file_path = "{path}/{file}".format(path=path, file=filename)
-        os.remove(file_path)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
 
         return
 
