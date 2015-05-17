@@ -100,7 +100,7 @@
     </div>
     %import pickle
     %import mpld3
-    %with open("/assets/cstmd/"+str(simulation['_id'])+"/"+simulation['num_plots']+".pkl", 'rb') as my_file :
+    %with open("/assets/cstmd/"+str(simulation['_id'])+"/"+str(simulation['num_plots'])+".pkl", 'rb') as my_file :
     %data = pickle.load(my_file)
     %html = mpld3.fig_to_d3(fig)
     %print '\n'.join(html.split('\n'))
