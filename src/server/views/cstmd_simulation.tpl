@@ -86,7 +86,7 @@
         % for i in range(n * 4, (n + 1) * 4):
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 text-center">
             <img class="img-responsive"
-                 src="/assets/cstmd/{{simulation['_id']}}/{{i}}.png" />
+                 src="/assets/cstmd/{{simulation['_id']}}/{{i}}.svg" />
         </div>
         % end
     </div>
@@ -95,7 +95,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
             <img class="img-responsive"
-                 src="/assets/cstmd/{{simulation['_id']}}/{{simulation['num_plots']}}.png" />
+                 src="/assets/cstmd/{{simulation['_id']}}/{{simulation['num_plots']}}.svg" />
         </div>
     </div>
 </div>
