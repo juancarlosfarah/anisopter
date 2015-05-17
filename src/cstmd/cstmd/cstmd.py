@@ -416,7 +416,7 @@ class Cstmd(object) :
                 out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".svg")
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
-
+                fig.close()
 
     def plot_fir_rate(self,_id) :
         fig=plt.figure(self.num_plots)  
@@ -460,4 +460,5 @@ class Cstmd(object) :
 
         with open(relative_path + "/"+str(self.num_plots)+ ".pkl", 'wb') as my_file :
             pickle.dump(fig, my_file)
+        fig.close()
 
