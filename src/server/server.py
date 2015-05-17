@@ -151,7 +151,7 @@ def new_estmd_simulation():
 
     obj = dict()
     obj['simulations'] = animations.get_animations(50)
-    return bottle.template('estmd_simulations', obj)
+    return bottle.template('new_estmd_simulation', obj)
 
 
 @post('/estmd/simulation/run')
