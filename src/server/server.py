@@ -150,7 +150,7 @@ def remove_esmtd_simulation():
 def new_estmd_simulation():
 
     obj = dict()
-    obj['simulations'] = animations.get_animations(50)
+    obj['samples'] = animations.get_animations(50)
     return bottle.template('new_estmd_simulation', obj)
 
 
