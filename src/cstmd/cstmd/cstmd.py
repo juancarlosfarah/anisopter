@@ -458,7 +458,9 @@ class Cstmd(object) :
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
 
-        with open(relative_path + "/"+str(self.num_plots)+ ".pkl", 'wb') as my_file :
+        out_directory= os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".pkl")
+        with open(out_directory, 'wb') as my_file :
             pickle.dump(fig, my_file)
+        print "Saving animation in: " + out_directory
         fig.close()
 
