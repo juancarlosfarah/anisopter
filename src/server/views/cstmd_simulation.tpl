@@ -98,12 +98,7 @@
                  src="/assets/cstmd/{{simulation['_id']}}/{{simulation['num_plots']}}.svg" />
         </div>
     </div>
-    %import pickle
-    %import mpld3
-    %with open("../cstmd/cstmd/"+str(simulation['num_plots'])+".pkl", 'rb') as my_file :
-    %data = pickle.load(my_file)
-    %html = mpld3.fig_to_d3(fig)
-    %print '\n'.join(html.split('\n'))
+    %print simulation['plot]
 </div>
 % include('footer.tpl')
 </body>

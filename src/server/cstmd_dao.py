@@ -7,7 +7,8 @@ import os
 import pymongo
 import shutil
 from cstmd.cstmd import Cstmd
-
+import pickle
+import mpld3
 
 class CstmdDao:
 
@@ -139,6 +140,13 @@ class CstmdDao:
             min_current=float(sim.get('min_current'))
             min_weight=float(sim.get('min_weight'))
             max_weight=float(sim.get('max_weight'))
+            
+            #get pickle file of the plot
+            indir="/assets/cstmd/"+str(_id)+"/"+str(sim['num_plots'])+".svg"
+            with open(indir, 'rb') as my_file :
+                data = pickle.load(my_file)
+            html = mpld3.fig_to_d3(fig)
+            sim['plot']=html
 
             cstmd = self.run_simulation(sample, frames, num_neurons,
                                         num_electrodes, num_synapses,
