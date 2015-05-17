@@ -99,7 +99,7 @@
         </div>
     </div>
     %import pickle
-    %from mpld3.display import display_d3
+    %from mpld3.display import *
     %with open("/assets/cstmd/"+simulation['_id']+"/"+simulation['num_plots']+".pkl", 'rb') as my_file :
     %data = pickle.load(my_file)
     %display_d3(data)
