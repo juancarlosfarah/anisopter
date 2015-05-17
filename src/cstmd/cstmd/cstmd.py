@@ -10,6 +10,7 @@ import time
 import math
 import sys
 import os
+import pickle
 class Cstmd(object) :
 
     # -- PARAMETERS ------------------------------------------------------------
@@ -456,3 +457,7 @@ class Cstmd(object) :
         out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".svg")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
+
+        with open(relative_path + "/"+str(self.num_plots)+ ".pkl", 'wb') as my_file :
+            pickle.dump(figure(self.num_plots), my_file)
+
