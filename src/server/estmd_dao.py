@@ -114,6 +114,10 @@ class EstmdDao(object):
         """
 
         simulation = self.collection.find_one({'_id': ObjectId(_id)})
+
+        if simulation is None:
+            return None
+
         if "description" not in simulation:
             simulation['description'] = "Description"
         simulation['date'] = simulation['_id'].generation_time
