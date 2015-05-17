@@ -92,11 +92,10 @@ class Training(object):
 
         out_dir = "out_directories"
         name = "test1"
-        out_path = out_dir + "/" + name
+        out_path = name
 
-        self.make_temp_directory(out_dir)
-        print "Path: ", call(['pwd'])
-        print "----------------------- Start ani: ", out_path
+        #self.make_temp_directory(out_dir)
+
         self.ani.run(out_path)
         print "----------------------- Start estmd"
         self.estmd.open_movie(out_path)
