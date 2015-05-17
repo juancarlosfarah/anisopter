@@ -419,7 +419,7 @@ class Cstmd(object) :
 
 
     def plot_fir_rate(self,_id) :
-        plt.figure(self.num_plots)  
+        fig=plt.figure(self.num_plots)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0
@@ -459,5 +459,5 @@ class Cstmd(object) :
         plt.savefig(out_directory)
 
         with open(relative_path + "/"+str(self.num_plots)+ ".pkl", 'wb') as my_file :
-            pickle.dump(figure(self.num_plots), my_file)
+            pickle.dump(fig, my_file)
 
