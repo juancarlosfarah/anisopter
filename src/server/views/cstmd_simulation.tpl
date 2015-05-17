@@ -98,7 +98,7 @@
                  src="/assets/cstmd/{{simulation['_id']}}/{{simulation['num_plots']}}.svg" />
         </div>
     </div>
-    {{simulation['plot']}}
+    <div>{{simulation['plot']}}</div>
 </div>
 % include('footer.tpl')
 </body>
