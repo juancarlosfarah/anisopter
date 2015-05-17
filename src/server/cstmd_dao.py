@@ -142,7 +142,7 @@ class CstmdDao:
             max_weight=float(sim.get('max_weight'))
             
             #get pickle file of the plot
-            indir="/assets/cstmd/"+str(_id)+"/"+str(sim['num_plots'])+".svg"
+            indir="/assets/cstmd/"+str(_id)+"/"+str(sim['num_plots'])+".pkl"
             with open(indir, 'rb') as my_file :
                 data = pickle.load(my_file)
             html = mpld3.fig_to_d3(fig)
