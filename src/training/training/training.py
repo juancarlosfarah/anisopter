@@ -91,7 +91,7 @@ class Training(object):
 
         out_dir = "out_directories"
         name = "test1"
-        out_path = os.path.abspath(os.path.join(out_dir, name))
+        out_path = out_dir + "/" + name
 
         self.make_temp_directory(out_dir)
         print "----------------------- Start ani"
