@@ -213,20 +213,18 @@ class Animation(object):
         video = cv2.VideoWriter(out_directory, codec, fps, (width, height))
 
         for i in range(total_frames):
-            print "Printing frame " + str(i + 1) + " of " + str(total_frames)
             img_name = "temp/scr" + str(i) + ".png"
             img = cv2.imread(img_name)
             video.write(img)
 
+        video.release()
+
         # TO-DO: change this not to be hard coded.
         dir = out_directory.strip(".avi")
-
-        print "Converting from avi to mp4 at " + dir
 
         command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
         call(command.split())
 
-        video.release()
         cv2.destroyAllWindows()
 
     def add_target(self, type, start=[0, 0], velocity=[1, 1],
@@ -301,7 +299,6 @@ class Animation(object):
             time = 1.0 * i / total_frames
             window.update_frame(time)
             window.draw()
-
         self.create_movie(out_directory, fps, total_frames)
         [self.target_list, self.bg, self.dragonfly] = history
 
