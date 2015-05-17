@@ -22,16 +22,21 @@
             <th>Description</th>
             <th>Number of Afferents</th>
             <th>Duration</th>
+            <th>Action</th>
         </tr>
         %for s in samples:
         <tr>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['date']}}</a></td>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['description']}}</a></td>
-            <td><a href="/pattern_recognition/sample/{{s['_id']}}">
-                    {{s['num_efferents']}}
-                </a>
-            </td>
+            <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['num_efferents']}}</a></td>
             <td><a href="/pattern_recognition/sample/{{s['_id']}}">{{s['duration']}}</a></td>
+            <td class="text-center">
+                <form action="/pattern_recognition/sample/remove" method="post">
+                    <input type="hidden" name="_id" value="{{s['_id']}}" />
+                    <button type="submit"
+                            class="btn btn-xs btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         %end
     </table>

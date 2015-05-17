@@ -3,10 +3,15 @@ __author__ = 'eg1114'
 
 import shutil
 import os
+from subprocess import call
 
 import pymongo
 
-from animation.target_animation import *
+from animation.target_animation import Animation
+from action_selection.action_selection import ActionSelection
+from cstmd.cstmd import Cstmd
+from estmd.estmd import ESTMD
+from pattern_recognition.simulation import Simulation
 
 
 class Training(object):
@@ -29,6 +34,7 @@ class Training(object):
 
         self.types = types
         self.n = n
+
         self.ani = ani
         self.estmd = estmd
         self.cstmd = cstmd
@@ -81,19 +87,30 @@ class Training(object):
 
         :return:
         """
+
+        print "Ali to sploh kej dela"
+
         out_dir = "out_directories"
         name = "test1"
-        out_path = out_dir + "/" + name
+        out_path = name
 
-        self.make_temp_directory(out_dir)
+        #self.make_temp_directory(out_dir)
+
         self.ani.run(out_path)
+        print "----------------------- Start estmd"
         self.estmd.open_movie(out_path)
         self.estmd.run(by_frame=True)
 
-        frame_array = e.run(by_frame=True)
+        frame_array = self.estmd.run(by_frame=True)
 
         print frame_array[10]
 
 
 if __name__ == '__main__':
-    t = Training()
+
+    ani = Animation()
+    ani.add_target(2, start=[300, 300])
+    estmd = ESTMD()
+
+    t = Training([1, 1, 1, 1], 1, ani, estmd, False, False)
+    t.run()

@@ -1,6 +1,7 @@
 __author__ = 'juancarlosfarah'
 __authoremail__ = 'juancarlos.farah14@imperial.ac.uk'
 
+
 from bson.objectid import ObjectId
 import numpy as np
 import os
@@ -8,6 +9,8 @@ import pymongo
 from action_selection.action_selection import ActionSelection
 from brian2 import *
 import pickle
+import shutil
+
 
 class ActionSelectionDao:
 
@@ -55,6 +58,23 @@ class ActionSelectionDao:
         _id = self.collection.insert(a_s)
 
         return _id
+
+    def remove(self, _id):
+        """
+        Removes one simulation from the database. Deletes its related files.
+        :param _id: ID of simulation to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+
+        file_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "assets",
+                                                 "action_selection",
+                                                 str(_id)))
+        if os.path.exists(file_path):
+            shutil.rmtree(file_path)
+
+        return
 
     def get_simulations(self, num_simulations):
         """

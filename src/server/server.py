@@ -18,6 +18,7 @@ import action_selection_dao
 import training_dao
 from bson.objectid import ObjectId
 
+
 @route('/')
 def show_index():
 
@@ -134,11 +135,22 @@ def show_estmd():
     return bottle.template('estmd', obj)
 
 
+@post('/estmd/remove')
+def remove_esmtd_simulation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    estmd.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = estmd.get_simulations(50)
+    return bottle.template('estmd_simulations', obj)
+
+
 @route('/estmd/simulation/new')
 def new_estmd_simulation():
 
     obj = dict()
-    obj['samples'] = animations.get_animations(50)
+    obj['simulations'] = animations.get_animations(50)
     return bottle.template('new_estmd_simulation', obj)
 
 
@@ -195,8 +207,8 @@ def new_cstmd_simulation():
     return bottle.template('new_cstmd_simulation', obj)
 
 
-@post('/target_animation/remove')
-def remove_animation():
+@post('/cstmd/remove')
+def remove_cstmd_simulation():
     form = bottle.request.forms
     _id = form.get("_id")
     cstmd.remove(_id)
@@ -267,6 +279,18 @@ def show_pattern_recognition():
 
     obj = dict()
     return bottle.template('pattern_recognition', obj)
+
+
+@post('/pattern_recognition/simulation/remove')
+def remove_simulation():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    simulations.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = simulations.get_simulations(50)
+
+    return bottle.template('simulations', obj)
 
 
 @route('/pattern_recognition/simulations')
@@ -353,6 +377,18 @@ def show_samples():
     return bottle.template('samples', obj)
 
 
+@post('/pattern_recognition/sample/remove')
+def remove_sample():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    samples.remove(_id)
+
+    obj = dict()
+    obj['samples'] = samples.get_samples(10)
+
+    return bottle.template('samples', obj)
+
+
 @get("/pattern_recognition/sample/<_id>")
 def show_sample(_id):
 
@@ -390,6 +426,16 @@ def generate_sample():
 def show_as():
     obj = dict()
     return bottle.template('action_selection', obj)
+
+@post('/action_selection/remove')
+def remove_action_selection():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    a_s.remove(_id)
+
+    obj = dict()
+    obj['simulations'] = a_s.get_simulations(50)
+    return bottle.template('action_selection_simulations', obj)
 
 
 @route('/action_selection/simulation/new')
@@ -525,14 +571,22 @@ def show_action_selection_simulation(_id):
 
 # Training
 # ========
-################################################################################
-################################################################################
-################################################################################
 
 @route('/training')
 def show_tr():
     obj = dict()
     return bottle.template('training', obj)
+
+
+@post('/training/remove')
+def remove_training():
+    form = bottle.request.forms
+    _id = form.get("_id")
+    training.remove(_id)
+
+    obj = dict()
+    obj['training'] = training.get_simulations(50)
+    return bottle.template('training_simulations', obj)
 
 
 @route('/training/simulations')
@@ -577,10 +631,6 @@ def show_training_simulation(_id):
     obj = dict()
     obj['training'] = tr
     return bottle.template("training_simulation", obj)
-
-################################################################################
-################################################################################
-################################################################################
 
 # Static Routes
 # =============

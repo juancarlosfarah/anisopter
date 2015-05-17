@@ -13,9 +13,7 @@ import cstmd_dao
 import estmd_dao
 import simulation_dao
 
-from animation.target_animation import Animation
-
-from training import training as tr
+from training.training import Training
 
 
 class TrainingDao(object):
@@ -50,6 +48,16 @@ class TrainingDao(object):
         _id = self.collection.insert(a)
 
         return _id
+
+    def remove(self, _id):
+        """
+        Removes one training from the database. Deletes its related files.
+        :param _id: ID of training to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+
+        return
 
     def get_simulations(self, num_sets):
         """
@@ -114,7 +122,7 @@ class TrainingDao(object):
         cstmd = self.cd.get_simulation(cstmd_id, True)
         sim = self.sd.get_simulation(id, True)
 
-        tr_set = tr.Training(types, n, ani, estmd, cstmd, sim)
+        tr_set = Training(types, n, ani, estmd, cstmd, sim)
 
         if return_object:
             return tr_set

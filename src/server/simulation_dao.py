@@ -75,6 +75,18 @@ class SimulationDao:
         _id = self.collection.insert(sim)
         return _id
 
+    def remove(self, _id):
+        """
+        Removes one animation from the database. Deletes its related files.
+        :param _id: ID of simulation to remove.
+        :return: None.
+        """
+        self.collection.remove({"_id": ObjectId(_id)})
+
+        # TO-DO: anything else???
+
+        return
+
     def get_simulations(self, num_simulations, from_animation=False): 
         """
         Fetches a given number of simulatons from the database.

@@ -9,4 +9,6 @@ cd $HOME/git/anisopter/src/estmd
 sudo python setup.py install
 cd $HOME/git/anisopter/src/pattern_recognition
 sudo python setup.py install
+cd $HOME/git/anisopter/src/training
+sudo python setup.py install
 exit 0

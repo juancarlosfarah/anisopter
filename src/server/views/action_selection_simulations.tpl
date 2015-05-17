@@ -21,6 +21,7 @@
             <th>Number of Neurons</th>
             <th>Duration</th>
             <th>Description</th>
+            <th>Action</th>
         </tr>
         %for s in simulations:
         <tr>
@@ -43,6 +44,13 @@
                 <a href="/action_selection/simulation/{{s['_id']}}">
                     {{s['description']}}
                 </a>
+            </td>
+            <td class="text-center">
+                <form action="/action_selection/remove" method="post">
+                    <input type="hidden" name="_id" value="{{s['_id']}}" />
+                    <button type="submit"
+                            class="btn btn-xs btn-danger">Delete</button>
+                </form>
             </td>
         </tr>
         %end
