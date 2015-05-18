@@ -8,7 +8,8 @@
         <div class="col-md-12">
             <h1>ESTMD</h1>
             <p>
-                ESTMD can detect small-target motion across a moving,
+                The elementary small target motion detector (ESTMD) neuron features 
+                the ability of detecting small-target motion across a moving,
                 complicated background. This stage required research into
                 spatio-temporal filters that approximate the function of real
                 ESTMD neurons. The input of the ESTMD can either be a full
