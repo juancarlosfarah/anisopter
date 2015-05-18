@@ -99,7 +99,7 @@ class Training(object):
         self.estmd.run(by_frame=True)
         self.estmd.run(by_frame=True)
         frame_array = self.estmd.create_list_of_arrays()
-        frame_array = [{'frame': frame_array.tolist()}]
+        frame_array = [{'frame': frame_array.flatten()}]
 
         self.cstmd.input = frame_array
 
