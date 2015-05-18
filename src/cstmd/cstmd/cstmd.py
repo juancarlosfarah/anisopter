@@ -351,7 +351,7 @@ class Cstmd(object) :
 
         # Run the simulation
         pixels=len(self.input[0]['frame'])
-	print pixels
+	    #print pixels
         #print "pix",len(self.input[0]),self.num_pixels
         self.runtime = self.duration
 
