@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-2">
             <button type="button"
-                    onclick="window.location.href='/pattern_recognition/samples/new'"
+                    onclick="window.location.href='/pattern_recognition/sample/new'"
                     class="btn btn-primary">New Sample</button>
         </div>
     </div>
