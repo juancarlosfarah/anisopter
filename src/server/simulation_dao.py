@@ -304,7 +304,7 @@ class SimulationDao:
                        theta,
                        weights,
                        training,
-                       return_object = False):
+                       return_object=False):
 
         sim = Simulation(description, training)
 

@@ -351,7 +351,7 @@ def run_simulation():
     spikes = samples.get_spikes(sample_id)
     _id = simulations.run_simulation(sample, spikes, num_neurons,
                                      description, a_plus, a_ratio, theta,
-                                     weights, is_training)
+                                     weights, is_training, False)
     bottle.redirect("/pattern_recognition/simulation/" + str(_id))
 
 
