@@ -363,7 +363,7 @@ class Cstmd(object) :
         #Reset model. Unreference all Netcons
         #objref nc
         #objref nc0net
-
+        quit()
         return list(self.t_vec),self.sp_trains()
 
     def reset(self):
