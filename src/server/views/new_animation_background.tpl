@@ -9,6 +9,11 @@
           method="post"
           enctype="multipart/form-data">
         <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" rows="3" id="description"
+                      placeholder="Description" name="description"></textarea>
+        </div>
+        <div class="form-group">
             <label for="upload">File Input</label>
             <input type="file" id="upload" name="upload"
                    accept="image/png, image/jpeg">

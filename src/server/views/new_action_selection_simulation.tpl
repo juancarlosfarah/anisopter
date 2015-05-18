@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="optional">
-            <p class="help-block">
+            <p>
                 The values below are explained by the following equations:
             </p>
             <h4>Integrate-and-Fire Neurons:</h4>
@@ -65,10 +65,13 @@
                 <img src="/assets/images/action_selection_formulae0x.png"
                      alt="Formula" class="math-display" />
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae1x.png"
                      class="math-display">
             </div>
+            <br />
+            In the above equations,
             <em>v</em> is the membrane potential,
             <em>g</em>
             <sub><em class="small">e</em></sub> is the synaptic conductance,
@@ -86,25 +89,30 @@
                 <img src="/assets/images/action_selection_formulae2x.png"
                         alt="Formula" class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae3x.png"
                      alt="Formula" class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae4x.png"
                      alt="Formula" class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae5x.png"
                      alt="Formula"
                      class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae6x.png"
                      alt="Formula"
                      class="math-display">
             </div>
-            <p>where
+            <br />
+            <p>In the above equations,
             <em>w</em> is the weight of the synapse,
             <em>c</em> is the eligibility
             trace, <em>Dop</em> is the level of
@@ -112,7 +120,7 @@
             variables that govern the STDP, and the <em>&#x03C4;</em>s are 
                     time constants.
             </p>
-            <h4>Post-Synaptic Neuron Updates:</h4>
+            <h4>Pre-Synaptic Neuron Updates:</h4>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae7x.png"
                      alt="Formula"
@@ -129,6 +137,7 @@
                 <img src="/assets/images/action_selection_formulae9x.png"
                      alt="Formula" class="math-display" />
             </div>
+            <br />
             <h4>Post-Synaptic Neuron Updates:</h4>
             <p>
                 When the post-synaptic neuron fires, the following updates are
@@ -148,6 +157,7 @@
                      alt="Formula"
                      class="math-display">
             </div>
+            <br />
         </div>
         <div class="form-group optional">
             <label for="tau_m">Tau M</label>
@@ -286,7 +296,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_x">Dragonfly x coordinate</label>
+            <label for="dragonfly_x">Dragonfly X Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_x"
                        name="dragonfly_x" value="300" />
@@ -294,7 +304,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_y">Dragonfly x coordinate</label>
+            <label for="dragonfly_y">Dragonfly Y Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_y"
                        name="dragonfly_y" value="300" />
