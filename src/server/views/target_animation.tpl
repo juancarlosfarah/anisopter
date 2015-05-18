@@ -14,13 +14,13 @@
                 potentially moving background. The size and
                 velocity vector of each target is adjustable.
             </p>
-            <a href="/target_animation/animations" class="h2">Animations</a>
-            <p>
-                Your target animations.
-            </p>
             <a href="/target_animation/backgrounds" class="h2">Backgrounds</a>
             <p>
                 Backgrounds to include as input to your animations.
+            </p>
+            <a href="/target_animation/animations" class="h2">Animations</a>
+            <p>
+                Your target animations.
             </p>
         </div>
     </div>

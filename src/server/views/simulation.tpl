@@ -149,7 +149,11 @@
                 </table>
                 <br />
                 % end
-                {{!neuron['weight_distribution_plot']}}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        {{!neuron['weight_distribution_plot']}}
+                    </div>
+                </div>
                 <br />
             </div>
             % end
