@@ -118,5 +118,5 @@ if __name__ == '__main__':
     ani.add_target(2, start=[300, 300])
     estmd = ESTMD()
 
-    t = Training([1, 1, 1, 1], 1, ani, estmd, cstmd, False)
+    t = Training([1, 1, 1, 1], 1, ani, estmd, False, False)
     t.run()
