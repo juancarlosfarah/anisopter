@@ -163,8 +163,6 @@
                 id="submit">Submit</button>
     </form>
 </div>
-<script src="/static/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js">
-</script>
 % include('footer.tpl')
 </body>
 </html>
