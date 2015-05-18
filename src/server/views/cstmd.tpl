@@ -34,6 +34,11 @@
 	<img src="/assets/images/CSTMD.png" alt="CSTMD" class="img-responsive img-rounded">
       </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>Sample caption.</p>
+        </div>
+    </div>
     <br />
     <br />
     <div class="row">
