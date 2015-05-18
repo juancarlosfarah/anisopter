@@ -101,7 +101,7 @@ class Training(object):
         frame_array = self.estmd.create_list_of_arrays()
         n = len(frame_array)
         for i in range(n):
-            frame_array[i] = {'frame': frame_array[i]}
+            frame_array[i] = {'frame': frame_array[i].flatten()}
 
         self.cstmd.input = frame_array
 
