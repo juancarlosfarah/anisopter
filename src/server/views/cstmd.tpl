@@ -12,11 +12,11 @@
                 is a higher order visual neuron in the brain of the dragonfly.
                 This neuron reacts to the presentation of multiple visual
                 stimuli by firing as if only one of the stimuli was present;
-                this is presumably an attentional selection mechanism [6].
+                this is presumably an attentional selection mechanism.
                 At Professor Murray Shanahan's lab, researchers have simulated
                 the large contralateral dendritic field of the CSTMD1 neuron
                 with a biophysical multi-compartmental Hodgkin-Huxley model.
-                Along with Klaus Stiefel [1], they found that with certain
+                Along with Klaus Stiefel, they found that with certain
                 numbers of inhibitory synapses and potassium conductance
                 densities, two mutually-coupled CSTMD1 neurons are capable of a
                 bistable switching process between two input patterns. This
@@ -28,8 +28,7 @@
                 Given an input, simulate the output of a CSTMD1 neuron.
                 Note that the CSTMD1 is multi-compartmental model with several
                 parameters that directly or indirectly affect its activity and
-                effect to a given input. You need to first fully understand the
-                given model before proceeding.
+                effect to a given input. 
             </p>
         </div>
     </div>
