@@ -125,6 +125,14 @@ class Cstmd(object) :
         
         # initialise num plots
         self.num_plots = self.num_neurons * self.electrodes
+        
+        #print vars
+        print "Potassium ",self.potassium 
+        print "Sodiuj ", self.sodium
+        print "Max current ", self.max_current
+        print "Min current ", self.min_current
+        print "Min weight ", self.min_weight
+        print "Max weight ", self.max_weight
 
     # -- Helper functions ------------------------------------------------------
     def calc_rand_weight(self, x, MIN, MAX, m=0.0, sigma=7.0) :
@@ -343,7 +351,7 @@ class Cstmd(object) :
 
         # Run the simulation
         pixels=len(self.input[0]['frame'])
-	print pixels
+	    #print pixels
         #print "pix",len(self.input[0]),self.num_pixels
         self.runtime = self.duration
 
@@ -363,7 +371,7 @@ class Cstmd(object) :
         #Reset model. Unreference all Netcons
         #objref nc
         #objref nc0net
-
+        #for s in h.allsec(): h.delete_section()
         return list(self.t_vec),self.sp_trains()
 
     def reset(self):
