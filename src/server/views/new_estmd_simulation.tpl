@@ -27,7 +27,8 @@
         <div class="form-group optional">
 	    <p> To modify the advanced parameters below, reference should be made to the following paper, from which the implementation is taken: </p>
 	    <a href="http://www.researchgate.net/profile/Ben_Cazzolato/publication/233815971_Discrete_implementation_of_biologically_inspired_image_processing_for_target_detection/links/00b7d52d3699b6aa90000000.pdf" target="_blank">Discrete implementation of biologically inspired image processing for target detection</a>
-            <p> The H filter is the convolution applied in the photoreceptors </p>
+            <br />
+	    <p> The H filter is the convolution applied in the photoreceptors: </p>
 	    <label for="H_filter">H_filter</label>
             <textarea class="form-control" rows="5" id="H_filter"
                       name="H_filter">
@@ -38,7 +39,7 @@
              [-1, -1, -1, -1, -1]]</textarea>
         </div>
 
-	<p> Below, a and b correspond to the numerator and denominator of the first z-transform </p>
+	<p> Below, a and b correspond to the numerator and denominator of the first z-transform: </p>
 
         <div class="form-group optional">
             <label for="b">b</label>
@@ -54,7 +55,7 @@
             [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]</textarea>
         </div>
 
-	<p> CSKernel corresponds to the convolution applied in the RTC cell </p>
+	<p> CSKernel corresponds to the convolution applied in the RTC cell: </p>
 
         <div class="form-group optional">
             <label for="CSKernel">CSKernel</label>
