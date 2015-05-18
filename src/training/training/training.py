@@ -104,9 +104,7 @@ class Training(object):
             frame_array[i] = {'frame': frame_array[i].flatten()}
 
         self.cstmd.input = frame_array
-
-        pattern = cstmd.run()[1]
-
+        self.cstmd.spike_trains = cstmd.run()[1]
 
         ### Adding simulation
 
