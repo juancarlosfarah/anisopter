@@ -197,7 +197,7 @@ class CstmdDao:
                       duration=duration_per_frame,
                       description=description,
                       potassium=potassium,
-                      sodium=potassium,
+                      sodium=sodium,
                       max_current=max_current,
                       min_current=min_current,
                       min_weight=min_weight,

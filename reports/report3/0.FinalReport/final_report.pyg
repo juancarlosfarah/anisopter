@@ -1,0 +1,20 @@
+
+{
+"width": 640,
+"height": 480,
+"num_frames": 50,
+"background_id": "5fde0d",
+"description": "Sample.",
+"frames_per_second": 5,
+"targets":
+	[
+	{ "color": "rgb(20,97,107)",
+	  "velocity": "5",
+	  "velocity_vector": [1, 2],
+	  "type": 1,
+	  "start_pos": [1,2],
+	  "frames": 50,
+	  "size": 1 },
+	  ...
+	]
+}
