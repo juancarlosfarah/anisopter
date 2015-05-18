@@ -28,6 +28,19 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button"
+                            onclick="window.location.href='/estmd/simulation/new'"
+                            class="btn btn-lg btn-primary">New ESTMD Simulation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
         <div class="col-md-offset-4 col-md-4">
             <img src="/assets/images/wiederman09.png" alt="wdrmn09"
                  class="img-responsive img-rounded">
@@ -42,19 +55,8 @@
 Visual Clutter by the Insect Visual System. (September), 2008. </p>
         </div>
     </div>
-    <br />
-    <br />
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <button type="button"
-                            onclick="window.location.href='/estmd/simulation/new'"
-                            class="btn btn-lg btn-primary">New ESTMD Simulation</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
 </div>
 % include('footer.tpl')
 </body>
