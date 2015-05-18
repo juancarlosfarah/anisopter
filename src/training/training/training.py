@@ -91,7 +91,7 @@ class Training(object):
         print "Ali to sploh kej dela"
 
         out_dir = "out_directories"
-        name = "test1"
+        name = "test1.avi"
         out_path = name
 
         #self.make_temp_directory(out_dir)
