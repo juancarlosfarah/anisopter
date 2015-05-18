@@ -5,15 +5,15 @@
 % include('header.tpl')
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h1>Animation</h1>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 text-right">
             <button type="button"
                     onclick="window.location.href='/target_animation/animation/new'"
                     class="btn btn-primary">New Animation</button>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 text-right">
             <form action="/target_animation/remove" method="post">
                 <input type="hidden" name="_id" value="{{animation['_id']}}" />
                 <button type="submit" class="btn btn-danger">Delete</button>
