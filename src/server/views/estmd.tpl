@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-md-offset-2 col-md-8">
+      <div class="col-md-offset-3 col-md-6">
 	<img src="/assets/images/wiederman09.png" alt="wdrmn09" class="img-responsive img-rounded">
       </div>
     </div>
