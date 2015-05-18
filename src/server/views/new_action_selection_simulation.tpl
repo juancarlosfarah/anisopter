@@ -57,8 +57,10 @@
             </div>
         </div>
         <div class="optional">
-            <p>The values below are explained by the following equations:</p>
-            <p class="noindent">Integrate-and-Fire neurons:
+            <p class="help-block">
+                The values below are explained by the following equations:
+            </p>
+            <h4>Integrate-and-Fire Neurons:</h4>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae0x.png"
                      alt="Formula" class="math-display" />
@@ -67,18 +69,19 @@
                 <img src="/assets/images/action_selection_formulae1x.png"
                      class="math-display">
             </div>
-            <span class="cmmi-10x-x-109">v</span> is the membrane potential,
-            <span class="cmmi-10x-x-109">g</span>
-            <sub><span class="cmmi-8">e</span></sub> is the synaptic
-            conductance, <span class="cmmi-10x-x-109">E</span>
-            <sub><span class="cmmi-8">e</span></sub> and
-            <span class="cmmi-10x-x-109">E</span><sub>
-            <span class="cmmi-8">l</span></sub> are reverse potentials,
-            <span class="cmmi-10x-x-109">v</span><sub>
-            <span class="cmmi-8">r</span></sub> is the resting potential and
-            <span class="cmmi-10x-x-109">&#x03C4;</span><sub>
-            <span  class="cmmi-8">m</span></sub> is a time constant.
-            <br /><br />Reward-modulated synapses with STDP:
+            <em>v</em> is the membrane potential,
+            <em>g</em>
+            <sub><em class="small">e</em></sub> is the synaptic conductance,
+            <em>E</em>
+            <sub><em class="small">e</em></sub> and
+            <em>E</em><sub>
+            <em class="small">l</em></sub> are reverse potentials,
+            <em>v</em><sub>
+            <em class="small">r</em></sub> is the resting potential and
+            <em>&#x03C4;</em><sub>
+            <em>m</em></sub> is a time constant.
+            <br /><br />
+            <h4>Reward-modulated Synapses with STDP:</h4>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae2x.png"
                         alt="Formula" class="math-display">
@@ -101,40 +104,45 @@
                      alt="Formula"
                      class="math-display">
             </div>
-            where
-            <span class="cmmi-10x-x-109">w </span>is the weight of the synapse,
-            <span class="cmmi-10x-x-109">c </span>is the eligibility
-            trace, <span class="cmmi-10x-x-109">Dop </span>is the level of
-            dopamine, <span class="cmmi-10x-x-109">dApre </span>and <span
-                    class="cmmi-10x-x-109">dApost </span>are
-            variables that govern the STDP, and the <span
-                    class="cmmi-10x-x-109">&#x03C4;</span>s are time constants.
-            When the pre-synaptic neuron fires, the
-            following updates are executed:
+            <p>where
+            <em>w</em> is the weight of the synapse,
+            <em>c</em> is the eligibility
+            trace, <em>Dop</em> is the level of
+            dopamine, <em>dApre</em> and <em>dApost</em> are
+            variables that govern the STDP, and the <em>&#x03C4;</em>s are 
+                    time constants.
+            </p>
+            <h4>Post-Synaptic Neuron Updates:</h4>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae7x.png"
                      alt="Formula"
                      class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae8x.png"
                      alt="Formula"
                 class="math-display">
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae9x.png"
                      alt="Formula" class="math-display" />
             </div>
-            When the post-synaptic neuron fires, the following updates are
-            executed, where <span class="cmmi-10x-x-109">Apre</span><sub>
-            <span class="cmmi-8">step</span></sub> and
-            <span class="cmmi-10x-x-109">Apost</span><sub>
-            <span class="cmmi-8">step</span></sub> are constants.
+            <h4>Post-Synaptic Neuron Updates:</h4>
+            <p>
+                When the post-synaptic neuron fires, the following updates are
+                executed, where <em>Apre</em><sub>
+                <em class="small">step</em></sub> and
+                <em>Apost</em><sub>
+                <em class="small">step</em></sub> are constants.
+            </p>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae10x.png"
                      alt="Formula"
                      class="math-display" />
             </div>
+            <br />
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae11x.png"
                      alt="Formula"
