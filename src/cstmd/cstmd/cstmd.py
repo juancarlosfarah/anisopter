@@ -413,7 +413,7 @@ class Cstmd(object) :
                 if not os.path.exists(relative_path):
                     os.makedirs(relative_path)
 
-                out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".svg")
+                out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".png")
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
                 plt.close()
@@ -454,13 +454,8 @@ class Cstmd(object) :
         if not os.path.exists(relative_path):
             os.makedirs(relative_path)
 
-        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".svg")
+        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".png")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
-
-        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".pkl")
-        with open(out_directory, 'wb') as my_file :
-            pickle.dump(fig, my_file)
-        print "Saving animation in: " + out_directory
         plt.close()
 
