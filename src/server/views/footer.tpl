@@ -23,7 +23,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <a class="h4" href="/action_selection">Action Selection</a>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden">
                     <a class="h4" href="/training">Training</a>
                 </div>
             </div>

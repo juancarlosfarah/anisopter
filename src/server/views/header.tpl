@@ -15,7 +15,7 @@
                 <a class="navbar-brand" href="/action_selection">
                     Action Selection
                 </a>
-                <a class="navbar-brand" href="/training">
+                <a class="navbar-brand hidden" href="/training">
                     Training
                 </a>
             </div>
