@@ -61,25 +61,25 @@
                   class="img-responsive" alt="How It Works" />
          </div>
     </div>
-    <a class="h3" href="/target_animation">Target Animation</a>
+    <a class="h3" href="/target_animation">1. Target Animation</a>
     <p>
         This module generates input for the visual pre-processing layer.
     </p>
-    <a class="h3" href="/estmd">ESTMD</a>
+    <a class="h3" href="/estmd">2. ESTMD</a>
     <p>
         The ESTMD neuron can detect small-target motion across a moving, complicated background.
         This module simulates the function of the ESTMD neuron. 
     </p>
-    <a class="h3" href="/cstmd">CSTMD1</a>
+    <a class="h3" href="/cstmd">3. CSTMD1</a>
     <p>
         The CSTMD1 neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present.
         This module simulates the function of the CSTMD neuron.
     </p>
-    <a class="h3" href="/pattern_recognition">Pattern Recognition</a>
+    <a class="h3" href="/pattern_recognition">4. Pattern Recognition</a>
     <p>
         This module discerns recurring spike patterns within the output from the CSTMD1 module.
     </p>
-    <a class="h3" href="/action_selection">Action Selection</a>
+    <a class="h3" href="/action_selection">5. Action Selection</a>
     <p>
         This module takes as input the spike trains from the pattern recognition neurons and the original target animation video. 
         Its function is to select an action for the biomimetic agent at each time step given that input.
