@@ -25,7 +25,10 @@
         </div>
 
         <div class="form-group optional">
-            <label for="H_filter">H_filter</label>
+	    <p> To modify the advanced parameters below, reference should be made to the following paper, from which the implementation is taken: </p>
+	    <a href="http://www.researchgate.net/profile/Ben_Cazzolato/publication/233815971_Discrete_implementation_of_biologically_inspired_image_processing_for_target_detection/links/00b7d52d3699b6aa90000000.pdf" target="_blank">Discrete implementation of biologically inspired image processing for target detection</a>
+            <p> The H filter is the convolution applied in the photoreceptors </p>
+	    <label for="H_filter">H_filter</label>
             <textarea class="form-control" rows="5" id="H_filter"
                       name="H_filter">
             [[-1, -1, -1, -1, -1],
@@ -35,19 +38,23 @@
              [-1, -1, -1, -1, -1]]</textarea>
         </div>
 
+	<p> Below, a and b correspond to the numerator and denominator of the first z-transform </p>
+
         <div class="form-group optional">
             <label for="b">b</label>
             <textarea class="form-control" rows="1" id="b"
                       name="b">
             [0.0, 0.00006, -0.00076, 0.0044, -0.016, 0.043, -0.057, 0.1789, -0.1524]</textarea>
         </div>
-
+	
         <div class="form-group optional">
             <label for="a">a</label>
             <textarea class="form-control" rows="1" id="a"
                       name="a">
             [1.0, -4.333, 8.685, -10.71, 9.0, -5.306, 2.145, -0.5418, 0.0651]</textarea>
         </div>
+
+	<p> CSKernel corresponds to the convolution applied in the RTC cell </p>
 
         <div class="form-group optional">
             <label for="CSKernel">CSKernel</label>
@@ -57,6 +64,8 @@
              [-1.0 / 9.0,  8.0 / 9.0, -1.0 / 9.0],
              [-1.0 / 9.0, -1.0 / 9.0, -1.0 / 9.0]]</textarea>
         </div>
+
+	<p> Below, a1 and b1 correspond to the numerator and denominator of the final z-transform </p>
 
         <div class="form-group optional">
             <label for="b1">b1</label>
