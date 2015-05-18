@@ -107,7 +107,7 @@ def upload_animation_background():
     if ext not in ('.png', '.jpg', '.jpeg'):
         return "File extension not allowed."
 
-    _id = animations.save_background(description)
+    _id = animations.save_background(description, ext)
 
     filename = str(_id) + ext
     save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),

@@ -175,13 +175,16 @@ class AnimationDao:
 
         return _id
 
-    def save_background(self, description):
+    def save_background(self, description, extension):
         """
         Saves information about a background to the database.
         :return: _id of background inserted.
         """
 
-        obj = {"description": description}
+        obj = {
+            "description": description,
+            "extension": extension
+        }
 
         _id = self.backgrounds.insert(obj)
 
