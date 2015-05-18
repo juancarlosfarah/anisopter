@@ -56,6 +56,14 @@
 	<img src="/assets/images/stdp.png" alt="STDP" class="img-responsive img-rounded">
       </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>
+                The effect of STDP on the synaptic weights given the time 
+                difference between the presynaptic and the post synaptic spike.
+            </p>
+        </div>
+    </div>
     <br />
     <br />
     <div class="row">

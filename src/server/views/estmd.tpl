@@ -35,7 +35,11 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
-            <p>Sample caption.</p>
+            <p>Outline of ESTMD implentation. </p>
+        </div>
+        <div class="col-md-12 text-center">
+            <p> Steven Wiederman. A Neurobiological and Computational Analysis of Target Discrimination in
+Visual Clutter by the Insect Visual System. (September), 2008. </p>
         </div>
     </div>
     <br />

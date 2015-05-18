@@ -34,6 +34,11 @@
 	<img src="/assets/images/CSTMD.png" alt="CSTMD" class="img-responsive img-rounded">
       </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>Structure of an actual CSTMD1 neuron.</p>
+        </div>
+    </div>
     <br />
     <br />
     <div class="row">
