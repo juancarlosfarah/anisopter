@@ -88,20 +88,19 @@ class Training(object):
         :return:
         """
 
-        print "Ali to sploh kej dela"
-
         out_dir = "out_directories"
         name = "test1.avi"
-        out_path = name
+        out_path = os.path.abspath(os.path.join(out_dir, name))
 
-        #self.make_temp_directory(out_dir)
+        self.make_temp_directory(out_dir)
 
         self.ani.run(out_path)
-        print "----------------------- Start estmd"
         self.estmd.open_movie(out_path)
         self.estmd.run(by_frame=True)
 
-        frame_array = self.estmd.run(by_frame=True)
+        self.estmd.run(by_frame=True)
+
+        frame_array = self.estmd.create_list_of_arrays()
 
         print frame_array[10]
 
