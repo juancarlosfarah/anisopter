@@ -48,7 +48,7 @@ class Cstmd(object) :
                  potassium=0.06,
                  sodium=0.48,
                  num_pixels=4096,
-                 max_current=30.0,
+                 max_current=30,
                  min_current=2.0,
                  min_weight=0.000005,
                  max_weight=0.00005,
@@ -341,14 +341,12 @@ class Cstmd(object) :
 
 
         # Run the simulation
-        pixels=len(self.input[0]['frame'])
-	print pixels
+        pixels=len(self.input[0])	
         #print "pix",len(self.input[0]),self.num_pixels
         self.runtime = self.duration
 
         for frame_object in self.input:
             frame = np.array(frame_object['frame'])
-            print frame
             for n in range(pixels) :
                 self.stimNet[n].ib = self.min_current+100*frame[n]*(self.max_current-self.min_current)
 
@@ -386,7 +384,7 @@ class Cstmd(object) :
 
         return spike_trains
 
-    def plot_compart_act(self,_id):
+    def plot_compart_act(self,_id) :     
 
         for e in range(self.electrodes) :
             for n in range(self.num_neurons) :
@@ -399,7 +397,7 @@ class Cstmd(object) :
                 fignum=n*self.electrodes+e
                 fig = plt.figure(fignum)
                 exec "plt.plot(t"+str(n)+str(e)+",v"+str(n)+str(e)+",label='Section "+str(self.rec[n][e])+"', c='"+colour[n]+"')"
-                plt.ylabel("Membrane Potential (mV)")
+                plt.ylabel("Firing Rate (Hz)")
                 plt.xlabel("Time (ms)")
                 plt.title("Section "+str(self.rec[n][e]))
                 #plt.legend(loc=0)
@@ -418,7 +416,7 @@ class Cstmd(object) :
 
 
     def plot_fir_rate(self,_id) :
-        plt.figure(self.num_plots)  
+        plt.figure(2)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0
@@ -428,7 +426,6 @@ class Cstmd(object) :
             
             fr = []
             s = 0
-            colour = ['b', 'r', 'g', 'y', 'k']
             for i in range(len(spikes)-1) :
                 t0 = spikes[i]
                 t1 = spikes[i+1]
@@ -442,9 +439,16 @@ class Cstmd(object) :
             else :
                 fr.append(1000.0/s)
 
-            plt.plot(spikes, fr, c=colour[neu])
-            plt.ylabel("Firing Rate (Hz)")
-            plt.xlabel("Time (ms)")
+            if neu == 0:
+                plt.plot(spikes, fr, c='b')
+            elif neu == 1:
+                plt.plot(spikes, fr, c='r')
+            elif neu == 2:
+                plt.plot(spikes, fr, c='g')
+            elif neu == 3:
+                plt.plot(spikes, fr, c='y')
+            elif neu == 4:
+                plt.plot(spikes, fr, c='k')
 
         # Save Plots.
         relative_path = "../server/assets/cstmd/" + str(_id)
