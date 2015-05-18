@@ -40,7 +40,7 @@ def new_animation():
                                            "backgrounds"))
     bgs = os.listdir(bg_path)
     obj = dict()
-    obj['bgs'] = bgs
+    obj['bgs'] = animations.get_backgrounds(50)
     return bottle.template('new_animation', obj)
 
 
@@ -100,11 +100,16 @@ def new_animation_background():
 @post('/target_animation/background/upload')
 def upload_animation_background():
     upload = request.files.get('upload')
+    form = bottle.request.forms
+    description = form.get("description")
+
     name, ext = os.path.splitext(upload.filename)
     if ext not in ('.png', '.jpg', '.jpeg'):
         return "File extension not allowed."
 
-    filename = str(ObjectId()) + ext
+    _id = animations.save_background(description)
+
+    filename = str(_id) + ext
     save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                              "assets",
                                              "backgrounds"))

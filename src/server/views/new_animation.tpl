@@ -13,8 +13,9 @@
                     id="background">
                 <option value="">None</option>
                 %for bg in bgs:
-                <option value="{{bg}}">
-                    {{bg}}
+                <option value="{{bg['_id']}}">
+                    Date: {{bg['date']}}
+                    Description: {{bg['description']}}
                 </option>
                 %end
             </select>
