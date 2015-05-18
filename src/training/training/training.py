@@ -117,7 +117,7 @@ if __name__ == '__main__':
     ani = Animation()
     ani.add_target(2, start=[300, 300])
     estmd = ESTMD()
-    cstmd = Cstmd(2, 10, 30, 10)
+    cstmd = Cstmd(2, 10, 30, 10, None)
 
     t = Training([1, 1, 1, 1], 1, ani, estmd, cstmd, False)
     t.run()
