@@ -120,7 +120,7 @@
             variables that govern the STDP, and the <em>&#x03C4;</em>s are 
                     time constants.
             </p>
-            <h4>Post-Synaptic Neuron Updates:</h4>
+            <h4>Pre-Synaptic Neuron Updates:</h4>
             <div class="text-center">
                 <img src="/assets/images/action_selection_formulae7x.png"
                      alt="Formula"
@@ -296,7 +296,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_x">Dragonfly x Coordinate</label>
+            <label for="dragonfly_x">Dragonfly X Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_x"
                        name="dragonfly_x" value="300" />
@@ -304,7 +304,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_y">Dragonfly y Coordinate</label>
+            <label for="dragonfly_y">Dragonfly Y Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_y"
                        name="dragonfly_y" value="300" />

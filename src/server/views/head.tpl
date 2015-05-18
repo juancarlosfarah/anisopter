@@ -6,6 +6,8 @@
     <link href="/static/styles.css" rel="stylesheet" media="screen">
     <link href="/static/action_selection_formulae.css" rel="stylesheet"
           media="screen">
+    <script src="/static/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js">
+    </script>
     <link href="/static/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css"
           rel="stylesheet" media="screen">
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
