@@ -56,14 +56,10 @@
             <p>Structure of an actual CSTMD1 neuron.</p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <p>The function of this module is to implement a multi-compartmental model of the actual CSTMD1
-neuron that exists in dragonies</p>
-        </div>
-    </div>
-    
-
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
 % include('footer.tpl')
 </body>
