@@ -7,26 +7,26 @@
     <h1>Anisopter</h1>
     <h2>Motivation</h2>
     <p>
-        Dragonflies are insects of the order Odonata, suborder Anisoptera
-        \cite{dfwiki}. They are notoriously effective at prey capture, with
-        success rates ranging from 76\% to 97\% \cite{Olberg2011}, making the
-        neural processes that underlie this ability particularly interesting to
-        investigate. There has been substantial research into the visual system
-        of dragonflies \cite{Wiederman2008, w13}, but what seems to be lacking
-        is an effective tool that links models of the various mechanisms
-        involved in this process together, which could help us better understand
-        the particular function of each layer within the system.
+        Dragonflies are insects of the order Odonata, suborder Anisoptera. They
+        are notoriously effective at prey capture, with success rates ranging
+        from 76% to 97%, making the neural processes that underlie this
+        ability particularly interesting to investigate. There has been
+        substantial research into the visual system of dragonflies, but what
+        seems to be lacking is an effective tool that links models of the
+        various mechanisms involved in this process together, which could
+        help us better understand the particular function of each layer
+        within the system.
     </p>
     <p>
         At the core of this apparatus, the centrifugal small target motion
         detector one neuron (CSTMD1) is a higher order visual neuron in the
         brain of the dragonfly that reacts to the presentation of multiple
         visual stimuli by firing as if only one of the stimuli were present.
-        This is presumably an attentional selection mechanism \cite{w13}. At
-        Professor Murray Shanahan's lab, researchers have simulated the large
+        This is presumably an attentional selection mechanism. At Professor
+        Murray Shanahan's lab, researchers have simulated the large
         contralateral dendritic field of the CSTMD1 neuron with a biophysical
-        multi-compartmental Hodgkin-Huxley model. Along with Klaus Stiefel
-        \cite{ne13}, they found that with certain numbers of inhibitory synapses
+        multi-compartmental Hodgkin-Huxley model. Along with Klaus Stiefel ,
+        they found that with certain numbers of inhibitory synapses
         and potassium conductance densities, two mutually-coupled CSTMD1 neurons
         are capable of a bistable switching process between two input patterns.
         In order to confirm that this neuron is indeed responsible for target
@@ -61,11 +61,11 @@
                   class="img-responsive" alt="How It Works" />
          </div>
     </div>
-    <h3>Target Animation</h3>
-    <h3>ESTMD</h3>
-    <h3>CSTMD1</h3>
-    <h3>Pattern Recognition</h3>
-    <h3>Action Selection</h3>
+    <a class="h3" href="/target_animation">Target Animation</a>
+    <a class="h3" href="/estmd">ESTMD</a>
+    <a class="h3" href="/cstmd">CSTMD1</a>
+    <a class="h3" href="/pattern_recognition">Pattern Recognition</a>
+    <a class="h3" href="/action_selection">Action Selection</a>
 </div>
 % include('footer.tpl')
 </body>
