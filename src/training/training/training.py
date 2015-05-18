@@ -106,7 +106,7 @@ class Training(object):
         self.cstmd.input = frame_array
         self.cstmd.spike_trains = cstmd.run()[1]
 
-        ### Adding simulation
+        # Adding simulation
 
         sim = Simulation("Test", True)
 
@@ -124,11 +124,11 @@ class Training(object):
         n1.connect(n3)
         n2.connect(n3)
 
-        ###
-        sim.run()
-        ###
+        input = sim.run()
 
-        a_s = ActionSelection()
+        # Adding ActionSelection
+        a_s = ActionSelection(pattern_input=input, pattern_duration=len(input))
+        a_s.run(show_plots=False)
 
 
 if __name__ == '__main__':
