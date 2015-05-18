@@ -64,6 +64,10 @@
             </div>
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="row">
       <div class="col-md-offset-3 col-md-6">
 	<img src="/assets/images/stdp.png" alt="STDP" class="img-responsive img-rounded">
