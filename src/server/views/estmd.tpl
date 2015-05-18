@@ -22,9 +22,14 @@
             </p>
             <a href="/estmd/simulations" class="h2">Simulations</a>
             <p>
-                Given an input, simulate the output of an ESTMD neuron.
+                Your ESTMD simulations.
             </p>
         </div>
+    </div>
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+	<img src="/assets/images/wiederman09.png" alt="wdrmn09" class="img-responsive img-rounded">
+      </div>
     </div>
     <br />
     <br />
