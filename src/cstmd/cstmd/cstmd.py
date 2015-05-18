@@ -360,6 +360,10 @@ class Cstmd(object) :
             for i in range(len(self.t_vec)):
                 print "Spikes of neuron", str(i) + ":", len(self.t_vec[i])
 
+        #Reset model. Unreference all Netcons
+        objref nc
+        objref nc0net
+
         return list(self.t_vec),self.sp_trains()
 
     def reset(self):
