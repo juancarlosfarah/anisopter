@@ -24,7 +24,7 @@
             </p>
             <a href="/action_selection/simulations" class="h2">Simulations</a>
             <p>
-                Your action-selection simulations.
+                Your action selection simulations.
             </p>
         </div>
     </div>

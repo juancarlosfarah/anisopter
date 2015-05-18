@@ -62,10 +62,29 @@
          </div>
     </div>
     <h3>Target Animation</h3>
+    <p>
+        This module generates input for the visual pre-processing layer.
+    </p>
     <h3>ESTMD</h3>
+    <p>
+        The ESTMD neuron can detect small-target motion across a moving, complicated background.
+        This module simulates the function of the ESTMD neuron. 
+    </p>
     <h3>CSTMD1</h3>
+    <p>
+        The CSTMD neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present.
+        This module simulates the function of the CSTMD neuron.
+    </p>
     <h3>Pattern Recognition</h3>
+    <p>
+        This module discerns recurring spike patterns within the output from the CSTMD1 module.
+    </p>
     <h3>Action Selection</h3>
+    <p>
+        This module takes as input the spike trains from the pattern recognition neurons and the original target animation video. 
+        Its function is to select an action for the biomimetic agent at each time step given that input.
+    </p>
+    
 </div>
 % include('footer.tpl')
 </body>

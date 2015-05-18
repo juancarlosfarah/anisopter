@@ -16,7 +16,8 @@
                 CSTMD1 module would encode information about the velocity and 
                 direction of targets observed in the visual field of the 
                 dragonfly.
-                
+            </p>
+            <p>
                 To model the pattern recognition neurons, we initially
                 replicated experiments conducted by T. Masquelier et al.
                 A single of these neurons is able to successfully recognise a
@@ -29,7 +30,8 @@
                 with afferents that fired shortly before the post-synaptic 
                 neuron, and long term depression (LTD) to weaken those with 
                 afferents that fired shortly after. 
-                
+            </p>
+            <p>
                 We then extended the module so that the neurons can be easily 
                 adapted to recognise input with varying properties such as 
                 average firing rate, number of afferents, frequency of pattern 
@@ -50,7 +52,7 @@
         </div>
     </div>
     <div class="row">
-      <div class="col-md-offset-2 col-md-8">
+      <div class="col-md-offset-3 col-md-6">
 	<img src="/assets/images/stdp.png" alt="STDP" class="img-responsive img-rounded">
       </div>
     </div>
