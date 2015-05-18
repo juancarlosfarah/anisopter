@@ -160,7 +160,7 @@
                 id="addTargets"
                 class="btn btn-primary">Add Target</button>
         <button type="button"
-                class="btn btn-success btn-default"
+                class="btn btn-success btn-default ajax-submit"
                 id="submit">Submit</button>
     </form>
 </div>

@@ -180,7 +180,7 @@
         });
 
         removeTargetOnClick($('.removeTarget'));
-        submitFormOnClick($('#submit'));
+        submitFormOnClick($('.ajax-submit'));
         positionFooter();
     });
 
