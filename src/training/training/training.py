@@ -1,11 +1,10 @@
 __author__ = 'eg1114'
 
 
-import shutil
+import math
 import os
+import shutil
 from subprocess import call
-
-import pymongo
 
 from animation.target_animation import Animation
 from action_selection.action_selection import ActionSelection
@@ -100,16 +99,39 @@ class Training(object):
         self.estmd.run(by_frame=True)
         self.estmd.run(by_frame=True)
         frame_array = self.estmd.create_list_of_arrays()
+        n = len(frame_array)
+        for i in range(n):
+            frame_array[i].flatten()
+        frame_array = [{'frame': frame_array}]
 
         self.cstmd.input = frame_array
 
         pattern = cstmd.run()[1]
 
-        print pattern[0]
 
+        ### Adding simulation
 
+        sim = Simulation("Test", True)
 
+        n1 = sim.add_neuron(0.03125, .95, 300)
+        n2 = sim.add_neuron(0.03125, 0.91, 125)
+        n3 = sim.add_neuron(0.03125, 0.91, 125)
+        n1.connect(n2)
+        n1.connect(n3)
+        n2.connect(n3)
 
+        sim.spike_trains = self.cstmd.spike_trains
+        sim.start_positions = self.cstmd.start_positions
+        sim.pattern_duration = self.cstmd.pattern_duration
+        sim.num_afferents = self.cstmd.spike_trains.shape[0]
+        sim.duration = self.cstmd.spike_trains.shape[1]
+        sim.sampling_interval = math.ceil(self.cstmd.duration / 5)
+
+        ###
+        sim.run()
+        ###
+
+        a_s = ActionSelection()
 
 
 if __name__ == '__main__':

@@ -72,7 +72,7 @@
     </p>
     <a class="h3" href="/cstmd">CSTMD1</a>
     <p>
-        The CSTMD neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present.
+        The CSTMD1 neuron reacts to the presentation of multiple visual stimuli by firing as if only one of the stimuli was present.
         This module simulates the function of the CSTMD neuron.
     </p>
     <a class="h3" href="/pattern_recognition">Pattern Recognition</a>
