@@ -5,15 +5,13 @@
 % include('header.tpl')
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <h1>Simulation</h1>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4 text-right">
             <button type="button"
                     onclick="window.location.href='/estmd/simulation/new'"
                     class="btn btn-primary">New Simulation</button>
-        </div>
-        <div class="col-md-2">
             <form action="/estmd/remove" method="post">
                 <input type="hidden" name="_id" value="{{simulation['_id']}}" />
                 <button type="submit" class="btn btn-danger">Delete</button>
