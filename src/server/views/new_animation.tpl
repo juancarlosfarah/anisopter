@@ -13,7 +13,7 @@
                     id="background">
                 <option value="">None</option>
                 %for bg in bgs:
-                <option value="{{bg['_id']}}">
+                <option value="{{bg['_id']bg['extension']}}">
                     Date: {{bg['date']}}
                     Description: {{bg['description']}}
                 </option>
