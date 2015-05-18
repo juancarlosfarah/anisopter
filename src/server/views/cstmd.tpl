@@ -29,16 +29,6 @@
             </p>
         </div>
     </div>
-    <div class="row">
-      <div class="col-md-offset-2 col-md-8">
-	<img src="/assets/images/CSTMD.png" alt="CSTMD" class="img-responsive img-rounded">
-      </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <p>Structure of an actual CSTMD1 neuron.</p>
-        </div>
-    </div>
     <br />
     <br />
     <div class="row">
@@ -52,6 +42,28 @@
             </div>
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+	<img src="/assets/images/CSTMD.png" alt="CSTMD" class="img-responsive img-rounded">
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>Structure of an actual CSTMD1 neuron.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <p>The function of this module is to implement a multi-compartmental model of the actual CSTMD1
+neuron that exists in dragonies</p>
+        </div>
+    </div>
+    
+
 </div>
 % include('footer.tpl')
 </body>

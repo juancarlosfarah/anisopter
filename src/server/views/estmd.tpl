@@ -27,21 +27,6 @@
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-offset-4 col-md-4">
-            <img src="/assets/images/wiederman09.png" alt="wdrmn09"
-                 class="img-responsive img-rounded">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <p>Outline of ESTMD implentation. </p>
-        </div>
-        <div class="col-md-12 text-center">
-            <p style="font-size: 5px;"> Steven Wiederman. A Neurobiological and Computational Analysis of Target Discrimination in
-Visual Clutter by the Insect Visual System. (September), 2008. </p>
-        </div>
-    </div>
     <br />
     <br />
     <div class="row">
@@ -55,6 +40,29 @@ Visual Clutter by the Insect Visual System. (September), 2008. </p>
             </div>
         </div>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-offset-4 col-md-4">
+            <img src="/assets/images/wiederman09.png" alt="wdrmn09"
+                 class="img-responsive img-rounded">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <p>Outline of ESTMD implentation. </p>
+        </div>
+    </div>
+    <div class="row small">
+        <div class="col-md-12 text-center">
+            <p> Steven Wiederman. A Neurobiological and Computational Analysis of Target Discrimination in
+Visual Clutter by the Insect Visual System. (September), 2008. </p>
+        </div>
+    </div>
+
+
 </div>
 % include('footer.tpl')
 </body>
