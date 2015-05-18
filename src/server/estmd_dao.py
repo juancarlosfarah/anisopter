@@ -148,7 +148,6 @@ class EstmdDao(object):
 
         input_directory = "assets/animations/" + str(sample_id) + ".avi"
 
-
         e = ESTMD(sample_id, description, H_filter, b, a, CSKernel, b1, a1)
 
         if return_object:
@@ -166,8 +165,8 @@ class EstmdDao(object):
         e.open_movie(input_directory)
         e.run(out_dir=out_directory)
 
-        dir = out_directory.strip(".avi")
-        command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (dir, dir)
+        d = out_directory.split(".avi")[0]
+        command = "avconv -i %s.avi -c:v libx264 -c:a copy %s.mp4" % (d, d)
         call(command.split())
 
         return _id
