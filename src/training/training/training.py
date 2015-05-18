@@ -132,7 +132,7 @@ class Training(object):
         for neuron in sim.neurons:
             pattern_input.append(neuron.spike_times)
 
-        a_s = ActionSelection(pattern_input=input,
+        a_s = ActionSelection(pattern_input=pattern_input,
                               pattern_duration=self.ani.total_frames,
                               animation=self.ani)
         a_s.run(show_plots=False)
