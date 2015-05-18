@@ -88,7 +88,7 @@
             <label for="sodium">Sodium</label>
             <input class="form-control" type="text" id="sodium"
                    name="sodium"
-		    value="0.048"
+		    value="0.48"
                    placeholder="Sodium"/>
             <p class="help-block">
                 Choose the Sodium level.
