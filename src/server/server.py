@@ -402,7 +402,7 @@ def show_sample(_id):
     return bottle.template("sample", obj)
 
 
-@route('/pattern_recognition/samples/new')
+@route('/pattern_recognition/sample/new')
 def new_sample():
 
     obj = dict()
