@@ -59,45 +59,48 @@
         <div class="optional">
             <p>The values below are explained by the following equations:</p>
             <p class="noindent">Integrate-and-Fire neurons:
-            <center class="math-display">
+            <div class="text-center">
                 <img src="/assets/images/action_selection_formulae0x.png"
                      alt="Formula" class="math-display" />
-            </center>
-            <center class="math-display">
-                <img src="action_selection_formulae1x.png"
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae1x.png"
                      class="math-display">
-            </center>
-            <span class="cmmi-10x-x-109">v </span>is the membrane potential,
-            <span class="cmmi-10x-x-109">g</span><sub><span
-                        class="cmmi-8">e</span></sub> is the synaptic
-            conductance, <span
-                    class="cmmi-10x-x-109">E</span><sub><span
-                        class="cmmi-8">e</span></sub> and <span
-                    class="cmmi-10x-x-109">E</span><sub><span
-                        class="cmmi-8">l</span></sub> are reverse
-            potentials, <span
-                    class="cmmi-10x-x-109">v</span><sub><span
-                        class="cmmi-8">r</span></sub> is the
-            resting potential and <span
-                    class="cmmi-10x-x-109">&#x03C4;</span><sub><span
-                        class="cmmi-8">m</span></sub> is a time constant. <br
-                    class="newline"/><br
-                    class="newline"/>Reward-modulated synapses with STDP:
-            <center class="math-display">
-                <img src="action_selection_formulae2x.png"
-                        alt="Formula" class="math-display"></center>
-            <center class="math-display">
-                <img src="action_selection_formulae3x.png"
-                     alt="Formula" class="math-display"></center>
-            <center class="math-display">
-                <img src="action_selection_formulae4x.png"
-                     alt="Formula" class="math-display"></center>
-            <center class="math-display">
-                <img src="action_selection_formulae5x.png" alt="Formula"
-                     class="math-display"></center>
-            <center class="math-display">
-                <img src="action_selection_formulae6x.png" alt="Formula"
-                     class="math-display"></center>
+            </div>
+            <span class="cmmi-10x-x-109">v</span> is the membrane potential,
+            <span class="cmmi-10x-x-109">g</span>
+            <sub><span class="cmmi-8">e</span></sub> is the synaptic
+            conductance, <span class="cmmi-10x-x-109">E</span>
+            <sub><span class="cmmi-8">e</span></sub> and
+            <span class="cmmi-10x-x-109">E</span><sub>
+            <span class="cmmi-8">l</span></sub> are reverse potentials,
+            <span class="cmmi-10x-x-109">v</span><sub>
+            <span class="cmmi-8">r</span></sub> is the resting potential and
+            <span class="cmmi-10x-x-109">&#x03C4;</span><sub>
+            <span  class="cmmi-8">m</span></sub> is a time constant.
+            <br /><br />Reward-modulated synapses with STDP:
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae2x.png"
+                        alt="Formula" class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae3x.png"
+                     alt="Formula" class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae4x.png"
+                     alt="Formula" class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae5x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae6x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
             where
             <span class="cmmi-10x-x-109">w </span>is the weight of the synapse,
             <span class="cmmi-10x-x-109">c </span>is the eligibility
@@ -108,32 +111,35 @@
                     class="cmmi-10x-x-109">&#x03C4;</span>s are time constants.
             When the pre-synaptic neuron fires, the
             following updates are executed:
-            <center class="math-display">
-                <img src="action_selection_formulae7x.png" alt="Formula"
-                     class="math-display"></center>
-            <center class="math-display">
-                <img src="action_selection_formulae8x.png" alt="Formula"
-                class="math-display"></center>
-
-
-            <center class="math-display">
-                <img src="action_selection_formulae9x.png"
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae7x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae8x.png"
+                     alt="Formula"
+                class="math-display">
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae9x.png"
                      alt="Formula" class="math-display" />
-            </center>
+            </div>
             When the post-synaptic neuron fires, the following updates are
-            executed, where <span
-                    class="cmmi-10x-x-109">Apre</span><sub><span
-                        class="cmmi-8">step</span></sub> and <span
-                    class="cmmi-10x-x-109">Apost</span><sub><span
-                        class="cmmi-8">step</span></sub> are
-            constants.
-            <center class="math-display">
-                <img src="action_selection_formulae10x.png" alt="Formula"
+            executed, where <span class="cmmi-10x-x-109">Apre</span><sub>
+            <span class="cmmi-8">step</span></sub> and
+            <span class="cmmi-10x-x-109">Apost</span><sub>
+            <span class="cmmi-8">step</span></sub> are constants.
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae10x.png"
+                     alt="Formula"
                      class="math-display" />
-            </center>
-            <center class="math-display">
-                <img src="action_selection_formulae11x.png" alt="Formula"
-                     class="math-display"></center>
+            </div>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae11x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
         </div>
         <div class="form-group optional">
             <label for="tau_m">Tau M</label>
