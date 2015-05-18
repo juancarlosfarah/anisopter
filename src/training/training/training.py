@@ -112,19 +112,19 @@ class Training(object):
 
         sim = Simulation("Test", True)
 
-        n1 = sim.add_neuron(0.03125, .95, 300)
-        n2 = sim.add_neuron(0.03125, 0.91, 125)
-        n3 = sim.add_neuron(0.03125, 0.91, 125)
-        n1.connect(n2)
-        n1.connect(n3)
-        n2.connect(n3)
-
         sim.spike_trains = self.cstmd.spike_trains
         sim.start_positions = self.cstmd.start_positions
         sim.pattern_duration = self.cstmd.pattern_duration
         sim.num_afferents = self.cstmd.spike_trains.shape[0]
         sim.duration = self.cstmd.spike_trains.shape[1]
         sim.sampling_interval = math.ceil(self.cstmd.duration / 5)
+
+        n1 = sim.add_neuron(0.03125, .95, 300)
+        n2 = sim.add_neuron(0.03125, 0.91, 125)
+        n3 = sim.add_neuron(0.03125, 0.91, 125)
+        n1.connect(n2)
+        n1.connect(n3)
+        n2.connect(n3)
 
         ###
         sim.run()
