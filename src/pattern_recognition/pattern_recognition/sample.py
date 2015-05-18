@@ -27,7 +27,7 @@ class Sample:
     Generates sample input spike trains.
     """
     def __init__(self, duration, patterns=None, pattern_duration=50,
-                 num_neurons=2000, rep_ratio=0.10, inv_ratio=0.5, filename=None,
+                 num_neurons=2000, rep_ratio=0.20, inv_ratio=0.5, filename=None,
                  description=None):
 
         self.duration = duration
