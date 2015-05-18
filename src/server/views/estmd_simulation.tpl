@@ -8,10 +8,12 @@
         <div class="col-md-8">
             <h1>Simulation</h1>
         </div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-2 text-right">
             <button type="button"
                     onclick="window.location.href='/estmd/simulation/new'"
                     class="btn btn-primary">New Simulation</button>
+        </div>
+        <div class="col-md-2 text-right">
             <form action="/estmd/remove" method="post">
                 <input type="hidden" name="_id" value="{{simulation['_id']}}" />
                 <button type="submit" class="btn btn-danger">Delete</button>
