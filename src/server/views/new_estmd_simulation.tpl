@@ -26,8 +26,7 @@
 
         <div class="form-group optional">
 	    <p> To modify the advanced parameters below, reference should be made to the following paper, from which the implementation is taken: </p>
-	    <a href="http://www.researchgate.net/profile/Ben_Cazzolato/publication/233815971_Discrete_implementation_of_biologically_inspired_image_processing_for_target_detection/links/00b7d52d3699b6aa90000000.pdf" target="_blank">Discrete implementation of biologically inspired image processing for target detection</a>
-            <br />
+	    <p><a href="http://www.researchgate.net/profile/Ben_Cazzolato/publication/233815971_Discrete_implementation_of_biologically_inspired_image_processing_for_target_detection/links/00b7d52d3699b6aa90000000.pdf" target="_blank">Discrete implementation of biologically inspired image processing for target detection</a></p>
 	    <p> The H filter is the convolution applied in the photoreceptors: </p>
 	    <label for="H_filter">H_filter</label>
             <textarea class="form-control" rows="5" id="H_filter"
