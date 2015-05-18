@@ -7,8 +7,9 @@ import os
 import pymongo
 import shutil
 from cstmd.cstmd import Cstmd
-
-
+import pickle
+import mpld3
+import matplotlib.pyplot as plt, mpld3
 class CstmdDao:
 
     def __init__(self, database):
@@ -124,6 +125,13 @@ class CstmdDao:
 
         sim = self.collection.find_one({'_id': ObjectId(_id)})
 
+        #get pickle file of the plot
+        indir="../server/assets/cstmd/"+str(_id)+"/"+str(sim['num_plots'])+".pkl"
+        with open(indir, 'rb') as my_file :
+            data = pickle.load(my_file)
+        html = mpld3.fig_to_d3(data,template_type="simple")
+        sim['plot']=html
+
         if return_object:
             sample = 1
             frames = 1
@@ -139,7 +147,7 @@ class CstmdDao:
             min_current=float(sim.get('min_current'))
             min_weight=float(sim.get('min_weight'))
             max_weight=float(sim.get('max_weight'))
-
+            
             cstmd = self.run_simulation(sample, frames, num_neurons,
                                         num_electrodes, num_synapses,
                                         synaptic_distance, duration_per_frame,

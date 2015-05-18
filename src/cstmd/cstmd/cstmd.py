@@ -10,6 +10,7 @@ import time
 import math
 import sys
 import os
+import pickle
 class Cstmd(object) :
 
     # -- PARAMETERS ------------------------------------------------------------
@@ -415,10 +416,10 @@ class Cstmd(object) :
                 out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".svg")
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
-
+                plt.close()
 
     def plot_fir_rate(self,_id) :
-        plt.figure(self.num_plots)  
+        fig=plt.figure(self.num_plots)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0
@@ -456,3 +457,10 @@ class Cstmd(object) :
         out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".svg")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
+
+        out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".pkl")
+        with open(out_directory, 'wb') as my_file :
+            pickle.dump(fig, my_file)
+        print "Saving animation in: " + out_directory
+        plt.close()
+
