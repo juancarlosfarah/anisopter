@@ -1,0 +1,3 @@
+"""
+Resulted neurons.
+"""
