@@ -36,7 +36,7 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
-            <p>Sample caption.</p>
+            <p>Structure of an actual CSTMD1 neuron.</p>
         </div>
     </div>
     <br />

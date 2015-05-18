@@ -58,7 +58,10 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
-            <p>Sample caption.</p>
+            <p>
+                The effect of STDP on the synaptic weights given the time 
+                difference between the presynaptic and the post synaptic spike.
+            </p>
         </div>
     </div>
     <br />
