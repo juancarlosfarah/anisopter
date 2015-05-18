@@ -56,6 +56,109 @@
                 <span class="input-group-addon">ms</span>
             </div>
         </div>
+        <div class="optional">
+            <p>
+                The values below are explained by the following equations:
+            </p>
+            <h4>Integrate-and-Fire Neurons:</h4>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae0x.png"
+                     alt="Formula" class="math-display" />
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae1x.png"
+                     class="math-display">
+            </div>
+            <br />
+            In the above equations,
+            <em>v</em> is the membrane potential,
+            <em>g</em>
+            <sub><em class="small">e</em></sub> is the synaptic conductance,
+            <em>E</em>
+            <sub><em class="small">e</em></sub> and
+            <em>E</em><sub>
+            <em class="small">l</em></sub> are reverse potentials,
+            <em>v</em><sub>
+            <em class="small">r</em></sub> is the resting potential and
+            <em>&#x03C4;</em><sub>
+            <em>m</em></sub> is a time constant.
+            <br /><br />
+            <h4>Reward-modulated Synapses with STDP:</h4>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae2x.png"
+                        alt="Formula" class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae3x.png"
+                     alt="Formula" class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae4x.png"
+                     alt="Formula" class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae5x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae6x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <br />
+            <p>In the above equations,
+            <em>w</em> is the weight of the synapse,
+            <em>c</em> is the eligibility
+            trace, <em>Dop</em> is the level of
+            dopamine, <em>dApre</em> and <em>dApost</em> are
+            variables that govern the STDP, and the <em>&#x03C4;</em>s are 
+                    time constants.
+            </p>
+            <h4>Pre-Synaptic Neuron Updates:</h4>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae7x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae8x.png"
+                     alt="Formula"
+                class="math-display">
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae9x.png"
+                     alt="Formula" class="math-display" />
+            </div>
+            <br />
+            <h4>Post-Synaptic Neuron Updates:</h4>
+            <p>
+                When the post-synaptic neuron fires, the following updates are
+                executed, where <em>Apre</em><sub>
+                <em class="small">step</em></sub> and
+                <em>Apost</em><sub>
+                <em class="small">step</em></sub> are constants.
+            </p>
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae10x.png"
+                     alt="Formula"
+                     class="math-display" />
+            </div>
+            <br />
+            <div class="text-center">
+                <img src="/assets/images/action_selection_formulae11x.png"
+                     alt="Formula"
+                     class="math-display">
+            </div>
+            <br />
+        </div>
         <div class="form-group optional">
             <label for="tau_m">Tau M</label>
             <div class="input-group">
@@ -193,7 +296,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_x">Dragonfly x coordinate</label>
+            <label for="dragonfly_x">Dragonfly X Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_x"
                        name="dragonfly_x" value="300" />
@@ -201,7 +304,7 @@
             </div>
         </div>
 	<div class="form-group">
-            <label for="dragonfly_y">Dragonfly x coordinate</label>
+            <label for="dragonfly_y">Dragonfly Y Coordinate</label>
             <div class="input-group">
                 <input class="form-control" type="text" id="dragonfly_y"
                        name="dragonfly_y" value="300" />

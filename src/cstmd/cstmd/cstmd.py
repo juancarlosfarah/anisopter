@@ -11,8 +11,6 @@ import math
 import sys
 import os
 import pickle
-
-
 class Cstmd(object) :
 
     # -- PARAMETERS ------------------------------------------------------------
@@ -420,8 +418,9 @@ class Cstmd(object) :
                 fig.savefig(out_directory)
                 plt.close()
 
+
     def plot_fir_rate(self,_id) :
-        fig=plt.figure(self.num_plots)  
+        plt.figure(self.num_plots)  
         for neu in range(self.num_neurons) :
             spikes = [0.0]
             my_length = 0

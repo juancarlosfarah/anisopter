@@ -11,7 +11,8 @@
             <select class="form-control" name="sample" id="sample">
                 %for s in samples:
                     <option value="{{s['_id']}}">
-                        ID: {{s['_id']}}
+                        Date: {{s['date']}}
+                        Description: {{s['description']}}
                     </option>
                 %end
             </select>

@@ -5,8 +5,8 @@
 % include('header.tpl')
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
-            <h1>Animation</h1>
+        <div class="col-md-8">
+            <h1>Sample for Pattern Recognition</h1>
         </div>
         <div class="col-md-2">
             <button type="button"

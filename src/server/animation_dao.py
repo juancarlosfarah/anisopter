@@ -15,6 +15,7 @@ class AnimationDao:
     def __init__(self, database):
         self.db = database
         self.collection = self.db.animations
+        self.backgrounds = self.db.backgrounds
 
     def save(self, animation, targets, background_id, background_speed):
         """
@@ -82,7 +83,7 @@ class AnimationDao:
                     'date': animation['_id'].generation_time,
                     'description': animation['description'],
                     'width': animation['width'],
-                    'height': animation['height'],
+                    'height': animation['height']
                 })
 
         return animations
@@ -173,6 +174,44 @@ class AnimationDao:
         ani.run(file_path, total_frames=frames)
 
         return _id
+
+    def save_background(self, description, extension):
+        """
+        Saves information about a background to the database.
+        :return: _id of background inserted.
+        """
+
+        obj = {
+            "description": description,
+            "extension": extension
+        }
+
+        _id = self.backgrounds.insert(obj)
+
+        return _id
+
+    def get_backgrounds(self, num_backgrounds):
+        """
+        Retrieves a number of backgrounds.
+        :return: Array with backgrounds.
+        """
+        c = self.backgrounds
+        cursor = c.find().sort('_id', direction=-1).limit(num_backgrounds)
+        bgs = []
+
+        for bg in cursor:
+            if "description" not in bg:
+                bg['description'] = "Description"
+            bgs.append(
+                {
+                    '_id': bg['_id'],
+                    'date': bg['_id'].generation_time,
+                    'description': bg['description'],
+                    'extension': bg['extension']
+                })
+
+        return bgs
+
 
 if __name__ == "__main__":
     connection_string = "mongodb://localhost"

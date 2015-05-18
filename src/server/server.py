@@ -40,7 +40,7 @@ def new_animation():
                                            "backgrounds"))
     bgs = os.listdir(bg_path)
     obj = dict()
-    obj['bgs'] = bgs
+    obj['bgs'] = animations.get_backgrounds(50)
     return bottle.template('new_animation', obj)
 
 
@@ -100,11 +100,16 @@ def new_animation_background():
 @post('/target_animation/background/upload')
 def upload_animation_background():
     upload = request.files.get('upload')
+    form = bottle.request.forms
+    description = form.get("description")
+
     name, ext = os.path.splitext(upload.filename)
     if ext not in ('.png', '.jpg', '.jpeg'):
         return "File extension not allowed."
 
-    filename = str(ObjectId()) + ext
+    _id = animations.save_background(description, ext)
+
+    filename = str(_id) + ext
     save_path = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                              "assets",
                                              "backgrounds"))
@@ -351,7 +356,7 @@ def run_simulation():
     spikes = samples.get_spikes(sample_id)
     _id = simulations.run_simulation(sample, spikes, num_neurons,
                                      description, a_plus, a_ratio, theta,
-                                     weights, is_training)
+                                     weights, is_training, False)
     bottle.redirect("/pattern_recognition/simulation/" + str(_id))
 
 
@@ -402,7 +407,7 @@ def show_sample(_id):
     return bottle.template("sample", obj)
 
 
-@route('/pattern_recognition/samples/new')
+@route('/pattern_recognition/sample/new')
 def new_sample():
 
     obj = dict()

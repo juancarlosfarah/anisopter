@@ -83,5 +83,27 @@ The output of the action-selection module is twofold:
 \item A graphical display of the behaviour of variables of the model during the simulation, including weights, firing rates, the dopamine level and a raster plot.
 \end{enumerate}
 In the web client, the user is able to change the parameters of the model and observe how the resulting dragonfly's behaviour, as well as the behaviour of variables in the model.
+\newline
+\newline
+Integrate-and-fire neurons:
+$$\frac{dv}{dt}=\frac{g _{e} (E_{e}-v _{r}) + E_{l} -v}{ \tau_{m}}$$
+$$\frac{dg_{e}}{dt}= -\frac{g_{e}}{\tau_{e}}$$
+where $v$ is the membrane potential, $g_{e}$ is the synaptic conductance, $E_{e}$ and $E_{l}$ are reverse potentials, $v_{r}$ is the resting potential and $\tau _{m}$ is a time constant.
+\newline
+\newline
+Reward-modulated synapses with STDP:
+$$\frac{dw}{dt} = c \cdot Dop$$
+$$\frac{dDop}{dt}=-\frac{Dop}{\tau _{Dop}}$$
+$$\frac{dc}{dt} = -\frac{c}{\tau _{c}}$$
+$$\frac{dApre}{dt}=-\frac{Apre}{\tau_{pre}}$$
+$$\frac{dApost}{dt}=-\frac{Apost}{\tau_{post}}$$
+where $w$ is the weight of the synapse, $c$ is the eligibility trace, $Dop$ is the level of dopamine, $dApre$ and $dApost$ are variables that govern the STDP, and the $\tau$s are time constants.
+When the pre-synaptic neuron fires, the following updates are executed:
+$$g_{e} = g_{e} + w$$
+$$Apre = Apre + Apre _{step}$$
+$$c =c+Apost$$
+When the post-synaptic neuron fires, the following updates are executed, where $Apre_{step}$ and $Apost_{step}$ are constants.
+$$Apost = Apost + Apost _{step}$$
+$$c =c+Apre$$
 
 \end{document}

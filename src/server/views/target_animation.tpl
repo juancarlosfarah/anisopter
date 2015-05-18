@@ -8,10 +8,10 @@
         <div class="col-md-12">
             <h1>Target Animation</h1>
             <p>
-                In order to generate input for our visual pre-processing layer,
-                we developed an animation tool using Pyglet. This allows the
-                user to create a video of black targets moving across a custom
-                background that is either stationary or moving. The size and
+                This module represents the input to the dragonfly's retina.
+                It is an animation tool developed using pyglet allows the user 
+                to flexibly create videos of moving targets against a custom and 
+                potentially moving background. The size and
                 velocity vector of each target is adjustable.
             </p>
             <a href="/target_animation/animations" class="h2">Animations</a>
