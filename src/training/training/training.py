@@ -94,15 +94,22 @@ class Training(object):
 
         self.make_temp_directory(out_dir)
 
-        self.ani.run(out_path)
+        self.ani.run(out_path, 10, 10)
+
         self.estmd.open_movie(out_path)
         self.estmd.run(by_frame=True)
-
         self.estmd.run(by_frame=True)
-
         frame_array = self.estmd.create_list_of_arrays()
 
-        print frame_array[10]
+        self.cstmd.input = frame_array
+
+        pattern = cstmd.run()[1]
+
+        print pattern[0]
+
+
+
+
 
 
 if __name__ == '__main__':
@@ -110,6 +117,7 @@ if __name__ == '__main__':
     ani = Animation()
     ani.add_target(2, start=[300, 300])
     estmd = ESTMD()
+    cstmd = Cstmd(2, 10, 30, 10, None)
 
-    t = Training([1, 1, 1, 1], 1, ani, estmd, False, False)
+    t = Training([1, 1, 1, 1], 1, ani, estmd, cstmd, False)
     t.run()
