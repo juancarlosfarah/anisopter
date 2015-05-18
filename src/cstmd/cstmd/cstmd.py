@@ -10,7 +10,6 @@ import time
 import math
 import sys
 import os
-import pickle
 class Cstmd(object) :
 
     # -- PARAMETERS ------------------------------------------------------------
@@ -416,7 +415,6 @@ class Cstmd(object) :
                 out_directory = os.path.abspath(relative_path + "/"+str(fignum)+".png")
                 print "Saving animation in: " + out_directory  
                 fig.savefig(out_directory)
-                plt.close()
 
 
     def plot_fir_rate(self,_id) :
@@ -458,5 +456,3 @@ class Cstmd(object) :
         out_directory = os.path.abspath(relative_path + "/"+str(self.num_plots)+ ".png")
         print "Saving animation in: " + out_directory
         plt.savefig(out_directory)
-        plt.close()
-
