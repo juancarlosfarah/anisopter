@@ -14,6 +14,7 @@
                     <option value="{{s['_id']}}">
                         Efferents: {{s['num_efferents']}}
                         Duration: {{s['duration']}}
+                        Number of Patterns: {{s['num_patterns']}}
                     </option>
                 %end
                 <option disabled="disabled">--- CSTMD ---</option>

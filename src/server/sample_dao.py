@@ -95,6 +95,7 @@ class SampleDao:
                     'description': sample['description'],
                     'num_efferents': sample['num_efferents'],
                     'duration': sample['duration'],
+                    'num_patterns': len(sample['patterns'])
                 })
 
         return samples
