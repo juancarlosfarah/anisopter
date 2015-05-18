@@ -114,7 +114,7 @@ class Training(object):
 
         sim.spike_trains = self.cstmd.spike_trains
         sim.start_positions = 0
-        sim.pattern_duration = self.cstmd.pattern_duration
+        sim.pattern_duration = self.cstmd.duration
         sim.num_afferents = self.cstmd.spike_trains.shape[0]
         sim.duration = self.cstmd.spike_trains.shape[1]
         sim.sampling_interval = math.ceil(self.cstmd.duration / 5)
