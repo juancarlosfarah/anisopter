@@ -98,11 +98,6 @@
                  src="/assets/cstmd/{{simulation['_id']}}/{{simulation['num_plots']}}.svg" />
         </div>
     </div>
-    <div>
-    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="http://mpld3.github.io/js/mpld3.v0.2.js"></script>
-    {{simulation['plot']}}
-    </div>
 </div>
 % include('footer.tpl')
 </body>
