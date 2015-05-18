@@ -14,13 +14,15 @@
                     <option value="{{s['_id']}}">
                         Efferents: {{s['num_efferents']}}
                         Duration: {{s['duration']}}
-                        Number of Patterns: {{s['num_patterns']}}
+                        Patterns: {{s['num_patterns']}}
                     </option>
                 %end
                 <option disabled="disabled">--- CSTMD ---</option>
                 %for s in cstmd:
                     <option value="{{s['_id']}}">
                         Efferents: {{s['num_efferents']}}
+                        Neurons: {{s['num_neurons']}}
+                        Electrodes: {{s['num_electrodes']}}
                         Duration: {{s['duration']}}
                     </option>
                 %end
