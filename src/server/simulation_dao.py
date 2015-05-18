@@ -320,6 +320,7 @@ class SimulationDao:
             n = sim.add_neuron(a_plus, a_ratio, theta, weight)
             for neuron in neurons:
                 n.connect(neuron)
+            neurons.append(n)
 
         sim.run()
 
