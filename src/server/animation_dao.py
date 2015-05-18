@@ -206,7 +206,8 @@ class AnimationDao:
                 {
                     '_id': bg['_id'],
                     'date': bg['_id'].generation_time,
-                    'description': bg['description']
+                    'description': bg['description'],
+                    'extension': bg['extension']
                 })
 
         return bgs
