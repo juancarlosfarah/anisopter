@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8">
-            <h1>Animation</h1>
+            <h1>Action Selection</h1>
         </div>
         <div class="col-md-2 text-right">
             <button type="button"
@@ -20,7 +20,6 @@
             </form>
         </div>
     </div>
-    <h1>Action Selection</h1>
     <p>
         Below you will find the results from your simulations. The distance
         between dragonfly’s focal point (which is initialised to some
