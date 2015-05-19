@@ -488,7 +488,7 @@ def run_action_selection_simulation():
         sim = a_s.get_simulation(weights_id)
         weights = None
         if "weights" in sim:
-            weights = np.array(sim.weights)
+            weights = np.array(sim['weights'])
     else:
         weights = None
 
