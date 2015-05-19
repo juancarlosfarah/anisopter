@@ -24,6 +24,7 @@
                         Neurons: {{s['num_neurons']}}
                         Electrodes: {{s['num_electrodes']}}
                         Duration: {{s['duration']}}
+                        Description: {{s['description']}}
                     </option>
                 %end
             </select>
