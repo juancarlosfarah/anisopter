@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.tug.org/tex4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.tug.org/tex4ht/)"> 
+<!-- html --> 
+<meta name="src" content="action_selection_formulae.tex"> 
+<meta name="date" content="2015-05-18 14:22:00"> 
+<link rel="stylesheet" type="text/css" href="action_selection_formulae.css"> 
+</head><body 
+>
+<!--l. 34--><p class="noindent" >Integrate-and-fire neurons:
+   <center class="math-display" >
+<img 
+src="action_selection_formulae0x.png" alt="dv-  ge(Ee---vr)+-El---v
+dt =         &#x03C4;m
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae1x.png" alt="dge     ge
+--- = - --
+ dt     &#x03C4;e  " class="math-display" ></center> where
+<span 
+class="cmmi-10x-x-109">v </span>is the membrane potential, <span 
+class="cmmi-10x-x-109">g</span><sub><span 
+class="cmmi-8">e</span></sub> is the synaptic conductance, <span 
+class="cmmi-10x-x-109">E</span><sub><span 
+class="cmmi-8">e</span></sub> and <span 
+class="cmmi-10x-x-109">E</span><sub><span 
+class="cmmi-8">l</span></sub> are reverse potentials, <span 
+class="cmmi-10x-x-109">v</span><sub><span 
+class="cmmi-8">r</span></sub> is the
+resting potential and <span 
+class="cmmi-10x-x-109">&#x03C4;</span><sub><span 
+class="cmmi-8">m</span></sub> is a time constant. <br 
+class="newline" /><br 
+class="newline" />Reward-modulated synapses with STDP:
+   <center class="math-display" >
+<img 
+src="action_selection_formulae2x.png" alt="dw- = c&#x22C5;Dop
+dt
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae3x.png" alt="dDop- = - Dop-
+  dt      &#x03C4;Dop
+" class="math-display" ></center>
+                                                                                            
+                                                                                            
+   <center class="math-display" >
+<img 
+src="action_selection_formulae4x.png" alt="dc     c
+dt = -&#x03C4;-
+       c
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae5x.png" alt="dApre- = - Apre-
+  dt       &#x03C4;pre
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae6x.png" alt="dApost-    Apost-
+  dt   = -  &#x03C4;post  " class="math-display" ></center> where
+<span 
+class="cmmi-10x-x-109">w </span>is the weight of the synapse, <span 
+class="cmmi-10x-x-109">c </span>is the eligibility trace, <span 
+class="cmmi-10x-x-109">Dop </span>is the level of dopamine, <span 
+class="cmmi-10x-x-109">dApre </span>and <span 
+class="cmmi-10x-x-109">dApost </span>are
+variables that govern the STDP, and the <span 
+class="cmmi-10x-x-109">&#x03C4;</span>s are time constants. When the pre-synaptic neuron fires, the
+following updates are executed:
+   <center class="math-display" >
+<img 
+src="action_selection_formulae7x.png" alt="ge = ge + w
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae8x.png" alt="Apre = Apre + Aprestep
+" class="math-display" ></center>
+                                                                                            
+                                                                                            
+   <center class="math-display" >
+<img 
+src="action_selection_formulae9x.png" alt="c = c + Apost  " class="math-display" ></center>
+When the post-synaptic neuron fires, the following updates are executed, where <span 
+class="cmmi-10x-x-109">Apre</span><sub><span 
+class="cmmi-8">step</span></sub> and <span 
+class="cmmi-10x-x-109">Apost</span><sub><span 
+class="cmmi-8">step</span></sub> are
+constants.
+   <center class="math-display" >
+<img 
+src="action_selection_formulae10x.png" alt="Apost = Apost + Apoststep
+" class="math-display" ></center>
+   <center class="math-display" >
+<img 
+src="action_selection_formulae11x.png" alt="c = c+ Apre
+" class="math-display" ></center>
+    
+</body></html> 
+
+                                                                                            
+
+
