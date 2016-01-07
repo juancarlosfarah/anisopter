@@ -3,11 +3,11 @@ README
 
 Collaborators
 -------------
-Panagiotis Almpouras
-Juan Carlos Farah
-Erik Grabljevec
-Christos Kaplanis
-Ioannis Kasidakis
+- Panagiotis Almpouras
+- Juan Carlos Farah
+- Erik Grabljevec
+- Christos Kaplanis
+- Ioannis Kasidakis
 
 Instructions
 ------------
@@ -35,4 +35,4 @@ licence.
 
 Contact
 -------
-For any enquiries regarding this project kindly contact jcf214@imperial.ac.uk.
+For any enquiries regarding this project kindly contact @juancarlosfarah..
