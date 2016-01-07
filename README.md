@@ -35,4 +35,4 @@ licence.
 
 Contact
 -------
-For any enquiries regarding this project kindly contact @juancarlosfarah..
+For any enquiries regarding this project kindly contact @juancarlosfarah.
