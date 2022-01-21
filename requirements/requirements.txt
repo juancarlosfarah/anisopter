@@ -14,7 +14,7 @@ gizeh==0.1.10
 html5lib==0.999
 httplib2==0.8
 IPy==0.81
-ipython==1.2.1
+ipython==7.16.3
 Jinja2==2.7.3
 joblib==0.7.1
 keyring==3.5
