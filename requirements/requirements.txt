@@ -1,6 +1,6 @@
 animation==0.1
 beautifulsoup4==4.2.1
-bottle==0.12.8
+bottle==0.12.20
 BottleDaemon==0.1.1
 cairocffi==0.6
 cffi==0.9.2
