@@ -16,7 +16,7 @@ httplib2==0.8
 IPy==0.81
 ipython==1.2.1
 Jinja2==2.7.3
-joblib==0.7.1
+joblib==1.2.0
 keyring==3.5
 launchpadlib==1.10.2
 lazr.uri==1.0.3
